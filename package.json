@@ -3,10 +3,10 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "types:check": "tsc",
-    "lint": "pnpm eslint ./src ./content",
     "storybook": "storybook dev -p 6006 --no-open",
-    "build-storybook": "storybook build -o ./public/storybook"
+    "build-storybook": "storybook build",
+    "types:check": "tsc",
+    "lint": "pnpm eslint ./src ./content"
   },
   "dependencies": {
     "@base-ui/react": "^1.0.0",

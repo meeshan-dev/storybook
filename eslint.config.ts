@@ -1,6 +1,7 @@
 import eslintReact from '@eslint-react/eslint-plugin';
 import js from '@eslint/js';
 import prettierPlugin from 'eslint-plugin-prettier/recommended';
+import reactHooks from 'eslint-plugin-react-hooks';
 import storybook from 'eslint-plugin-storybook';
 import { defineConfig, globalIgnores } from 'eslint/config';
 import globals from 'globals';
@@ -14,6 +15,7 @@ export default defineConfig([
     languageOptions: { globals: { ...globals.browser, ...globals.node } },
   },
   tseslint.configs.recommended,
+  reactHooks.configs.flat.recommended,
   eslintReact.configs['recommended-typescript'],
   globalIgnores(['!.storybook'], 'Include Storybook Directory'),
   storybook.configs['flat/recommended'],
