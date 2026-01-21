@@ -1,0 +1,25 @@
+{
+  "include": ["app/**/*"],
+  "compilerOptions": {
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "types": ["node", "vite/client"],
+    "target": "esnext",
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "jsx": "react-jsx",
+    "rootDirs": ["."],
+    "baseUrl": ".",
+    /** enable this to allow path alias in .mdx */
+    "allowJs": true,
+    "paths": {
+      "~/*": ["./app/*"],
+      ".storybook": ["./.storybook/*"]
+    },
+    "esModuleInterop": true,
+    "verbatimModuleSyntax": true,
+    "noEmit": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "strict": true
+  }
+}

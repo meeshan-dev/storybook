@@ -1,0 +1,27 @@
+.DS_Store
+/node_modules/
+
+# React Router
+/.react-router/
+/build/
+.source
+
+*storybook.log
+storybook-static
+
+/public/storybook
+/public/playwright-report
+/public/r
+
+# Playwright
+node_modules/
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+/playwright/.auth/
+
+.env.local
+artifact.zip
+.vercel
+.env*.local
