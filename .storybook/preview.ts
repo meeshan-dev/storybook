@@ -12,6 +12,7 @@ export default definePreview({
     },
     controls: {
       expanded: false,
+      disable: true,
     },
   },
 });
