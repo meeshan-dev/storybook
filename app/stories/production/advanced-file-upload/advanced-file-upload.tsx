@@ -276,8 +276,8 @@ export function AdvancedFileUpload() {
   }, []);
 
   return (
-    <main>
-      <section className='bg-foreground/5 mx-auto flex h-[calc(100dvh-32px)] w-full max-w-lg flex-col rounded-lg'>
+    <main className='h-dvh p-5'>
+      <section className='bg-secondary mx-auto flex h-full w-full max-w-lg flex-col rounded-lg'>
         <h1 className='px-5 pt-5 text-sm font-semibold'>
           File Upload with Progress
         </h1>
@@ -291,7 +291,7 @@ export function AdvancedFileUpload() {
               {files.map((fileItem) => (
                 <article
                   key={fileItem.key}
-                  className='bg-foreground/5 border-foreground/4 grid grid-cols-[auto_1fr] gap-2 rounded-lg border p-3'
+                  className='bg-background grid grid-cols-[auto_1fr] gap-2 rounded-lg p-3'
                 >
                   <div className='row-span-3 pt-2 *:[svg]:size-5'>
                     {getIconForFileType(fileItem.file.type)}
@@ -299,7 +299,7 @@ export function AdvancedFileUpload() {
 
                   <h2
                     id={`${fileItem.file.name}-label`}
-                    className='text-foreground/60 truncate text-sm'
+                    className='text-muted-foreground truncate text-sm'
                   >
                     {fileItem.file.name}
                   </h2>
@@ -311,7 +311,7 @@ export function AdvancedFileUpload() {
                     aria-valuemax={100}
                     aria-valuetext={`${fileItem.progress}% uploaded`}
                     data-status={fileItem.status}
-                    className='bg-foreground/10 h-1.5 grow rounded-full data-[status="error"]:bg-red-500/50'
+                    className='dark:bg-foreground/10 bg-foreground/15 h-1.5 grow rounded-full data-[status="error"]:bg-red-500/70 dark:data-[status="error"]:bg-red-500/70'
                     aria-labelledby={`${fileItem.file.name}-label`}
                   >
                     <div
@@ -364,7 +364,7 @@ export function AdvancedFileUpload() {
 
                       if (fileItem.status === 'processing') {
                         return (
-                          <span className='text-xs font-medium text-sky-400'>
+                          <span className='text-xs font-medium text-sky-600 dark:text-sky-400'>
                             Processing
                           </span>
                         );
@@ -372,15 +372,13 @@ export function AdvancedFileUpload() {
 
                       if (fileItem.status === 'canceled') {
                         return (
-                          <span className='text-foreground-400 text-xs font-medium'>
-                            Canceled
-                          </span>
+                          <span className='text-xs font-medium'>Canceled</span>
                         );
                       }
 
                       if (fileItem.status === 'uploaded') {
                         return (
-                          <span className='text-xs font-medium text-emerald-400'>
+                          <span className='text-xs font-medium text-emerald-600 dark:text-emerald-400'>
                             Uploaded
                           </span>
                         );

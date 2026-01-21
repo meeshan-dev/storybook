@@ -108,14 +108,14 @@ export function OptimisticChat() {
   }, [messages]);
 
   return (
-    <main>
-      <section className='bg-foreground/10 mx-auto flex h-[calc(100dvh-32px)] w-[min(100%,375px)] flex-col rounded-lg'>
+    <main className='h-dvh p-5'>
+      <section className='bg-secondary mx-auto flex h-full w-[min(100%,375px)] flex-col rounded-lg'>
         <header className='border-foreground/20 flex items-center gap-2 border-b px-4 py-2.5'>
           <div
             className='bg-foreground/10 size-7 rounded-full'
             aria-hidden='true'
           />
-          <h1 className='text-foreground/70 text-sm'>Optimistic Chat</h1>
+          <h1 className='text-secondary-foreground text-sm'>Optimistic Chat</h1>
         </header>
 
         <form
@@ -145,7 +145,7 @@ export function OptimisticChat() {
           </ScrollArea>
         </form>
 
-        <footer className='p-1 pb-2'>
+        <footer className='p-2 pb-2'>
           <ChatInput ref={chatInputRef} />
         </footer>
       </section>
@@ -161,10 +161,10 @@ function ChatInput({ ref }: { ref: React.Ref<{ reset: () => void }> }) {
   }));
 
   return (
-    <InputGroup className='dark:bg-background/70 rounded-full border-0 has-[[data-slot=input-group-control]:focus-visible]:ring-0'>
+    <InputGroup className='border-foreground/20 rounded-full has-[[data-slot=input-group-control]:focus-visible]:ring-0'>
       <InputGroupInput
         placeholder='Type...'
-        className='text-sm placeholder:text-sm placeholder:italic placeholder:opacity-50'
+        className='text-sm placeholder:text-sm placeholder:italic'
         value={value}
         onChange={(e) => setValue(e.target.value)}
         autoComplete='off'
@@ -192,7 +192,7 @@ function Message({ msg, onRetry }: { msg: Message; onRetry: () => void }) {
       {msg.status === 'error' && (
         <Badge
           variant='secondary'
-          className='bg-foreground/5'
+          className='dark:bg-foreground/5 bg-foreground/8'
           render={
             <button type='button' className='outline-none' onClick={onRetry}>
               Retry
@@ -201,12 +201,12 @@ function Message({ msg, onRetry }: { msg: Message; onRetry: () => void }) {
         />
       )}
 
-      <div className='bg-foreground/5 flex max-w-[80%] flex-wrap items-center justify-end gap-y-0.5 rounded-md px-2 py-1 text-xs wrap-break-word'>
+      <div className='dark:bg-foreground/5 bg-foreground/8 flex max-w-[80%] flex-wrap items-center justify-end gap-y-0.5 rounded-md px-2 py-1 text-xs wrap-break-word'>
         <p className='grow'>{msg.text}</p>
 
         <div className='flex h-4 items-center'>
           {msg.status === 'sent' && (
-            <IconChecks className='ml-1 size-3.5 text-sky-400' />
+            <IconChecks className='ml-1 size-3.5 text-sky-600 dark:text-sky-400' />
           )}
 
           {msg.status === 'sending' && (
@@ -214,7 +214,7 @@ function Message({ msg, onRetry }: { msg: Message; onRetry: () => void }) {
           )}
 
           {msg.status === 'error' && (
-            <IconInfoCircle className='ml-1 size-3.5 text-red-400' />
+            <IconInfoCircle className='ml-1 size-3.5 text-red-600 dark:text-red-400' />
           )}
         </div>
       </div>
