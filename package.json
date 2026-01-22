@@ -10,7 +10,7 @@
     "test-ct": "playwright test -c playwright-ct.config.ts",
     "dev:api": "tsx watch app/api-server/index.ts",
     "build:api": "pnpm esbuild ./app/api-server/index.ts --bundle  --outfile=./dist/index.js  --platform=node --packages=external --target=node24 --format=esm",
-    "build": "rm -rf dist && pnpm build:api && storybook build -o ./dist/storybook-static",
+    "build": "rm -rf dist && pnpm build:api && storybook build -o ./public/storybook-static",
     "start": "NODE_ENV=production node ./dist/index.js"
   },
   "dependencies": {

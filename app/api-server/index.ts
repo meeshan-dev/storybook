@@ -8,18 +8,22 @@ import { fakeFileUpload } from './handlers/fake-file-upload/upload';
 
 const app = new Hono();
 
-app.use('*', async (c, next) => {
-  console.log(`--> Request: ${c.req.method} ${c.req.url}`);
-  await next();
-  console.log(`<-- Response: ${c.res.status}`);
-});
+if (process.env.NODE_ENV === 'development') {
+  app.use('*', async (c, next) => {
+    console.log(`--> Request: ${c.req.method} ${c.req.url}`);
+    await next();
+    console.log(`<-- Response: ${c.res.status}`);
+  });
 
-app.use(
-  cors({
-    origin: ['http://localhost:6006'],
-    allowMethods: ['*'],
-  }),
-);
+  // since in production, the frontend and backend are served from the same origin,
+  // i only need CORS in development mode
+  app.use(
+    cors({
+      origin: ['http://localhost:6006', 'http://localhost:3100'],
+      allowMethods: ['*'],
+    }),
+  );
+}
 
 const fakeFileUploadRoute = new Hono();
 fakeFileUploadRoute.post('/:fileId', fakeFileUpload);
@@ -31,7 +35,7 @@ app.route('/api/fake-file-upload', fakeFileUploadRoute);
 if (process.env.NODE_ENV === 'production') {
   app.get(
     '/*',
-    serveStatic({ root: './dist/storybook-static', index: 'index.html' }),
+    serveStatic({ root: './public/storybook-static', index: 'index.html' }),
   );
 }
 
