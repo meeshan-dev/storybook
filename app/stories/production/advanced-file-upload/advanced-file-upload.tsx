@@ -12,12 +12,11 @@ import {
   IconRefresh,
   IconVideo,
 } from '@tabler/icons-react';
-import throttle from 'lodash.throttle';
 import React, {
   startTransition,
   useEffect,
+  useEffectEvent,
   useImperativeHandle,
-  useMemo,
   useRef,
   useState,
 } from 'react';
@@ -30,7 +29,6 @@ import {
   EmptyMedia,
   EmptyTitle,
 } from '~/components/ui/empty';
-import { SITE_URL } from '~/constants';
 import { ScopeProvider, useScopeCtx } from '~/lib/scope-provider';
 
 type Status =
@@ -46,13 +44,6 @@ type FileItem = {
   id: string;
   key: string;
   file: File;
-};
-
-const genUrl = (id: string, action: 'upload' | 'delete' | 'status') => {
-  return new URL(
-    `/api/fake-file-upload/${id}?action=${action}`,
-    import.meta.env.PROD ? SITE_URL : 'http://localhost:5173',
-  );
 };
 
 export function AdvancedFileUpload() {
@@ -163,6 +154,7 @@ export function AdvancedFileUpload() {
         type='file'
         multiple
         className='sr-only'
+        aria-label='upload files'
         tabIndex={-1}
         onChange={handleInputChange}
       />
@@ -202,31 +194,6 @@ function FileItem({ fileItem }: { fileItem: FileItem }) {
 
   const [status, setStatus] = useState<Status>('preparing');
 
-  useEffect(() => {
-    if (status === 'preparing') {
-      setStatus('uploading');
-      handleUpload(fileItem);
-    }
-  }, [status]);
-
-  useEffect(() => {
-    if (!abortControllerRef.current) return;
-
-    return () => {
-      abortControllerRef.current?.abort();
-    };
-  }, []);
-
-  const throttledUpdate = useMemo(
-    () =>
-      throttle((progress: number) => {
-        if (!progressRef.current) throw new Error('Progress ref is null');
-
-        progressRef.current.setProgress(progress);
-      }, 200),
-    [],
-  );
-
   const handleUpload = async ({ id, file }: FileItem) => {
     try {
       if (status === 'uploading') return;
@@ -237,7 +204,7 @@ function FileItem({ fileItem }: { fileItem: FileItem }) {
       let offset = 0;
 
       try {
-        const statusRes = await fetch(genUrl(id, 'upload'));
+        const statusRes = await fetch(`${API_URL}/api/fake-file-upload/${id}`);
 
         if (!statusRes.ok) throw new Error('Failed to get upload status');
 
@@ -264,16 +231,14 @@ function FileItem({ fileItem }: { fileItem: FileItem }) {
         const progress = Math.round((uploaded / file.size) * 100);
 
         if (e.loaded === e.total) {
-          throttledUpdate.cancel();
           setStatus('processing');
         } else {
-          throttledUpdate(progress);
+          if (!progressRef.current) throw new Error('Progress ref is null');
+          progressRef.current.setProgress(progress);
         }
       });
 
       xml.addEventListener('load', () => {
-        throttledUpdate.cancel();
-
         if (xml.status >= 200 && xml.status < 300) {
           if (!progressRef.current) throw new Error('Progress ref is null');
 
@@ -285,11 +250,10 @@ function FileItem({ fileItem }: { fileItem: FileItem }) {
       });
 
       xml.addEventListener('error', () => {
-        throttledUpdate.cancel();
         setStatus('error');
       });
 
-      xml.open('POST', genUrl(id, 'upload'));
+      xml.open('POST', `${API_URL}/api/fake-file-upload/${id}?action=upload`);
 
       xml.setRequestHeader('x-file-size', String(file.size));
       xml.setRequestHeader('x-file-type', file.type);
@@ -298,18 +262,33 @@ function FileItem({ fileItem }: { fileItem: FileItem }) {
 
       xml.send(fileToUpload);
     } catch (error) {
-      throttledUpdate.cancel();
-
       if ((error as Error).name === 'AbortError') return;
 
       setStatus('error');
     }
   };
 
+  const handleUploadEvent = useEffectEvent(handleUpload);
+
+  useEffect(() => {
+    if (status === 'preparing') {
+      // eslint-disable-next-line @eslint-react/hooks-extra/no-direct-set-state-in-use-effect
+      setStatus('uploading');
+      handleUploadEvent(fileItem);
+    }
+  }, [fileItem, status]);
+
+  useEffect(() => {
+    if (!abortControllerRef.current) return;
+
+    return () => {
+      abortControllerRef.current?.abort();
+    };
+  }, []);
+
   const handlePause = () => {
     if (!abortControllerRef.current) return;
 
-    throttledUpdate.cancel();
     abortControllerRef.current.abort();
     setStatus('paused');
   };
@@ -322,11 +301,10 @@ function FileItem({ fileItem }: { fileItem: FileItem }) {
   const handleCancel = () => {
     if (!abortControllerRef.current) return;
 
-    throttledUpdate.cancel();
     abortControllerRef.current.abort();
     setStatus('canceled');
 
-    fetch(genUrl(fileItem.id, 'delete'), {
+    fetch(`${API_URL}/api/fake-file-upload/${id}?action=delete`, {
       method: 'DELETE',
     }).catch();
   };
@@ -365,6 +343,7 @@ function FileItem({ fileItem }: { fileItem: FileItem }) {
                     size='icon-xs'
                     variant='outline'
                     onClick={handleRetry}
+                    aria-label={`resume ${file.name} upload`}
                   >
                     <IconPlayerPlayFilled />
                   </Button>
@@ -404,7 +383,12 @@ function FileItem({ fileItem }: { fileItem: FileItem }) {
 
             return (
               <>
-                <Button size='icon-xs' variant='outline' onClick={handlePause}>
+                <Button
+                  size='icon-xs'
+                  variant='outline'
+                  onClick={handlePause}
+                  aria-label={`pause ${file.name} upload`}
+                >
                   <IconPlayerPauseFilled />
                 </Button>
 

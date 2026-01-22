@@ -25,3 +25,5 @@ node_modules/
 artifact.zip
 .vercel
 .env*.local
+
+dist

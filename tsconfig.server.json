@@ -1,0 +1,8 @@
+{
+  "extends": "./tsconfig.json",
+  "include": ["./app/api-server/**/*"],
+  "compilerOptions": {
+    "outDir": "dist",
+    "noEmit": false
+  }
+}
