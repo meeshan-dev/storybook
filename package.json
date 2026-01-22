@@ -5,13 +5,11 @@
   "scripts": {
     "storybook": "storybook dev -p 6006 --no-open",
     "build-storybook": "storybook build",
+    "build-api": "pnpm esbuild ./app/api-server/index.ts --bundle  --outfile=./index.js  --platform=node --packages=external --target=node24 --format=esm",
     "types:check": "tsc",
     "lint": "pnpm eslint ./app ./content",
     "test-ct": "playwright test -c playwright-ct.config.ts",
-    "dev:api": "tsx watch app/api-server/index.ts",
-    "build:api": "pnpm esbuild ./app/api-server/index.ts --bundle  --outfile=./dist/index.js  --platform=node --packages=external --target=node24 --format=esm",
-    "build": "rm -rf dist && pnpm build:api && storybook build -o ./dist/storybook-static",
-    "start": "NODE_ENV=production node ./dist/index.js"
+    "dev:api": "tsx watch app/api-server/index.ts"
   },
   "dependencies": {
     "@base-ui/react": "^1.0.0",
