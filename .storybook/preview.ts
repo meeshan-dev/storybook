@@ -9,8 +9,8 @@ export default definePreview({
     withThemeByClassName({
       defaultTheme: 'dark',
       themes: {
-        light: '',
-        dark: 'dark',
+        light: 'scheme-light',
+        dark: 'dark scheme-dark',
       },
     }),
   ],

@@ -16,6 +16,7 @@ import throttle from 'lodash.throttle';
 import React, {
   startTransition,
   useEffect,
+  useImperativeHandle,
   useMemo,
   useRef,
   useState,
@@ -30,19 +31,21 @@ import {
   EmptyTitle,
 } from '~/components/ui/empty';
 import { SITE_URL } from '~/constants';
+import { ScopeProvider, useScopeCtx } from '~/lib/scope-provider';
+
+type Status =
+  | 'preparing'
+  | 'uploaded'
+  | 'uploading'
+  | 'processing'
+  | 'error'
+  | 'paused'
+  | 'canceled';
 
 type FileItem = {
   id: string;
   key: string;
   file: File;
-  progress: number;
-  status:
-    | 'uploaded'
-    | 'uploading'
-    | 'processing'
-    | 'error'
-    | 'paused'
-    | 'canceled';
 };
 
 const genUrl = (id: string, action: 'upload' | 'delete' | 'status') => {
@@ -56,177 +59,8 @@ export function AdvancedFileUpload() {
   const inputRef = useRef<HTMLInputElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const allowScrollToBottomRef = useRef(false);
-  const uploadsInProgress = useRef<Set<string>>(new Set()).current;
-  const abortControllers = useRef(new Map<string, AbortController>()).current;
 
   const [files, setFiles] = useState<FileItem[]>([]);
-
-  const throttledUpdate = useMemo(
-    () =>
-      throttle((id: string, progress: number) => {
-        setFiles((prev) =>
-          prev.map((item) =>
-            item.id === id && item.status === 'uploading'
-              ? { ...item, progress }
-              : item,
-          ),
-        );
-      }, 200),
-    [],
-  );
-
-  const handlePause = (id: string) => {
-    const controller = abortControllers.get(id);
-
-    if (controller) {
-      controller.abort();
-
-      setFiles((prev) =>
-        prev.map((item) =>
-          item.id === id ? { ...item, status: 'paused' } : item,
-        ),
-      );
-    }
-  };
-
-  const handleResume = (fileItem: FileItem) => {
-    setFiles((prev) =>
-      prev.map((item) =>
-        item.id === fileItem.id ? { ...item, status: 'uploading' } : item,
-      ),
-    );
-
-    handleUpload(fileItem);
-  };
-
-  const handleRetry = (fileItem: FileItem) => {
-    setFiles((prev) =>
-      prev.map((item) =>
-        item.id === fileItem.id ? { ...item, status: 'uploading' } : item,
-      ),
-    );
-
-    handleUpload(fileItem);
-  };
-
-  const handleCancel = (fileItem: FileItem) => {
-    const controller = abortControllers.get(fileItem.id);
-
-    if (controller) {
-      controller.abort();
-
-      setFiles((prev) =>
-        prev.map((item) =>
-          item.id === fileItem.id ? { ...item, status: 'canceled' } : item,
-        ),
-      );
-
-      fetch(genUrl(fileItem.id, 'delete'), {
-        method: 'DELETE',
-      }).catch();
-    }
-  };
-
-  const handleUpload = async ({ id, file }: FileItem) => {
-    try {
-      if (uploadsInProgress.has(id)) return;
-
-      uploadsInProgress.add(id);
-
-      const controller = new AbortController();
-      abortControllers.set(id, controller);
-
-      let offset = 0;
-
-      try {
-        const statusRes = await fetch(genUrl(id, 'upload'));
-
-        if (!statusRes.ok) throw new Error('Failed to get upload status');
-
-        const result = await statusRes.json();
-
-        offset = result.offset;
-      } catch {
-        offset = 0;
-      }
-
-      const fileToUpload = offset > 0 ? file.slice(offset) : file;
-
-      const xml = new XMLHttpRequest();
-
-      controller.signal.addEventListener('abort', () => {
-        xml.abort();
-      });
-
-      xml.upload.addEventListener('progress', (e) => {
-        if (!e.lengthComputable)
-          throw new Error('Cannot compute upload progress');
-
-        const uploaded = offset + e.loaded;
-        const progress = Math.round((uploaded / file.size) * 100);
-
-        if (e.loaded === e.total) {
-          setFiles((prev) =>
-            prev.map((item) =>
-              item.status === 'uploading' && item.id === id
-                ? { ...item, status: 'processing' }
-                : item,
-            ),
-          );
-        }
-
-        throttledUpdate(id, progress);
-      });
-
-      xml.addEventListener('load', () => {
-        if (xml.status >= 200 && xml.status < 300) {
-          throttledUpdate.cancel();
-
-          setFiles((prev) =>
-            prev.map((item) =>
-              item.id === id
-                ? { ...item, progress: 100, status: 'uploaded' }
-                : item,
-            ),
-          );
-        } else {
-          setFiles((prev) =>
-            prev.map((item) =>
-              item.id === id ? { ...item, status: 'error' } : item,
-            ),
-          );
-        }
-      });
-
-      xml.addEventListener('error', () => {
-        setFiles((prev) =>
-          prev.map((item) =>
-            item.id === id ? { ...item, status: 'error' } : item,
-          ),
-        );
-      });
-
-      xml.open('POST', genUrl(id, 'upload'));
-
-      xml.setRequestHeader('x-file-size', String(file.size));
-      xml.setRequestHeader('x-file-type', file.type);
-      xml.setRequestHeader('x-file-name', encodeURIComponent(file.name));
-      xml.setRequestHeader('x-file-offset', String(offset));
-
-      xml.send(fileToUpload);
-    } catch (error) {
-      if ((error as Error).name === 'AbortError') return;
-
-      setFiles((prev) =>
-        prev.map((item) =>
-          item.id === id ? { ...item, status: 'error' } : item,
-        ),
-      );
-    } finally {
-      abortControllers.delete(id);
-      uploadsInProgress.delete(id);
-    }
-  };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFiles = e.target.files;
@@ -251,10 +85,6 @@ export function AdvancedFileUpload() {
         const uniqueNewFiles = filesArray.filter((f) => !existingIds.has(f.id));
         return [...prev, ...uniqueNewFiles];
       });
-
-      for (const file of filesArray) {
-        handleUpload(file);
-      }
     });
   };
 
@@ -268,12 +98,6 @@ export function AdvancedFileUpload() {
       top: contentRef.current.scrollHeight,
     });
   }, [files]);
-
-  useEffect(() => {
-    return () => {
-      abortControllers.forEach((controller) => controller.abort());
-    };
-  }, []);
 
   return (
     <main className='h-dvh p-5'>
@@ -289,146 +113,11 @@ export function AdvancedFileUpload() {
               className='scrollbar-thin mt-5 grow space-y-3 overflow-auto px-5 py-2'
             >
               {files.map((fileItem) => (
-                <article
-                  key={fileItem.key}
-                  className='bg-background grid grid-cols-[auto_1fr] gap-2 rounded-lg p-3'
-                >
-                  <div className='row-span-3 pt-2 *:[svg]:size-5'>
-                    {getIconForFileType(fileItem.file.type)}
-                  </div>
-
-                  <h2
-                    id={`${fileItem.file.name}-label`}
-                    className='text-muted-foreground truncate text-sm'
-                  >
-                    {fileItem.file.name}
-                  </h2>
-
-                  <div
-                    role='progressbar'
-                    aria-valuenow={fileItem.progress}
-                    aria-valuemin={0}
-                    aria-valuemax={100}
-                    aria-valuetext={`${fileItem.progress}% uploaded`}
-                    data-status={fileItem.status}
-                    className='dark:bg-foreground/10 bg-foreground/15 h-1.5 grow rounded-full data-[status="error"]:bg-red-500/70 dark:data-[status="error"]:bg-red-500/70'
-                    aria-labelledby={`${fileItem.file.name}-label`}
-                  >
-                    <div
-                      style={{ width: `${fileItem.progress}%` }}
-                      className='h-full rounded-full bg-emerald-500'
-                    />
-                  </div>
-
-                  <div className='flex min-h-6 items-center gap-2'>
-                    <span className='flex items-center justify-center gap-1 text-xs font-medium'>
-                      {fileItem.progress} <IconPercentage size={16} />
-                    </span>
-
-                    <div className='grow'></div>
-
-                    {(() => {
-                      if (fileItem.status === 'error') {
-                        return (
-                          <Button
-                            size='icon-xs'
-                            variant='outline'
-                            onClick={() => handleRetry(fileItem)}
-                          >
-                            <IconRefresh />
-                          </Button>
-                        );
-                      }
-
-                      if (fileItem.status === 'paused') {
-                        return (
-                          <>
-                            <Button
-                              size='icon-xs'
-                              variant='outline'
-                              onClick={() => handleResume(fileItem)}
-                            >
-                              <IconPlayerPlayFilled />
-                            </Button>
-
-                            <Button
-                              size='xs'
-                              variant='outline'
-                              onClick={() => handleCancel(fileItem)}
-                            >
-                              Cancel
-                            </Button>
-                          </>
-                        );
-                      }
-
-                      if (fileItem.status === 'processing') {
-                        return (
-                          <span className='text-xs font-medium text-sky-600 dark:text-sky-400'>
-                            Processing
-                          </span>
-                        );
-                      }
-
-                      if (fileItem.status === 'canceled') {
-                        return (
-                          <span className='text-xs font-medium'>Canceled</span>
-                        );
-                      }
-
-                      if (fileItem.status === 'uploaded') {
-                        return (
-                          <span className='text-xs font-medium text-emerald-600 dark:text-emerald-400'>
-                            Uploaded
-                          </span>
-                        );
-                      }
-
-                      // Uploading
-
-                      return (
-                        <>
-                          <Button
-                            size='icon-xs'
-                            variant='outline'
-                            onClick={() => handlePause(fileItem.id)}
-                          >
-                            <IconPlayerPauseFilled />
-                          </Button>
-
-                          <Button
-                            size='xs'
-                            variant='outline'
-                            onClick={() => handleCancel(fileItem)}
-                          >
-                            Cancel
-                          </Button>
-                        </>
-                      );
-                    })()}
-                  </div>
-                </article>
+                <FileItem key={fileItem.key} fileItem={fileItem} />
               ))}
             </div>
 
             <div className='flex items-center gap-2 p-5'>
-              <Button
-                variant='outline'
-                onClick={() => {
-                  setFiles((prev) =>
-                    prev.filter(
-                      (file) =>
-                        file.status !== 'uploaded' &&
-                        file.status !== 'canceled',
-                    ),
-                  );
-
-                  if (inputRef.current) inputRef.current.value = '';
-                }}
-              >
-                Clear
-              </Button>
-
               <Button
                 className='grow'
                 onClick={() => {
@@ -503,4 +192,286 @@ function getIconForFileType(fileType: string) {
     default:
       return <IconFile />;
   }
+}
+
+function FileItem({ fileItem }: { fileItem: FileItem }) {
+  const { id, file } = fileItem;
+
+  const abortControllerRef = useRef<AbortController | null>(null);
+  const progressRef = useRef<ProgressRef>(null);
+
+  const [status, setStatus] = useState<Status>('preparing');
+
+  useEffect(() => {
+    if (status === 'preparing') {
+      setStatus('uploading');
+      handleUpload(fileItem);
+    }
+  }, [status]);
+
+  useEffect(() => {
+    if (!abortControllerRef.current) return;
+
+    return () => {
+      abortControllerRef.current?.abort();
+    };
+  }, []);
+
+  const throttledUpdate = useMemo(
+    () =>
+      throttle((progress: number) => {
+        if (!progressRef.current) throw new Error('Progress ref is null');
+
+        progressRef.current.setProgress(progress);
+      }, 200),
+    [],
+  );
+
+  const handleUpload = async ({ id, file }: FileItem) => {
+    try {
+      if (status === 'uploading') return;
+
+      const controller = new AbortController();
+      abortControllerRef.current = controller;
+
+      let offset = 0;
+
+      try {
+        const statusRes = await fetch(genUrl(id, 'upload'));
+
+        if (!statusRes.ok) throw new Error('Failed to get upload status');
+
+        const result = await statusRes.json();
+
+        offset = result.offset;
+      } catch {
+        offset = 0;
+      }
+
+      const fileToUpload = offset > 0 ? file.slice(offset) : file;
+
+      const xml = new XMLHttpRequest();
+
+      controller.signal.addEventListener('abort', () => {
+        xml.abort();
+      });
+
+      xml.upload.addEventListener('progress', (e) => {
+        if (!e.lengthComputable)
+          throw new Error('Cannot compute upload progress');
+
+        const uploaded = offset + e.loaded;
+        const progress = Math.round((uploaded / file.size) * 100);
+
+        if (e.loaded === e.total) {
+          throttledUpdate.cancel();
+          setStatus('processing');
+        } else {
+          throttledUpdate(progress);
+        }
+      });
+
+      xml.addEventListener('load', () => {
+        throttledUpdate.cancel();
+
+        if (xml.status >= 200 && xml.status < 300) {
+          if (!progressRef.current) throw new Error('Progress ref is null');
+
+          progressRef.current.setProgress(100);
+          setStatus('uploaded');
+        } else {
+          setStatus('error');
+        }
+      });
+
+      xml.addEventListener('error', () => {
+        throttledUpdate.cancel();
+        setStatus('error');
+      });
+
+      xml.open('POST', genUrl(id, 'upload'));
+
+      xml.setRequestHeader('x-file-size', String(file.size));
+      xml.setRequestHeader('x-file-type', file.type);
+      xml.setRequestHeader('x-file-name', encodeURIComponent(file.name));
+      xml.setRequestHeader('x-file-offset', String(offset));
+
+      xml.send(fileToUpload);
+    } catch (error) {
+      throttledUpdate.cancel();
+
+      if ((error as Error).name === 'AbortError') return;
+
+      setStatus('error');
+    }
+  };
+
+  const handlePause = () => {
+    if (!abortControllerRef.current) return;
+
+    throttledUpdate.cancel();
+    abortControllerRef.current.abort();
+    setStatus('paused');
+  };
+
+  const handleRetry = () => {
+    setStatus('uploading');
+    handleUpload(fileItem);
+  };
+
+  const handleCancel = () => {
+    if (!abortControllerRef.current) return;
+
+    throttledUpdate.cancel();
+    abortControllerRef.current.abort();
+    setStatus('canceled');
+
+    fetch(genUrl(fileItem.id, 'delete'), {
+      method: 'DELETE',
+    }).catch();
+  };
+
+  return (
+    <ProgressProvider ref={progressRef}>
+      <article className='bg-background grid grid-cols-[auto_1fr] gap-2 rounded-lg p-3'>
+        <div className='row-span-3 pt-2 *:[svg]:size-5'>
+          {getIconForFileType(file.type)}
+        </div>
+
+        <h2 id={id} className='text-muted-foreground truncate text-sm'>
+          {file.name}
+        </h2>
+
+        <ProgressBar status={status} labelledby={id} />
+
+        <div className='flex min-h-6 items-center gap-2'>
+          <ProgressPercentage />
+
+          <div className='grow'></div>
+
+          {(() => {
+            if (status === 'error') {
+              return (
+                <Button size='icon-xs' variant='outline' onClick={handleRetry}>
+                  <IconRefresh />
+                </Button>
+              );
+            }
+
+            if (status === 'paused') {
+              return (
+                <>
+                  <Button
+                    size='icon-xs'
+                    variant='outline'
+                    onClick={handleRetry}
+                  >
+                    <IconPlayerPlayFilled />
+                  </Button>
+
+                  <Button size='xs' variant='outline' onClick={handleCancel}>
+                    Cancel
+                  </Button>
+                </>
+              );
+            }
+
+            if (status === 'processing') {
+              return (
+                <span className='text-xs font-medium text-sky-600 dark:text-sky-400'>
+                  Processing
+                </span>
+              );
+            }
+
+            if (status === 'canceled') {
+              return <span className='text-xs font-medium'>Canceled</span>;
+            }
+
+            if (status === 'preparing') {
+              return <span className='text-xs font-medium'>Preparing</span>;
+            }
+
+            if (status === 'uploaded') {
+              return (
+                <span className='text-xs font-medium text-emerald-600 dark:text-emerald-400'>
+                  Uploaded
+                </span>
+              );
+            }
+
+            // Uploading
+
+            return (
+              <>
+                <Button size='icon-xs' variant='outline' onClick={handlePause}>
+                  <IconPlayerPauseFilled />
+                </Button>
+
+                <Button size='xs' variant='outline' onClick={handleCancel}>
+                  Cancel
+                </Button>
+              </>
+            );
+          })()}
+        </div>
+      </article>
+    </ProgressProvider>
+  );
+}
+
+type ProgressRef = {
+  setProgress: (value: number) => void;
+};
+
+function ProgressProvider({
+  ref,
+  children,
+}: {
+  ref: React.Ref<ProgressRef>;
+  children: React.ReactNode;
+}) {
+  const [progress, setProgress] = useState(0);
+
+  useImperativeHandle(ref, () => ({ setProgress }), []);
+
+  return <ScopeProvider value={{ progress }}>{children}</ScopeProvider>;
+}
+
+function ProgressBar({
+  status,
+  labelledby,
+}: {
+  status: Status;
+  labelledby: string;
+}) {
+  const { progress } = useScopeCtx<{ progress: number }>();
+
+  return (
+    <div
+      role='progressbar'
+      aria-valuenow={progress}
+      aria-valuemin={0}
+      aria-valuemax={100}
+      aria-valuetext={`${progress}% uploaded`}
+      data-status={status}
+      className='dark:bg-foreground/10 bg-foreground/15 h-1.5 grow rounded-full data-[status="error"]:bg-red-500/70 dark:data-[status="error"]:bg-red-500/70'
+      aria-labelledby={labelledby}
+    >
+      <div
+        style={{ width: `${progress}%` }}
+        className='h-full rounded-full bg-emerald-500'
+      />
+    </div>
+  );
+}
+
+function ProgressPercentage() {
+  const { progress } = useScopeCtx<{ progress: number }>();
+
+  return (
+    <span className='flex items-center justify-center gap-1 text-xs font-medium'>
+      {progress} <IconPercentage size={16} />
+    </span>
+  );
 }
