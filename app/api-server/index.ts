@@ -35,7 +35,7 @@ app.route('/api/fake-file-upload', fakeFileUploadRoute);
 if (process.env.NODE_ENV === 'production') {
   app.get(
     '/*',
-    serveStatic({ root: './public/storybook-static', index: 'index.html' }),
+    serveStatic({ root: './dist/storybook-static', index: 'index.html' }),
   );
 }
 
