@@ -9,8 +9,9 @@
     "lint": "pnpm eslint ./app ./content",
     "test-ct": "playwright test -c playwright-ct.config.ts",
     "dev:api": "tsx watch app/api-server/index.ts",
-    "build": "rm -rf dist && tsc -p tsconfig.server.json && storybook build -o ./dist/storybook-static",
-    "start": "NODE_ENV=production tsx dist/index.js"
+    "build:api": "pnpm esbuild ./app/api-server/index.ts --bundle  --outfile=./dist/index.js  --platform=node --packages=external --target=node24 --format=esm",
+    "build": "rm -rf dist && pnpm build:api && storybook build -o ./dist/storybook-static",
+    "start": "NODE_ENV=production node ./dist/index.js"
   },
   "dependencies": {
     "@base-ui/react": "^1.0.0",
@@ -42,6 +43,7 @@
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^5.1.2",
+    "esbuild": "^0.27.2",
     "eslint": "^9.39.2",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.4",
