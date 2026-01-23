@@ -1,11 +1,11 @@
-import preview from '.storybook/preview';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { setupWorker } from 'msw/browser';
 import { handlers } from './msw-handlers';
 import { OptimisticChat } from './optimistic-chat';
 
 const server = setupWorker(...handlers);
 
-const meta = preview.meta({
+const meta: Meta<typeof OptimisticChat> = {
   component: OptimisticChat,
   title: 'Experiment/Optimistic Chat',
   beforeEach: () => {
@@ -17,8 +17,8 @@ const meta = preview.meta({
     };
   },
   tags: ['optimistic ui'],
-});
+};
 
 export default meta;
 
-export const Default = meta.story({});
+export const Default: StoryObj<typeof meta> = {};

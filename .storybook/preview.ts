@@ -1,10 +1,9 @@
-import addonThemes, { withThemeByClassName } from '@storybook/addon-themes';
-import { definePreview } from '@storybook/react-vite';
+import { withThemeByClassName } from '@storybook/addon-themes';
+import { type Preview } from '@storybook/react-vite';
 
 import '../app/app.css';
 
-export default definePreview({
-  addons: [addonThemes()],
+const preview: Preview = {
   decorators: [
     withThemeByClassName({
       defaultTheme: 'dark',
@@ -18,5 +17,12 @@ export default definePreview({
     backgrounds: { disable: true },
     layout: 'fullscreen',
     controls: { expanded: false },
+    options: {
+      storySort: {
+        order: ['Welcome', 'Production', 'Experiments'],
+      },
+    },
   },
-});
+};
+
+export default preview;

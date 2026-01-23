@@ -9,5 +9,4 @@ const theme = create({
 
 addons.setConfig({
   theme,
-  singleStory: false,
 });

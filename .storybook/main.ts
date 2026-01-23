@@ -1,13 +1,11 @@
-import { defineMain } from '@storybook/react-vite/node';
+import type { StorybookConfig } from '@storybook/react-vite';
 
-export default defineMain({
-  stories: ['../app/**/*.stories.@(ts|tsx)'],
-  addons: ['@storybook/addon-themes'],
+const config: StorybookConfig = {
+  stories: ['../app/**/*.mdx', '../app/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
+  addons: ['@storybook/addon-docs', '@storybook/addon-themes'],
+  framework: '@storybook/react-vite',
+  // NOTE: vite copy static assets automatically from the "public" folder
   staticDirs: [],
-  framework: {
-    name: '@storybook/react-vite',
-    options: {},
-  },
   managerHead: (head) => {
     return `
       ${head}
@@ -39,4 +37,6 @@ export default defineMain({
 />
     `;
   },
-});
+};
+
+export default config;

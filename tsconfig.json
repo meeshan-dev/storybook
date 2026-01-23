@@ -13,8 +13,7 @@
     /** enable this to allow path alias in .mdx */
     "allowJs": true,
     "paths": {
-      "~/*": ["./app/*"],
-      ".storybook": ["./.storybook/*"]
+      "~/*": ["./app/*"]
     },
     "esModuleInterop": true,
     "verbatimModuleSyntax": true,

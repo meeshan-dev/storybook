@@ -1,11 +1,11 @@
-import preview from '.storybook/preview';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { setupWorker } from 'msw/browser';
 import { AdvancedFileUpload } from './advanced-file-upload';
 import { mswHandlers } from './msw-handlers';
 
 const worker = setupWorker(...mswHandlers);
 
-const meta = preview.meta({
+const meta: Meta<typeof AdvancedFileUpload> = {
   component: AdvancedFileUpload,
   title: 'Production/Advanced File Upload',
   tags: ['file upload'],
@@ -17,8 +17,8 @@ const meta = preview.meta({
       worker.stop();
     };
   },
-});
+};
 
 export default meta;
 
-export const Default = meta.story();
+export const Preview: StoryObj<typeof meta> = {};
