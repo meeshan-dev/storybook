@@ -1,7 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { setupWorker } from 'msw/browser';
 import { StoryOverviewWrapper } from '~/components/story-overview-wrapper';
+import { StorySourceCode } from '~/components/story-source-code';
 import { AdvancedFileUpload } from './advanced-file-upload';
+import AdvancedFileUpload_Raw from './advanced-file-upload?raw';
 import { mswHandlers } from './msw-handlers';
 
 const worker = setupWorker(...mswHandlers);
@@ -70,3 +72,10 @@ export const Overview: StoryObj<typeof meta> = {
 };
 
 export const Preview: StoryObj<typeof meta> = {};
+
+export const SourceCode: StoryObj<typeof meta> = {
+  render: () => <StorySourceCode>{AdvancedFileUpload_Raw}</StorySourceCode>,
+  parameters: {
+    themes: { disable: true },
+  },
+};
