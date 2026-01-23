@@ -326,7 +326,9 @@ function FileItem({ fileItem }: { fileItem: FileItem }) {
     abortControllerRef.current.abort();
     setStatus('canceled');
 
-    fetch(`${API_URL}/api/cache/${id}`, {
+    // NOTE: Clean up the cached upload on the server
+    // Ignoring errors here since it's not critical
+    fetch(`/api/cache/${id}`, {
       method: 'DELETE',
     }).catch();
   };
