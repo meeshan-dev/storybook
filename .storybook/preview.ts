@@ -1,10 +1,10 @@
-import themesAddon, { withThemeByClassName } from '@storybook/addon-themes';
+import addonThemes, { withThemeByClassName } from '@storybook/addon-themes';
 import { definePreview } from '@storybook/react-vite';
 
 import '../app/app.css';
 
 export default definePreview({
-  addons: [themesAddon()],
+  addons: [addonThemes()],
   decorators: [
     withThemeByClassName({
       defaultTheme: 'dark',

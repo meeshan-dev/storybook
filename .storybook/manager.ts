@@ -10,8 +10,4 @@ const theme = create({
 addons.setConfig({
   theme,
   singleStory: false,
-  sidebar: {
-    showRoots: true,
-    collapsedRoots: [],
-  },
 });

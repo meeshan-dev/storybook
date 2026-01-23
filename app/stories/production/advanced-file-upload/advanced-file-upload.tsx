@@ -68,6 +68,10 @@ export function AdvancedFileUpload() {
       status: 'uploading' as const,
     }));
 
+    if (!inputRef.current) throw new Error('Input ref is null');
+
+    inputRef.current.value = '';
+
     startTransition(() => {
       allowScrollToBottomRef.current = true;
 
