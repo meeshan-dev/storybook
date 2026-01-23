@@ -20,6 +20,7 @@ import React, {
   useRef,
   useState,
 } from 'react';
+import { Alert, AlertDescription, AlertTitle } from '~/components/ui/alert';
 import { Button } from '~/components/ui/button';
 import {
   Empty,
@@ -95,8 +96,18 @@ export function AdvancedFileUpload() {
   }, [files]);
 
   return (
-    <main className='h-dvh p-5'>
-      <section className='bg-secondary mx-auto flex h-full w-full max-w-lg flex-col rounded-lg'>
+    <main className='flex h-dvh flex-col p-5'>
+      <Alert className='mx-auto w-full max-w-lg'>
+        <AlertTitle>
+          Mock Service Worker is used to simulate network requests.
+        </AlertTitle>
+        <AlertDescription>
+          Uploads won&apos;t be stored permanently. And page refresh will reset
+          the uploads.
+        </AlertDescription>
+      </Alert>
+
+      <section className='bg-secondary mx-auto mt-3 flex w-full max-w-lg grow flex-col rounded-lg'>
         <h1 className='px-5 pt-5 text-sm font-semibold'>
           File Upload with Progress
         </h1>
