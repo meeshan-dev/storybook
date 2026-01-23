@@ -1,8 +1,8 @@
 import type { StorybookConfig } from '@storybook/react-vite';
 
 const config: StorybookConfig = {
-  stories: ['../app/**/*.mdx', '../app/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
-  addons: ['@storybook/addon-docs', '@storybook/addon-themes'],
+  stories: ['../app/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
+  addons: ['@storybook/addon-themes'],
   framework: '@storybook/react-vite',
   // NOTE: vite copy static assets automatically from the "public" folder
   staticDirs: [],
