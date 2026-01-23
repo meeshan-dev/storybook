@@ -17,12 +17,5 @@ export default defineConfig({
           ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
           : 'http://localhost:6006',
     ),
-    API_URL: JSON.stringify(
-      process.env.VERCEL_ENV === 'preview'
-        ? `https://${process.env.VERCEL_BRANCH_URL}`
-        : process.env.VERCEL_ENV === 'production'
-          ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
-          : 'http://localhost:8787',
-    ),
   },
 });

@@ -5,22 +5,16 @@
   "scripts": {
     "storybook": "storybook dev -p 6006 --no-open",
     "build-storybook": "storybook build",
-    "build-api": "pnpm esbuild ./app/api-server/index.ts --bundle  --outfile=./index.js  --platform=node --packages=external --target=node24 --format=esm",
     "types:check": "tsc",
-    "lint": "pnpm eslint ./app ./content",
-    "test-ct": "playwright test -c playwright-ct.config.ts",
-    "dev:api": "tsx watch app/api-server/index.ts"
+    "lint": "pnpm eslint ./app",
+    "test-ct": "playwright test -c playwright-ct.config.ts"
   },
   "dependencies": {
     "@base-ui/react": "^1.0.0",
-    "@hono/node-server": "^1.19.9",
     "@paralleldrive/cuid2": "^3.0.6",
     "@tabler/icons-react": "^3.36.1",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
-    "hono": "^4.11.5",
-    "lodash.throttle": "^4.1.1",
-    "lru-cache": "^11.2.4",
     "msw": "^2.12.7",
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
@@ -36,12 +30,10 @@
     "@storybook/addon-themes": "^10.2.0",
     "@storybook/react-vite": "^10.1.11",
     "@tailwindcss/vite": "^4.1.18",
-    "@types/lodash.throttle": "^4.1.9",
     "@types/node": "^25.0.5",
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^5.1.2",
-    "esbuild": "^0.27.2",
     "eslint": "^9.39.2",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.4",
@@ -61,5 +53,10 @@
     "vite": "^7.3.1",
     "vite-tsconfig-paths": "^6.0.4"
   },
-  "packageManager": "pnpm@10.28.0+sha512.05df71d1421f21399e053fde567cea34d446fa02c76571441bfc1c7956e98e363088982d940465fd34480d4d90a0668bc12362f8aa88000a64e83d0b0e47be48"
+  "packageManager": "pnpm@10.28.0+sha512.05df71d1421f21399e053fde567cea34d446fa02c76571441bfc1c7956e98e363088982d940465fd34480d4d90a0668bc12362f8aa88000a64e83d0b0e47be48",
+  "msw": {
+    "workerDirectory": [
+      "public"
+    ]
+  }
 }

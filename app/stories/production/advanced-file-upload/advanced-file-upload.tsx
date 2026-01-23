@@ -204,7 +204,7 @@ function FileItem({ fileItem }: { fileItem: FileItem }) {
       let offset = 0;
 
       try {
-        const statusRes = await fetch(`${API_URL}/api/fake-file-upload/${id}`);
+        const statusRes = await fetch(`/api/cache/${id}`);
 
         if (!statusRes.ok) throw new Error('Failed to get upload status');
 
@@ -217,50 +217,57 @@ function FileItem({ fileItem }: { fileItem: FileItem }) {
 
       const fileToUpload = offset > 0 ? file.slice(offset) : file;
 
-      const xml = new XMLHttpRequest();
+      let uploaded = offset;
 
-      controller.signal.addEventListener('abort', () => {
-        xml.abort();
+      const res = await fetch(`/api/upload/${id}`, {
+        method: 'POST',
+        signal: controller.signal,
+        // @ts-expect-error no native yet
+        duplex: 'half',
+        headers: {
+          'x-file-size': String(file.size),
+          'x-file-type': file.type,
+          'x-file-name': encodeURIComponent(file.name),
+          'x-file-offset': String(offset),
+        },
+        body: fileToUpload.stream().pipeThrough(
+          new TransformStream({
+            transform(chunk, controller) {
+              controller.enqueue(chunk);
+
+              uploaded += chunk.byteLength;
+
+              if (uploaded >= file.size) {
+                setStatus('processing');
+              } else {
+                startTransition(() => {
+                  if (!progressRef.current) {
+                    throw new Error('Progress ref is null');
+                  }
+
+                  if (abortControllerRef.current?.signal.aborted) return;
+
+                  const progress = Math.min(
+                    100,
+                    Math.round((uploaded / file.size) * 100),
+                  );
+
+                  progressRef.current.setProgress(progress);
+                });
+              }
+            },
+          }),
+        ),
       });
 
-      xml.upload.addEventListener('progress', (e) => {
-        if (!e.lengthComputable)
-          throw new Error('Cannot compute upload progress');
+      const result = await res.json();
 
-        const uploaded = offset + e.loaded;
-        const progress = Math.round((uploaded / file.size) * 100);
+      if (!result.success) throw result;
 
-        if (e.loaded === e.total) {
-          setStatus('processing');
-        } else {
-          if (!progressRef.current) throw new Error('Progress ref is null');
-          progressRef.current.setProgress(progress);
-        }
-      });
+      if (!progressRef.current) throw new Error('Progress ref is null');
 
-      xml.addEventListener('load', () => {
-        if (xml.status >= 200 && xml.status < 300) {
-          if (!progressRef.current) throw new Error('Progress ref is null');
-
-          progressRef.current.setProgress(100);
-          setStatus('uploaded');
-        } else {
-          setStatus('error');
-        }
-      });
-
-      xml.addEventListener('error', () => {
-        setStatus('error');
-      });
-
-      xml.open('POST', `${API_URL}/api/fake-file-upload/${id}?action=upload`);
-
-      xml.setRequestHeader('x-file-size', String(file.size));
-      xml.setRequestHeader('x-file-type', file.type);
-      xml.setRequestHeader('x-file-name', encodeURIComponent(file.name));
-      xml.setRequestHeader('x-file-offset', String(offset));
-
-      xml.send(fileToUpload);
+      progressRef.current.setProgress(100);
+      setStatus('uploaded');
     } catch (error) {
       if ((error as Error).name === 'AbortError') return;
 
@@ -304,7 +311,7 @@ function FileItem({ fileItem }: { fileItem: FileItem }) {
     abortControllerRef.current.abort();
     setStatus('canceled');
 
-    fetch(`${API_URL}/api/fake-file-upload/${id}?action=delete`, {
+    fetch(`${API_URL}/api/cache/${id}`, {
       method: 'DELETE',
     }).catch();
   };

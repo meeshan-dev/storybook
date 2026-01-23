@@ -17,5 +17,6 @@ export default definePreview({
   parameters: {
     backgrounds: { disable: true },
     layout: 'fullscreen',
+    controls: { expanded: false },
   },
 });
