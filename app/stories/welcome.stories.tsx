@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { Badge } from '~/components/ui/badge';
 
 function Welcome() {
   return (
@@ -8,15 +9,17 @@ function Welcome() {
       </h1>
 
       <p className='mt-3 text-center text-balance'>
-        Welcome to the hub of my experience. This space brings together my
-        production implementations, experiments, and ongoing work, all shown
-        through real, working code.
+        Welcome to the hub of my experience.
       </p>
 
-      <p className='mt-7 max-w-md p-2 text-center text-sm text-balance'>
-        Tip. Start with the <strong>Overview</strong> tab to understand the
-        context before exploring the preview.
-      </p>
+      <div className='max-w-md'>
+        <hr className='border-foreground my-5' />
+
+        <p className='text-center text-sm text-balance'>
+          <Badge>Tip</Badge> Start with the <strong>Overview</strong> tab to
+          understand the context before exploring the preview.
+        </p>
+      </div>
     </main>
   );
 }
