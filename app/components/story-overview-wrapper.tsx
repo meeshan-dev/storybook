@@ -4,10 +4,8 @@ export function StoryOverviewWrapper({
   children: React.ReactNode;
 }) {
   return (
-    <main className='p-5'>
-      <div className='typography border-foreground/10 bg-foreground/5 mx-auto w-full max-w-2xl rounded-lg border p-5'>
-        {children}
-      </div>
+    <main className='typography border-foreground/5 bg-foreground/5 max-w-none grow overflow-auto rounded-lg border p-5'>
+      {children}
     </main>
   );
 }

@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { setupWorker } from 'msw/browser';
 import { StoryOverviewWrapper } from '~/components/story-overview-wrapper';
 import { StorySourceCode } from '~/components/story-source-code';
+import { breadcrumbsDecorator } from '~/lib/breadcrumbs-decorator';
 import { AdvancedFileUpload } from './advanced-file-upload';
 import AdvancedFileUpload_Raw from './advanced-file-upload?raw';
 import { mswHandlers } from './msw-handlers';
@@ -12,6 +13,7 @@ const meta: Meta<typeof AdvancedFileUpload> = {
   component: AdvancedFileUpload,
   title: 'Production/Advanced File Upload',
   tags: ['file upload'],
+  decorators: [breadcrumbsDecorator()],
   beforeEach: () => {
     worker.start();
 
@@ -68,14 +70,11 @@ const OverviewComp = () => {
 };
 
 export const Overview: StoryObj<typeof meta> = {
-  render: () => <OverviewComp />,
+  render: OverviewComp,
 };
 
 export const Preview: StoryObj<typeof meta> = {};
 
 export const SourceCode: StoryObj<typeof meta> = {
   render: () => <StorySourceCode>{AdvancedFileUpload_Raw}</StorySourceCode>,
-  parameters: {
-    themes: { disable: true },
-  },
 };

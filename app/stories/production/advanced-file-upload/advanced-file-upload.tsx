@@ -95,24 +95,20 @@ export function AdvancedFileUpload() {
   }, [files]);
 
   return (
-    <main className='flex h-dvh flex-col p-5'>
-      <section className='bg-secondary mx-auto mt-3 flex w-full max-w-lg grow flex-col rounded-lg'>
-        <h1 className='px-5 pt-5 text-sm font-semibold'>
-          File Upload with Progress
-        </h1>
-
+    <main className='flex grow'>
+      <section className='bg-secondary mx-auto mt-3 flex w-full max-w-lg grow flex-col overflow-auto rounded-lg'>
         {files.length > 0 && (
           <>
             <div
               ref={contentRef}
-              className='scrollbar-thin mt-5 grow space-y-3 overflow-auto px-5 py-2'
+              className='scrollbar-thin ralative grow space-y-3 overflow-auto p-2.5 pb-0'
             >
               {files.map((fileItem) => (
                 <FileItem key={fileItem.key} fileItem={fileItem} />
               ))}
             </div>
 
-            <div className='flex items-center gap-2 p-5'>
+            <div className='flex items-center gap-2 p-2.5'>
               <Button
                 className='grow'
                 onClick={() => {
