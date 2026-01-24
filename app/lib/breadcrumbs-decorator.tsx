@@ -1,4 +1,5 @@
 import type { Decorator } from '@storybook/react-vite';
+import { twMerge } from 'tailwind-merge';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -7,10 +8,16 @@ import {
   BreadcrumbSeparator,
 } from '~/components/ui/breadcrumb';
 
-export function breadcrumbsDecorator(): Decorator {
+export function breadcrumbsDecorator({
+  className,
+}: {
+  className?: string;
+} = {}): Decorator {
   return function (Story, { name, title, id }) {
     return (
-      <div className='flex min-h-dvh flex-col gap-5 p-5'>
+      <div
+        className={twMerge('flex flex-col gap-5 overflow-auto p-5', className)}
+      >
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>

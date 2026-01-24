@@ -6,7 +6,7 @@ SyntaxHighlighter.registerLanguage('tsx', tsx);
 
 export function StorySourceCode({ children }: { children: string }) {
   return (
-    <main className='flex grow overflow-auto rounded-lg'>
+    <main className='flex h-full overflow-hidden rounded-lg'>
       <SyntaxHighlighter
         language='tsx'
         style={dracula}
@@ -15,6 +15,7 @@ export function StorySourceCode({ children }: { children: string }) {
           margin: 0,
           borderRadius: 0,
           colorScheme: 'dark',
+          flexGrow: 1,
           overflow: 'auto',
         }}
       >

@@ -7,21 +7,10 @@ import { AdvancedFileUpload } from './advanced-file-upload';
 import AdvancedFileUpload_Raw from './advanced-file-upload?raw';
 import { mswHandlers } from './msw-handlers';
 
-const worker = setupWorker(...mswHandlers);
-
 const meta: Meta<typeof AdvancedFileUpload> = {
   component: AdvancedFileUpload,
   title: 'Production/Advanced File Upload',
   tags: ['file upload'],
-  decorators: [breadcrumbsDecorator()],
-  beforeEach: () => {
-    worker.start();
-
-    return () => {
-      worker.resetHandlers();
-      worker.stop();
-    };
-  },
 };
 
 export default meta;
@@ -70,11 +59,25 @@ const OverviewComp = () => {
 };
 
 export const Overview: StoryObj<typeof meta> = {
+  decorators: [breadcrumbsDecorator()],
   render: OverviewComp,
 };
 
-export const Preview: StoryObj<typeof meta> = {};
+export const Preview: StoryObj<typeof meta> = {
+  decorators: [breadcrumbsDecorator({ className: 'h-dvh' })],
+  beforeEach: () => {
+    const worker = setupWorker(...mswHandlers);
+
+    worker.start();
+
+    return () => {
+      worker.resetHandlers();
+      worker.stop();
+    };
+  },
+};
 
 export const SourceCode: StoryObj<typeof meta> = {
+  decorators: [breadcrumbsDecorator({ className: 'h-dvh' })],
   render: () => <StorySourceCode>{AdvancedFileUpload_Raw}</StorySourceCode>,
 };

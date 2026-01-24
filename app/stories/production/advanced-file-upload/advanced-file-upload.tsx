@@ -95,8 +95,8 @@ export function AdvancedFileUpload() {
   }, [files]);
 
   return (
-    <main className='flex grow'>
-      <section className='bg-secondary mx-auto mt-3 flex w-full max-w-lg grow flex-col overflow-auto rounded-lg'>
+    <main className='flex grow overflow-auto'>
+      <section className='bg-secondary mx-auto flex w-full max-w-lg grow flex-col overflow-auto rounded-lg'>
         {files.length > 0 && (
           <>
             <div
