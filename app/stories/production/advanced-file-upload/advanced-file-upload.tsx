@@ -29,7 +29,9 @@ import {
   EmptyMedia,
   EmptyTitle,
 } from '~/components/ui/empty';
-import { ScopeProvider, useScopeCtx } from '~/lib/scope-provider';
+import { createContextScope } from '~/lib/context-scope';
+
+const [ScopeProvider, useScopeCtx] = createContextScope<{ progress: number }>();
 
 type Status =
   | 'preparing'
@@ -438,7 +440,7 @@ function ProgressBar({
   status: Status;
   labelledby: string;
 }) {
-  const { progress } = useScopeCtx<{ progress: number }>();
+  const { progress } = useScopeCtx();
 
   return (
     <div
@@ -460,7 +462,7 @@ function ProgressBar({
 }
 
 function ProgressPercentage() {
-  const { progress } = useScopeCtx<{ progress: number }>();
+  const { progress } = useScopeCtx();
 
   return (
     <span className='flex items-center justify-center gap-1 text-xs font-medium'>
