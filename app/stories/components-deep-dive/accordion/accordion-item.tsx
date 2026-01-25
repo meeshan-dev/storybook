@@ -44,7 +44,11 @@ export const AccordionItem = (props: AccordionItemProps) => {
         disabled: disabled,
       }}
     >
-      <div {...restProps} data-expanded={isExpended} />
+      <div
+        {...restProps}
+        data-expanded={isExpended}
+        className='not-last:border-b'
+      />
     </AccordionItemCtx>
   );
 };

@@ -138,7 +138,7 @@ export function AccordionRoot<
         disabled: disabled,
       }}
     >
-      <div {...restProps} id={rootId} />
+      <div {...restProps} id={rootId} className='flex w-full flex-col' />
     </AccordionCtx>
   );
 }

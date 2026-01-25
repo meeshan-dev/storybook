@@ -25,6 +25,7 @@ export const AccordionTrigger = (
     if (key === 'Tab' || (key === 'Tab' && e.shiftKey)) return;
 
     if ([' ', 'Enter'].includes(key)) {
+      e.preventDefault();
       onClick();
 
       return;
@@ -52,14 +53,15 @@ export const AccordionTrigger = (
       (item) => item === e.currentTarget,
     );
 
-    const next = elements[Math.min(currentIndex + 1, elements.length - 1)];
+    const next =
+      activeElements[Math.min(currentIndex + 1, activeElements.length - 1)];
 
-    const prev = elements[Math.max(currentIndex - 1, 0)];
+    const prev = activeElements[Math.max(currentIndex - 1, 0)];
 
     if (ArrowDown) next?.focus();
     if (ArrowUp) prev?.focus();
-    if (Home) elements[0]?.focus();
-    if (End) elements[elements.length - 1]?.focus();
+    if (Home) activeElements[0]?.focus();
+    if (End) activeElements[activeElements.length - 1]?.focus();
   };
 
   return (
@@ -74,6 +76,7 @@ export const AccordionTrigger = (
       role='button'
       onClick={onClick}
       data-accordtion-item
+      className='focus-visible:ring-ring/50 focus-visible:border-ring focus-visible:after:border-ring **:data-[slot=accordion-trigger-icon]:text-muted-foreground group/accordion-trigger relative flex w-full flex-1 items-start justify-between rounded-md border border-transparent py-4 text-left text-sm font-medium transition-all outline-none hover:underline focus-visible:ring-[3px] disabled:pointer-events-none disabled:opacity-50 **:data-[slot=accordion-trigger-icon]:ml-auto **:data-[slot=accordion-trigger-icon]:size-4'
     >
       {children}
     </button>

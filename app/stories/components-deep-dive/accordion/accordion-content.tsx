@@ -6,6 +6,10 @@ export const AccordionContent = (props: React.ComponentPropsWithRef<'div'>) => {
   const itemCtx = useAccordionItemCtx();
 
   return !itemCtx.isExpended ? null : (
-    <div {...restProps} id={itemCtx.contentId} />
+    <div
+      {...restProps}
+      id={itemCtx.contentId}
+      className='overflow-hidden text-sm'
+    />
   );
 };
