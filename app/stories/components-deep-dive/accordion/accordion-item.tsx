@@ -2,9 +2,10 @@ import React from 'react';
 import { createContextScope } from '~/lib/context-scope';
 import { useAccordionCtx } from './accordion-root';
 
-interface AccordionItemProps extends React.ComponentPropsWithRef<'div'> {
+interface AccordionItemProps {
   value: string;
   disabled?: boolean;
+  children: React.ReactNode;
 }
 
 interface AccordionItemCtxProps {
@@ -21,7 +22,7 @@ const [AccordionItemCtx, useAccordionItemCtx] =
 export { useAccordionItemCtx };
 
 export const AccordionItem = (props: AccordionItemProps) => {
-  const { value, disabled, ...restProps } = props;
+  const { value, disabled, children } = props;
 
   const accordionCtx = useAccordionCtx();
 
@@ -38,17 +39,13 @@ export const AccordionItem = (props: AccordionItemProps) => {
     <AccordionItemCtx
       value={{
         value,
-        contentId: contentId,
-        triggerId: triggerId,
-        isExpended: isExpended,
-        disabled: disabled,
+        contentId,
+        triggerId,
+        isExpended,
+        disabled,
       }}
     >
-      <div
-        {...restProps}
-        data-expanded={isExpended}
-        className='not-last:border-b'
-      />
+      {children}
     </AccordionItemCtx>
   );
 };

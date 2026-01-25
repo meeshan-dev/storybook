@@ -18,9 +18,7 @@ export function breadcrumbsDecorator({
     const breadcrumbs = title.split('/');
 
     return (
-      <div
-        className={twMerge('flex flex-col gap-5 overflow-auto p-5', className)}
-      >
+      <div className={twMerge('flex flex-col gap-5 p-5', className)}>
         <Breadcrumb>
           <BreadcrumbList>
             {breadcrumbs.map((item, idx) => (

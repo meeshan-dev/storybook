@@ -4,30 +4,30 @@ import { createContextScope } from '~/lib/context-scope';
 
 export type AccordionRootProps<Type, IsSingleCollapsible> = {
   disabled?: boolean;
-} & Omit<React.ComponentPropsWithRef<'div'>, 'defaultValue' | 'id'> &
-  (Type extends 'multiple'
+  children: React.ReactNode;
+} & (Type extends 'multiple'
+  ? {
+      type?: Type;
+      value?: string[];
+      defaultValue?: string[];
+      onValueChange?: (value: string[]) => void;
+      isSingleCollapsible?: undefined;
+    }
+  : IsSingleCollapsible extends true
     ? {
-        type?: Type;
-        value?: string[];
-        defaultValue?: string[];
-        onValueChange?: (value: string[]) => void;
-        isSingleCollapsible?: undefined;
+        type: Type;
+        value?: string | null;
+        defaultValue?: string | null;
+        onValueChange?: (value: string | null) => void;
+        isSingleCollapsible?: IsSingleCollapsible;
       }
-    : IsSingleCollapsible extends true
-      ? {
-          type: Type;
-          value?: string | null;
-          defaultValue?: string | null;
-          onValueChange?: (value: string | null) => void;
-          isSingleCollapsible?: IsSingleCollapsible;
-        }
-      : {
-          type: Type;
-          value?: string;
-          defaultValue?: string;
-          onValueChange?: (value: string) => void;
-          isSingleCollapsible: IsSingleCollapsible;
-        });
+    : {
+        type: Type;
+        value?: string;
+        defaultValue?: string;
+        onValueChange?: (value: string) => void;
+        isSingleCollapsible: IsSingleCollapsible;
+      });
 
 interface AccordionCtxProps {
   rootId: string;
@@ -53,7 +53,7 @@ export function AccordionRoot<
     disabled,
     isSingleCollapsible = true,
     type = 'multiple',
-    ...restProps
+    children,
   } = props;
 
   const rootId = useId();
@@ -132,13 +132,13 @@ export function AccordionRoot<
       value={{
         rootId,
         value,
-        type: type,
-        onCollapse: onCollapse,
-        onExpand: onExpand,
-        disabled: disabled,
+        type,
+        onCollapse,
+        onExpand,
+        disabled,
       }}
     >
-      <div {...restProps} id={rootId} className='flex w-full flex-col' />
+      {children}
     </AccordionCtx>
   );
 }
