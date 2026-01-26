@@ -1,19 +1,11 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
 import { IconChevronDown } from '@tabler/icons-react';
 import { Badge } from '~/components/ui/badge';
-import { breadcrumbsDecorator } from '~/lib/breadcrumbs-decorator';
 import {
   AccordionContent,
   AccordionItem,
   AccordionRoot,
   AccordionTrigger,
-} from '.';
-
-const meta: Meta = {
-  title: 'components-deep-dive/Accordion',
-};
-
-export default meta;
+} from './accordion';
 
 function AccordionExample({
   type,
@@ -84,7 +76,7 @@ function AccordionExample({
               architecto reiciendis modi debitis aliquid, ex id!
             </AccordionContent>
 
-            <hr className='border-ring/10 last:hidden' />
+            <hr className='dark:border-ring/10 border-ring/20 last:hidden' />
           </AccordionItem>
         ))}
       </AccordionRoot>
@@ -92,7 +84,7 @@ function AccordionExample({
   );
 }
 
-const PreviewComp = () => {
+export function AccordionPreview() {
   return (
     <main className='flex grow items-center justify-center py-10'>
       <section>
@@ -104,9 +96,4 @@ const PreviewComp = () => {
       </section>
     </main>
   );
-};
-
-export const Preview: StoryObj<typeof meta> = {
-  decorators: [breadcrumbsDecorator({ className: 'min-h-dvh' })],
-  render: PreviewComp,
-};
+}
