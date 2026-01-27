@@ -209,16 +209,24 @@ export const AccordionItem = (props: AccordionItemProps) => {
 type HeadingLevel = `h${2 | 3 | 4 | 5 | 6}`;
 
 export const AccordionTrigger = (
-  props: React.ComponentPropsWithRef<'button'> & {
+  props: Omit<
+    React.ComponentPropsWithRef<'button'>,
+    'children' | 'id' | 'aria-expanded' | 'aria-controls'
+  > & {
     headingLevel: HeadingLevel;
     headingProps?: Omit<React.ComponentPropsWithRef<HeadingLevel>, 'children'>;
+    children?: (
+      props: Omit<React.ComponentPropsWithRef<'button'>, 'children'>,
+    ) => React.ReactNode;
   },
 ) => {
   const {
     disabled: disabledProp,
-    className,
+    children,
     headingLevel,
     headingProps,
+    onClick: onClickProp,
+    onKeyDown: onKeyDownProp,
     ...restProps
   } = props;
 
@@ -229,12 +237,14 @@ export const AccordionTrigger = (
 
   const isExpended = itemCtx.isExpended;
 
-  const onClick = () => {
+  const handleToggle = () => {
     if (isExpended) accordionCtx.onCollapse(itemCtx.value);
     else accordionCtx.onExpand(itemCtx.value);
   };
 
-  const onKeyDown = (e: React.KeyboardEvent) => {
+  const onKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>) => {
+    onKeyDownProp?.(e);
+
     if (disabled) return;
 
     const key = e.key;
@@ -243,7 +253,7 @@ export const AccordionTrigger = (
 
     if ([' ', 'Enter'].includes(key)) {
       e.preventDefault();
-      onClick();
+      handleToggle();
 
       return;
     }
@@ -305,22 +315,22 @@ export const AccordionTrigger = (
 
   return (
     <Heading {...headingProps}>
-      <button
-        {...restProps}
-        onKeyDown={onKeyDown}
-        disabled={disabled}
-        id={itemCtx.triggerId}
-        aria-expanded={isExpended}
-        aria-controls={itemCtx.contentId}
-        data-expanded={isExpended}
-        role='button'
-        onClick={onClick}
-        data-accordtion-item={accordionCtx.rootId}
-        className={twMerge(
-          'focus-visible:ring-ring/50 focus-visible:border-ring focus-visible:after:border-ring **:data-[slot=accordion-trigger-icon]:text-muted-foreground group/accordion-trigger relative flex w-full flex-1 items-start justify-between rounded-md border border-transparent px-3 py-2.5 text-left text-sm font-medium transition-all outline-none hover:underline focus-visible:ring-[3px] disabled:pointer-events-none disabled:opacity-50 **:data-[slot=accordion-trigger-icon]:ml-auto **:data-[slot=accordion-trigger-icon]:size-4',
-          className,
-        )}
-      />
+      {children?.({
+        ...restProps,
+        onKeyDown,
+        disabled,
+        onClick: (e) => {
+          handleToggle();
+          onClickProp?.(e);
+        },
+        id: itemCtx.triggerId,
+        'aria-expanded': isExpended,
+        'aria-controls': itemCtx.contentId,
+        ...{
+          'data-expanded': isExpended,
+          'data-accordtion-item': accordionCtx.rootId,
+        },
+      })}
     </Heading>
   );
 };
@@ -374,7 +384,7 @@ export const AccordionContent = (
             {...restProps}
             id={itemCtx.contentId}
             className={twMerge(
-              '[&_a]:hover:text-foreground overflow-hidden px-3 pt-0 pb-4 text-sm [&_a]:underline [&_a]:underline-offset-3 [&_p:not(:last-child)]:mb-4',
+              '[&_a]:hover:text-foreground overflow-hidden px-3 py-4 text-sm [&_a]:underline [&_a]:underline-offset-3 [&_p:not(:last-child)]:mb-4',
               className,
             )}
           />

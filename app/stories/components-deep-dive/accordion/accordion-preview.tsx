@@ -1,5 +1,6 @@
 import { IconChevronDown } from '@tabler/icons-react';
 import { Badge } from '~/components/ui/badge';
+import { Button } from '~/components/ui/button';
 import {
   AccordionContent,
   AccordionItem,
@@ -62,11 +63,16 @@ function AccordionExample({
         ].map(({ id, title, disabled }) => (
           <AccordionItem key={id} value={`${id}`} disabled={disabled}>
             <AccordionTrigger headingLevel='h2'>
-              {title}
-              <IconChevronDown
-                size={20}
-                className='ml-auto rotate-0 transition-transform group-data-[expanded=true]/accordion-trigger:-rotate-180'
-              />
+              {(props) => (
+                <Button {...props} variant='ghost' className='group w-full'>
+                  {title}
+
+                  <IconChevronDown
+                    size={20}
+                    className='ml-auto rotate-0 transition-transform group-data-[expanded=true]:-rotate-180'
+                  />
+                </Button>
+              )}
             </AccordionTrigger>
 
             <AccordionContent>
@@ -76,7 +82,7 @@ function AccordionExample({
               architecto reiciendis modi debitis aliquid, ex id!
             </AccordionContent>
 
-            <hr className='dark:border-ring/10 border-ring/20 last:hidden' />
+            <hr className='dark:border-ring/10 border-ring/20 last:hidden has-[+_h2>button[aria-expanded=true]]:opacity-0' />
           </AccordionItem>
         ))}
       </AccordionRoot>
