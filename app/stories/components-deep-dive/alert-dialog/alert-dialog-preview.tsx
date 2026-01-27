@@ -38,7 +38,7 @@ export function AlertDialogPreview() {
             <AlertDialogContent>
               <div
                 data-slot='alert-dialog-header'
-                className='grid grid-rows-[auto_1fr] place-items-center gap-1.5 text-center has-data-[slot=alert-dialog-media]:grid-rows-[auto_auto_1fr] has-data-[slot=alert-dialog-media]:gap-x-4 sm:group-data-[size=default]/alert-dialog-content:place-items-start sm:group-data-[size=default]/alert-dialog-content:text-left sm:group-data-[size=default]/alert-dialog-content:has-data-[slot=alert-dialog-media]:grid-rows-[auto_1fr]'
+                className='grid grid-rows-[auto_1fr] place-items-center gap-1.5 text-center sm:place-items-start sm:text-left'
               >
                 <AlertDialogTitle>Confirm Delete Account?</AlertDialogTitle>
 
@@ -48,7 +48,7 @@ export function AlertDialogPreview() {
                 </AlertDialogDescription>
               </div>
 
-              <div className='flex flex-col-reverse items-center justify-end gap-3 sm:flex-row'>
+              <div className='flex flex-col-reverse items-center justify-end gap-3 *:w-full sm:flex-row sm:*:w-auto'>
                 <AlertDialogClose>
                   {(props) => (
                     <Button {...props} variant='ghost'>

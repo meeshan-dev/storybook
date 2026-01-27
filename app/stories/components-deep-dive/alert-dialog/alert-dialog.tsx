@@ -1,10 +1,11 @@
 import { useControlled } from '@base-ui/utils/useControlled';
 import { useScrollLock } from '@base-ui/utils/useScrollLock';
 import { FocusTrap, type FocusTrapProps } from 'focus-trap-react';
-import React, { useCallback, useEffectEvent } from 'react';
+import React, { useCallback, useEffectEvent, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { twMerge } from 'tailwind-merge';
 import { createContextScope } from '~/lib/context-scope';
+import { getLayers } from '~/lib/get layers';
 
 export interface AlertDialogRootRef {
   close: () => void;
@@ -23,10 +24,13 @@ const [AlertDialogCtx, useAlertDialogCtx] = createContextScope<{
   open: boolean;
   handleOpen: () => void;
   handleClose: () => void;
+  contentRef: React.RefObject<HTMLDivElement | null>;
 }>();
 
 export function AlertDialogRoot(props: AlertDialogRootProps) {
   const { ref, children, open: openProp, defaultOpen, onOpenChange } = props;
+
+  const contentRef = useRef<HTMLDivElement>(null);
 
   const [open, setOpen] = useControlled({
     default: defaultOpen ?? false,
@@ -50,9 +54,11 @@ export function AlertDialogRoot(props: AlertDialogRootProps) {
   }, [handleChange]);
 
   const handleClose = useCallback(() => {
-    // TODO: handle if paused
+    if (!contentRef.current) throw new Error('Content ref is not assigned');
 
-    if (!open) return;
+    const topLayer = getLayers().at(-1);
+
+    if (!open || topLayer !== contentRef.current) return;
 
     handleChange(false);
   }, [handleChange, open]);
@@ -88,6 +94,7 @@ export function AlertDialogRoot(props: AlertDialogRootProps) {
         open,
         handleOpen,
         handleClose,
+        contentRef,
       }}
     >
       {children}
@@ -200,7 +207,7 @@ const [AlertDialogContentCtx, useAlertDialogContentCtx] = createContextScope<{
 export function AlertDialogContent(props: AlertDialogContentProps) {
   const { ref, children, id, className, focusTrapProps, ...restProps } = props;
 
-  const { open } = useAlertDialogCtx();
+  const { open, contentRef } = useAlertDialogCtx();
 
   const titleId = React.useId();
   const descriptionId = React.useId();
@@ -214,15 +221,31 @@ export function AlertDialogContent(props: AlertDialogContentProps) {
     <AlertDialogContentCtx value={{ titleId, descriptionId }}>
       <FocusTrap {...focusTrapProps}>
         <div
-          ref={ref}
+          ref={(node) => {
+            contentRef.current = node;
+            if (typeof ref === 'function') {
+              ref(node);
+            } else if (ref) {
+              ref.current = node;
+            }
+
+            const topLayer = getLayers().at(-1);
+
+            if (!node) return;
+
+            node.dataset.layerDepth = String(
+              parseInt(topLayer?.dataset.layerDepth || '0') + 1,
+            );
+          }}
           id={contentId}
+          data-layer
           aria-labelledby={titleId}
           aria-describedby={descriptionId}
           {...restProps}
           role='alertdialog'
           aria-modal={true}
           className={twMerge(
-            'bg-background ring-foreground/10 fixed top-1/2 left-1/2 z-50 grid w-full max-w-xs -translate-x-1/2 -translate-y-1/2 gap-4 rounded-xl p-4 ring-1 duration-100 outline-none sm:max-w-sm',
+            'bg-background ring-foreground/10 fixed top-1/2 left-1/2 z-50 grid w-[min(100%,calc(100%-2rem))] max-w-sm -translate-x-1/2 -translate-y-1/2 gap-4 rounded-xl p-4 ring-1 duration-100 outline-none',
             className,
           )}
         >
