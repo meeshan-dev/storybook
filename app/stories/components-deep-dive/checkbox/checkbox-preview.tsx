@@ -31,7 +31,7 @@ function Row({
   state,
 }: {
   children: React.ReactNode;
-  state?: 'checked' | 'mixed' | 'error' | 'disabled';
+  state?: 'checked' | 'mixed' | 'error';
 }) {
   return (
     <label
@@ -39,11 +39,10 @@ function Row({
         'group flex w-full max-w-xs cursor-pointer items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-all select-none',
         'bg-foreground/6 hover:bg-foreground/8',
         'has-[input:checked]:bg-emerald-600/5 dark:has-[input:checked]:bg-emerald-400/5',
-        'border border-transparent has-[input:checked]:border-emerald-600/40 dark:has-[input:checked]:border-emerald-400/40',
+        'border border-transparent has-[input:checked]:border-emerald-600/40 has-[input:disabled]:pointer-events-none has-[input:disabled]:opacity-50 dark:has-[input:checked]:border-emerald-400/40',
         'focus-within:ring-ring/50 outline-none focus-within:ring-[3px]',
         state === 'error' &&
           'border-red-600/30 bg-red-600/5 dark:border-red-400/30 dark:bg-red-400/5',
-        state === 'disabled' && 'cursor-not-allowed opacity-50',
       )}
     >
       {children}
@@ -144,7 +143,7 @@ function ControlledCheckbox() {
 
 function DisabledCheckbox({ checked }: { checked: boolean }) {
   return (
-    <Row state='disabled'>
+    <Row>
       <Box>
         <Checkbox disabled checked={checked}>
           <CheckboxIcon type='check'>
