@@ -58,7 +58,6 @@ export function Checkbox(
         type='checkbox'
         checked={checked}
         onChange={handleChange}
-        tabIndex={-1}
         className='sr-only'
         aria-checked={indeterminate ? 'mixed' : checked ? 'true' : 'false'}
       />
