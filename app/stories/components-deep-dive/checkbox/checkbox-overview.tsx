@@ -5,7 +5,7 @@ export function CheckboxOverview() {
     <StoryOverviewWrapper>
       <p>
         A checkbox is a simple form control that lets users select one or more
-        options from a group. It’s commonly used for settings, preferences, and
+        options from a group. It's commonly used for settings, preferences, and
         multi-select lists.
       </p>
 
