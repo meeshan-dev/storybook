@@ -15,15 +15,11 @@ export function DisclosureOverview() {
         <li>Supports both single and multiple item open modes.</li>
         <li>Individual items can be configured to be non-collapsible.</li>
         <li>
-          Fully keyboard accessible, including <code>Up/Down</code> arrow keys,{' '}
-          <code>Home/End</code> keys, and <code>Tab</code> navigation.
-        </li>
-        <li>
           Smooth open and close animations powered by <code>motion/react</code>.
         </li>
         <li>
-          Built-in state management with support for externally controlled open
-          and closed states.
+          State management with support for externally controlled open and
+          closed states.
         </li>
       </ul>
 

@@ -22,8 +22,8 @@ export function AccordionOverview() {
           Smooth open and close animations powered by <code>motion/react</code>.
         </li>
         <li>
-          Built-in state management with support for externally controlled open
-          and closed states.
+          State management with support for externally controlled open and
+          closed states.
         </li>
       </ul>
 
