@@ -58,7 +58,9 @@ export function AlertDialogRoot(props: AlertDialogRootProps) {
 
     const topLayer = getLayers().at(-1);
 
-    if (!open || topLayer !== contentRef.current) return;
+    const isPaused = topLayer !== contentRef.current;
+
+    if (!open || isPaused) return;
 
     handleChange(false);
   }, [handleChange, open]);
@@ -71,22 +73,6 @@ export function AlertDialogRoot(props: AlertDialogRootProps) {
     }),
     [handleClose, handleOpen],
   );
-
-  const handleKeydown = useEffectEvent((e: KeyboardEvent) => {
-    if (!open) return;
-
-    if (e.key === 'Escape') {
-      handleClose();
-    }
-  });
-
-  React.useEffect(() => {
-    document.addEventListener('keydown', handleKeydown);
-
-    return () => {
-      document.removeEventListener('keydown', handleKeydown);
-    };
-  }, []);
 
   return (
     <AlertDialogCtx
@@ -207,7 +193,7 @@ const [AlertDialogContentCtx, useAlertDialogContentCtx] = createContextScope<{
 export function AlertDialogContent(props: AlertDialogContentProps) {
   const { ref, children, id, className, focusTrapProps, ...restProps } = props;
 
-  const { open, contentRef } = useAlertDialogCtx();
+  const { contentRef, handleClose } = useAlertDialogCtx();
 
   const titleId = React.useId();
   const descriptionId = React.useId();
@@ -215,7 +201,19 @@ export function AlertDialogContent(props: AlertDialogContentProps) {
 
   const contentId = id ?? __contentId;
 
-  if (!open) return null;
+  const handleKeydown = useEffectEvent((e: KeyboardEvent) => {
+    if (e.key === 'Escape') {
+      handleClose();
+    }
+  });
+
+  React.useEffect(() => {
+    document.addEventListener('keydown', handleKeydown);
+
+    return () => {
+      document.removeEventListener('keydown', handleKeydown);
+    };
+  }, []);
 
   return (
     <AlertDialogContentCtx value={{ titleId, descriptionId }}>
@@ -229,9 +227,9 @@ export function AlertDialogContent(props: AlertDialogContentProps) {
               ref.current = node;
             }
 
-            const topLayer = getLayers().at(-1);
-
             if (!node) return;
+
+            const topLayer = getLayers().at(-1);
 
             node.dataset.layerDepth = String(
               parseInt(topLayer?.dataset.layerDepth || '0') + 1,

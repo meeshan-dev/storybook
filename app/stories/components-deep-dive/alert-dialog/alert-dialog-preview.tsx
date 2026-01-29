@@ -36,10 +36,7 @@ export function AlertDialogPreview() {
             <AlertDialogOverlay />
 
             <AlertDialogContent>
-              <div
-                data-slot='alert-dialog-header'
-                className='grid grid-rows-[auto_1fr] place-items-center gap-1.5 text-center sm:place-items-start sm:text-left'
-              >
+              <div className='grid grid-rows-[auto_1fr] place-items-center gap-1.5 text-center sm:place-items-start sm:text-left'>
                 <AlertDialogTitle>Confirm Delete Account?</AlertDialogTitle>
 
                 <AlertDialogDescription>
