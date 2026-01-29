@@ -12,16 +12,21 @@ export function AlertDialogOverview() {
 
       <ul>
         <li>
-          Prevents interaction with the rest of the application until the alert
-          dialog is dismissed.
+          Fully accessible, with proper ARIA roles, labels, and descriptions.
         </li>
         <li>
-          Automatically moves focus into the dialog when it opens and restores
-          focus to the trigger element when it closes.
+          Focus is trapped within the alert dialog while open and restored on
+          close.
+        </li>
+        <li>Supports controlled and uncontrolled open state.</li>
+        <li>Closes on Escape key, or explicit close actions.</li>
+        <li>Scroll locking prevents background content from scrolling.</li>
+        <li>
+          Layer-aware behavior ensures only the topmost alert dialog responds to
+          interactions.
         </li>
         <li>
-          Fully accessible, with proper announcements of the dialog's title and
-          description for screen reader users.
+          Portal-based rendering for correct stacking and layout isolation.
         </li>
       </ul>
     </StoryOverviewWrapper>

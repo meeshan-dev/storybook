@@ -162,10 +162,6 @@ export const AlertDialogOverlay = (
 ) => {
   const { children, ...restProps } = props;
 
-  const { open } = useAlertDialogCtx();
-
-  if (!open) return null;
-
   return (
     <div
       {...restProps}
