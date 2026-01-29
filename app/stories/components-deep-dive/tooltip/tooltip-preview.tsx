@@ -1,4 +1,14 @@
 import { Button } from '~/components/ui/button';
+import {
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogOverlay,
+  DialogPortal,
+  DialogRoot,
+  DialogTitle,
+  DialogTrigger,
+} from '../dialog/dialog';
 import { FloatingArrow } from '../floating-arrow/floating-arrow';
 import {
   TooltipContent,
@@ -130,6 +140,70 @@ export function TooltipPreview() {
           </TooltipContent>
         </TooltipPortal>
       </TooltipRoot>
+
+      <DialogRoot>
+        <DialogTrigger>
+          {(props) => (
+            <Button {...props} variant='secondary'>
+              Open dialog
+            </Button>
+          )}
+        </DialogTrigger>
+
+        <DialogPortal>
+          <DialogOverlay />
+
+          <DialogContent>
+            <div className='grid grid-rows-[auto_1fr] place-items-center gap-1.5 text-center sm:place-items-start sm:text-left'>
+              <DialogTitle>Basic dialog</DialogTitle>
+              <DialogDescription>
+                This dialog closes on Escape, outside click, or the close
+                button.
+              </DialogDescription>
+            </div>
+
+            <p className='text-muted-foreground text-sm'>
+              Hover over{' '}
+              <TooltipRoot>
+                <TooltipTrigger>
+                  {(props) => (
+                    <Button {...props} size='xs'>
+                      Tooltip
+                    </Button>
+                  )}
+                </TooltipTrigger>
+
+                <TooltipPortal>
+                  <TooltipContent placement='top'>
+                    {(props, floatingArrowProps) => (
+                      <div
+                        {...props}
+                        className='bg-background ring-foreground/10 relative z-50 rounded-full px-3 py-1.5 text-sm ring-1'
+                      >
+                        <FloatingArrow {...floatingArrowProps} />
+                        <span>I am in dialog</span>
+                      </div>
+                    )}
+                  </TooltipContent>
+                </TooltipPortal>
+              </TooltipRoot>{' '}
+              inside dialog to see tooltip. if tooltip is open and you press
+              Escape key, tooltip should close first then dialog should close on
+              next Escape key press.
+            </p>
+
+            <div className='flex flex-col-reverse items-center justify-end gap-3 *:w-full sm:flex-row sm:*:w-auto'>
+              <DialogClose>
+                {(props) => (
+                  <Button variant='secondary' {...props}>
+                    Close
+                  </Button>
+                )}
+              </DialogClose>
+            </div>
+          </DialogContent>
+        </DialogPortal>
+      </DialogRoot>
     </main>
   );
 }

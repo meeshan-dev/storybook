@@ -15,6 +15,7 @@ import {
 import React, { useEffectEvent, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { createContextScope } from '~/lib/context-scope';
+import { getLayers } from '~/lib/get layers';
 
 type Trigger = 'hover' | 'focus';
 
@@ -125,22 +126,6 @@ export const TooltipRoot = (props: TooltipRootProps) => {
       handleSetOpen(true);
     }
   };
-
-  const onKeyDown = useEffectEvent((e: KeyboardEvent) => {
-    if (e.key === 'Escape') {
-      hideTooltip(true);
-    }
-  });
-
-  React.useEffect(() => {
-    if (!open || disabled) return;
-
-    document.addEventListener('keydown', onKeyDown);
-
-    return () => {
-      document.removeEventListener('keydown', onKeyDown);
-    };
-  }, [open, disabled]);
 
   const hideTooltipOnDisable = useEffectEvent(hideTooltip);
 
@@ -316,12 +301,38 @@ export function TooltipContent(props: TooltipContentProps) {
     setFloatingArrow,
   };
 
+  const onKeyDown = useEffectEvent((e: KeyboardEvent) => {
+    if (e.key === 'Escape') {
+      tooltipCtx.hideTooltip(true);
+    }
+  });
+
+  React.useEffect(() => {
+    document.addEventListener('keydown', onKeyDown);
+
+    return () => {
+      document.removeEventListener('keydown', onKeyDown);
+    };
+  }, []);
+
   return (
     <>
       {children?.(
         {
           style: floatingReturn.floatingStyles,
-          ref: floatingReturn.refs.setFloating,
+          ref: (node) => {
+            floatingReturn.refs.setFloating(node);
+
+            if (!node) return;
+
+            const topLayer = getLayers().at(-1);
+
+            if (node.dataset.layerDepth) return;
+
+            node.dataset.layerDepth = String(
+              parseInt(topLayer?.dataset.layerDepth || '0') + 1,
+            );
+          },
           role: 'tooltip',
           onMouseEnter: () => {
             if (disableInteractive) return;
@@ -333,6 +344,7 @@ export function TooltipContent(props: TooltipContentProps) {
           },
           ...{
             'data-hide': !!floatingReturn.middlewareData.hide?.referenceHidden,
+            'data-layer': true,
           },
         },
         floatingArrowProps,

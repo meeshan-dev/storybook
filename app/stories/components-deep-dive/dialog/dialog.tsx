@@ -6,6 +6,7 @@ import { createPortal } from 'react-dom';
 import { twMerge } from 'tailwind-merge';
 import { createContextScope } from '~/lib/context-scope';
 import { getLayers } from '~/lib/get layers';
+import { useOnClickOutside } from '~/stories/hooks/use-on-click-outside';
 
 type Reason = 'close-button' | 'escape' | 'outside';
 
@@ -133,24 +134,21 @@ export function DialogTrigger({
 export function DialogOverlay(props: React.ComponentPropsWithRef<'div'>) {
   const { ...restProps } = props;
 
-  const dialogCtx = useDialogCtx();
-
   return (
     <div
       {...restProps}
       className='fixed inset-0 isolate z-50 bg-black/10 duration-100 supports-backdrop-filter:backdrop-blur-xs'
-      onClick={(e) => {
-        props.onClick?.(e);
-        dialogCtx.handleClose('outside');
-      }}
     />
   );
 }
 
-// <<---------------------------------------->>
+// <<--------------------Content-------------------->>
 
 export interface DialogContentProps extends React.ComponentPropsWithRef<'div'> {
-  focusTrapProps?: FocusTrapProps;
+  focusTrapProps?: Omit<
+    FocusTrapProps,
+    'allowOutsideClick' | 'escapeDeactivates'
+  >;
 }
 
 export function DialogContent(props: DialogContentProps) {
@@ -160,6 +158,22 @@ export function DialogContent(props: DialogContentProps) {
     useDialogCtx();
 
   useScrollLock(open);
+
+  useOnClickOutside(
+    contentRef,
+    () => {
+      if (!contentRef.current) throw new Error('Content ref is not assigned');
+
+      const topLayer = getLayers().at(-1);
+
+      const isPaused = topLayer !== contentRef.current;
+
+      if (isPaused) return;
+
+      handleClose('outside');
+    },
+    'mousedown',
+  );
 
   const onEscapeKeyDown = useEffectEvent((e: KeyboardEvent) => {
     if (e.key === 'Escape') {
@@ -176,7 +190,14 @@ export function DialogContent(props: DialogContentProps) {
   }, []);
 
   return (
-    <FocusTrap {...focusTrapProps}>
+    <FocusTrap
+      {...focusTrapProps}
+      focusTrapOptions={{
+        ...focusTrapProps?.focusTrapOptions,
+        allowOutsideClick: true,
+        escapeDeactivates: false,
+      }}
+    >
       <div
         {...restProps}
         ref={(node) => {
@@ -191,6 +212,8 @@ export function DialogContent(props: DialogContentProps) {
           if (!node) return;
 
           const topLayer = getLayers().at(-1);
+
+          if (node.dataset.layerDepth) return;
 
           node.dataset.layerDepth = String(
             parseInt(topLayer?.dataset.layerDepth || '0') + 1,

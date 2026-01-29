@@ -178,7 +178,10 @@ export interface AlertDialogContentProps extends Omit<
   React.ComponentPropsWithRef<'div'>,
   'role' | 'aria-modal'
 > {
-  focusTrapProps?: FocusTrapProps;
+  focusTrapProps?: Omit<
+    FocusTrapProps,
+    'allowOutsideClick' | 'escapeDeactivates'
+  >;
 }
 
 const [AlertDialogContentCtx, useAlertDialogContentCtx] = createContextScope<{
@@ -213,7 +216,14 @@ export function AlertDialogContent(props: AlertDialogContentProps) {
 
   return (
     <AlertDialogContentCtx value={{ titleId, descriptionId }}>
-      <FocusTrap {...focusTrapProps}>
+      <FocusTrap
+        {...focusTrapProps}
+        focusTrapOptions={{
+          ...focusTrapProps?.focusTrapOptions,
+          allowOutsideClick: true,
+          escapeDeactivates: false,
+        }}
+      >
         <div
           ref={(node) => {
             contentRef.current = node;
@@ -226,6 +236,8 @@ export function AlertDialogContent(props: AlertDialogContentProps) {
             if (!node) return;
 
             const topLayer = getLayers().at(-1);
+
+            if (node.dataset.layerDepth) return;
 
             node.dataset.layerDepth = String(
               parseInt(topLayer?.dataset.layerDepth || '0') + 1,
