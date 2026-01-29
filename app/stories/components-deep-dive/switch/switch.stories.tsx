@@ -6,7 +6,7 @@ import { SwitchPreview } from './switch-preview';
 import Switch_Raw from './switch?raw';
 
 const meta: Meta = {
-  title: 'components-deep-dive/switch',
+  title: 'components-deep-dive/Switch',
 };
 
 export default meta;

@@ -12,6 +12,7 @@
   "dependencies": {
     "@base-ui/react": "^1.1.0",
     "@base-ui/utils": "^0.2.4",
+    "@floating-ui/react-dom": "^2.1.7",
     "@paralleldrive/cuid2": "^3.0.6",
     "@radix-ui/react-slot": "^1.2.4",
     "@tabler/icons-react": "^3.36.1",

@@ -6,7 +6,7 @@ import { CheckboxPreview } from './checkbox-preview';
 import Checkbox_Raw from './checkbox?raw';
 
 const meta: Meta = {
-  title: 'components-deep-dive/checkbox',
+  title: 'components-deep-dive/Checkbox',
 };
 
 export default meta;

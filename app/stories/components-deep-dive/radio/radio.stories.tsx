@@ -6,7 +6,7 @@ import { RadioPreview } from './radio-preview';
 import Radio_Raw from './radio?raw';
 
 const meta: Meta = {
-  title: 'components-deep-dive/radio',
+  title: 'components-deep-dive/Radio',
 };
 
 export default meta;
