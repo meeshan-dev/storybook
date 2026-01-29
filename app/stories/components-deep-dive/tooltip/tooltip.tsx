@@ -266,9 +266,8 @@ export interface TooltipContentProps {
   /** @default absolute */
   strategy?: Strategy;
   children?: (
-    props: React.ComponentPropsWithRef<'div'> & {
-      floatingArrowProps: FloatingArrowProps;
-    },
+    props: React.ComponentPropsWithRef<'div'>,
+    floatingArrowProps: FloatingArrowProps,
   ) => React.ReactNode;
 }
 
@@ -319,23 +318,25 @@ export function TooltipContent(props: TooltipContentProps) {
 
   return (
     <>
-      {children?.({
-        style: floatingReturn.floatingStyles,
-        ref: floatingReturn.refs.setFloating,
-        role: 'tooltip',
-        onMouseEnter: () => {
-          if (disableInteractive) return;
-          tooltipCtx.showTooltip(true);
-        },
-        onMouseLeave: () => {
-          if (disableInteractive) return;
-          tooltipCtx.hideTooltip(false);
+      {children?.(
+        {
+          style: floatingReturn.floatingStyles,
+          ref: floatingReturn.refs.setFloating,
+          role: 'tooltip',
+          onMouseEnter: () => {
+            if (disableInteractive) return;
+            tooltipCtx.showTooltip(true);
+          },
+          onMouseLeave: () => {
+            if (disableInteractive) return;
+            tooltipCtx.hideTooltip(false);
+          },
+          ...{
+            'data-hide': !!floatingReturn.middlewareData.hide?.referenceHidden,
+          },
         },
         floatingArrowProps,
-        ...{
-          'data-hide': !!floatingReturn.middlewareData.hide?.referenceHidden,
-        },
-      })}
+      )}
     </>
   );
 }

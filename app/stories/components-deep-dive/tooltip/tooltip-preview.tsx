@@ -18,13 +18,13 @@ export function TooltipPreview() {
 
         <TooltipPortal>
           <TooltipContent placement='top'>
-            {({ floatingArrowProps, ...props }) => (
+            {(props, floatingArrowProps) => (
               <div
                 {...props}
                 className='bg-background ring-foreground/10 relative z-50 rounded-full px-3 py-1.5 text-sm ring-1'
               >
                 <FloatingArrow {...floatingArrowProps} />
-                Shows on hover and focus
+                <span>Shows on hover and focus</span>
               </div>
             )}
           </TooltipContent>
@@ -43,12 +43,13 @@ export function TooltipPreview() {
 
         <TooltipPortal>
           <TooltipContent placement='top'>
-            {({ ...props }) => (
+            {(props, floatingArrowProps) => (
               <div
                 {...props}
                 className='bg-background ring-foreground/10 relative z-50 rounded-full px-3 py-1.5 text-sm ring-1'
               >
-                Appears only via keyboard focus
+                <FloatingArrow {...floatingArrowProps} />
+                <span>Appears only via keyboard focus</span>
               </div>
             )}
           </TooltipContent>
@@ -67,12 +68,13 @@ export function TooltipPreview() {
 
         <TooltipPortal>
           <TooltipContent placement='top'>
-            {({ ...props }) => (
+            {(props, floatingArrowProps) => (
               <div
                 {...props}
                 className='bg-background ring-foreground/10 relative z-50 rounded-full px-3 py-1.5 text-sm ring-1'
               >
-                Mouse hover only
+                <FloatingArrow {...floatingArrowProps} />
+                <span>Mouse hover only</span>
               </div>
             )}
           </TooltipContent>
@@ -91,11 +93,12 @@ export function TooltipPreview() {
 
         <TooltipPortal>
           <TooltipContent disableInteractive={false}>
-            {({ ...props }) => (
+            {(props, floatingArrowProps) => (
               <div
                 {...props}
                 className='bg-background ring-foreground/10 relative z-50 flex items-center gap-2 rounded-full px-3 py-1.5 text-sm ring-1'
               >
+                <FloatingArrow {...floatingArrowProps} />
                 <p>You can hover this.</p>
                 <Button size='xs'>Action</Button>
               </div>

@@ -60,7 +60,7 @@ export const FloatingArrow = (props: FloatingArrowProps) => {
         style={{ ...style, ...{ '--arrow-size': `${size}px` } }}
         ref={setFloatingArrow}
         className={twMerge(
-          'border-b-muted-9 border-(length:--arrow-size) border-transparent data-[hide=true]:hidden',
+          'border-foreground border-(length:--arrow-size) border-t-transparent border-r-transparent border-l-transparent data-[hide=true]:hidden',
           className,
         )}
       />
