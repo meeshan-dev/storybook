@@ -11,7 +11,7 @@ export function SwitchOverview() {
       <h2>Features</h2>
 
       <ul>
-        <li>Built on native HTML input elements for reliable accessibility</li>
+        <li>Built on native HTML input for reliable accessibility</li>
         <li>Represents a clear on/off state</li>
         <li>Customizable on/off icons</li>
         <li>Supports both controlled and uncontrolled usage</li>

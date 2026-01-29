@@ -11,9 +11,7 @@ export function RadioOverview() {
       <h2>Features</h2>
 
       <ul>
-        <li>
-          Built on native HTML input elements for reliable browser behavior
-        </li>
+        <li>Built on native HTML input for reliable browser behavior</li>
         <li>Grouped by name to ensure a single selected value</li>
         <li>Customizable indicators and visual styles</li>
         <li>Supports both controlled and uncontrolled usage</li>

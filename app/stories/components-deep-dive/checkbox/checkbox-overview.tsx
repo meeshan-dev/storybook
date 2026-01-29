@@ -12,9 +12,7 @@ export function CheckboxOverview() {
       <h2>Features</h2>
 
       <ul>
-        <li>
-          Built on native HTML input elements for broad browser compatibility
-        </li>
+        <li>Built on native HTML input for broad browser compatibility</li>
         <li>Supports an indeterminate state for partial or mixed selections</li>
         <li>Customizable icons</li>
         <li>Fully controllable and uncontrolled usage</li>
