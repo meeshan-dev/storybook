@@ -1,7 +1,7 @@
 import { useControlled } from '@base-ui/utils/useControlled';
 import { useScrollLock } from '@base-ui/utils/useScrollLock';
 import {
-  type Coords,
+  type FloatingContext,
   type Placement,
   type Strategy,
   arrow as arrowMiddleware,
@@ -11,8 +11,10 @@ import {
   limitShift,
   offset as offsetMiddleware,
   shift as shiftMiddleware,
+  size,
   useFloating,
-} from '@floating-ui/react-dom';
+} from '@floating-ui/react';
+import { FocusTrap } from 'focus-trap-react';
 import React, { useEffectEvent, useId } from 'react';
 import { createPortal } from 'react-dom';
 import { twMerge } from 'tailwind-merge';
@@ -109,7 +111,7 @@ export function MenuRoot(props: MenuRootProps) {
 
 // <<--------------------Content-------------------->>
 
-export interface MenuContentProps extends React.ComponentPropsWithRef<'ul'> {
+export interface MenuContentProps extends React.ComponentPropsWithRef<'div'> {
   /** distance between combobox and listbox
    * @default 5
    */
@@ -122,17 +124,11 @@ export interface MenuContentProps extends React.ComponentPropsWithRef<'ul'> {
   placement?: Placement;
   /** @default absolute */
   strategy?: Strategy;
-  arrow?: (props: FloatingArrowProps) => React.ReactNode;
+  arrow?: (props: {
+    ref: React.RefObject<SVGSVGElement | null>;
+    context: FloatingContext;
+  }) => React.ReactNode;
 }
-
-type FloatingArrowProps = Partial<Coords> & {
-  placement: Placement;
-  centerOffset?: number;
-  alignmentOffset?: number;
-  setFloatingArrow: React.Dispatch<
-    React.SetStateAction<HTMLElement | SVGSVGElement | null>
-  >;
-};
 
 export function MenuContent(props: MenuContentProps) {
   const {
@@ -147,11 +143,9 @@ export function MenuContent(props: MenuContentProps) {
     ...restProps
   } = props;
 
-  const [floatingArrow, setFloatingArrow] = React.useState<
-    HTMLElement | SVGSVGElement | null
-  >(null);
-
-  const innerRef = React.useRef<HTMLUListElement>(null);
+  const arrowRef = React.useRef<SVGSVGElement>(null);
+  const innerRef = React.useRef<HTMLDivElement>(null);
+  const ulRef = React.useRef<HTMLUListElement>(null);
 
   const menuCtx = useMenuCtx();
 
@@ -167,9 +161,18 @@ export function MenuContent(props: MenuContentProps) {
       offsetMiddleware({ mainAxis: offset }),
       flipMiddleware(),
       shiftMiddleware({ limiter: limitShift() }),
+      // eslint-disable-next-line react-hooks/refs
       arrowMiddleware({
-        element: floatingArrow,
+        element: arrowRef,
         padding: arrowPadding,
+      }),
+      size({
+        apply({ rects, elements }) {
+          elements.floating.style.setProperty(
+            '--reference-width',
+            `${rects.reference.width}px`,
+          );
+        },
       }),
       hideMiddleware({ strategy: 'referenceHidden' }),
     ],
@@ -308,63 +311,66 @@ export function MenuContent(props: MenuContentProps) {
     }
   };
 
-  const arrowData = floatingReturn.middlewareData.arrow;
-
-  const floatingArrowProps: FloatingArrowProps = {
-    x: arrowData?.x,
-    y: arrowData?.y,
-    centerOffset: arrowData?.centerOffset,
-    alignmentOffset: arrowData?.alignmentOffset,
-    placement,
-    setFloatingArrow,
-  };
-
   return (
-    <ul
-      {...restProps}
-      id={menuCtx.contentId}
-      role='menu'
-      data-hide={!!floatingReturn.middlewareData.hide?.referenceHidden}
-      style={{
-        ...restProps.style,
-        ...floatingReturn.floatingStyles,
-      }}
-      ref={(node) => {
-        innerRef.current = node;
-        floatingReturn.refs.setFloating(node);
-        contentRef.current = node;
+    <FocusTrap
+      paused
+      focusTrapOptions={{
+        allowOutsideClick: true,
+        escapeDeactivates: true,
+        fallbackFocus: () => {
+          if (!ulRef.current) throw new Error('Ul ref is not assigned');
 
-        if (typeof ref === 'function') {
-          ref(node);
-        } else if (ref) {
-          ref.current = node;
-        }
-
-        if (!node) return;
-
-        const topLayer = getLayers().at(-1);
-
-        if (node.dataset.layerDepth) return;
-
-        node.dataset.layerDepth = String(
-          parseInt(topLayer?.dataset.layerDepth || '0') + 1,
-        );
-      }}
-      data-layer
-      className={twMerge(
-        'bg-background ring-foreground/10 z-50 max-w-sm rounded-md p-1 ring-1 outline-none',
-        'w-xs',
-        className,
-      )}
-      tabIndex={-1}
-      onKeyDown={(e) => {
-        onkeydown(e);
-        handleCharSearch(e);
+          return ulRef.current;
+        },
       }}
     >
-      {arrow && arrow(floatingArrowProps)}
-      {children}
-    </ul>
+      <div
+        {...restProps}
+        data-hide={!!floatingReturn.middlewareData.hide?.referenceHidden}
+        id={menuCtx.contentId}
+        style={{
+          ...restProps.style,
+          ...floatingReturn.floatingStyles,
+        }}
+        className={twMerge(
+          'bg-background ring-foreground/10 relative z-50 w-(--reference-width) rounded-md p-1 ring-1 outline-none data-[hide=true]:hidden',
+          className,
+        )}
+        ref={(node) => {
+          innerRef.current = node;
+          floatingReturn.refs.setFloating(node);
+          contentRef.current = node;
+
+          if (typeof ref === 'function') {
+            ref(node);
+          } else if (ref) {
+            ref.current = node;
+          }
+
+          if (!node) return;
+
+          const topLayer = getLayers().at(-1);
+
+          if (node.dataset.layerDepth) return;
+
+          node.dataset.layerDepth = String(
+            parseInt(topLayer?.dataset.layerDepth || '0') + 1,
+          );
+        }}
+        data-layer
+        onKeyDown={(e) => {
+          onkeydown(e);
+          handleCharSearch(e);
+        }}
+      >
+        {/* eslint-disable-next-line react-hooks/refs */}
+        {arrow && arrow({ ref: arrowRef, context: floatingReturn.context })}
+
+        <ul ref={ulRef} role='menu' tabIndex={-1} className='outline-none'>
+          {children}
+        </ul>
+      </div>
+    </FocusTrap>
   );
 }
 

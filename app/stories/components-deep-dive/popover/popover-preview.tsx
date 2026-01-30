@@ -1,3 +1,4 @@
+import { FloatingArrow } from '@floating-ui/react';
 import { Button } from '~/components/ui/button';
 import {
   DialogClose,
@@ -9,7 +10,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '../dialog/dialog';
-import { FloatingArrow } from '../floating-arrow/floating-arrow';
 import {
   PopoverClose,
   PopoverContent,
@@ -30,12 +30,12 @@ export function PopoverPreview() {
 
         <PopoverPortal>
           <PopoverContent>
-            {(props, floatingArrowProps) => (
+            {({ props, arrowProps }) => (
               <div
                 {...props}
-                className='bg-background ring-foreground/10 z-50 grid w-[min(100%,calc(100%-2rem))] max-w-sm gap-4 rounded-xl p-4 text-sm ring-1 duration-100 outline-none'
+                className='bg-background ring-foreground/10 z-50 grid w-[min(100%,calc(100%-2rem))] max-w-sm gap-4 rounded-xl p-4 text-sm ring-1 outline-none data-[hide=true]:hidden'
               >
-                <FloatingArrow {...floatingArrowProps} />
+                <FloatingArrow {...arrowProps} className='fill-foreground' />
 
                 <div className='grid grid-rows-[auto_1fr] place-items-center gap-1.5 text-center sm:place-items-start sm:text-left'>
                   <PopoverTitle>Notification Settings</PopoverTitle>
@@ -103,12 +103,15 @@ export function PopoverPreview() {
 
                 <PopoverPortal>
                   <PopoverContent>
-                    {(props, floatingArrowProps) => (
+                    {({ props, arrowProps }) => (
                       <div
                         {...props}
-                        className='bg-background ring-foreground/10 z-50 grid w-[min(100%,calc(100%-2rem))] max-w-sm gap-4 rounded-xl p-4 text-sm ring-1 duration-100 outline-none'
+                        className='bg-background ring-foreground/10 z-50 grid w-[min(100%,calc(100%-2rem))] max-w-sm gap-4 rounded-xl p-4 text-sm ring-1 outline-none data-[hide=true]:hidden'
                       >
-                        <FloatingArrow {...floatingArrowProps} />
+                        <FloatingArrow
+                          {...arrowProps}
+                          className='fill-foreground'
+                        />
 
                         <div className='grid grid-rows-[auto_1fr] place-items-center gap-1.5 text-center sm:place-items-start sm:text-left'>
                           <PopoverTitle>Popover in dialog</PopoverTitle>

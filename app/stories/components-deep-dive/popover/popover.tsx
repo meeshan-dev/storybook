@@ -1,4 +1,5 @@
 import { useControlled } from '@base-ui/utils/useControlled';
+import type { FloatingContext } from '@floating-ui/react';
 import {
   arrow as arrowMiddleware,
   autoUpdate,
@@ -7,13 +8,13 @@ import {
   limitShift,
   offset as offsetMiddleware,
   shift as shiftMiddleware,
+  size,
   useFloating,
-  type Coords,
   type Placement,
   type Strategy,
-} from '@floating-ui/react-dom';
+} from '@floating-ui/react';
 import { FocusTrap } from 'focus-trap-react';
-import React, { useEffectEvent } from 'react';
+import React, { useEffectEvent, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { createContextScope } from '~/lib/context-scope';
 import { getLayers } from '~/lib/get-layers';
@@ -133,15 +134,6 @@ export function PopoverTrigger({
 
 // <<--------------------Content-------------------->>
 
-type FloatingArrowProps = Partial<Coords> & {
-  placement: Placement;
-  centerOffset?: number;
-  alignmentOffset?: number;
-  setFloatingArrow: React.Dispatch<
-    React.SetStateAction<HTMLElement | SVGSVGElement | null>
-  >;
-};
-
 export interface PopoverContentProps {
   /** distance between combobox and listbox
    * @default 5
@@ -155,10 +147,13 @@ export interface PopoverContentProps {
   placement?: Placement;
   /** @default absolute */
   strategy?: Strategy;
-  children?: (
-    props: React.ComponentPropsWithRef<'div'>,
-    floatingArrowProps: FloatingArrowProps,
-  ) => React.ReactNode;
+  children?: (props: {
+    props: React.ComponentPropsWithRef<'div'>;
+    arrowProps: {
+      ref: React.RefObject<SVGSVGElement | null>;
+      context: FloatingContext;
+    };
+  }) => React.ReactNode;
 }
 
 export function PopoverContent(props: PopoverContentProps) {
@@ -175,10 +170,7 @@ export function PopoverContent(props: PopoverContentProps) {
   const { contentRef } = popoverCtx;
 
   const innerRef = React.useRef<HTMLDivElement>(null);
-
-  const [floatingArrow, setFloatingArrow] = React.useState<
-    HTMLElement | SVGSVGElement | null
-  >(null);
+  const arrowRef = useRef<SVGSVGElement | null>(null);
 
   const floatingReturn = useFloating<HTMLButtonElement>({
     open: popoverCtx.open,
@@ -190,9 +182,18 @@ export function PopoverContent(props: PopoverContentProps) {
       offsetMiddleware({ mainAxis: offset }),
       flipMiddleware(),
       shiftMiddleware({ limiter: limitShift() }),
+      // eslint-disable-next-line react-hooks/refs
       arrowMiddleware({
-        element: floatingArrow,
+        element: arrowRef,
         padding: arrowPadding,
+      }),
+      size({
+        apply({ rects, elements }) {
+          elements.floating.style.setProperty(
+            '--reference-width',
+            `${rects.reference.width}px`,
+          );
+        },
       }),
       hideMiddleware({ strategy: 'referenceHidden' }),
     ],
@@ -222,17 +223,6 @@ export function PopoverContent(props: PopoverContentProps) {
     'mousedown',
   );
 
-  const arrowData = floatingReturn.middlewareData.arrow;
-
-  const floatingArrowProps: FloatingArrowProps = {
-    x: arrowData?.x,
-    y: arrowData?.y,
-    centerOffset: arrowData?.centerOffset,
-    alignmentOffset: arrowData?.alignmentOffset,
-    placement,
-    setFloatingArrow,
-  };
-
   const onEscape = useEffectEvent((e: KeyboardEvent) => {
     if (e.key !== 'Escape') return;
     popoverCtx.handleClose();
@@ -257,34 +247,36 @@ export function PopoverContent(props: PopoverContentProps) {
         {children?.(
           // eslint-disable-next-line react-hooks/refs
           {
-            tabIndex: -1,
-            role: 'dialog',
-            id: popoverCtx.contentId,
-            style: floatingReturn.floatingStyles,
-            'aria-labelledby': popoverCtx.titleId,
-            'aria-describedby': popoverCtx.descriptionId,
-            ref: (node) => {
-              innerRef.current = node;
-              floatingReturn.refs.setFloating(node);
-              contentRef.current = node;
+            arrowProps: { ref: arrowRef, context: floatingReturn.context },
+            props: {
+              tabIndex: -1,
+              role: 'dialog',
+              id: popoverCtx.contentId,
+              style: floatingReturn.floatingStyles,
+              'aria-labelledby': popoverCtx.titleId,
+              'aria-describedby': popoverCtx.descriptionId,
+              ref: (node) => {
+                innerRef.current = node;
+                floatingReturn.refs.setFloating(node);
+                contentRef.current = node;
 
-              if (!node) return;
+                if (!node) return;
 
-              const topLayer = getLayers().at(-1);
+                const topLayer = getLayers().at(-1);
 
-              if (node.dataset.layerDepth) return;
+                if (node.dataset.layerDepth) return;
 
-              node.dataset.layerDepth = String(
-                parseInt(topLayer?.dataset.layerDepth || '0') + 1,
-              );
-            },
-            ...{
-              'data-hide':
-                !!floatingReturn.middlewareData.hide?.referenceHidden,
-              'data-layer': true,
+                node.dataset.layerDepth = String(
+                  parseInt(topLayer?.dataset.layerDepth || '0') + 1,
+                );
+              },
+              ...{
+                'data-hide':
+                  !!floatingReturn.middlewareData.hide?.referenceHidden,
+                'data-layer': true,
+              },
             },
           },
-          floatingArrowProps,
         )}
       </FocusTrap>
     </>

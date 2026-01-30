@@ -1,3 +1,4 @@
+import { FloatingArrow } from '@floating-ui/react';
 import { Button } from '~/components/ui/button';
 import {
   DialogClose,
@@ -9,7 +10,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '../dialog/dialog';
-import { FloatingArrow } from '../floating-arrow/floating-arrow';
 import {
   TooltipContent,
   TooltipPortal,
@@ -28,12 +28,12 @@ export function TooltipPreview() {
 
         <TooltipPortal>
           <TooltipContent placement='top'>
-            {(props, floatingArrowProps) => (
+            {({ props, arrowProps }) => (
               <div
                 {...props}
-                className='bg-background ring-foreground/10 relative z-50 rounded-full px-3 py-1.5 text-sm ring-1'
+                className='bg-background ring-foreground/10 relative z-50 rounded-full px-3 py-1.5 text-sm ring-1 data-[hide=true]:hidden'
               >
-                <FloatingArrow {...floatingArrowProps} />
+                <FloatingArrow {...arrowProps} className='fill-foreground' />
                 <span>Shows on hover and focus</span>
               </div>
             )}
@@ -53,12 +53,12 @@ export function TooltipPreview() {
 
         <TooltipPortal>
           <TooltipContent placement='top'>
-            {(props, floatingArrowProps) => (
+            {({ props, arrowProps }) => (
               <div
                 {...props}
-                className='bg-background ring-foreground/10 relative z-50 rounded-full px-3 py-1.5 text-sm ring-1'
+                className='bg-background ring-foreground/10 relative z-50 rounded-full px-3 py-1.5 text-sm ring-1 data-[hide=true]:hidden'
               >
-                <FloatingArrow {...floatingArrowProps} />
+                <FloatingArrow {...arrowProps} className='fill-foreground' />
                 <span>Appears only via keyboard focus</span>
               </div>
             )}
@@ -78,12 +78,12 @@ export function TooltipPreview() {
 
         <TooltipPortal>
           <TooltipContent placement='top'>
-            {(props, floatingArrowProps) => (
+            {({ props, arrowProps }) => (
               <div
                 {...props}
-                className='bg-background ring-foreground/10 relative z-50 rounded-full px-3 py-1.5 text-sm ring-1'
+                className='bg-background ring-foreground/10 relative z-50 rounded-full px-3 py-1.5 text-sm ring-1 data-[hide=true]:hidden'
               >
-                <FloatingArrow {...floatingArrowProps} />
+                <FloatingArrow {...arrowProps} className='fill-foreground' />
                 <span>Mouse hover only</span>
               </div>
             )}
@@ -103,12 +103,12 @@ export function TooltipPreview() {
 
         <TooltipPortal>
           <TooltipContent disableInteractive={false}>
-            {(props, floatingArrowProps) => (
+            {({ props, arrowProps }) => (
               <div
                 {...props}
-                className='bg-background ring-foreground/10 relative z-50 flex items-center gap-2 rounded-full px-3 py-1.5 text-sm ring-1'
+                className='bg-background ring-foreground/10 relative z-50 flex items-center gap-2 rounded-full px-3 py-1.5 text-sm ring-1 data-[hide=true]:hidden'
               >
-                <FloatingArrow {...floatingArrowProps} />
+                <FloatingArrow {...arrowProps} className='fill-foreground' />
                 <p>You can hover this.</p>
                 <Button size='xs'>Action</Button>
               </div>
@@ -132,7 +132,7 @@ export function TooltipPreview() {
             {({ ...props }) => (
               <div
                 {...props}
-                className='bg-background ring-foreground/10 relative z-50 rounded-full px-3 py-1.5 text-sm ring-1'
+                className='bg-background ring-foreground/10 relative z-50 rounded-full px-3 py-1.5 text-sm ring-1 data-[hide=true]:hidden'
               >
                 You should not see this
               </div>
@@ -175,12 +175,15 @@ export function TooltipPreview() {
 
                 <TooltipPortal>
                   <TooltipContent placement='top'>
-                    {(props, floatingArrowProps) => (
+                    {({ props, arrowProps }) => (
                       <div
                         {...props}
-                        className='bg-background ring-foreground/10 relative z-50 rounded-full px-3 py-1.5 text-sm ring-1'
+                        className='bg-background ring-foreground/10 relative z-50 rounded-full px-3 py-1.5 text-sm ring-1 data-[hide=true]:hidden'
                       >
-                        <FloatingArrow {...floatingArrowProps} />
+                        <FloatingArrow
+                          {...arrowProps}
+                          className='fill-foreground'
+                        />
                         <span>I am in dialog</span>
                       </div>
                     )}

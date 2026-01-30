@@ -1,6 +1,6 @@
 import { useControlled } from '@base-ui/utils/useControlled';
+import type { FloatingContext } from '@floating-ui/react';
 import {
-  type Coords,
   type Placement,
   type Strategy,
   arrow as arrowMiddleware,
@@ -10,8 +10,9 @@ import {
   limitShift,
   offset as offsetMiddleware,
   shift as shiftMiddleware,
+  size,
   useFloating,
-} from '@floating-ui/react-dom';
+} from '@floating-ui/react';
 import React, { useEffectEvent, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { createContextScope } from '~/lib/context-scope';
@@ -227,15 +228,6 @@ export const TooltipPortal = ({
 
 // <<--------------------Content-------------------->>
 
-type FloatingArrowProps = Partial<Coords> & {
-  placement: Placement;
-  centerOffset?: number;
-  alignmentOffset?: number;
-  setFloatingArrow: React.Dispatch<
-    React.SetStateAction<HTMLElement | SVGSVGElement | null>
-  >;
-};
-
 export interface TooltipContentProps {
   disableInteractive?: boolean;
   /** distance between combobox and listbox
@@ -250,10 +242,13 @@ export interface TooltipContentProps {
   placement?: Placement;
   /** @default absolute */
   strategy?: Strategy;
-  children?: (
-    props: React.ComponentPropsWithRef<'div'>,
-    floatingArrowProps: FloatingArrowProps,
-  ) => React.ReactNode;
+  children?: (props: {
+    props: React.ComponentPropsWithRef<'div'>;
+    arrowProps: {
+      ref: React.RefObject<SVGSVGElement | null>;
+      context: FloatingContext;
+    };
+  }) => React.ReactNode;
 }
 
 export function TooltipContent(props: TooltipContentProps) {
@@ -268,9 +263,7 @@ export function TooltipContent(props: TooltipContentProps) {
 
   const tooltipCtx = useTooltipCtx();
 
-  const [floatingArrow, setFloatingArrow] = React.useState<
-    HTMLElement | SVGSVGElement | null
-  >(null);
+  const arrowRef = useRef<SVGSVGElement | null>(null);
 
   const floatingReturn = useFloating<HTMLButtonElement>({
     open: tooltipCtx.open,
@@ -282,24 +275,22 @@ export function TooltipContent(props: TooltipContentProps) {
       offsetMiddleware({ mainAxis: offset }),
       flipMiddleware(),
       shiftMiddleware({ limiter: limitShift() }),
+      // eslint-disable-next-line react-hooks/refs
       arrowMiddleware({
-        element: floatingArrow,
+        element: arrowRef,
         padding: arrowPadding,
+      }),
+      size({
+        apply({ rects, elements }) {
+          elements.floating.style.setProperty(
+            '--reference-width',
+            `${rects.reference.width}px`,
+          );
+        },
       }),
       hideMiddleware({ strategy: 'referenceHidden' }),
     ],
   });
-
-  const arrowData = floatingReturn.middlewareData.arrow;
-
-  const floatingArrowProps: FloatingArrowProps = {
-    x: arrowData?.x,
-    y: arrowData?.y,
-    centerOffset: arrowData?.centerOffset,
-    alignmentOffset: arrowData?.alignmentOffset,
-    placement,
-    setFloatingArrow,
-  };
 
   const onKeyDown = useEffectEvent((e: KeyboardEvent) => {
     if (e.key === 'Escape') {
@@ -317,8 +308,10 @@ export function TooltipContent(props: TooltipContentProps) {
 
   return (
     <>
-      {children?.(
-        {
+      {/* eslint-disable-next-line react-hooks/refs */}
+      {children?.({
+        arrowProps: { ref: arrowRef, context: floatingReturn.context },
+        props: {
           style: floatingReturn.floatingStyles,
           ref: (node) => {
             floatingReturn.refs.setFloating(node);
@@ -347,8 +340,7 @@ export function TooltipContent(props: TooltipContentProps) {
             'data-layer': true,
           },
         },
-        floatingArrowProps,
-      )}
+      })}
     </>
   );
 }

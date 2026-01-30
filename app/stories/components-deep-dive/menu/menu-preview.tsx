@@ -1,6 +1,17 @@
+import { FloatingArrow } from '@floating-ui/react';
+import { IconCheck } from '@tabler/icons-react';
 import { useState } from 'react';
 import { Button } from '~/components/ui/button';
-import { FloatingArrow } from '../floating-arrow/floating-arrow';
+import {
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogOverlay,
+  DialogPortal,
+  DialogRoot,
+  DialogTitle,
+  DialogTrigger,
+} from '../dialog/dialog';
 import {
   MenuCheckboxItem,
   MenuContent,
@@ -23,11 +34,12 @@ export function MenuPreview() {
       <CheckboxMenu />
       <RadioMenu />
       <GroupMenu />
+      <MenuInDialog />
     </div>
   );
 }
 
-export function BasicMenu() {
+function BasicMenu({ className }: { className?: string }) {
   return (
     <MenuRoot>
       <MenuTrigger>
@@ -39,7 +51,12 @@ export function BasicMenu() {
       </MenuTrigger>
 
       <MenuPortal>
-        <MenuContent arrow={(props) => <FloatingArrow {...props} />}>
+        <MenuContent
+          className={className}
+          arrow={(props) => (
+            <FloatingArrow {...props} className='fill-foreground' />
+          )}
+        >
           <MenuItem>New file</MenuItem>
           <MenuItem>Open…</MenuItem>
           <MenuSeparator />
@@ -51,7 +68,7 @@ export function BasicMenu() {
   );
 }
 
-export function CheckboxMenu() {
+function CheckboxMenu() {
   const [visible, setVisible] = useState({
     grid: true,
     ruler: false,
@@ -69,13 +86,18 @@ export function CheckboxMenu() {
       </MenuTrigger>
 
       <MenuPortal>
-        <MenuContent arrow={(props) => <FloatingArrow {...props} />}>
+        <MenuContent
+          arrow={(props) => (
+            <FloatingArrow {...props} className='fill-foreground' />
+          )}
+        >
           <MenuCheckboxItem
             checked={visible.grid}
             disableCloseOnChange
             onChange={(v) => setVisible((s) => ({ ...s, grid: v }))}
           >
-            Show grid
+            <span className='grow'>Show grid</span>
+            {visible.grid ? <IconCheck /> : null}
           </MenuCheckboxItem>
 
           <MenuCheckboxItem
@@ -83,7 +105,8 @@ export function CheckboxMenu() {
             disableCloseOnChange
             onChange={(v) => setVisible((s) => ({ ...s, ruler: v }))}
           >
-            Show ruler
+            <span className='grow'>Show ruler</span>
+            {visible.ruler ? <IconCheck /> : null}
           </MenuCheckboxItem>
 
           <MenuCheckboxItem
@@ -91,7 +114,8 @@ export function CheckboxMenu() {
             disableCloseOnChange
             onChange={(v) => setVisible((s) => ({ ...s, guides: v }))}
           >
-            Show guides
+            <span className='grow'>Show guides</span>
+            {visible.guides ? <IconCheck /> : null}
           </MenuCheckboxItem>
         </MenuContent>
       </MenuPortal>
@@ -99,7 +123,7 @@ export function CheckboxMenu() {
   );
 }
 
-export function RadioMenu() {
+function RadioMenu() {
   const [align, setAlign] = useState('left');
 
   return (
@@ -113,14 +137,26 @@ export function RadioMenu() {
       </MenuTrigger>
 
       <MenuPortal>
-        <MenuContent arrow={(props) => <FloatingArrow {...props} />}>
+        <MenuContent
+          arrow={(props) => (
+            <FloatingArrow {...props} className='fill-foreground' />
+          )}
+        >
           <MenuGroup>
-            <MenuGroupLabel>Alignment</MenuGroupLabel>
             <MenuGroupContent>
               <MenuRadioGroup value={align} onChange={setAlign}>
-                <MenuRadioItem value='left'>Left</MenuRadioItem>
-                <MenuRadioItem value='center'>Center</MenuRadioItem>
-                <MenuRadioItem value='right'>Right</MenuRadioItem>
+                <MenuRadioItem value='left'>
+                  <span className='grow'>Left</span>{' '}
+                  {align === 'left' ? <IconCheck /> : null}
+                </MenuRadioItem>
+                <MenuRadioItem value='center'>
+                  <span className='grow'>Center</span>{' '}
+                  {align === 'center' ? <IconCheck /> : null}
+                </MenuRadioItem>
+                <MenuRadioItem value='right'>
+                  <span className='grow'>Right</span>{' '}
+                  {align === 'right' ? <IconCheck /> : null}
+                </MenuRadioItem>
               </MenuRadioGroup>
             </MenuGroupContent>
           </MenuGroup>
@@ -130,7 +166,7 @@ export function RadioMenu() {
   );
 }
 
-export function GroupMenu() {
+function GroupMenu() {
   return (
     <MenuRoot loop>
       <MenuTrigger>
@@ -142,7 +178,11 @@ export function GroupMenu() {
       </MenuTrigger>
 
       <MenuPortal>
-        <MenuContent arrow={(props) => <FloatingArrow {...props} />}>
+        <MenuContent
+          arrow={(props) => (
+            <FloatingArrow {...props} className='fill-foreground' />
+          )}
+        >
           <MenuGroup>
             <MenuGroupLabel>Profile</MenuGroupLabel>
             <MenuGroupContent>
@@ -163,5 +203,48 @@ export function GroupMenu() {
         </MenuContent>
       </MenuPortal>
     </MenuRoot>
+  );
+}
+
+function MenuInDialog() {
+  return (
+    <>
+      <DialogRoot>
+        <DialogTrigger>
+          {(props) => <Button {...props}>Open dialog</Button>}
+        </DialogTrigger>
+
+        <DialogPortal>
+          <DialogOverlay />
+
+          <DialogContent>
+            <div className='grid grid-rows-[auto_1fr] place-items-center gap-1.5 text-center sm:place-items-start sm:text-left'>
+              <DialogTitle>Popover in dialog</DialogTitle>
+              <DialogDescription>
+                On escape key press or outside click, popover will close first
+                then dialog will close on second escape key press.
+              </DialogDescription>
+            </div>
+
+            <p className='text-muted-foreground text-sm'>
+              Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eos aut
+              eaque molestiae dolores dolore libero a perferendis, saepe
+            </p>
+
+            <div className='flex flex-col-reverse items-center justify-end gap-3 *:w-full sm:flex-row sm:*:w-auto'>
+              <DialogClose>
+                {(props) => (
+                  <Button variant='secondary' {...props}>
+                    Close
+                  </Button>
+                )}
+              </DialogClose>
+
+              <BasicMenu className='w-40' />
+            </div>
+          </DialogContent>
+        </DialogPortal>
+      </DialogRoot>
+    </>
   );
 }

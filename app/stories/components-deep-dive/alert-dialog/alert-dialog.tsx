@@ -165,7 +165,7 @@ export const AlertDialogOverlay = (
   return (
     <div
       {...restProps}
-      className='fixed inset-0 isolate z-50 bg-black/10 duration-100 supports-backdrop-filter:backdrop-blur-xs'
+      className='fixed inset-0 isolate z-50 bg-black/10 supports-backdrop-filter:backdrop-blur-xs'
     >
       {children}
     </div>
@@ -251,7 +251,7 @@ export function AlertDialogContent(props: AlertDialogContentProps) {
           role='alertdialog'
           aria-modal={true}
           className={twMerge(
-            'bg-background ring-foreground/10 fixed top-1/2 left-1/2 z-50 grid w-[min(100%,calc(100%-2rem))] max-w-sm -translate-x-1/2 -translate-y-1/2 gap-4 rounded-xl p-4 ring-1 duration-100 outline-none',
+            'bg-background ring-foreground/10 fixed top-1/2 left-1/2 z-50 grid w-[min(100%,calc(100%-2rem))] max-w-sm -translate-x-1/2 -translate-y-1/2 gap-4 rounded-xl p-4 ring-1 outline-none',
             className,
           )}
         >
