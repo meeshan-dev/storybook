@@ -5,7 +5,7 @@ import React, { useCallback, useEffectEvent, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { twMerge } from 'tailwind-merge';
 import { createContextScope } from '~/lib/context-scope';
-import { getLayers } from '~/lib/get layers';
+import { getLayers } from '~/lib/get-layers';
 
 export interface AlertDialogRootRef {
   close: () => void;

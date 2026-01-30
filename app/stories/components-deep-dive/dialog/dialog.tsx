@@ -5,7 +5,7 @@ import React, { useEffectEvent, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { twMerge } from 'tailwind-merge';
 import { createContextScope } from '~/lib/context-scope';
-import { getLayers } from '~/lib/get layers';
+import { getLayers } from '~/lib/get-layers';
 import { useOnClickOutside } from '~/stories/hooks/use-on-click-outside';
 
 type Reason = 'close-button' | 'escape' | 'outside';

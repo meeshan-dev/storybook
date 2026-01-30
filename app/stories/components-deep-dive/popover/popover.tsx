@@ -16,7 +16,7 @@ import { FocusTrap } from 'focus-trap-react';
 import React, { useEffectEvent } from 'react';
 import { createPortal } from 'react-dom';
 import { createContextScope } from '~/lib/context-scope';
-import { getLayers } from '~/lib/get layers';
+import { getLayers } from '~/lib/get-layers';
 import { useOnClickOutside } from '~/stories/hooks/use-on-click-outside';
 
 export interface PopoverRootProps {

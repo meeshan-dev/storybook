@@ -1,10 +1,8 @@
 import { StoryOverviewWrapper } from '~/components/story-overview-wrapper';
 
-export function AdvancedFileUploadOverview() {
+export function ResumableFileUploadOverview() {
   return (
     <StoryOverviewWrapper>
-      <h1>Advanced File Upload</h1>
-
       <p>
         A production-ready file upload system designed for reliability, control,
         and clear user feedback. This goes beyond basic uploads and handles

@@ -48,7 +48,7 @@ type FileItem = {
   file: File;
 };
 
-export function AdvancedFileUploadPreview() {
+export function ResumableFileUploadPreview() {
   const inputRef = useRef<HTMLInputElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const allowScrollToBottomRef = useRef(false);

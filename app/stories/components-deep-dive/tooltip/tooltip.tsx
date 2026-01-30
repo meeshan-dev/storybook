@@ -15,7 +15,7 @@ import {
 import React, { useEffectEvent, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { createContextScope } from '~/lib/context-scope';
-import { getLayers } from '~/lib/get layers';
+import { getLayers } from '~/lib/get-layers';
 
 type Trigger = 'hover' | 'focus';
 

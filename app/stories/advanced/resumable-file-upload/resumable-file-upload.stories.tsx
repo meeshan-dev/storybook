@@ -2,13 +2,13 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { setupWorker } from 'msw/browser';
 import { StorySourceCode } from '~/components/story-source-code';
 import { breadcrumbsDecorator } from '~/lib/breadcrumbs-decorator';
-import { AdvancedFileUploadOverview } from './advanced-file-upload-overview';
-import { AdvancedFileUploadPreview } from './advanced-file-upload-preview';
-import AdvancedFileUpload_Raw from './advanced-file-upload-preview?raw';
 import { mswHandlers } from './msw-handlers';
+import { ResumableFileUploadOverview } from './resumable-file-upload-overview';
+import { ResumableFileUploadPreview } from './resumable-file-upload-preview';
+import ResumableFileUpload_Raw from './resumable-file-upload-preview?raw';
 
-const meta: Meta<typeof AdvancedFileUploadPreview> = {
-  title: 'Production/Advanced File Upload',
+const meta: Meta<typeof ResumableFileUploadPreview> = {
+  title: 'Advanced/Resumable File Upload',
   tags: ['file upload'],
 };
 
@@ -16,12 +16,12 @@ export default meta;
 
 export const Overview: StoryObj<typeof meta> = {
   decorators: [breadcrumbsDecorator()],
-  render: AdvancedFileUploadOverview,
+  render: ResumableFileUploadOverview,
 };
 
 export const Preview: StoryObj<typeof meta> = {
   decorators: [breadcrumbsDecorator({ className: 'h-dvh' })],
-  render: AdvancedFileUploadPreview,
+  render: ResumableFileUploadPreview,
   beforeEach: () => {
     const worker = setupWorker(...mswHandlers);
 
@@ -36,5 +36,5 @@ export const Preview: StoryObj<typeof meta> = {
 
 export const SourceCode: StoryObj<typeof meta> = {
   decorators: [breadcrumbsDecorator({ className: 'h-dvh' })],
-  render: () => <StorySourceCode>{AdvancedFileUpload_Raw}</StorySourceCode>,
+  render: () => <StorySourceCode>{ResumableFileUpload_Raw}</StorySourceCode>,
 };
