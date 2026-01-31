@@ -14,7 +14,7 @@ const preview: Preview = {
     }),
   ],
   parameters: {
-    backgrounds: { disable: true },
+    backgrounds: { disabled: true },
     layout: 'fullscreen',
     controls: { expanded: false },
     options: {
