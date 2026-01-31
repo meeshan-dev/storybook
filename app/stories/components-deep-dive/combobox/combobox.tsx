@@ -50,6 +50,7 @@ export function Combobox({
   const inputRef = React.useRef<HTMLInputElement>(null);
   const inputWrapperRef = React.useRef<HTMLDivElement>(null);
   const listboxRef = React.useRef<HTMLUListElement>(null);
+  const focusedTagIndexRef = React.useRef<number | null>(null);
 
   const defaultHighlighted = -1;
   const highlightedIndexRef = React.useRef(defaultHighlighted);
@@ -349,19 +350,36 @@ export function Combobox({
 
     if (focusedTag) {
       delete focusedTag.dataset.focused;
+      focusedTagIndexRef.current = null;
     }
   };
 
   const onInputWrapperKeyDown = (event: React.KeyboardEvent) => {
-    if (event.key === 'Backspace' && inputValue) {
-      setHighlightedIndex(getValidIndex('reset'), 'auto');
-    } else if (event.key === 'Backspace' && !inputValue) {
-      if (multiple && Array.isArray(value) && value.length > 0) {
-        const newValue = value.slice();
-        newValue.pop();
-
-        setValue(newValue);
+    if (event.key === 'Backspace') {
+      if (inputValue) {
+        setHighlightedIndex(getValidIndex('reset'), 'auto');
       }
+
+      if (!inputValue && focusedTagIndexRef.current === null) {
+        if (multiple && Array.isArray(value) && value.length > 0) {
+          const newValue = value.slice();
+          newValue.pop();
+
+          setValue(newValue);
+        }
+      }
+
+      if (typeof focusedTagIndexRef.current === 'number') {
+        if (multiple && Array.isArray(value) && value.length > 0) {
+          const newValue = value.slice();
+          newValue.splice(focusedTagIndexRef.current, 1);
+
+          setValue(newValue);
+          focusedTagIndexRef.current = null;
+        }
+      }
+
+      return;
     }
 
     if (event.key === 'Escape') {
@@ -420,6 +438,7 @@ export function Combobox({
       if (!tag) return;
 
       tag.dataset.focused = 'true';
+      focusedTagIndexRef.current = Number(tag.getAttribute('data-tag-index'));
 
       return;
     }
@@ -453,6 +472,7 @@ export function Combobox({
       if (!tag) return;
 
       tag.dataset.focused = 'true';
+      focusedTagIndexRef.current = Number(tag.getAttribute('data-tag-index'));
 
       return;
     }
