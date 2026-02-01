@@ -1,11 +1,8 @@
 import {
   IconCheck,
-  IconLineDashed,
   IconMoodHappyFilled,
   IconMoodNeutral,
 } from '@tabler/icons-react';
-import { useState } from 'react';
-import { Button } from '~/components/ui/button';
 import { cn } from '~/lib/utils';
 import { Checkbox, CheckboxIcon } from './checkbox';
 
@@ -14,7 +11,6 @@ export function CheckboxPreview() {
     <main className='flex grow flex-col items-center justify-center gap-3'>
       <BasicCheckbox />
       <IconCheckbox />
-      <ControlledCheckbox />
       <ErrorCheckbox />
       <DisabledCheckbox checked={false} />
       <DisabledCheckbox checked />
@@ -89,50 +85,6 @@ function IconCheckbox() {
       </div>
 
       <Label>Emoji toggle</Label>
-    </Row>
-  );
-}
-
-/* ---------------------------------- */
-/* 3. Controlled + indeterminate       */
-/* ---------------------------------- */
-
-function ControlledCheckbox() {
-  const [value, setValue] = useState<boolean | 'mixed'>('mixed');
-
-  return (
-    <Row state={value === 'mixed' ? 'mixed' : value ? 'checked' : undefined}>
-      <Box>
-        <Checkbox
-          checked={value === true}
-          indeterminate={value === 'mixed'}
-          onCheckedChange={setValue}
-        >
-          <CheckboxIcon type='check'>
-            <IconCheck />
-          </CheckboxIcon>
-          <CheckboxIcon type='indeterminate'>
-            <IconLineDashed />
-          </CheckboxIcon>
-        </Checkbox>
-      </Box>
-
-      <div className='flex flex-col'>
-        <Label>Controlled checkbox</Label>
-        <span className='text-muted-foreground text-xs'>
-          State: {String(value)}
-        </span>
-      </div>
-
-      <Button
-        size='xs'
-        variant='ghost'
-        className='ml-auto'
-        disabled={value === 'mixed'}
-        onClick={() => setValue('mixed')}
-      >
-        Reset
-      </Button>
     </Row>
   );
 }

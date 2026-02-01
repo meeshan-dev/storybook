@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Button } from '~/components/ui/button';
 import {
   AlertDialogClose,
@@ -25,7 +24,6 @@ export function DialogPreview() {
   return (
     <div className='flex grow flex-col items-center justify-center gap-6 *:w-full *:max-w-60'>
       <BasicDialog />
-      <ControlledDialog />
       <NestedDialog />
     </div>
   );
@@ -46,58 +44,6 @@ function BasicDialog() {
             <DialogTitle>Basic dialog</DialogTitle>
             <DialogDescription>
               This dialog closes on Escape, outside click, or the close button.
-            </DialogDescription>
-          </div>
-
-          <p className='text-muted-foreground text-sm'>
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eos aut
-            eaque molestiae dolores dolore libero a perferendis, saepe eveniet!
-            Explicabo similique atque voluptate vero odit architecto nostrum
-            dolores harum eligendi?
-          </p>
-
-          <div className='flex flex-col-reverse items-center justify-end gap-3 *:w-full sm:flex-row sm:*:w-auto'>
-            <DialogClose>
-              {(props) => (
-                <Button variant='secondary' {...props}>
-                  Close
-                </Button>
-              )}
-            </DialogClose>
-          </div>
-        </DialogContent>
-      </DialogPortal>
-    </DialogRoot>
-  );
-}
-
-function ControlledDialog() {
-  const [open, setOpen] = useState(false);
-
-  return (
-    <DialogRoot
-      open={open}
-      onOpenChange={setOpen}
-      onClose={() => {
-        setOpen(false);
-      }}
-    >
-      <DialogTrigger>
-        {(props) => (
-          <Button variant='outline' {...props}>
-            Controlled dialog
-          </Button>
-        )}
-      </DialogTrigger>
-
-      <DialogPortal>
-        <DialogOverlay />
-
-        <DialogContent>
-          <div className='grid grid-rows-[auto_1fr] place-items-center gap-1.5 text-center sm:place-items-start sm:text-left'>
-            <DialogTitle>Controlled dialog</DialogTitle>
-            <DialogDescription>
-              Open state is fully controlled from outside.
             </DialogDescription>
           </div>
 

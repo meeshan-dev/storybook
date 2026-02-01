@@ -1,5 +1,4 @@
 import { IconMoodHappyFilled, IconMoodNeutral } from '@tabler/icons-react';
-import { useState } from 'react';
 import { cn } from '~/lib/utils';
 import { Switch, SwitchIcon } from './switch';
 
@@ -8,7 +7,6 @@ export function SwitchPreview() {
     <main className='flex grow flex-col items-center justify-center gap-3 py-10'>
       <BasicSwitch />
       <IconSwitch />
-      <ControlledSwitch />
       <DisabledSwitch checked={false} />
       <DisabledSwitch checked />
     </main>
@@ -76,31 +74,6 @@ function IconSwitch() {
       </Switch>
 
       <Label>Mood mode</Label>
-    </Row>
-  );
-}
-
-/* ---------------------------------- */
-/* 3. Controlled switch               */
-/* ---------------------------------- */
-
-function ControlledSwitch() {
-  const [enabled, setEnabled] = useState(false);
-
-  return (
-    <Row>
-      <Switch checked={enabled} onCheckedChange={setEnabled}>
-        <Track>
-          <Thumb />
-        </Track>
-      </Switch>
-
-      <div className='flex flex-col'>
-        <Label>Auto updates</Label>
-        <span className='text-muted-foreground text-xs'>
-          Status: {enabled ? 'On' : 'Off'}
-        </span>
-      </div>
     </Row>
   );
 }

@@ -12,7 +12,6 @@ import {
   type Placement,
   type Strategy,
 } from '@floating-ui/react';
-import { FocusTrap } from 'focus-trap-react';
 import React, { useEffectEvent, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { createContextScope } from '~/lib/context-scope';
@@ -41,6 +40,8 @@ const [PopoverCtx, usePopoverCtx] = createContextScope<PopoverCtxProps>();
 export const PopoverRoot = (props: PopoverRootProps) => {
   const { children, defaultOpen } = props;
 
+  const returnFocusToRef = React.useRef<HTMLElement | null>(null);
+
   const contentRef = React.useRef<HTMLElement | null>(null);
 
   const titleId = React.useId();
@@ -52,6 +53,7 @@ export const PopoverRoot = (props: PopoverRootProps) => {
   const [trigger, setTrigger] = React.useState<HTMLButtonElement | null>(null);
 
   const handleOpen = () => {
+    returnFocusToRef.current = document.activeElement as HTMLElement;
     setOpen(true);
   };
 
@@ -65,6 +67,7 @@ export const PopoverRoot = (props: PopoverRootProps) => {
     if (!open || isPaused) return;
 
     setOpen(false);
+    returnFocusToRef.current?.focus();
   };
 
   return (
@@ -214,47 +217,40 @@ export function PopoverContent(props: PopoverContentProps) {
 
   return (
     <>
-      <FocusTrap
-        paused
-        focusTrapOptions={{
-          allowOutsideClick: true,
-        }}
-      >
-        {children?.(
-          // eslint-disable-next-line react-hooks/refs
-          {
-            arrowProps: { ref: arrowRef, context: floatingReturn.context },
-            props: {
-              tabIndex: -1,
-              role: 'dialog',
-              id: popoverCtx.contentId,
-              style: floatingReturn.floatingStyles,
-              'aria-labelledby': popoverCtx.titleId,
-              'aria-describedby': popoverCtx.descriptionId,
-              ref: (node) => {
-                innerRef.current = node;
-                floatingReturn.refs.setFloating(node);
-                contentRef.current = node;
+      {children?.(
+        // eslint-disable-next-line react-hooks/refs
+        {
+          arrowProps: { ref: arrowRef, context: floatingReturn.context },
+          props: {
+            tabIndex: -1,
+            role: 'dialog',
+            id: popoverCtx.contentId,
+            style: floatingReturn.floatingStyles,
+            'aria-labelledby': popoverCtx.titleId,
+            'aria-describedby': popoverCtx.descriptionId,
+            ref: (node) => {
+              innerRef.current = node;
+              floatingReturn.refs.setFloating(node);
+              contentRef.current = node;
 
-                if (!node) return;
+              if (!node) return;
 
-                const topLayer = getLayers().at(-1);
+              const topLayer = getLayers().at(-1);
 
-                if (node.dataset.layerDepth) return;
+              if (node.dataset.layerDepth) return;
 
-                node.dataset.layerDepth = String(
-                  parseInt(topLayer?.dataset.layerDepth || '0') + 1,
-                );
-              },
-              ...{
-                'data-hide':
-                  !!floatingReturn.middlewareData.hide?.referenceHidden,
-                'data-layer': true,
-              },
+              node.dataset.layerDepth = String(
+                parseInt(topLayer?.dataset.layerDepth || '0') + 1,
+              );
+            },
+            ...{
+              'data-hide':
+                !!floatingReturn.middlewareData.hide?.referenceHidden,
+              'data-layer': true,
             },
           },
-        )}
-      </FocusTrap>
+        },
+      )}
     </>
   );
 }

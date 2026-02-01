@@ -12,7 +12,6 @@ import {
   size,
   useFloating,
 } from '@floating-ui/react';
-import { FocusTrap } from 'focus-trap-react';
 import React, { useEffectEvent, useId, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { twMerge } from 'tailwind-merge';
@@ -169,6 +168,9 @@ export function MenuContent(props: MenuContentProps) {
   }>({ chars: '' }).current;
 
   useOnClickOutside(innerRef, (e) => {
+    // NOTE: prevent default is important to focus trigger on click outside
+    e.preventDefault();
+
     if (e.target !== menuCtx.trigger) menuCtx.handleClose();
   });
 
@@ -297,65 +299,55 @@ export function MenuContent(props: MenuContentProps) {
   };
 
   return (
-    <FocusTrap
-      paused
-      focusTrapOptions={{
-        allowOutsideClick: true,
-        escapeDeactivates: true,
-        fallbackFocus: () => {
-          if (!ulRef.current) throw new Error('Ul ref is not assigned');
+    <div
+      {...restProps}
+      data-hide={!!floatingReturn.middlewareData.hide?.referenceHidden}
+      id={menuCtx.contentId}
+      tabIndex={-1}
+      style={{
+        ...restProps.style,
+        ...floatingReturn.floatingStyles,
+      }}
+      className={twMerge(
+        'bg-background ring-foreground/10 relative z-50 w-(--reference-width) rounded-md p-1 ring-1 outline-none data-[hide=true]:hidden',
+        className,
+      )}
+      ref={(node) => {
+        innerRef.current = node;
+        floatingReturn.refs.setFloating(node);
+        contentRef.current = node;
 
-          return ulRef.current;
-        },
+        node?.focus();
+
+        if (typeof ref === 'function') {
+          ref(node);
+        } else if (ref) {
+          ref.current = node;
+        }
+
+        if (!node) return;
+
+        const topLayer = getLayers().at(-1);
+
+        if (node.dataset.layerDepth) return;
+
+        node.dataset.layerDepth = String(
+          parseInt(topLayer?.dataset.layerDepth || '0') + 1,
+        );
+      }}
+      data-layer
+      onKeyDown={(e) => {
+        onkeydown(e);
+        handleCharSearch(e);
       }}
     >
-      <div
-        {...restProps}
-        data-hide={!!floatingReturn.middlewareData.hide?.referenceHidden}
-        id={menuCtx.contentId}
-        style={{
-          ...restProps.style,
-          ...floatingReturn.floatingStyles,
-        }}
-        className={twMerge(
-          'bg-background ring-foreground/10 relative z-50 w-(--reference-width) rounded-md p-1 ring-1 outline-none data-[hide=true]:hidden',
-          className,
-        )}
-        ref={(node) => {
-          innerRef.current = node;
-          floatingReturn.refs.setFloating(node);
-          contentRef.current = node;
+      {/* eslint-disable-next-line react-hooks/refs */}
+      {arrow && arrow({ ref: arrowRef, context: floatingReturn.context })}
 
-          if (typeof ref === 'function') {
-            ref(node);
-          } else if (ref) {
-            ref.current = node;
-          }
-
-          if (!node) return;
-
-          const topLayer = getLayers().at(-1);
-
-          if (node.dataset.layerDepth) return;
-
-          node.dataset.layerDepth = String(
-            parseInt(topLayer?.dataset.layerDepth || '0') + 1,
-          );
-        }}
-        data-layer
-        onKeyDown={(e) => {
-          onkeydown(e);
-          handleCharSearch(e);
-        }}
-      >
-        {/* eslint-disable-next-line react-hooks/refs */}
-        {arrow && arrow({ ref: arrowRef, context: floatingReturn.context })}
-
-        <ul ref={ulRef} role='menu' tabIndex={-1} className='outline-none'>
-          {children}
-        </ul>
-      </div>
-    </FocusTrap>
+      <ul ref={ulRef} role='menu' tabIndex={-1} className='outline-none'>
+        {children}
+      </ul>
+    </div>
   );
 }
 
