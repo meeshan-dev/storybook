@@ -1,4 +1,3 @@
-import { useControlled } from '@base-ui/utils/useControlled';
 import type { FloatingContext } from '@floating-ui/react';
 import {
   arrow as arrowMiddleware,
@@ -14,7 +13,7 @@ import {
   type Strategy,
 } from '@floating-ui/react';
 import { FocusTrap } from 'focus-trap-react';
-import React, { useEffectEvent, useRef } from 'react';
+import React, { useEffectEvent, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { createContextScope } from '~/lib/context-scope';
 import { getLayers } from '~/lib/get-layers';
@@ -22,17 +21,13 @@ import { useOnClickOutside } from '~/stories/hooks/use-on-click-outside';
 
 export interface PopoverRootProps {
   children?: React.ReactNode;
-  open?: boolean;
-  onOpenChange?: (open: boolean) => void;
   defaultOpen?: boolean;
-  keepMounted?: boolean;
 }
 
 interface PopoverCtxProps {
   open: boolean;
   handleOpen(): void;
   handleClose(): void;
-  keepMounted: boolean;
   contentId: string;
   setTrigger: React.Dispatch<React.SetStateAction<HTMLButtonElement | null>>;
   trigger: HTMLButtonElement | null;
@@ -43,39 +38,21 @@ interface PopoverCtxProps {
 
 const [PopoverCtx, usePopoverCtx] = createContextScope<PopoverCtxProps>();
 
-export { usePopoverCtx };
-
 export const PopoverRoot = (props: PopoverRootProps) => {
-  const {
-    children,
-    defaultOpen,
-    open: openProp,
-    onOpenChange,
-    keepMounted = false,
-  } = props;
+  const { children, defaultOpen } = props;
 
   const contentRef = React.useRef<HTMLElement | null>(null);
 
   const titleId = React.useId();
   const descriptionId = React.useId();
 
-  const [open, setOpen] = useControlled({
-    default: defaultOpen ?? false,
-    controlled: openProp,
-    name: 'PopoverRoot',
-    state: 'open',
-  });
-
-  const handleOpenChange = (isOpen: boolean) => {
-    setOpen(isOpen);
-    onOpenChange?.(isOpen);
-  };
+  const [open, setOpen] = useState(!!defaultOpen);
 
   const contentId = React.useId();
   const [trigger, setTrigger] = React.useState<HTMLButtonElement | null>(null);
 
   const handleOpen = () => {
-    handleOpenChange(true);
+    setOpen(true);
   };
 
   const handleClose = () => {
@@ -87,7 +64,7 @@ export const PopoverRoot = (props: PopoverRootProps) => {
 
     if (!open || isPaused) return;
 
-    handleOpenChange(false);
+    setOpen(false);
   };
 
   return (
@@ -96,7 +73,6 @@ export const PopoverRoot = (props: PopoverRootProps) => {
         handleOpen,
         handleClose,
         open,
-        keepMounted,
         contentId,
         setTrigger,
         trigger,

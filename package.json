@@ -11,7 +11,6 @@
   },
   "dependencies": {
     "@base-ui/react": "^1.1.0",
-    "@base-ui/utils": "^0.2.4",
     "@floating-ui/react": "^0.27.17",
     "@paralleldrive/cuid2": "^3.0.6",
     "@radix-ui/react-slot": "^1.2.4",

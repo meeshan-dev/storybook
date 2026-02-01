@@ -1,4 +1,3 @@
-import { useControlled } from '@base-ui/utils/useControlled';
 import {
   AnimatePresence,
   motion,
@@ -6,7 +5,7 @@ import {
   type TargetAndTransition,
   type Transition,
 } from 'motion/react';
-import React, { useId } from 'react';
+import React, { useId, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
 import { createContextScope } from '~/lib/context-scope';
 import { mergeMotionProp } from '~/lib/merge-motion-prop';
@@ -19,24 +18,18 @@ export type AccordionRootProps<Type, IsSingleCollapsible> = {
 } & (Type extends 'multiple'
   ? {
       type?: Type;
-      value?: string[];
       defaultValue?: string[];
-      onValueChange?: (value: string[]) => void;
       isSingleCollapsible?: undefined;
     }
   : IsSingleCollapsible extends true
     ? {
         type: Type;
-        value?: string | null;
         defaultValue?: string | null;
-        onValueChange?: (value: string | null) => void;
         isSingleCollapsible?: IsSingleCollapsible;
       }
     : {
         type: Type;
-        value?: string;
         defaultValue?: string;
-        onValueChange?: (value: string) => void;
         isSingleCollapsible: IsSingleCollapsible;
       });
 
@@ -51,16 +44,12 @@ interface AccordionCtxProps {
 
 const [AccordionCtx, useAccordionCtx] = createContextScope<AccordionCtxProps>();
 
-export { useAccordionCtx };
-
 export function AccordionRoot<
   Type extends 'single' | 'multiple' = 'multiple',
   IsSingleCollapsible extends boolean = true,
 >(props: AccordionRootProps<Type, IsSingleCollapsible>) {
   const {
-    value: valueProp,
-    onValueChange,
-    defaultValue,
+    defaultValue = null,
     disabled,
     isSingleCollapsible = true,
     type = 'multiple',
@@ -69,29 +58,19 @@ export function AccordionRoot<
 
   const rootId = useId();
 
-  const [value, setValue] = useControlled({
-    controlled: valueProp,
-    name: 'Accordion',
-    default: type === 'multiple' ? (defaultValue ?? []) : defaultValue,
-  });
-
-  const handleValueChange = (newValue: typeof value) => {
-    setValue(newValue);
-    onValueChange?.(newValue as never);
-  };
+  const [value, setValue] = useState(
+    type === 'multiple' ? (defaultValue ?? []) : defaultValue,
+  );
 
   const onExpand = (expanedItem: string) => {
     if (disabled) return;
 
     if (type === 'single') {
-      handleValueChange(expanedItem);
-      return;
+      setValue(expanedItem);
     }
 
     if (type === 'multiple') {
-      const next = Array.isArray(value) ? [...value, expanedItem] : value;
-      handleValueChange(next);
-      return;
+      setValue((prev) => (Array.isArray(prev) ? [...prev, expanedItem] : prev));
     }
   };
 
@@ -101,41 +80,29 @@ export function AccordionRoot<
     if (type === 'single' && !isSingleCollapsible) return;
 
     if (type === 'single' && isSingleCollapsible) {
-      handleValueChange(null);
-      return;
+      setValue(null);
     }
 
     if (type === 'multiple') {
-      const next = Array.isArray(value)
-        ? value.filter((ele) => ele !== collapsedItem)
-        : value;
-
-      handleValueChange(next);
-      return;
+      setValue((prev) =>
+        Array.isArray(prev)
+          ? prev.filter((ele) => ele !== collapsedItem)
+          : prev,
+      );
     }
   };
 
-  if (
-    valueProp &&
-    type === 'single' &&
-    !isSingleCollapsible &&
-    Array.isArray(value)
-  )
+  if (type === 'single' && !isSingleCollapsible && Array.isArray(value))
     throw new Error(
       `\`value\` must be \`string\` when type is single and isSingleCollapsible is false`,
     );
 
-  if (
-    valueProp &&
-    type === 'single' &&
-    isSingleCollapsible &&
-    Array.isArray(value)
-  )
+  if (type === 'single' && isSingleCollapsible && Array.isArray(value))
     throw new Error(
       `\`value\` must be \`string | null\` when type is single and isSingleCollapsible is true`,
     );
 
-  if (valueProp && type === 'multiple' && !Array.isArray(value))
+  if (type === 'multiple' && !Array.isArray(value))
     throw new Error(`\`value\` must be \`array\` when type is multiple`);
 
   return (
@@ -172,8 +139,6 @@ interface AccordionItemCtxProps {
 
 const [AccordionItemCtx, useAccordionItemCtx] =
   createContextScope<AccordionItemCtxProps>();
-
-export { useAccordionItemCtx };
 
 export const AccordionItem = (props: AccordionItemProps) => {
   const { value, disabled, children } = props;

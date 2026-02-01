@@ -1,4 +1,3 @@
-import { useControlled } from '@base-ui/utils/useControlled';
 import * as React from 'react';
 import { createContextScope } from '~/lib/context-scope';
 
@@ -6,32 +5,16 @@ const [SwitchProvider, useSwitchCtx] = createContextScope<{
   checked: boolean;
 }>();
 
-export function Switch(
-  props: React.ComponentPropsWithRef<'input'> & {
-    onCheckedChange?: (checked: boolean) => void;
-  },
-) {
-  const {
-    checked: checkedProp,
-    defaultChecked,
-    onCheckedChange,
-    ref,
-    children,
-    ...restProps
-  } = props;
+export function Switch(props: React.ComponentPropsWithRef<'input'>) {
+  const { defaultChecked, ref, children, ...restProps } = props;
 
   const innerRef = React.useRef<HTMLInputElement>(null);
 
-  const [checked, setChecked] = useControlled({
-    controlled: checkedProp,
-    default: !!defaultChecked,
-    name: 'Switch',
-  });
+  const [checked, setChecked] = React.useState(!!defaultChecked);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const isChecked = event.target.checked;
     setChecked(isChecked);
-    onCheckedChange?.(isChecked);
   };
 
   return (

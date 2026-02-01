@@ -1,11 +1,10 @@
-import { useControlled } from '@base-ui/utils/useControlled';
-import React from 'react';
+import React, { useState } from 'react';
 import { createContextScope } from '~/lib/context-scope';
 
 type RadioGroupContextValue = {
   name: string;
-  value: string | null;
-  onValueChange: (value: string) => void;
+  value: string;
+  setValue: React.Dispatch<React.SetStateAction<string>>;
 };
 
 const [RadioGroupProvider, useRadioGroupCtx] =
@@ -16,33 +15,16 @@ const [RadioProvider, useRadioCtx] = createContextScope<{ checked: boolean }>();
 /* -------------------- Radio Group -------------------- */
 
 export function RadioGroup(props: {
-  value?: string | null;
-  defaultValue?: string | null;
+  defaultValue?: string;
   name: string;
-  onValueChange?: (value: string) => void;
   children: React.ReactNode;
 }) {
-  const {
-    value: valueProp,
-    defaultValue,
-    onValueChange,
-    name,
-    children,
-  } = props;
+  const { defaultValue, name, children } = props;
 
-  const [value, setValue] = useControlled({
-    controlled: valueProp,
-    default: defaultValue ?? null,
-    name: 'RadioGroup',
-  });
-
-  const handleChange = (val: string) => {
-    setValue(val);
-    onValueChange?.(val);
-  };
+  const [value, setValue] = useState(defaultValue || '');
 
   return (
-    <RadioGroupProvider value={{ name, value, onValueChange: handleChange }}>
+    <RadioGroupProvider value={{ name, value, setValue }}>
       {children}
     </RadioGroupProvider>
   );
@@ -59,13 +41,9 @@ export function Radio(
 
   const group = useRadioGroupCtx();
 
-  const checked = group.value === value;
+  if (!value) throw new Error('Radio component requires a value prop.');
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.checked) {
-      group.onValueChange(value);
-    }
-  };
+  const checked = group.value === value;
 
   return (
     <RadioProvider value={{ checked }}>
@@ -75,8 +53,12 @@ export function Radio(
         name={group.name}
         value={value}
         checked={checked}
-        onChange={handleChange}
         className='sr-only'
+        onChange={(e) => {
+          if (e.target.checked) {
+            group.setValue(value);
+          }
+        }}
       />
 
       {children}
@@ -97,5 +79,6 @@ export function RadioIcon({
 
   if (checked && type === 'check') return children;
   if (!checked && type === 'box') return children;
+
   return null;
 }

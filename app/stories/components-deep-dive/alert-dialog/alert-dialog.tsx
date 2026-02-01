@@ -1,23 +1,14 @@
-import { useControlled } from '@base-ui/utils/useControlled';
-import { useScrollLock } from '@base-ui/utils/useScrollLock';
 import { FocusTrap, type FocusTrapProps } from 'focus-trap-react';
-import React, { useCallback, useEffectEvent, useRef } from 'react';
+import React, { useEffectEvent, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { twMerge } from 'tailwind-merge';
 import { createContextScope } from '~/lib/context-scope';
 import { getLayers } from '~/lib/get-layers';
-
-export interface AlertDialogRootRef {
-  close: () => void;
-  open: () => void;
-}
+import { useScrollLock } from '~/stories/hooks/use-scroll-lock';
 
 export interface AlertDialogRootProps {
   children?: React.ReactNode;
-  open?: boolean;
-  onOpenChange?: (open: boolean) => void;
   defaultOpen?: boolean;
-  ref?: React.Ref<AlertDialogRootRef>;
 }
 
 const [AlertDialogCtx, useAlertDialogCtx] = createContextScope<{
@@ -28,32 +19,19 @@ const [AlertDialogCtx, useAlertDialogCtx] = createContextScope<{
 }>();
 
 export function AlertDialogRoot(props: AlertDialogRootProps) {
-  const { ref, children, open: openProp, defaultOpen, onOpenChange } = props;
+  const { children, defaultOpen } = props;
 
   const contentRef = useRef<HTMLDivElement>(null);
 
-  const [open, setOpen] = useControlled({
-    default: defaultOpen ?? false,
-    controlled: openProp,
-    name: 'AlertDialog',
-    state: 'open',
-  });
+  const [open, setOpen] = useState(!!defaultOpen);
 
-  useScrollLock(open);
+  useScrollLock({ isLocked: open });
 
-  const handleChange = useCallback(
-    (value: boolean) => {
-      setOpen(value);
-      onOpenChange?.(value);
-    },
-    [onOpenChange, setOpen],
-  );
+  const handleOpen = () => {
+    setOpen(true);
+  };
 
-  const handleOpen = useCallback(() => {
-    handleChange(true);
-  }, [handleChange]);
-
-  const handleClose = useCallback(() => {
+  const handleClose = () => {
     if (!contentRef.current) throw new Error('Content ref is not assigned');
 
     const topLayer = getLayers().at(-1);
@@ -62,17 +40,8 @@ export function AlertDialogRoot(props: AlertDialogRootProps) {
 
     if (!open || isPaused) return;
 
-    handleChange(false);
-  }, [handleChange, open]);
-
-  React.useImperativeHandle(
-    ref,
-    () => ({
-      close: handleClose,
-      open: handleOpen,
-    }),
-    [handleClose, handleOpen],
-  );
+    setOpen(false);
+  };
 
   return (
     <AlertDialogCtx

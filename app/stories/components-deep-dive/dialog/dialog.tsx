@@ -1,26 +1,20 @@
-import { useControlled } from '@base-ui/utils/useControlled';
-import { useScrollLock } from '@base-ui/utils/useScrollLock';
 import { FocusTrap, type FocusTrapProps } from 'focus-trap-react';
-import React, { useEffectEvent, useRef } from 'react';
+import React, { useEffectEvent, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { twMerge } from 'tailwind-merge';
 import { createContextScope } from '~/lib/context-scope';
 import { getLayers } from '~/lib/get-layers';
 import { useOnClickOutside } from '~/stories/hooks/use-on-click-outside';
-
-type Reason = 'close-button' | 'escape' | 'outside';
+import { useScrollLock } from '~/stories/hooks/use-scroll-lock';
 
 export interface DialogRootProps {
   children?: React.ReactNode;
-  open?: boolean;
-  onOpenChange?: (open: boolean) => void;
   defaultOpen?: boolean;
-  onClose?: (reason: Reason) => void;
 }
 
 interface DialogCtxProps {
   handleOpen: () => void;
-  handleClose: (reason: Reason) => void;
+  handleClose: () => void;
   open: boolean;
   contentId: string;
   titleId: string;
@@ -30,16 +24,8 @@ interface DialogCtxProps {
 
 const [DialogCtx, useDialogCtx] = createContextScope<DialogCtxProps>();
 
-export { useDialogCtx };
-
 export function DialogRoot(props: DialogRootProps) {
-  const {
-    children,
-    open: openProp,
-    defaultOpen,
-    onOpenChange,
-    onClose,
-  } = props;
+  const { children, defaultOpen } = props;
 
   const contentId = React.useId();
   const titleId = React.useId();
@@ -47,23 +33,13 @@ export function DialogRoot(props: DialogRootProps) {
 
   const contentRef = useRef<HTMLDivElement>(null);
 
-  const [open, setOpen] = useControlled({
-    default: defaultOpen ?? false,
-    controlled: openProp,
-    name: 'Dialog',
-    state: 'open',
-  });
-
-  const handleStateChange = (isOpen: boolean) => {
-    setOpen(isOpen);
-    onOpenChange?.(isOpen);
-  };
+  const [open, setOpen] = useState(!!defaultOpen);
 
   const handleOpen = () => {
-    handleStateChange(true);
+    setOpen(true);
   };
 
-  const handleClose = (reason: Reason) => {
+  const handleClose = () => {
     if (!contentRef.current) throw new Error('Content ref is not assigned');
 
     const topLayer = getLayers().at(-1);
@@ -72,8 +48,7 @@ export function DialogRoot(props: DialogRootProps) {
 
     if (!open || isPaused) return;
 
-    handleStateChange(false);
-    onClose?.(reason);
+    setOpen(false);
   };
 
   return (
@@ -157,7 +132,7 @@ export function DialogContent(props: DialogContentProps) {
   const { contentRef, open, contentId, titleId, descriptionId, handleClose } =
     useDialogCtx();
 
-  useScrollLock(open);
+  useScrollLock({ isLocked: open });
 
   useOnClickOutside(
     contentRef,
@@ -170,14 +145,14 @@ export function DialogContent(props: DialogContentProps) {
 
       if (isPaused) return;
 
-      handleClose('outside');
+      handleClose();
     },
     'mousedown',
   );
 
   const onEscapeKeyDown = useEffectEvent((e: KeyboardEvent) => {
     if (e.key === 'Escape') {
-      handleClose('escape');
+      handleClose();
     }
   });
 
@@ -249,7 +224,7 @@ export function DialogClose({
     <>
       {children({
         onClick: () => {
-          handleClose('close-button');
+          handleClose();
         },
       })}
     </>

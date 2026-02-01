@@ -1,5 +1,4 @@
-import { useControlled } from '@base-ui/utils/useControlled';
-import React from 'react';
+import React, { useState } from 'react';
 import { createContextScope } from '~/lib/context-scope';
 
 export type ToggleButtonGroupProps<Exclusive> = {
@@ -7,20 +6,16 @@ export type ToggleButtonGroupProps<Exclusive> = {
 } & (Exclusive extends true
   ? {
       exclusive: Exclusive;
-      value?: string | null;
       defaultValue?: string;
-      onChange?: (value: string | null) => void;
     }
   : {
       exclusive?: Exclusive;
-      value?: string[];
       defaultValue?: string[];
-      onChange?: (value: string[]) => void;
     });
 
 interface GroupCtxProps {
   value: string | null | string[];
-  setValue: (value: string | null | string[]) => void;
+  setValue: React.Dispatch<React.SetStateAction<string | null | string[]>>;
   exclusive: boolean;
 }
 
@@ -30,25 +25,11 @@ const [ToggleButtonCtx, useToggleButtonCtx] =
 export const ToggleButtonGroup = <Exclusive extends boolean = false>(
   props: ToggleButtonGroupProps<Exclusive>,
 ) => {
-  const {
-    exclusive = false,
-    value: valueProp,
-    onChange,
-    defaultValue,
-    children,
-  } = props;
+  const { exclusive = false, defaultValue, children } = props;
 
-  const [value, setValue] = useControlled({
-    default: exclusive ? (defaultValue ?? null) : (defaultValue ?? []),
-    controlled: valueProp,
-    name: 'ToggleButtonGroup',
-    state: 'value',
-  });
-
-  const handleValueChange = (val: typeof value) => {
-    setValue(val);
-    onChange?.(val as never);
-  };
+  const [value, setValue] = useState(
+    exclusive ? (defaultValue ?? null) : (defaultValue ?? []),
+  );
 
   if (exclusive && Array.isArray(value))
     throw new Error(
@@ -64,7 +45,7 @@ export const ToggleButtonGroup = <Exclusive extends boolean = false>(
     <ToggleButtonCtx
       value={{
         value,
-        setValue: handleValueChange,
+        setValue,
         exclusive,
       }}
     >
@@ -101,12 +82,16 @@ export function ToggleButton({
       if (groupCtx.exclusive) {
         groupCtx.setValue(selected ? null : valueProp);
       } else {
-        const value = groupCtx.value as string[];
-        const next = selected
-          ? value.filter((v) => v !== valueProp)
-          : [...value, valueProp];
+        groupCtx.setValue((prev) => {
+          if (!Array.isArray(prev))
+            throw new Error(
+              'ToggledButton: Expected value to be an array in non-exclusive mode',
+            );
 
-        groupCtx.setValue(next);
+          return selected
+            ? prev.filter((v) => v !== valueProp)
+            : [...prev, valueProp];
+        });
       }
     } else {
       setStandalone((prev) => !prev);

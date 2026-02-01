@@ -1,4 +1,3 @@
-import { useControlled } from '@base-ui/utils/useControlled';
 import type { FloatingContext } from '@floating-ui/react';
 import {
   type Placement,
@@ -13,7 +12,7 @@ import {
   size,
   useFloating,
 } from '@floating-ui/react';
-import React, { useEffectEvent, useRef } from 'react';
+import React, { useEffectEvent, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { createContextScope } from '~/lib/context-scope';
 import { getLayers } from '~/lib/get-layers';
@@ -30,8 +29,6 @@ export interface TooltipRootProps {
    */
   trigger?: Trigger;
   defaultOpen?: boolean;
-  open?: boolean;
-  onOpenChange?: (open: boolean) => void;
   disabled?: boolean;
 }
 
@@ -54,23 +51,11 @@ export const TooltipRoot = (props: TooltipRootProps) => {
     showDelay = 100,
     hideDelay = 300,
     trigger,
-    open: openProp,
-    onOpenChange,
     defaultOpen,
     disabled,
   } = props;
 
-  const [open, setOpen] = useControlled({
-    default: defaultOpen ?? false,
-    controlled: openProp,
-    name: 'Tooltip',
-    state: 'open',
-  });
-
-  const handleSetOpen = (value: boolean) => {
-    setOpen(value);
-    onOpenChange?.(value);
-  };
+  const [open, setOpen] = useState(!!defaultOpen);
 
   const identifier = React.useId();
 
@@ -86,11 +71,11 @@ export const TooltipRoot = (props: TooltipRootProps) => {
     if (immediate || hideDelay <= 0) {
       clearTimeout(hideTimeoutRef.current);
       hideTimeoutRef.current = undefined;
-      handleSetOpen(false);
+      setOpen(false);
     } else {
       hideTimeoutRef.current = setTimeout(() => {
         hideTimeoutRef.current = undefined;
-        handleSetOpen(false);
+        setOpen(false);
       }, hideDelay);
     }
   };
@@ -121,10 +106,10 @@ export const TooltipRoot = (props: TooltipRootProps) => {
 
     if (!immediate && showDelay > 0) {
       showTimeoutRef.current = setTimeout(() => {
-        handleSetOpen(true);
+        setOpen(true);
       }, showDelay);
     } else {
-      handleSetOpen(true);
+      setOpen(true);
     }
   };
 

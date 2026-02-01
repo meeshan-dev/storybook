@@ -1,5 +1,4 @@
-import { useControlled } from '@base-ui/utils/useControlled';
-import React from 'react';
+import React, { useState } from 'react';
 import { createContextScope } from '~/lib/context-scope';
 
 const [CheckboxProvider, useCheckboxCtx] = createContextScope<{
@@ -10,32 +9,13 @@ const [CheckboxProvider, useCheckboxCtx] = createContextScope<{
 export function Checkbox(
   props: React.ComponentPropsWithRef<'input'> & {
     indeterminate?: boolean;
-    onCheckedChange?: (checked: boolean) => void;
   },
 ) {
-  const {
-    checked: checkedProp,
-    defaultChecked,
-    indeterminate,
-    onCheckedChange,
-    ref,
-    children,
-    ...restProps
-  } = props;
+  const { defaultChecked, indeterminate, ref, children, ...restProps } = props;
 
   const innerRef = React.useRef<HTMLInputElement>(null);
 
-  const [checked, setChecked] = useControlled({
-    controlled: checkedProp,
-    default: !!defaultChecked,
-    name: 'Checkbox',
-  });
-
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const isChecked = event.target.checked;
-    setChecked(isChecked);
-    onCheckedChange?.(isChecked);
-  };
+  const [checked, setChecked] = useState(!!defaultChecked);
 
   React.useEffect(() => {
     if (!innerRef.current) return;
@@ -57,9 +37,12 @@ export function Checkbox(
         }}
         type='checkbox'
         checked={checked}
-        onChange={handleChange}
         className='sr-only'
         aria-checked={indeterminate ? 'mixed' : checked ? 'true' : 'false'}
+        onChange={(e) => {
+          const isChecked = e.target.checked;
+          setChecked(isChecked);
+        }}
       />
 
       {children}

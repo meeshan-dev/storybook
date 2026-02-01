@@ -1,13 +1,10 @@
-import { useControlled } from '@base-ui/utils/useControlled';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { createContextScope } from '~/lib/context-scope';
 
 export interface PaginationProps {
   totalPages?: number;
   boundaryCount?: number;
   siblingCount?: number;
-  currentPage?: number;
-  onPageChange?: (page: number) => void;
   defaultPage?: number;
   disabled?: boolean;
   children: React.ReactNode;
@@ -22,14 +19,12 @@ const [PaginationProvider, usePaginationCtx] = createContextScope<{
   currentPage: number;
   totalPages: number;
   disabled?: boolean;
-  handlePageChange: (page: number) => void;
+  setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
   pages: Array<number | 'ellipsis'>;
 }>();
 
 export function PaginationRoot(props: PaginationProps) {
   const {
-    currentPage: currentPageProp,
-    onPageChange,
     defaultPage = 1,
     totalPages = 10,
     boundaryCount = 1,
@@ -40,16 +35,7 @@ export function PaginationRoot(props: PaginationProps) {
     className,
   } = props;
 
-  const [currentPage, setCurrentPage] = useControlled({
-    default: defaultPage,
-    controlled: currentPageProp,
-    name: 'Pagination',
-  });
-
-  const handlePageChange = (newPage: number) => {
-    setCurrentPage(newPage);
-    onPageChange?.(newPage);
-  };
+  const [currentPage, setCurrentPage] = useState(defaultPage);
 
   const pages = useMemo(() => {
     // if boundaryCount is greater than count then render all pages from 1 to count
@@ -107,7 +93,7 @@ export function PaginationRoot(props: PaginationProps) {
         currentPage,
         totalPages,
         disabled,
-        handlePageChange,
+        setCurrentPage,
         pages,
       }}
     >
@@ -129,7 +115,7 @@ export function PaginationPages(props: {
 }) {
   const { children } = props;
 
-  const { currentPage, disabled, handlePageChange, pages } = usePaginationCtx();
+  const { currentPage, disabled, setCurrentPage, pages } = usePaginationCtx();
 
   return (
     <>
@@ -144,7 +130,7 @@ export function PaginationPages(props: {
             'data-selected': currentPage === ele,
             onClick: () => {
               if (typeof ele === 'number') {
-                handlePageChange(ele);
+                setCurrentPage(ele);
               }
             },
           })}
@@ -161,7 +147,7 @@ export function PaginationControl({
   type: 'first' | 'last' | 'next' | 'previous';
   children: (props: React.ComponentProps<'button'>) => React.ReactNode;
 }) {
-  const { handlePageChange, disabled, currentPage, totalPages } =
+  const { setCurrentPage, disabled, currentPage, totalPages } =
     usePaginationCtx();
 
   if (type === 'first') {
@@ -170,7 +156,7 @@ export function PaginationControl({
         {children?.({
           disabled: !!disabled || currentPage === 1,
           onClick: () => {
-            handlePageChange(1);
+            setCurrentPage(1);
           },
         })}
       </li>
@@ -183,8 +169,7 @@ export function PaginationControl({
         {children?.({
           disabled: !!disabled || currentPage === 1,
           onClick: () => {
-            const newValue = currentPage - 1;
-            handlePageChange(newValue);
+            setCurrentPage((prev) => prev - 1);
           },
         })}
       </li>
@@ -197,8 +182,7 @@ export function PaginationControl({
         {children?.({
           disabled: !!disabled || currentPage === totalPages,
           onClick: () => {
-            const newValue = currentPage + 1;
-            handlePageChange(newValue);
+            setCurrentPage((prev) => prev + 1);
           },
         })}
       </li>
@@ -210,7 +194,7 @@ export function PaginationControl({
       <li>
         {children?.({
           disabled: !!disabled || currentPage === totalPages,
-          onClick: () => handlePageChange(totalPages),
+          onClick: () => setCurrentPage(totalPages),
         })}
       </li>
     );

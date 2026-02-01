@@ -1,5 +1,3 @@
-import { useControlled } from '@base-ui/utils/useControlled';
-import { useScrollLock } from '@base-ui/utils/useScrollLock';
 import {
   type FloatingContext,
   type Placement,
@@ -15,18 +13,17 @@ import {
   useFloating,
 } from '@floating-ui/react';
 import { FocusTrap } from 'focus-trap-react';
-import React, { useEffectEvent, useId } from 'react';
+import React, { useEffectEvent, useId, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { twMerge } from 'tailwind-merge';
 import { createContextScope } from '~/lib/context-scope';
 import { getLayers } from '~/lib/get-layers';
 import { useOnClickOutside } from '~/stories/hooks/use-on-click-outside';
+import { useScrollLock } from '~/stories/hooks/use-scroll-lock';
 
 export interface MenuRootProps {
   children?: React.ReactNode;
   defaultOpen?: boolean;
-  open?: boolean;
-  onOpenChange?: (open: boolean) => void;
   loop?: boolean;
   disableCloseOnEscape?: boolean;
 }
@@ -49,32 +46,20 @@ export function MenuRoot(props: MenuRootProps) {
   const {
     children,
     defaultOpen,
-    open: openProp,
-    onOpenChange,
     loop = false,
     disableCloseOnEscape = false,
   } = props;
 
   const contentRef = React.useRef<HTMLElement | null>(null);
 
-  const [open, setOpen] = useControlled({
-    default: defaultOpen ?? false,
-    controlled: openProp,
-    name: 'MenuRoot',
-    state: 'open',
-  });
-
-  const handleOpenChange = (isOpen: boolean) => {
-    setOpen(isOpen);
-    onOpenChange?.(isOpen);
-  };
+  const [open, setOpen] = useState(!!defaultOpen);
 
   const contentId = React.useId();
 
   const [trigger, setTrigger] = React.useState<HTMLButtonElement | null>(null);
 
   const handleOpen = () => {
-    handleOpenChange(true);
+    setOpen(true);
   };
 
   const handleClose = () => {
@@ -86,7 +71,7 @@ export function MenuRoot(props: MenuRootProps) {
 
     if (!open || isPaused) return;
 
-    handleOpenChange(false);
+    setOpen(false);
     trigger?.focus();
   };
 
@@ -187,7 +172,7 @@ export function MenuContent(props: MenuContentProps) {
     if (e.target !== menuCtx.trigger) menuCtx.handleClose();
   });
 
-  useScrollLock(menuCtx.open);
+  useScrollLock({ isLocked: menuCtx.open });
 
   React.useEffect(() => {
     if (!floatingReturn.isPositioned) return;

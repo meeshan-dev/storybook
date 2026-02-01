@@ -1,14 +1,11 @@
-import { useControlled } from '@base-ui/utils/useControlled';
-import React from 'react';
+import React, { useState } from 'react';
 import { createContextScope } from '~/lib/context-scope';
 
 type ActivationMode = 'automatic' | 'manual';
 type Orientation = 'horizontal' | 'vertical';
 
 export interface TabsRootProps {
-  value?: string;
   defaultValue?: string;
-  onValueChange?: (value: string) => void;
   loop?: boolean;
   activationMode?: ActivationMode;
   orientation?: Orientation;
@@ -16,22 +13,20 @@ export interface TabsRootProps {
 }
 
 interface TabsCtxProps {
+  value: string;
   rootId: string;
-  value?: TabsRootProps['value'];
-  onValueChange: (value: string) => void;
   activationMode: ActivationMode;
   orientation: Orientation;
   loop: TabsRootProps['loop'];
   isTabbingBackOut: boolean;
   setIsTabbingBackOut: React.Dispatch<React.SetStateAction<boolean>>;
+  setValue: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const [TabsCtx, useTabsCtx] = createContextScope<TabsCtxProps>();
 
 export function TabsRoot(props: TabsRootProps) {
   const {
-    value: valueProp,
-    onValueChange,
     defaultValue,
     loop = false,
     orientation = 'horizontal',
@@ -39,19 +34,9 @@ export function TabsRoot(props: TabsRootProps) {
     children,
   } = props;
 
-  const [value, setValue] = useControlled({
-    controlled: valueProp,
-    default: defaultValue ?? '',
-    name: 'Tabs',
-    state: 'value',
-  });
+  const [value, setValue] = useState(defaultValue ?? '');
 
   const [isTabbingBackOut, setIsTabbingBackOut] = React.useState(false);
-
-  const handleValueChange = (val: string) => {
-    setValue(val);
-    onValueChange?.(val);
-  };
 
   const rootId = React.useId();
 
@@ -65,7 +50,7 @@ export function TabsRoot(props: TabsRootProps) {
         loop,
         isTabbingBackOut,
         setIsTabbingBackOut,
-        onValueChange: handleValueChange,
+        setValue,
       }}
     >
       {children}
@@ -135,6 +120,8 @@ export function TabsTrigger({
 }) {
   const tabsCtx = useTabsCtx();
 
+  if (!value) throw new Error('TabsTrigger requires a value prop');
+
   const isSelected = value === tabsCtx.value;
 
   const triggerId = 'trigger-' + value;
@@ -149,7 +136,7 @@ export function TabsTrigger({
     if (e.repeat) return;
 
     if ([' ', 'Enter'].includes(e.key)) {
-      tabsCtx.onValueChange(value);
+      tabsCtx.setValue(value);
       return;
     }
 
@@ -222,7 +209,7 @@ export function TabsTrigger({
 
   const onFocus = () => {
     if (tabsCtx.activationMode === 'automatic') {
-      tabsCtx.onValueChange(value);
+      tabsCtx.setValue(value);
     }
   };
 
@@ -238,7 +225,7 @@ export function TabsTrigger({
         onKeyDown,
         onFocus,
         onClick: () => {
-          tabsCtx.onValueChange(value);
+          tabsCtx.setValue(value);
         },
         ...{ 'data-orientation': tabsCtx.orientation },
       })}
