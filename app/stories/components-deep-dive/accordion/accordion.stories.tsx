@@ -16,74 +16,133 @@ export const Default: StoryObj<typeof meta> = {
       <h1>Accordion</h1>
 
       <p>
-        The Accordion component is fully accessible and follows the WAI-ARIA
-        Authoring Practices. It supports keyboard navigation and screen readers,
-        ensuring an inclusive and predictable user experience.
-      </p>
-
-      <p>
-        Before interacting with the demos, make sure to review the W3C Accordion{' '}
-        <a
-          href='https://www.w3.org/WAI/ARIA/apg/patterns/accordion/#keyboardinteraction'
-          target='_blank'
-        >
-          keyboard interaction guidelines
-        </a>
-        .
-      </p>
-
-      <div className='story-demo not-typography'>
-        <h2>Multiple</h2>
-        <p>Allows multiple panels to be expanded at the same time.</p>
-        <div>
-          <AccordionDemo type='multiple' />
-        </div>
-      </div>
-
-      <div className='story-demo not-typography'>
-        <h2>Single (collapsible)</h2>
-        <p>The active panel can be toggled open and closed.</p>
-        <div>
-          <AccordionDemo type='single' isSingleCollapsible />
-        </div>
-      </div>
-
-      <div className='story-demo not-typography'>
-        <h2>Single (non-collapsible)</h2>
-        <p>
-          Once a panel is opened, it cannot be closed by clicking the header
-          again.
-        </p>
-        <div>
-          <AccordionDemo type='single' isSingleCollapsible={false} />
-        </div>
-      </div>
-
-      <h2>Features</h2>
-
-      <ul>
-        <li>Supports both single and multiple expansion modes.</li>
-        <li>Optional non-collapsible behavior for individual items.</li>
-        <li>
-          Full keyboard support, including <code>Up</code>/<code>Down</code>{' '}
-          arrows, <code>Home</code>/<code>End</code>, and <code>Tab</code>{' '}
-          navigation.
-        </li>
-        <li>
-          Smooth open and close animations powered by <code>motion/react</code>.
-        </li>
-      </ul>
-
-      <p>
-        For more details, see the official W3C Accordion pattern{' '}
+        A headless, accessible accordion component built from first principles.
+        Implements the{' '}
         <a
           href='https://www.w3.org/WAI/ARIA/apg/patterns/accordion/'
           target='_blank'
         >
-          documentation
-        </a>
-        .
+          WAI-ARIA Accordion Pattern
+        </a>{' '}
+        with full keyboard navigation, screen reader support, and flexible
+        expansion modes.
       </p>
+
+      <h2>Implementation Highlights</h2>
+
+      <ul>
+        <li>
+          <strong>Context-based architecture</strong> using React Context for
+          clean parent-child communication without prop drilling
+        </li>
+        <li>
+          <strong>Compound component pattern</strong> allowing flexible
+          composition with <code>AccordionRoot</code>,{' '}
+          <code>AccordionItem</code>, <code>AccordionTrigger</code>, and{' '}
+          <code>AccordionContent</code>
+        </li>
+        <li>
+          <strong>TypeScript discriminated unions</strong> for type-safe props
+          based on expansion mode
+        </li>
+        <li>
+          <strong>Render props pattern</strong> for complete control over
+          trigger styling and behavior
+        </li>
+        <li>
+          <strong>motion/react integration</strong> for smooth height animations
+          with <code>AnimatePresence</code>
+        </li>
+      </ul>
+
+      <div className='story-demo not-typography'>
+        <h2>Interactive Examples</h2>
+        <p className='text-muted-foreground mb-6'>
+          Three real-world use cases demonstrating different expansion modes
+        </p>
+        <div>
+          <AccordionDemo />
+        </div>
+      </div>
+
+      <h2>Keyboard Navigation</h2>
+
+      <div className='overflow-x-auto'>
+        <table className='w-full text-sm'>
+          <thead>
+            <tr className='border-b'>
+              <th className='py-2 pr-4 text-left font-semibold'>Key</th>
+              <th className='py-2 text-left font-semibold'>Action</th>
+            </tr>
+          </thead>
+          <tbody className='text-muted-foreground'>
+            <tr className='border-b'>
+              <td className='py-2 pr-4'>
+                <code>Enter</code> / <code>Space</code>
+              </td>
+              <td className='py-2'>Toggle the focused accordion panel</td>
+            </tr>
+            <tr className='border-b'>
+              <td className='py-2 pr-4'>
+                <code>↓</code> Arrow Down
+              </td>
+              <td className='py-2'>Move focus to next accordion trigger</td>
+            </tr>
+            <tr className='border-b'>
+              <td className='py-2 pr-4'>
+                <code>↑</code> Arrow Up
+              </td>
+              <td className='py-2'>Move focus to previous accordion trigger</td>
+            </tr>
+            <tr className='border-b'>
+              <td className='py-2 pr-4'>
+                <code>Home</code>
+              </td>
+              <td className='py-2'>Move focus to first accordion trigger</td>
+            </tr>
+            <tr>
+              <td className='py-2 pr-4'>
+                <code>End</code>
+              </td>
+              <td className='py-2'>Move focus to last accordion trigger</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>Accessibility Features</h2>
+
+      <ul>
+        <li>
+          Proper <code>aria-expanded</code> state on triggers
+        </li>
+        <li>
+          <code>aria-controls</code> linking triggers to their content regions
+        </li>
+        <li>
+          Content regions use <code>role="region"</code> with{' '}
+          <code>aria-labelledby</code>
+        </li>
+        <li>Configurable heading levels for semantic document structure</li>
+        <li>Disabled items are properly announced and skip keyboard focus</li>
+      </ul>
+
+      <h2>API Overview</h2>
+
+      <h3>Expansion Modes</h3>
+      <ul>
+        <li>
+          <strong>Multiple</strong>: Any number of panels can be open
+          simultaneously
+        </li>
+        <li>
+          <strong>Single Collapsible</strong>: One panel at a time, can collapse
+          all
+        </li>
+        <li>
+          <strong>Single Non-Collapsible</strong>: Exactly one panel always open
+        </li>
+      </ul>
 
       <StorySourceCode>{sourceCode}</StorySourceCode>
     </div>

@@ -16,61 +16,141 @@ export const Default: StoryObj<typeof meta> = {
       <h1>Tabs</h1>
 
       <p>
-        Tabs organize related content into separate views, allowing users to
-        switch between sections without leaving the current page. Only one tab
-        panel is visible at a time, keeping the interface focused and easy to
-        scan.
+        A flexible, accessible tabs component implementing the{' '}
+        <a href='https://www.w3.org/WAI/ARIA/apg/patterns/tabs/' target='_blank'>
+          WAI-ARIA Tabs Pattern
+        </a>
+        . Supports horizontal and vertical orientations, automatic and manual
+        activation modes, and optional keyboard looping.
       </p>
 
+      <h2>Implementation Highlights</h2>
+
+      <ul>
+        <li>
+          <strong>Roving tabindex management</strong> — Only the active tab is
+          in the tab order; arrow keys move focus between triggers
+        </li>
+        <li>
+          <strong>Activation modes</strong> — Automatic (focus selects) vs
+          Manual (Enter/Space required)
+        </li>
+        <li>
+          <strong>Bi-directional support</strong> — Horizontal and vertical
+          orientations with appropriate arrow key bindings
+        </li>
+        <li>
+          <strong>Render props pattern</strong> — Full control over trigger
+          styling with access to selection state
+        </li>
+        <li>
+          <strong>Controlled and uncontrolled</strong> — Works with or without
+          external state management
+        </li>
+        <li>
+          <strong>Compound components</strong> — Clean API with TabsRoot,
+          TabsList, TabsTrigger, and TabsContent
+        </li>
+      </ul>
+
       <div className='story-demo not-typography'>
-        <h2>Demo</h2>
-        <p>
-          Automatic activation with loop, manual activation, and vertical
-          orientation.
+        <h2>Interactive Examples</h2>
+        <p className='text-muted-foreground mb-6'>
+          Dashboard overview, settings navigation, and product details
         </p>
         <div>
           <TabsDemo />
         </div>
       </div>
 
-      <h2>Features</h2>
+      <h2>Keyboard Navigation</h2>
+
+      <h3>Horizontal Orientation</h3>
+
+      <div className='overflow-x-auto'>
+        <table className='w-full text-sm'>
+          <thead>
+            <tr className='border-b'>
+              <th className='py-2 pr-4 text-left font-semibold'>Key</th>
+              <th className='py-2 text-left font-semibold'>Action</th>
+            </tr>
+          </thead>
+          <tbody className='text-muted-foreground'>
+            <tr className='border-b'>
+              <td className='py-2 pr-4'>
+                <code>→</code> Arrow Right
+              </td>
+              <td className='py-2'>Focus next tab (loops if enabled)</td>
+            </tr>
+            <tr className='border-b'>
+              <td className='py-2 pr-4'>
+                <code>←</code> Arrow Left
+              </td>
+              <td className='py-2'>Focus previous tab (loops if enabled)</td>
+            </tr>
+            <tr className='border-b'>
+              <td className='py-2 pr-4'>
+                <code>Home</code>
+              </td>
+              <td className='py-2'>Focus first tab</td>
+            </tr>
+            <tr className='border-b'>
+              <td className='py-2 pr-4'>
+                <code>End</code>
+              </td>
+              <td className='py-2'>Focus last tab</td>
+            </tr>
+            <tr>
+              <td className='py-2 pr-4'>
+                <code>Enter</code> / <code>Space</code>
+              </td>
+              <td className='py-2'>Select focused tab (manual mode only)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Vertical Orientation</h3>
+      <p>
+        Uses <code>↑</code> and <code>↓</code> arrow keys instead of horizontal
+        arrows.
+      </p>
+
+      <h2>Activation Modes</h2>
 
       <ul>
         <li>
-          Fully accessible and aligned with WAI-ARIA Authoring Practices for
-          tabs.
+          <strong>Automatic (default)</strong> — Tab is selected immediately
+          when focused. Best for tabs with instant content.
         </li>
         <li>
-          Supports controlled and uncontrolled state for flexible data flow.
-        </li>
-        <li>
-          Automatic and manual activation modes for different keyboard
-          interaction needs.
-        </li>
-        <li>
-          Horizontal and vertical orientations with full keyboard navigation.
-        </li>
-        <li>Optional looping behavior when navigating with arrow keys.</li>
-        <li>
-          Roving <code>tabIndex</code> management for predictable focus
-          behavior.
-        </li>
-        <li>
-          Render-prop based triggers for complete control over markup and
-          styling.
+          <strong>Manual</strong> — Tab requires Enter or Space to select. Best
+          when tab content requires loading or has side effects.
         </li>
       </ul>
 
-      <p>
-        For more details, see the official W3C Tabs pattern{' '}
-        <a
-          href='https://www.w3.org/WAI/ARIA/apg/patterns/tabs/'
-          target='_blank'
-        >
-          documentation
-        </a>
-        .
-      </p>
+      <h2>Accessibility Features</h2>
+
+      <ul>
+        <li>
+          <code>role="tablist"</code> on the tab container
+        </li>
+        <li>
+          <code>role="tab"</code> on each trigger with{' '}
+          <code>aria-selected</code> state
+        </li>
+        <li>
+          <code>role="tabpanel"</code> on content with{' '}
+          <code>aria-labelledby</code>
+        </li>
+        <li>
+          <code>aria-orientation</code> indicates horizontal or vertical layout
+        </li>
+        <li>
+          <code>aria-controls</code> links tabs to their panels
+        </li>
+        <li>Only selected panel is visible; others are hidden</li>
+      </ul>
 
       <StorySourceCode>{sourceCode}</StorySourceCode>
     </div>

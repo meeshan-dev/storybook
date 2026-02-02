@@ -1,169 +1,583 @@
+import { useState } from 'react';
 import {
   IconCheck,
-  IconMoodHappyFilled,
-  IconMoodNeutral,
+  IconMinus,
+  IconTrash,
+  IconEdit,
+  IconEye,
+  IconDownload,
+  IconShare,
+  IconStar,
 } from '@tabler/icons-react';
 import { cn } from '~/lib/utils';
 import { CheckboxIcon, CheckboxRoot } from './checkbox';
 
 export function CheckboxDemo() {
   return (
-    <main className='flex grow flex-col items-center justify-center gap-3'>
-      <BasicCheckbox />
-      <IconCheckbox />
-      <ErrorCheckbox />
-      <DisabledCheckbox checked={false} />
-      <DisabledCheckbox checked />
+    <main className='flex grow flex-col gap-12 py-10'>
+      {/* Task List */}
+      <section className='space-y-4'>
+        <div className='space-y-1'>
+          <h3 className='text-lg font-semibold'>Task List</h3>
+          <p className='text-muted-foreground text-sm'>
+            Manage your daily tasks with indeterminate state for groups
+          </p>
+        </div>
+        <TaskList />
+      </section>
+
+      {/* Permissions Matrix */}
+      <section className='space-y-4'>
+        <div className='space-y-1'>
+          <h3 className='text-lg font-semibold'>Role Permissions</h3>
+          <p className='text-muted-foreground text-sm'>
+            Configure access permissions for different user roles
+          </p>
+        </div>
+        <PermissionsMatrix />
+      </section>
+
+      {/* Terms & Conditions */}
+      <section className='space-y-4'>
+        <div className='space-y-1'>
+          <h3 className='text-lg font-semibold'>Account Setup</h3>
+          <p className='text-muted-foreground text-sm'>
+            Review and accept terms before continuing
+          </p>
+        </div>
+        <TermsAcceptance />
+      </section>
+
+      {/* Feature Selection */}
+      <section className='space-y-4'>
+        <div className='space-y-1'>
+          <h3 className='text-lg font-semibold'>Select Features</h3>
+          <p className='text-muted-foreground text-sm'>
+            Choose which features to include in your plan
+          </p>
+        </div>
+        <FeatureSelection />
+      </section>
     </main>
   );
 }
 
 /* ---------------------------------- */
-/* Shared Row Wrapper                  */
+/* 1. Task List with Indeterminate    */
 /* ---------------------------------- */
 
-function Row({
-  children,
-  state,
-}: {
-  children: React.ReactNode;
-  state?: 'checked' | 'mixed' | 'error';
-}) {
+const initialTasks = [
+  { id: 1, label: 'Review pull request #42', completed: true },
+  { id: 2, label: 'Update documentation', completed: false },
+  { id: 3, label: 'Fix navigation bug', completed: true },
+  { id: 4, label: 'Write unit tests', completed: false },
+];
+
+function TaskList() {
+  const [tasks, setTasks] = useState(initialTasks);
+
+  const completedCount = tasks.filter((t) => t.completed).length;
+  const allCompleted = completedCount === tasks.length;
+  const someCompleted = completedCount > 0 && !allCompleted;
+
+  const toggleTask = (id: number) => {
+    setTasks((prev) =>
+      prev.map((t) => (t.id === id ? { ...t, completed: !t.completed } : t)),
+    );
+  };
+
+  const toggleAll = () => {
+    const newState = !allCompleted;
+    setTasks((prev) => prev.map((t) => ({ ...t, completed: newState })));
+  };
+
   return (
-    <label
-      className={cn(
-        'group flex w-full max-w-xs cursor-pointer items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-all select-none',
-        'bg-foreground/6 hover:bg-foreground/8',
-        'has-[input:checked]:bg-emerald-600/5 dark:has-[input:checked]:bg-emerald-400/5',
-        'border border-transparent has-[input:checked]:border-emerald-600/40 has-[input:disabled]:pointer-events-none has-[input:disabled]:opacity-50 dark:has-[input:checked]:border-emerald-400/40',
-        'focus-within:ring-ring/50 outline-none focus-within:ring-[3px]',
-        state === 'error' &&
-          'border-red-600/30 bg-red-600/5 dark:border-red-400/30 dark:bg-red-400/5',
-      )}
-    >
-      {children}
-    </label>
-  );
-}
-
-/* ---------------------------------- */
-/* 1. Basic checkbox                   */
-/* ---------------------------------- */
-
-function BasicCheckbox() {
-  return (
-    <Row>
-      <Box>
-        <CheckboxRoot defaultChecked>
-          <CheckboxIcon type='check'>
-            <IconCheck />
-          </CheckboxIcon>
-        </CheckboxRoot>
-      </Box>
-
-      <Label>Accept terms and conditions</Label>
-    </Row>
-  );
-}
-
-/* ---------------------------------- */
-/* 2. Icon swap checkbox               */
-/* ---------------------------------- */
-
-function IconCheckbox() {
-  return (
-    <Row>
-      <div className='flex size-6 items-center justify-center *:[svg]:size-6'>
-        <CheckboxRoot defaultChecked>
-          <CheckboxIcon type='box'>
-            <IconMoodNeutral className='text-muted-foreground' />
-          </CheckboxIcon>
-          <CheckboxIcon type='check'>
-            <IconMoodHappyFilled className='text-amber-500 dark:text-amber-400' />
-          </CheckboxIcon>
-        </CheckboxRoot>
-      </div>
-
-      <Label>Emoji toggle</Label>
-    </Row>
-  );
-}
-
-/* ---------------------------------- */
-/* 4. Disabled                         */
-/* ---------------------------------- */
-
-function DisabledCheckbox({ checked }: { checked: boolean }) {
-  return (
-    <Row>
-      <Box>
-        <CheckboxRoot disabled defaultChecked={checked}>
-          <CheckboxIcon type='check'>
-            <IconCheck />
-          </CheckboxIcon>
-        </CheckboxRoot>
-      </Box>
-
-      <Label>Disabled ({checked ? 'checked' : 'unchecked'})</Label>
-    </Row>
-  );
-}
-
-/* ---------------------------------- */
-/* 5. Error                            */
-/* ---------------------------------- */
-
-function ErrorCheckbox() {
-  return (
-    <Row state='error'>
-      <Box>
-        <CheckboxRoot aria-invalid>
-          <CheckboxIcon type='check'>
-            <IconCheck />
-          </CheckboxIcon>
-        </CheckboxRoot>
-      </Box>
-
-      <div className='flex flex-col'>
-        <Label className='text-red-600 dark:text-red-400'>Required field</Label>
-        <span className='text-xs text-red-600 group-has-[input:checked]:hidden dark:text-red-400'>
-          This must be checked
+    <div className='rounded-xl border'>
+      {/* Header with Select All */}
+      <label
+        className={cn(
+          'group flex cursor-pointer items-center gap-3 border-b px-4 py-3 transition-all select-none',
+          'hover:bg-muted/50',
+        )}
+      >
+        <CheckboxIndicator indeterminate={someCompleted} checked={allCompleted}>
+          <CheckboxRoot
+            checked={allCompleted}
+            indeterminate={someCompleted}
+            onChange={toggleAll}
+          >
+            <CheckboxIcon type='indeterminate'>
+              <IconMinus className='size-3.5 text-blue-600 dark:text-blue-400' />
+            </CheckboxIcon>
+            <CheckboxIcon type='check'>
+              <IconCheck className='size-3.5 text-blue-600 dark:text-blue-400' />
+            </CheckboxIcon>
+          </CheckboxRoot>
+        </CheckboxIndicator>
+        <span className='font-medium'>
+          {allCompleted
+            ? 'All tasks completed'
+            : someCompleted
+              ? `${completedCount} of ${tasks.length} completed`
+              : 'Select all tasks'}
         </span>
-        <span className='hidden text-xs text-emerald-600 group-has-[input:checked]:block dark:text-emerald-400'>
-          Awesome
-        </span>
+      </label>
+
+      {/* Task Items */}
+      <div className='divide-y'>
+        {tasks.map((task) => (
+          <label
+            key={task.id}
+            className={cn(
+              'group flex cursor-pointer items-center gap-3 px-4 py-3 transition-all select-none',
+              'hover:bg-muted/50',
+              task.completed && 'bg-emerald-50/50 dark:bg-emerald-950/20',
+            )}
+          >
+            <TaskCheckbox
+              checked={task.completed}
+              onChange={() => toggleTask(task.id)}
+            />
+            <span
+              className={cn(
+                'flex-1 transition-all',
+                task.completed &&
+                  'text-muted-foreground line-through',
+              )}
+            >
+              {task.label}
+            </span>
+            {task.completed && (
+              <IconStar className='size-4 text-amber-500' />
+            )}
+          </label>
+        ))}
       </div>
-    </Row>
-  );
-}
-
-/* ---------------------------------- */
-/* Small helpers                       */
-/* ---------------------------------- */
-
-function Box({ children }: { children: React.ReactNode }) {
-  return (
-    <div className='border-foreground/30 flex size-4 items-center justify-center rounded-sm border *:[svg]:size-4'>
-      {children}
     </div>
   );
 }
 
-function Label({
-  children,
-  className,
+function TaskCheckbox({
+  checked,
+  onChange,
 }: {
-  children: React.ReactNode;
-  className?: string;
+  checked: boolean;
+  onChange: () => void;
 }) {
   return (
-    <span
+    <div
       className={cn(
-        'text-muted-foreground group-has-[input:checked]:text-emerald-600 dark:group-has-[input:checked]:text-emerald-400',
-        className,
+        'flex size-5 items-center justify-center rounded border-2 transition-all',
+        checked
+          ? 'border-emerald-600 bg-emerald-600 dark:border-emerald-500 dark:bg-emerald-500'
+          : 'border-foreground/20',
+      )}
+    >
+      <CheckboxRoot checked={checked} onChange={onChange}>
+        <CheckboxIcon type='check'>
+          <IconCheck className='size-3.5 text-white' />
+        </CheckboxIcon>
+      </CheckboxRoot>
+    </div>
+  );
+}
+
+/* ---------------------------------- */
+/* 2. Permissions Matrix               */
+/* ---------------------------------- */
+
+const permissions = [
+  { id: 'view', label: 'View', icon: IconEye },
+  { id: 'edit', label: 'Edit', icon: IconEdit },
+  { id: 'delete', label: 'Delete', icon: IconTrash },
+  { id: 'download', label: 'Download', icon: IconDownload },
+  { id: 'share', label: 'Share', icon: IconShare },
+];
+
+const roles = [
+  { id: 'admin', label: 'Admin', permissions: ['view', 'edit', 'delete', 'download', 'share'] },
+  { id: 'editor', label: 'Editor', permissions: ['view', 'edit', 'download'] },
+  { id: 'viewer', label: 'Viewer', permissions: ['view'] },
+];
+
+function PermissionsMatrix() {
+  const [rolePermissions, setRolePermissions] = useState(
+    roles.reduce(
+      (acc, role) => ({
+        ...acc,
+        [role.id]: new Set(role.permissions),
+      }),
+      {} as Record<string, Set<string>>,
+    ),
+  );
+
+  const togglePermission = (roleId: string, permissionId: string) => {
+    setRolePermissions((prev) => {
+      const newPerms = new Set(prev[roleId]);
+      if (newPerms.has(permissionId)) {
+        newPerms.delete(permissionId);
+      } else {
+        newPerms.add(permissionId);
+      }
+      return { ...prev, [roleId]: newPerms };
+    });
+  };
+
+  return (
+    <div className='overflow-x-auto rounded-xl border'>
+      <table className='w-full'>
+        <thead>
+          <tr className='border-b bg-muted/30'>
+            <th className='px-4 py-3 text-left font-medium'>Role</th>
+            {permissions.map((perm) => (
+              <th key={perm.id} className='px-4 py-3 text-center'>
+                <div className='flex flex-col items-center gap-1'>
+                  <perm.icon className='text-muted-foreground size-4' />
+                  <span className='text-xs font-medium'>{perm.label}</span>
+                </div>
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody className='divide-y'>
+          {roles.map((role) => (
+            <tr key={role.id} className='hover:bg-muted/30 transition-colors'>
+              <td className='px-4 py-3 font-medium'>{role.label}</td>
+              {permissions.map((perm) => {
+                const isChecked = rolePermissions[role.id]?.has(perm.id);
+                return (
+                  <td key={perm.id} className='px-4 py-3 text-center'>
+                    <label className='flex cursor-pointer justify-center'>
+                      <PermissionCheckbox
+                        checked={isChecked}
+                        onChange={() => togglePermission(role.id, perm.id)}
+                      />
+                    </label>
+                  </td>
+                );
+              })}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+function PermissionCheckbox({
+  checked,
+  onChange,
+}: {
+  checked: boolean;
+  onChange: () => void;
+}) {
+  return (
+    <div
+      className={cn(
+        'flex size-5 items-center justify-center rounded border-2 transition-all',
+        checked
+          ? 'border-blue-600 bg-blue-600 dark:border-blue-500 dark:bg-blue-500'
+          : 'border-foreground/20 hover:border-foreground/40',
+      )}
+    >
+      <CheckboxRoot checked={checked} onChange={onChange}>
+        <CheckboxIcon type='check'>
+          <IconCheck className='size-3.5 text-white' />
+        </CheckboxIcon>
+      </CheckboxRoot>
+    </div>
+  );
+}
+
+/* ---------------------------------- */
+/* 3. Terms & Conditions               */
+/* ---------------------------------- */
+
+function TermsAcceptance() {
+  const [terms, setTerms] = useState(false);
+  const [privacy, setPrivacy] = useState(false);
+  const [marketing, setMarketing] = useState(false);
+
+  const canContinue = terms && privacy;
+
+  return (
+    <div className='max-w-md space-y-4'>
+      <div className='space-y-3'>
+        <label
+          className={cn(
+            'group flex cursor-pointer items-start gap-3 rounded-lg border p-4 transition-all select-none',
+            'hover:border-foreground/20',
+            terms && 'border-emerald-600/50 bg-emerald-50/50 dark:border-emerald-400/50 dark:bg-emerald-950/20',
+          )}
+        >
+          <div className='pt-0.5'>
+            <TermsCheckbox checked={terms} onChange={() => setTerms(!terms)} />
+          </div>
+          <div>
+            <span className='font-medium'>Terms of Service</span>
+            <span className='text-destructive ml-1'>*</span>
+            <p className='text-muted-foreground mt-1 text-sm'>
+              I agree to the{' '}
+              <a href='#' className='text-blue-600 underline dark:text-blue-400'>
+                Terms of Service
+              </a>{' '}
+              and confirm that I am at least 18 years old.
+            </p>
+          </div>
+        </label>
+
+        <label
+          className={cn(
+            'group flex cursor-pointer items-start gap-3 rounded-lg border p-4 transition-all select-none',
+            'hover:border-foreground/20',
+            privacy && 'border-emerald-600/50 bg-emerald-50/50 dark:border-emerald-400/50 dark:bg-emerald-950/20',
+          )}
+        >
+          <div className='pt-0.5'>
+            <TermsCheckbox checked={privacy} onChange={() => setPrivacy(!privacy)} />
+          </div>
+          <div>
+            <span className='font-medium'>Privacy Policy</span>
+            <span className='text-destructive ml-1'>*</span>
+            <p className='text-muted-foreground mt-1 text-sm'>
+              I have read and understand the{' '}
+              <a href='#' className='text-blue-600 underline dark:text-blue-400'>
+                Privacy Policy
+              </a>
+              .
+            </p>
+          </div>
+        </label>
+
+        <label
+          className={cn(
+            'group flex cursor-pointer items-start gap-3 rounded-lg border p-4 transition-all select-none',
+            'hover:border-foreground/20',
+            marketing && 'border-purple-600/50 bg-purple-50/50 dark:border-purple-400/50 dark:bg-purple-950/20',
+          )}
+        >
+          <div className='pt-0.5'>
+            <MarketingCheckbox checked={marketing} onChange={() => setMarketing(!marketing)} />
+          </div>
+          <div>
+            <span className='font-medium'>Marketing Communications</span>
+            <span className='text-muted-foreground ml-1 text-sm'>(Optional)</span>
+            <p className='text-muted-foreground mt-1 text-sm'>
+              I'd like to receive updates about new features and special offers.
+            </p>
+          </div>
+        </label>
+      </div>
+
+      <button
+        disabled={!canContinue}
+        className={cn(
+          'w-full rounded-lg px-4 py-2.5 font-medium transition-all',
+          canContinue
+            ? 'bg-emerald-600 text-white hover:bg-emerald-700'
+            : 'bg-muted text-muted-foreground cursor-not-allowed',
+        )}
+      >
+        {canContinue ? 'Continue' : 'Please accept required terms'}
+      </button>
+    </div>
+  );
+}
+
+function TermsCheckbox({
+  checked,
+  onChange,
+}: {
+  checked: boolean;
+  onChange: () => void;
+}) {
+  return (
+    <div
+      className={cn(
+        'flex size-5 items-center justify-center rounded border-2 transition-all',
+        checked
+          ? 'border-emerald-600 bg-emerald-600 dark:border-emerald-500 dark:bg-emerald-500'
+          : 'border-foreground/20',
+      )}
+    >
+      <CheckboxRoot checked={checked} onChange={onChange}>
+        <CheckboxIcon type='check'>
+          <IconCheck className='size-3.5 text-white' />
+        </CheckboxIcon>
+      </CheckboxRoot>
+    </div>
+  );
+}
+
+function MarketingCheckbox({
+  checked,
+  onChange,
+}: {
+  checked: boolean;
+  onChange: () => void;
+}) {
+  return (
+    <div
+      className={cn(
+        'flex size-5 items-center justify-center rounded border-2 transition-all',
+        checked
+          ? 'border-purple-600 bg-purple-600 dark:border-purple-500 dark:bg-purple-500'
+          : 'border-foreground/20',
+      )}
+    >
+      <CheckboxRoot checked={checked} onChange={onChange}>
+        <CheckboxIcon type='check'>
+          <IconCheck className='size-3.5 text-white' />
+        </CheckboxIcon>
+      </CheckboxRoot>
+    </div>
+  );
+}
+
+/* ---------------------------------- */
+/* 4. Feature Selection                */
+/* ---------------------------------- */
+
+const features = [
+  {
+    id: 'analytics',
+    name: 'Advanced Analytics',
+    description: 'Detailed insights and reporting',
+    price: '+$5/mo',
+  },
+  {
+    id: 'api',
+    name: 'API Access',
+    description: 'Build integrations with our API',
+    price: '+$10/mo',
+  },
+  {
+    id: 'support',
+    name: 'Priority Support',
+    description: '24/7 dedicated support team',
+    price: '+$15/mo',
+  },
+  {
+    id: 'backup',
+    name: 'Auto Backups',
+    description: 'Daily automated backups',
+    price: 'Included',
+    included: true,
+  },
+];
+
+function FeatureSelection() {
+  const [selected, setSelected] = useState<Set<string>>(new Set(['backup']));
+
+  const toggleFeature = (id: string) => {
+    setSelected((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) {
+        next.delete(id);
+      } else {
+        next.add(id);
+      }
+      return next;
+    });
+  };
+
+  return (
+    <div className='grid gap-3 sm:grid-cols-2'>
+      {features.map((feature) => {
+        const isSelected = selected.has(feature.id);
+        return (
+          <label
+            key={feature.id}
+            className={cn(
+              'group flex cursor-pointer items-start gap-3 rounded-xl border p-4 transition-all select-none',
+              'hover:border-foreground/20',
+              isSelected && 'border-blue-600/50 bg-blue-50/50 dark:border-blue-400/50 dark:bg-blue-950/20',
+              feature.included && 'pointer-events-none opacity-70',
+            )}
+          >
+            <div className='pt-0.5'>
+              <FeatureCheckbox
+                checked={isSelected}
+                onChange={() => !feature.included && toggleFeature(feature.id)}
+                disabled={feature.included}
+              />
+            </div>
+            <div className='flex-1'>
+              <div className='flex items-center justify-between'>
+                <span className='font-medium'>{feature.name}</span>
+                <span
+                  className={cn(
+                    'text-sm font-medium',
+                    feature.included
+                      ? 'text-emerald-600 dark:text-emerald-400'
+                      : 'text-muted-foreground',
+                  )}
+                >
+                  {feature.price}
+                </span>
+              </div>
+              <p className='text-muted-foreground mt-1 text-sm'>
+                {feature.description}
+              </p>
+            </div>
+          </label>
+        );
+      })}
+    </div>
+  );
+}
+
+function FeatureCheckbox({
+  checked,
+  onChange,
+  disabled,
+}: {
+  checked: boolean;
+  onChange: () => void;
+  disabled?: boolean;
+}) {
+  return (
+    <div
+      className={cn(
+        'flex size-5 items-center justify-center rounded border-2 transition-all',
+        checked
+          ? 'border-blue-600 bg-blue-600 dark:border-blue-500 dark:bg-blue-500'
+          : 'border-foreground/20',
+        disabled && 'opacity-50',
+      )}
+    >
+      <CheckboxRoot checked={checked} onChange={onChange} disabled={disabled}>
+        <CheckboxIcon type='check'>
+          <IconCheck className='size-3.5 text-white' />
+        </CheckboxIcon>
+      </CheckboxRoot>
+    </div>
+  );
+}
+
+/* ---------------------------------- */
+/* Shared Indicator Component          */
+/* ---------------------------------- */
+
+function CheckboxIndicator({
+  children,
+  checked,
+  indeterminate,
+}: {
+  children: React.ReactNode;
+  checked: boolean;
+  indeterminate?: boolean;
+}) {
+  return (
+    <div
+      className={cn(
+        'flex size-5 items-center justify-center rounded border-2 transition-all',
+        checked || indeterminate
+          ? 'border-blue-600 bg-blue-600 dark:border-blue-500 dark:bg-blue-500'
+          : 'border-foreground/20',
       )}
     >
       {children}
-    </span>
+    </div>
   );
 }

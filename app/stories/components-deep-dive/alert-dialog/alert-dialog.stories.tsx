@@ -16,50 +16,140 @@ export const Default: StoryObj<typeof meta> = {
       <h1>Alert Dialog</h1>
 
       <p>
-        An Alert Dialog is a modal dialog that interrupts the user's workflow to
-        communicate a critical message and require an explicit response.
+        An accessible alert dialog for critical confirmations that require
+        explicit user acknowledgment. Unlike regular dialogs, alert dialogs{' '}
+        <strong>cannot be dismissed by clicking outside</strong> — ensuring
+        users consciously respond to important actions.
       </p>
 
+      <h2>Implementation Highlights</h2>
+
+      <ul>
+        <li>
+          <strong>Non-dismissible by outside click</strong> — Forces explicit
+          user decision for critical actions
+        </li>
+        <li>
+          <strong>Shares infrastructure with Dialog</strong> — Same focus trap,
+          scroll lock, and portal implementation
+        </li>
+        <li>
+          <strong>Uses <code>role="alertdialog"</code></strong> — Proper
+          semantic role for assistive technologies
+        </li>
+        <li>
+          <strong>Layer-aware</strong> — Works correctly when nested within
+          other dialogs
+        </li>
+        <li>
+          <strong>Escape key closes</strong> — Allows keyboard dismissal while
+          preventing accidental mouse clicks
+        </li>
+      </ul>
+
       <div className='story-demo not-typography'>
-        <h2>Demo</h2>
-        <p>Click the button to trigger the alert dialog.</p>
+        <h2>Interactive Examples</h2>
+        <p className='text-muted-foreground mb-6'>
+          Common patterns: destructive actions, logout, and navigation guards
+        </p>
         <div>
           <AlertDialogDemo />
         </div>
       </div>
 
-      <h2>Features</h2>
+      <h2>Alert Dialog vs Dialog</h2>
+
+      <div className='overflow-x-auto'>
+        <table className='w-full text-sm'>
+          <thead>
+            <tr className='border-b'>
+              <th className='py-2 pr-4 text-left font-semibold'>Feature</th>
+              <th className='py-2 pr-4 text-left font-semibold'>Dialog</th>
+              <th className='py-2 text-left font-semibold'>Alert Dialog</th>
+            </tr>
+          </thead>
+          <tbody className='text-muted-foreground'>
+            <tr className='border-b'>
+              <td className='py-2 pr-4'>Outside click</td>
+              <td className='py-2 pr-4'>Closes dialog</td>
+              <td className='py-2'>No effect</td>
+            </tr>
+            <tr className='border-b'>
+              <td className='py-2 pr-4'>Escape key</td>
+              <td className='py-2 pr-4'>Closes dialog</td>
+              <td className='py-2'>Closes dialog</td>
+            </tr>
+            <tr className='border-b'>
+              <td className='py-2 pr-4'>ARIA role</td>
+              <td className='py-2 pr-4'>
+                <code>dialog</code>
+              </td>
+              <td className='py-2'>
+                <code>alertdialog</code>
+              </td>
+            </tr>
+            <tr>
+              <td className='py-2 pr-4'>Use case</td>
+              <td className='py-2 pr-4'>Forms, content, info</td>
+              <td className='py-2'>Confirmations, warnings</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>Keyboard Interactions</h2>
+
+      <div className='overflow-x-auto'>
+        <table className='w-full text-sm'>
+          <thead>
+            <tr className='border-b'>
+              <th className='py-2 pr-4 text-left font-semibold'>Key</th>
+              <th className='py-2 text-left font-semibold'>Action</th>
+            </tr>
+          </thead>
+          <tbody className='text-muted-foreground'>
+            <tr className='border-b'>
+              <td className='py-2 pr-4'>
+                <code>Tab</code>
+              </td>
+              <td className='py-2'>Cycle through focusable elements</td>
+            </tr>
+            <tr className='border-b'>
+              <td className='py-2 pr-4'>
+                <code>Shift + Tab</code>
+              </td>
+              <td className='py-2'>Cycle backwards</td>
+            </tr>
+            <tr>
+              <td className='py-2 pr-4'>
+                <code>Escape</code>
+              </td>
+              <td className='py-2'>Close the alert dialog</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>Best Practices</h2>
 
       <ul>
         <li>
-          Fully accessible, with proper ARIA roles, labels, and descriptions.
+          <strong>Clear action labels</strong> — Use descriptive button text
+          like "Delete Account" instead of generic "OK"
         </li>
         <li>
-          Focus is trapped within the alert dialog while open and restored on
-          close.
-        </li>
-        <li>Supports controlled and uncontrolled open state.</li>
-        <li>Closes on Escape key, or explicit close actions.</li>
-        <li>Scroll locking prevents background content from scrolling.</li>
-        <li>
-          Layer-aware behavior ensures only the topmost alert dialog responds to
-          interactions.
+          <strong>Explain consequences</strong> — Tell users exactly what will
+          happen if they proceed
         </li>
         <li>
-          Portal-based rendering for correct stacking and layout isolation.
+          <strong>Visual hierarchy</strong> — Make the destructive action less
+          prominent than the safe option
+        </li>
+        <li>
+          <strong>Contextual information</strong> — Show what will be affected
+          (e.g., "Delete 47 projects")
         </li>
       </ul>
-
-      <p>
-        For more details, see the official W3C Alert Dialog pattern{' '}
-        <a
-          href='https://www.w3.org/WAI/ARIA/apg/patterns/alertdialog/'
-          target='_blank'
-        >
-          documentation
-        </a>
-        .
-      </p>
 
       <StorySourceCode>{sourceCode}</StorySourceCode>
     </div>
