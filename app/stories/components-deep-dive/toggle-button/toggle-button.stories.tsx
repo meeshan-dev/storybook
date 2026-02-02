@@ -133,7 +133,8 @@ export const Default: StoryObj<typeof meta> = {
           readers (pressed/not pressed).
         </li>
         <li>
-          Each button maintains proper focus indicators and keyboard operability.
+          Each button maintains proper focus indicators and keyboard
+          operability.
         </li>
         <li>
           In exclusive mode, behaves like radio buttons semantically but with

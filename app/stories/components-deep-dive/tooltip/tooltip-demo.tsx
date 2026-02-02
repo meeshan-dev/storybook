@@ -1,17 +1,17 @@
 import { FloatingArrow } from '@floating-ui/react';
 import {
-  IconInfoCircle,
-  IconHelp,
-  IconTrash,
+  IconBold,
+  IconCode,
   IconCopy,
-  IconShare,
   IconDownload,
   IconEdit,
-  IconBold,
+  IconHelp,
+  IconInfoCircle,
   IconItalic,
-  IconUnderline,
   IconLink,
-  IconCode,
+  IconShare,
+  IconTrash,
+  IconUnderline,
 } from '@tabler/icons-react';
 import { Button } from '~/components/ui/button';
 import { cn } from '~/lib/utils';
@@ -30,7 +30,8 @@ export function TooltipDemo() {
         <div className='space-y-1'>
           <h3 className='text-lg font-semibold'>Toolbar Actions</h3>
           <p className='text-muted-foreground text-sm'>
-            Icon buttons with tooltips showing action names and keyboard shortcuts
+            Icon buttons with tooltips showing action names and keyboard
+            shortcuts
           </p>
         </div>
         <ToolbarActions />
@@ -97,7 +98,7 @@ const toolbarActions = [
 
 function ToolbarActions() {
   return (
-    <div className='flex items-center gap-1 rounded-lg border bg-card p-2'>
+    <div className='bg-card flex items-center gap-1 rounded-lg border p-2'>
       {toolbarActions.map((action, index) => (
         <TooltipRoot key={action.label}>
           <TooltipTrigger>
@@ -106,8 +107,9 @@ function ToolbarActions() {
                 {...props}
                 className={cn(
                   'flex size-9 items-center justify-center rounded-md transition-colors',
-                  'hover:bg-muted focus:outline-none focus:ring-2 focus:ring-ring/50',
-                  action.destructive && 'hover:bg-red-100 dark:hover:bg-red-950/50',
+                  'hover:bg-muted focus:ring-ring/50 focus:ring-2 focus:outline-none',
+                  action.destructive &&
+                    'hover:bg-red-100 dark:hover:bg-red-950/50',
                 )}
               >
                 <action.icon
@@ -127,7 +129,7 @@ function ToolbarActions() {
               {({ props, arrowProps }) => (
                 <TooltipBox {...props} arrowProps={arrowProps}>
                   <span>{action.label}</span>
-                  <kbd className='bg-foreground/10 ml-2 rounded px-1.5 py-0.5 text-xs font-mono'>
+                  <kbd className='bg-foreground/10 ml-2 rounded px-1.5 py-0.5 font-mono text-xs'>
                     {action.shortcut}
                   </kbd>
                 </TooltipBox>
@@ -155,14 +157,14 @@ const formattingOptions = [
 function TextFormattingToolbar() {
   return (
     <div className='max-w-lg'>
-      <div className='flex items-center gap-0.5 rounded-t-lg border border-b-0 bg-muted/30 px-2 py-1.5'>
+      <div className='bg-muted/30 flex items-center gap-0.5 rounded-t-lg border border-b-0 px-2 py-1.5'>
         {formattingOptions.map((option) => (
           <TooltipRoot key={option.label} showDelay={200}>
             <TooltipTrigger>
               {(props) => (
                 <button
                   {...props}
-                  className='flex size-8 items-center justify-center rounded transition-colors hover:bg-background focus:outline-none focus:ring-2 focus:ring-ring/50'
+                  className='hover:bg-background focus:ring-ring/50 flex size-8 items-center justify-center rounded transition-colors focus:ring-2 focus:outline-none'
                 >
                   <option.icon className='text-muted-foreground size-4' />
                 </button>
@@ -174,7 +176,7 @@ function TextFormattingToolbar() {
                 {({ props, arrowProps }) => (
                   <TooltipBox {...props} arrowProps={arrowProps}>
                     {option.label}
-                    <kbd className='bg-foreground/10 ml-2 rounded px-1.5 py-0.5 text-xs font-mono'>
+                    <kbd className='bg-foreground/10 ml-2 rounded px-1.5 py-0.5 font-mono text-xs'>
                       {option.shortcut}
                     </kbd>
                   </TooltipBox>
@@ -185,7 +187,7 @@ function TextFormattingToolbar() {
         ))}
       </div>
       <textarea
-        className='w-full resize-none rounded-b-lg border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring/50'
+        className='bg-background focus:ring-ring/50 w-full resize-none rounded-b-lg border px-3 py-2 text-sm focus:ring-2 focus:outline-none'
         rows={3}
         placeholder='Start typing...'
       />
@@ -208,7 +210,7 @@ function FormFieldHints() {
               {(props) => (
                 <button
                   {...props}
-                  className='text-muted-foreground hover:text-foreground transition-colors focus:outline-none focus:ring-2 focus:ring-ring/50 rounded'
+                  className='text-muted-foreground hover:text-foreground focus:ring-ring/50 rounded transition-colors focus:ring-2 focus:outline-none'
                 >
                   <IconHelp className='size-4' />
                 </button>
@@ -221,7 +223,8 @@ function FormFieldHints() {
                   <TooltipBoxWide {...props} arrowProps={arrowProps}>
                     <strong>Where to find your API key:</strong>
                     <p className='text-muted-foreground mt-1'>
-                      Go to Settings → Developer → API Keys to generate a new key.
+                      Go to Settings → Developer → API Keys to generate a new
+                      key.
                     </p>
                   </TooltipBoxWide>
                 )}
@@ -232,7 +235,7 @@ function FormFieldHints() {
         <input
           type='password'
           placeholder='sk_live_...'
-          className='w-full rounded-lg border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring/50'
+          className='bg-background focus:ring-ring/50 w-full rounded-lg border px-3 py-2 text-sm focus:ring-2 focus:outline-none'
         />
       </div>
 
@@ -244,7 +247,7 @@ function FormFieldHints() {
               {(props) => (
                 <button
                   {...props}
-                  className='text-blue-600 dark:text-blue-400 focus:outline-none focus:ring-2 focus:ring-ring/50 rounded'
+                  className='focus:ring-ring/50 rounded text-blue-600 focus:ring-2 focus:outline-none dark:text-blue-400'
                 >
                   <IconInfoCircle className='size-4' />
                 </button>
@@ -270,7 +273,7 @@ function FormFieldHints() {
         <input
           type='url'
           placeholder='https://your-server.com/webhook'
-          className='w-full rounded-lg border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring/50'
+          className='bg-background focus:ring-ring/50 w-full rounded-lg border px-3 py-2 text-sm focus:ring-2 focus:outline-none'
         />
       </div>
     </div>
@@ -332,16 +335,18 @@ function InteractiveTooltips() {
             {({ props, arrowProps }) => (
               <div
                 {...props}
-                className='bg-card ring-foreground/10 relative z-50 w-64 rounded-xl p-4 text-sm ring-1 shadow-lg data-[hide=true]:hidden'
+                className='bg-card ring-foreground/10 relative z-50 w-64 rounded-xl p-4 text-sm shadow-lg ring-1 data-[hide=true]:hidden'
               >
                 <FloatingArrow {...arrowProps} className='fill-card' />
                 <div className='flex items-center gap-3'>
-                  <div className='flex size-10 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-purple-600 text-white font-semibold'>
+                  <div className='flex size-10 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-purple-600 font-semibold text-white'>
                     JD
                   </div>
                   <div>
                     <p className='font-semibold'>John Doe</p>
-                    <p className='text-muted-foreground text-xs'>Senior Engineer</p>
+                    <p className='text-muted-foreground text-xs'>
+                      Senior Engineer
+                    </p>
                   </div>
                 </div>
                 <div className='mt-3 flex gap-2'>
@@ -363,7 +368,7 @@ function InteractiveTooltips() {
           {(props) => (
             <span
               {...props}
-              className='cursor-help border-b border-dashed border-muted-foreground'
+              className='border-muted-foreground cursor-help border-b border-dashed'
             >
               What is SSR?
             </span>
@@ -375,17 +380,17 @@ function InteractiveTooltips() {
             {({ props, arrowProps }) => (
               <div
                 {...props}
-                className='bg-card ring-foreground/10 relative z-50 max-w-xs rounded-xl p-4 text-sm ring-1 shadow-lg data-[hide=true]:hidden'
+                className='bg-card ring-foreground/10 relative z-50 max-w-xs rounded-xl p-4 text-sm shadow-lg ring-1 data-[hide=true]:hidden'
               >
                 <FloatingArrow {...arrowProps} className='fill-card' />
                 <p className='font-semibold'>Server-Side Rendering</p>
                 <p className='text-muted-foreground mt-1 text-xs'>
-                  A technique where HTML is generated on the server for each request,
-                  improving initial load time and SEO.
+                  A technique where HTML is generated on the server for each
+                  request, improving initial load time and SEO.
                 </p>
                 <a
                   href='#'
-                  className='text-blue-600 dark:text-blue-400 mt-2 inline-block text-xs hover:underline'
+                  className='mt-2 inline-block text-xs text-blue-600 hover:underline dark:text-blue-400'
                 >
                   Learn more →
                 </a>
@@ -430,7 +435,7 @@ function TooltipBoxWide({
   return (
     <div
       {...props}
-      className='bg-card ring-foreground/10 relative z-50 max-w-xs rounded-lg p-3 text-sm ring-1 shadow-lg data-[hide=true]:hidden'
+      className='bg-card ring-foreground/10 relative z-50 max-w-xs rounded-lg p-3 text-sm shadow-lg ring-1 data-[hide=true]:hidden'
     >
       <FloatingArrow {...arrowProps} className='fill-card' />
       {children}

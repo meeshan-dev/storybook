@@ -13,7 +13,6 @@ import {
   IconPencil,
   IconPlus,
   IconRefresh,
-  IconScissors,
   IconSettings,
   IconShare,
   IconStar,
@@ -201,9 +200,7 @@ function EditorViewOptionsMenu() {
             <MenuCheckboxItem
               checked={viewOptions.whitespace}
               disableCloseOnChange
-              onChange={(v) =>
-                setViewOptions((s) => ({ ...s, whitespace: v }))
-              }
+              onChange={(v) => setViewOptions((s) => ({ ...s, whitespace: v }))}
             >
               <span className='flex-1'>Show Whitespace</span>
               {viewOptions.whitespace && <IconCheck size={16} />}

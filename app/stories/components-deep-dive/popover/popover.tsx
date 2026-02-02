@@ -237,11 +237,7 @@ export function PopoverContent({
 
 /* ———————————————————— Portal ———————————————————— */
 
-export const PopoverPortal = ({
-  children,
-}: {
-  children?: React.ReactNode;
-}) => {
+export const PopoverPortal = ({ children }: { children?: React.ReactNode }) => {
   const popoverCtx = usePopoverCtx();
 
   return (

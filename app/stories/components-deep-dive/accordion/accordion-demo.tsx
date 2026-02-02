@@ -101,10 +101,8 @@ function FAQAccordion() {
                 )}
               </AccordionTrigger>
 
-              <AccordionContent>
-                <div className='text-muted-foreground px-4 pb-4 pl-11 text-sm leading-relaxed'>
-                  {answer}
-                </div>
+              <AccordionContent className='text-muted-foreground pl-11 leading-relaxed'>
+                {answer}
               </AccordionContent>
             </AccordionItem>
           ))}
@@ -206,25 +204,19 @@ function SettingsPanelAccordion() {
                     )}
                   </AccordionTrigger>
 
-                  <AccordionContent>
-                    <div className='bg-background border-t px-4 py-3'>
-                      <div className='space-y-3'>
-                        {settings.map(({ label, value }) => (
-                          <div
-                            key={label}
-                            className='flex items-center justify-between text-sm'
-                          >
-                            <span className='text-muted-foreground'>
-                              {label}
-                            </span>
-                            <span className='font-medium'>{value}</span>
-                          </div>
-                        ))}
-                        <Button size='sm' className='mt-2 w-full'>
-                          Edit Settings
-                        </Button>
+                  <AccordionContent className='bg-background space-y-3 border-t px-4 py-3'>
+                    {settings.map(({ label, value }) => (
+                      <div
+                        key={label}
+                        className='flex items-center justify-between text-sm'
+                      >
+                        <span className='text-muted-foreground'>{label}</span>
+                        <span className='font-medium'>{value}</span>
                       </div>
-                    </div>
+                    ))}
+                    <Button size='sm' className='mt-2 w-full'>
+                      Edit Settings
+                    </Button>
                   </AccordionContent>
                 </div>
               </AccordionItem>
@@ -316,10 +308,8 @@ function ProductFeaturesAccordion() {
                   )}
                 </AccordionTrigger>
 
-                <AccordionContent>
-                  <div className='text-muted-foreground border-t px-4 py-4 text-sm leading-relaxed'>
-                    {description}
-                  </div>
+                <AccordionContent className='text-muted-foreground border-t leading-relaxed'>
+                  {description}
                 </AccordionContent>
               </div>
             </AccordionItem>

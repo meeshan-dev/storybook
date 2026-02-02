@@ -133,9 +133,7 @@ export const Default: StoryObj<typeof meta> = {
         <li>
           <code>aria-checked</code> reflects current state
         </li>
-        <li>
-          Associated label is clickable to toggle
-        </li>
+        <li>Associated label is clickable to toggle</li>
         <li>Visible focus ring for keyboard navigation</li>
         <li>Disabled state properly announced</li>
       </ul>

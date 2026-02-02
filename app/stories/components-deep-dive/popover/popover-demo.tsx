@@ -1,18 +1,16 @@
-import { useState } from 'react';
 import { FloatingArrow } from '@floating-ui/react';
 import {
-  IconUser,
-  IconSettings,
   IconBell,
-  IconFilter,
-  IconCheck,
-  IconMail,
   IconBrandGithub,
   IconBrandTwitter,
   IconCalendar,
+  IconCheck,
+  IconFilter,
+  IconMail,
   IconMapPin,
   IconX,
 } from '@tabler/icons-react';
+import { useState } from 'react';
 import { Button } from '~/components/ui/button';
 import { cn } from '~/lib/utils';
 import {
@@ -86,7 +84,7 @@ function UserProfilePopover() {
         {(props) => (
           <button
             {...props}
-            className='flex items-center gap-2 rounded-full border bg-card px-3 py-1.5 text-sm transition-colors hover:bg-muted'
+            className='bg-card hover:bg-muted flex items-center gap-2 rounded-full border px-3 py-1.5 text-sm transition-colors'
           >
             <div className='flex size-7 items-center justify-center rounded-full bg-gradient-to-br from-violet-500 to-purple-600 text-xs font-semibold text-white'>
               SK
@@ -101,7 +99,7 @@ function UserProfilePopover() {
           {({ props, arrowProps }) => (
             <div
               {...props}
-              className='bg-card ring-foreground/10 z-50 w-80 rounded-xl p-0 text-sm ring-1 shadow-lg outline-none data-[hide=true]:hidden'
+              className='bg-card ring-foreground/10 z-50 w-80 rounded-xl p-0 text-sm shadow-lg ring-1 outline-none data-[hide=true]:hidden'
             >
               <FloatingArrow {...arrowProps} className='fill-card' />
 
@@ -111,14 +109,16 @@ function UserProfilePopover() {
               {/* Avatar & Info */}
               <div className='relative px-4 pb-4'>
                 <div className='-mt-10 mb-3 flex items-end justify-between'>
-                  <div className='flex size-16 items-center justify-center rounded-full border-4 border-card bg-gradient-to-br from-violet-500 to-purple-600 text-xl font-bold text-white'>
+                  <div className='border-card flex size-16 items-center justify-center rounded-full border-4 bg-gradient-to-br from-violet-500 to-purple-600 text-xl font-bold text-white'>
                     SK
                   </div>
                   <Button size='sm'>Follow</Button>
                 </div>
 
                 <div className='space-y-1'>
-                  <PopoverTitle className='text-lg font-semibold'>Sarah Kim</PopoverTitle>
+                  <PopoverTitle className='text-lg font-semibold'>
+                    Sarah Kim
+                  </PopoverTitle>
                   <p className='text-muted-foreground text-sm'>@sarahkim</p>
                 </div>
 
@@ -194,7 +194,7 @@ function NotificationSettingsPopover() {
           {({ props, arrowProps }) => (
             <div
               {...props}
-              className='bg-card ring-foreground/10 z-50 w-72 rounded-xl p-4 text-sm ring-1 shadow-lg outline-none data-[hide=true]:hidden'
+              className='bg-card ring-foreground/10 z-50 w-72 rounded-xl p-4 text-sm shadow-lg ring-1 outline-none data-[hide=true]:hidden'
             >
               <FloatingArrow {...arrowProps} className='fill-card' />
 
@@ -302,12 +302,22 @@ function NotificationToggle({
 /* 3. Filter Options                   */
 /* ---------------------------------- */
 
-const filterCategories = ['Design', 'Development', 'Marketing', 'Sales', 'Support'];
+const filterCategories = [
+  'Design',
+  'Development',
+  'Marketing',
+  'Sales',
+  'Support',
+];
 const filterStatuses = ['Active', 'Pending', 'Completed', 'Archived'];
 
 function FilterPopover() {
-  const [selectedCategories, setSelectedCategories] = useState<Set<string>>(new Set(['Design']));
-  const [selectedStatuses, setSelectedStatuses] = useState<Set<string>>(new Set(['Active']));
+  const [selectedCategories, setSelectedCategories] = useState<Set<string>>(
+    new Set(['Design']),
+  );
+  const [selectedStatuses, setSelectedStatuses] = useState<Set<string>>(
+    new Set(['Active']),
+  );
 
   const toggleCategory = (cat: string) => {
     setSelectedCategories((prev) => {
@@ -355,7 +365,7 @@ function FilterPopover() {
           {({ props, arrowProps }) => (
             <div
               {...props}
-              className='bg-card ring-foreground/10 z-50 w-64 rounded-xl p-4 text-sm ring-1 shadow-lg outline-none data-[hide=true]:hidden'
+              className='bg-card ring-foreground/10 z-50 w-64 rounded-xl p-4 text-sm shadow-lg ring-1 outline-none data-[hide=true]:hidden'
             >
               <FloatingArrow {...arrowProps} className='fill-card' />
 
@@ -368,7 +378,7 @@ function FilterPopover() {
 
               <div className='space-y-4'>
                 <div>
-                  <p className='text-muted-foreground mb-2 text-xs font-medium uppercase tracking-wider'>
+                  <p className='text-muted-foreground mb-2 text-xs font-medium tracking-wider uppercase'>
                     Category
                   </p>
                   <div className='flex flex-wrap gap-2'>
@@ -384,7 +394,7 @@ function FilterPopover() {
                 </div>
 
                 <div>
-                  <p className='text-muted-foreground mb-2 text-xs font-medium uppercase tracking-wider'>
+                  <p className='text-muted-foreground mb-2 text-xs font-medium tracking-wider uppercase'>
                     Status
                   </p>
                   <div className='flex flex-wrap gap-2'>
@@ -490,7 +500,7 @@ function DatePickerPopover() {
           {({ props, arrowProps }) => (
             <div
               {...props}
-              className='bg-card ring-foreground/10 z-50 w-56 rounded-xl p-3 text-sm ring-1 shadow-lg outline-none data-[hide=true]:hidden'
+              className='bg-card ring-foreground/10 z-50 w-56 rounded-xl p-3 text-sm shadow-lg ring-1 outline-none data-[hide=true]:hidden'
             >
               <FloatingArrow {...arrowProps} className='fill-card' />
 
@@ -509,7 +519,9 @@ function DatePickerPopover() {
                         {...closeProps}
                         onClick={() => {
                           setSelected(preset.days);
-                          closeProps.onClick?.({} as React.MouseEvent<HTMLButtonElement>);
+                          closeProps.onClick?.(
+                            {} as React.MouseEvent<HTMLButtonElement>,
+                          );
                         }}
                         className={cn(
                           'flex w-full items-center justify-between rounded-lg px-3 py-2 transition-colors',
@@ -529,7 +541,7 @@ function DatePickerPopover() {
               </div>
 
               <div className='mt-2 border-t pt-2'>
-                <button className='text-muted-foreground hover:text-foreground flex w-full items-center gap-2 rounded-lg px-3 py-2 transition-colors hover:bg-muted'>
+                <button className='text-muted-foreground hover:text-foreground hover:bg-muted flex w-full items-center gap-2 rounded-lg px-3 py-2 transition-colors'>
                   <IconCalendar className='size-4' />
                   Custom date...
                 </button>

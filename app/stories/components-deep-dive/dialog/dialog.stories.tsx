@@ -118,9 +118,7 @@ export const Default: StoryObj<typeof meta> = {
         <li>
           <code>aria-describedby</code> pointing to dialog description
         </li>
-        <li>
-          Focus moves into dialog on open and returns to trigger on close
-        </li>
+        <li>Focus moves into dialog on open and returns to trigger on close</li>
         <li>Focus is trapped within the dialog while open</li>
         <li>Background content is inert and hidden from screen readers</li>
       </ul>

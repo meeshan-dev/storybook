@@ -42,8 +42,8 @@ export const Default: StoryObj<typeof meta> = {
           list with proper <code>&lt;li&gt;</code> items
         </li>
         <li>
-          <strong>Memoized computation</strong> — Page range calculation memoized
-          to prevent unnecessary recalculation
+          <strong>Memoized computation</strong> — Page range calculation
+          memoized to prevent unnecessary recalculation
         </li>
       </ul>
 
@@ -166,12 +166,19 @@ export const Default: StoryObj<typeof meta> = {
 
       <ul>
         <li>
-          Uses semantic <code>&lt;ul&gt;</code>/<code>&lt;li&gt;</code> structure
+          Uses semantic <code>&lt;ul&gt;</code>/<code>&lt;li&gt;</code>{' '}
+          structure
         </li>
         <li>Controls are properly disabled at boundaries</li>
-        <li>Current page indicated via <code>data-selected</code> for styling</li>
-        <li>Consider adding <code>aria-label="Pagination"</code> to root</li>
-        <li>Consider <code>aria-current="page"</code> for current page button</li>
+        <li>
+          Current page indicated via <code>data-selected</code> for styling
+        </li>
+        <li>
+          Consider adding <code>aria-label="Pagination"</code> to root
+        </li>
+        <li>
+          Consider <code>aria-current="page"</code> for current page button
+        </li>
       </ul>
 
       <StorySourceCode>{sourceCode}</StorySourceCode>

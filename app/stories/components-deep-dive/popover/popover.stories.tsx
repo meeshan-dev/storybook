@@ -88,7 +88,9 @@ export const Default: StoryObj<typeof meta> = {
               <td className='py-2 pr-4'>
                 <code>Tab</code>
               </td>
-              <td className='py-2'>Navigate focusable elements within popover</td>
+              <td className='py-2'>
+                Navigate focusable elements within popover
+              </td>
             </tr>
           </tbody>
         </table>
@@ -139,8 +141,8 @@ export const Default: StoryObj<typeof meta> = {
 
       <ul>
         <li>
-          Trigger has <code>aria-expanded</code> and{' '}
-          <code>aria-controls</code> attributes
+          Trigger has <code>aria-expanded</code> and <code>aria-controls</code>{' '}
+          attributes
         </li>
         <li>
           Content has <code>aria-labelledby</code> and{' '}

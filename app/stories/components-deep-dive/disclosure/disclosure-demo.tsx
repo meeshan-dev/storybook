@@ -1,15 +1,15 @@
 import {
-  IconChevronDown,
-  IconPlus,
-  IconMinus,
-  IconQuestionMark,
-  IconSettings,
-  IconShield,
   IconBell,
-  IconPalette,
+  IconChevronDown,
   IconCode,
   IconDatabase,
   IconLock,
+  IconMinus,
+  IconPalette,
+  IconPlus,
+  IconQuestionMark,
+  IconSettings,
+  IconShield,
 } from '@tabler/icons-react';
 import { cn } from '~/lib/utils';
 import {
@@ -111,7 +111,7 @@ function FAQSection() {
                 <button
                   {...props}
                   className={cn(
-                    'group flex w-full items-center justify-between px-5 py-4 text-left font-medium transition-colors hover:bg-muted/50',
+                    'group hover:bg-muted/50 flex w-full items-center justify-between px-5 py-4 text-left font-medium transition-colors',
                     index === 0 && 'rounded-t-xl',
                     index === faqItems.length - 1 && 'rounded-b-xl',
                   )}
@@ -120,7 +120,7 @@ function FAQSection() {
                     <IconQuestionMark className='text-muted-foreground size-5' />
                     {item.question}
                   </div>
-                  <span className='bg-muted flex size-6 items-center justify-center rounded-full transition-colors group-data-[expanded=true]:bg-foreground group-data-[expanded=true]:text-background'>
+                  <span className='bg-muted group-data-[expanded=true]:bg-foreground group-data-[expanded=true]:text-background flex size-6 items-center justify-center rounded-full transition-colors'>
                     <IconPlus className='size-4 group-data-[expanded=true]:hidden' />
                     <IconMinus className='hidden size-4 group-data-[expanded=true]:block' />
                   </span>
@@ -128,10 +128,8 @@ function FAQSection() {
               )}
             </DisclosureTrigger>
 
-            <DisclosureContent>
-              <div className='text-muted-foreground border-t px-5 py-4 pl-13'>
-                {item.answer}
-              </div>
+            <DisclosureContent className='text-muted-foreground border-t px-5 pl-13'>
+              {item.answer}
             </DisclosureContent>
           </DisclosureItem>
         ))}
@@ -189,7 +187,7 @@ const settingsSections = [
 
 function SettingsPanel() {
   return (
-    <div className='max-w-md rounded-xl border bg-card'>
+    <div className='bg-card max-w-md rounded-xl border'>
       <DisclosureRoot type='single' defaultValue='general' isSingleCollapsible>
         {settingsSections.map((section) => (
           <DisclosureItem key={section.id} value={section.id}>
@@ -197,7 +195,7 @@ function SettingsPanel() {
               {(props) => (
                 <button
                   {...props}
-                  className='group flex w-full items-center justify-between border-b px-4 py-3 text-left transition-colors last:border-b-0 hover:bg-muted/50 data-[expanded=true]:border-b'
+                  className='group hover:bg-muted/50 flex w-full items-center justify-between border-b px-4 py-3 text-left transition-colors last:border-b-0 data-[expanded=true]:border-b'
                 >
                   <div className='flex items-center gap-3'>
                     <div className='bg-muted flex size-8 items-center justify-center rounded-lg'>
@@ -210,23 +208,21 @@ function SettingsPanel() {
               )}
             </DisclosureTrigger>
 
-            <DisclosureContent>
-              <div className='space-y-3 border-b px-4 py-4 last:border-b-0'>
-                {section.content.map((item) => (
-                  <div
-                    key={item.label}
-                    className='flex items-center justify-between'
-                  >
-                    <span className='text-muted-foreground text-sm'>
-                      {item.label}
-                    </span>
-                    <span className='text-sm font-medium'>{item.value}</span>
-                  </div>
-                ))}
-                <button className='mt-2 w-full rounded-lg bg-muted px-3 py-2 text-sm font-medium transition-colors hover:bg-muted/80'>
-                  Edit Settings
-                </button>
-              </div>
+            <DisclosureContent className='space-y-3 border-b px-4 last:border-b-0'>
+              {section.content.map((item) => (
+                <div
+                  key={item.label}
+                  className='flex items-center justify-between'
+                >
+                  <span className='text-muted-foreground text-sm'>
+                    {item.label}
+                  </span>
+                  <span className='text-sm font-medium'>{item.value}</span>
+                </div>
+              ))}
+              <button className='bg-muted hover:bg-muted/80 mt-2 w-full rounded-lg px-3 py-2 text-sm font-medium transition-colors'>
+                Edit Settings
+              </button>
             </DisclosureContent>
           </DisclosureItem>
         ))}
@@ -248,7 +244,13 @@ const filterGroups = [
   {
     id: 'price',
     title: 'Price Range',
-    options: ['Under $25', '$25 - $50', '$50 - $100', '$100 - $200', 'Over $200'],
+    options: [
+      'Under $25',
+      '$25 - $50',
+      '$50 - $100',
+      '$100 - $200',
+      'Over $200',
+    ],
   },
   {
     id: 'brand',
@@ -264,7 +266,7 @@ const filterGroups = [
 
 function FilterPanel() {
   return (
-    <div className='w-64 rounded-xl border bg-card'>
+    <div className='bg-card w-64 rounded-xl border'>
       <div className='border-b px-4 py-3'>
         <h4 className='font-semibold'>Filters</h4>
       </div>
@@ -275,7 +277,7 @@ function FilterPanel() {
               {(props) => (
                 <button
                   {...props}
-                  className='group flex w-full items-center justify-between border-b px-4 py-3 text-left text-sm font-medium transition-colors hover:bg-muted/50'
+                  className='group hover:bg-muted/50 flex w-full items-center justify-between border-b px-4 py-3 text-left text-sm font-medium transition-colors'
                 >
                   {group.title}
                   <IconChevronDown className='text-muted-foreground size-4 transition-transform group-data-[expanded=true]:rotate-180' />
@@ -283,32 +285,30 @@ function FilterPanel() {
               )}
             </DisclosureTrigger>
 
-            <DisclosureContent>
-              <div className='space-y-2 border-b px-4 py-3'>
-                {group.options.map((option) => (
-                  <label
-                    key={option}
-                    className='flex cursor-pointer items-center gap-2'
-                  >
-                    <input
-                      type='checkbox'
-                      className='size-4 rounded border-gray-300'
-                    />
-                    <span className='text-muted-foreground text-sm'>
-                      {option}
-                    </span>
-                  </label>
-                ))}
-              </div>
+            <DisclosureContent className='space-y-2 border-b px-4 py-3'>
+              {group.options.map((option) => (
+                <label
+                  key={option}
+                  className='flex cursor-pointer items-center gap-2'
+                >
+                  <input
+                    type='checkbox'
+                    className='size-4 rounded border-gray-300'
+                  />
+                  <span className='text-muted-foreground text-sm'>
+                    {option}
+                  </span>
+                </label>
+              ))}
             </DisclosureContent>
           </DisclosureItem>
         ))}
       </DisclosureRoot>
       <div className='flex gap-2 p-4'>
-        <button className='flex-1 rounded-lg bg-muted px-3 py-2 text-sm font-medium transition-colors hover:bg-muted/80'>
+        <button className='bg-muted hover:bg-muted/80 flex-1 rounded-lg px-3 py-2 text-sm font-medium transition-colors'>
           Clear
         </button>
-        <button className='flex-1 rounded-lg bg-foreground px-3 py-2 text-sm font-medium text-background transition-colors hover:bg-foreground/90'>
+        <button className='bg-foreground text-background hover:bg-foreground/90 flex-1 rounded-lg px-3 py-2 text-sm font-medium transition-colors'>
           Apply
         </button>
       </div>
@@ -327,7 +327,11 @@ const features = [
     icon: IconCode,
     description:
       'Full REST API access with comprehensive documentation. Includes rate limiting of 1000 requests/minute and webhook support for real-time updates.',
-    details: ['GraphQL support', 'SDK for major languages', 'Sandbox environment'],
+    details: [
+      'GraphQL support',
+      'SDK for major languages',
+      'Sandbox environment',
+    ],
   },
   {
     id: 'storage',
@@ -349,15 +353,19 @@ const features = [
 
 function FeatureList() {
   return (
-    <div className='max-w-xl rounded-xl border bg-card'>
-      <DisclosureRoot type='single' defaultValue='api' isSingleCollapsible={false}>
+    <div className='bg-card max-w-xl rounded-xl border'>
+      <DisclosureRoot
+        type='single'
+        defaultValue='api'
+        isSingleCollapsible={false}
+      >
         {features.map((feature) => (
           <DisclosureItem key={feature.id} value={feature.id}>
             <DisclosureTrigger>
               {(props) => (
                 <button
                   {...props}
-                  className='group flex w-full items-center gap-4 border-b px-5 py-4 text-left transition-colors last:border-b-0 hover:bg-muted/50 data-[expanded=true]:bg-blue-50 dark:data-[expanded=true]:bg-blue-950/20'
+                  className='group hover:bg-muted/50 flex w-full items-center gap-4 border-b px-5 py-4 text-left transition-colors last:border-b-0 data-[expanded=true]:bg-blue-50 dark:data-[expanded=true]:bg-blue-950/20'
                 >
                   <div
                     className={cn(
@@ -380,19 +388,19 @@ function FeatureList() {
               )}
             </DisclosureTrigger>
 
-            <DisclosureContent>
-              <div className='border-b bg-blue-50/50 px-5 py-4 dark:bg-blue-950/10'>
-                <p className='text-muted-foreground mb-3'>{feature.description}</p>
-                <div className='flex flex-wrap gap-2'>
-                  {feature.details.map((detail) => (
-                    <span
-                      key={detail}
-                      className='rounded-full bg-blue-100 px-3 py-1 text-xs font-medium text-blue-700 dark:bg-blue-900/50 dark:text-blue-300'
-                    >
-                      {detail}
-                    </span>
-                  ))}
-                </div>
+            <DisclosureContent className='border-b bg-blue-50/50 px-5 dark:bg-blue-950/10'>
+              <p className='text-muted-foreground mb-3'>
+                {feature.description}
+              </p>
+              <div className='flex flex-wrap gap-2'>
+                {feature.details.map((detail) => (
+                  <span
+                    key={detail}
+                    className='rounded-full bg-blue-100 px-3 py-1 text-xs font-medium text-blue-700 dark:bg-blue-900/50 dark:text-blue-300'
+                  >
+                    {detail}
+                  </span>
+                ))}
               </div>
             </DisclosureContent>
           </DisclosureItem>

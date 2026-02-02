@@ -40,10 +40,9 @@ export const Default: StoryObj<typeof meta> = {
           indeterminate states via <code>HTMLInputElement.indeterminate</code>
         </li>
         <li>
-          <strong>Icon slot system</strong> —{' '}
-          <code>CheckboxIcon</code> with <code>type="box"</code>,{' '}
-          <code>"check"</code>, and <code>"indeterminate"</code> for conditional
-          rendering
+          <strong>Icon slot system</strong> — <code>CheckboxIcon</code> with{' '}
+          <code>type="box"</code>, <code>"check"</code>, and{' '}
+          <code>"indeterminate"</code> for conditional rendering
         </li>
         <li>
           <strong>Proper ARIA</strong> — Uses <code>aria-checked="mixed"</code>{' '}
@@ -58,7 +57,8 @@ export const Default: StoryObj<typeof meta> = {
       <div className='story-demo not-typography'>
         <h2>Interactive Examples</h2>
         <p className='text-muted-foreground mb-6'>
-          Task lists, permissions matrix, terms acceptance, and feature selection
+          Task lists, permissions matrix, terms acceptance, and feature
+          selection
         </p>
         <div>
           <CheckboxDemo />

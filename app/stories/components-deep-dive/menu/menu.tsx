@@ -547,11 +547,7 @@ const [MenuGroupProvider, useMenuGroupCtx] = createContextScope<{
   labelId?: string;
 }>();
 
-export function MenuGroup({
-  children,
-}: {
-  children?: React.ReactNode;
-}) {
+export function MenuGroup({ children }: { children?: React.ReactNode }) {
   const labelId = useId();
 
   return (
@@ -586,11 +582,7 @@ export function MenuGroupLabel({
 }
 /* ———————————————————— Group Content ———————————————————— */
 
-export function MenuGroupContent({
-  children,
-}: {
-  children?: React.ReactNode;
-}) {
+export function MenuGroupContent({ children }: { children?: React.ReactNode }) {
   const { labelId } = useMenuGroupCtx();
 
   return (
@@ -602,11 +594,7 @@ export function MenuGroupContent({
 
 /* ———————————————————— Portal ———————————————————— */
 
-export const MenuPortal = ({
-  children,
-}: {
-  children?: React.ReactNode;
-}) => {
+export const MenuPortal = ({ children }: { children?: React.ReactNode }) => {
   const menuCtx = useMenuCtx();
 
   return (

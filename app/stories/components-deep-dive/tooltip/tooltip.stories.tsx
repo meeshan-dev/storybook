@@ -49,8 +49,10 @@ export const Default: StoryObj<typeof meta> = {
         </li>
         <li>
           <strong>Interactive mode</strong> —{' '}
-          <code>disableInteractive={'{'}false{'}'}</code> allows hovering over
-          tooltip content
+          <code>
+            disableInteractive={'{'}false{'}'}
+          </code>{' '}
+          allows hovering over tooltip content
         </li>
         <li>
           <strong>Render prop pattern</strong> — Full control over trigger and
@@ -116,7 +118,9 @@ export const Default: StoryObj<typeof meta> = {
             <tr className='border-b'>
               <td className='py-2 pr-4'>Default</td>
               <td className='py-2 pr-4'>
-                <code>trigger={'{'}undefined{'}'}</code>
+                <code>
+                  trigger={'{'}undefined{'}'}
+                </code>
               </td>
               <td className='py-2'>Shows on hover and focus</td>
             </tr>

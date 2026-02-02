@@ -17,7 +17,10 @@ export const Default: StoryObj<typeof meta> = {
 
       <p>
         A flexible, accessible tabs component implementing the{' '}
-        <a href='https://www.w3.org/WAI/ARIA/apg/patterns/tabs/' target='_blank'>
+        <a
+          href='https://www.w3.org/WAI/ARIA/apg/patterns/tabs/'
+          target='_blank'
+        >
           WAI-ARIA Tabs Pattern
         </a>
         . Supports horizontal and vertical orientations, automatic and manual

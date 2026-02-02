@@ -34,8 +34,10 @@ export const Default: StoryObj<typeof meta> = {
           scroll lock, and portal implementation
         </li>
         <li>
-          <strong>Uses <code>role="alertdialog"</code></strong> — Proper
-          semantic role for assistive technologies
+          <strong>
+            Uses <code>role="alertdialog"</code>
+          </strong>{' '}
+          — Proper semantic role for assistive technologies
         </li>
         <li>
           <strong>Layer-aware</strong> — Works correctly when nested within

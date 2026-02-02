@@ -1,17 +1,17 @@
-import { useState } from 'react';
 import {
+  IconCalendar,
   IconChevronLeft,
   IconChevronRight,
   IconChevronsLeft,
   IconChevronsRight,
   IconDots,
+  IconMail,
   IconPhoto,
   IconUser,
-  IconMail,
-  IconCalendar,
 } from '@tabler/icons-react';
-import { cn } from '~/lib/utils';
+import { useState } from 'react';
 import { Button } from '~/components/ui/button';
+import { cn } from '~/lib/utils';
 import {
   PaginationControl,
   PaginationPages,
@@ -73,10 +73,25 @@ export function PaginationDemo() {
 /* ---------------------------------- */
 
 const mockUsers = [
-  { id: 1, name: 'Alice Johnson', email: 'alice@example.com', date: '2024-01-15' },
+  {
+    id: 1,
+    name: 'Alice Johnson',
+    email: 'alice@example.com',
+    date: '2024-01-15',
+  },
   { id: 2, name: 'Bob Smith', email: 'bob@example.com', date: '2024-01-14' },
-  { id: 3, name: 'Carol White', email: 'carol@example.com', date: '2024-01-13' },
-  { id: 4, name: 'David Brown', email: 'david@example.com', date: '2024-01-12' },
+  {
+    id: 3,
+    name: 'Carol White',
+    email: 'carol@example.com',
+    date: '2024-01-13',
+  },
+  {
+    id: 4,
+    name: 'David Brown',
+    email: 'david@example.com',
+    date: '2024-01-12',
+  },
   { id: 5, name: 'Eva Martinez', email: 'eva@example.com', date: '2024-01-11' },
 ];
 
@@ -90,7 +105,7 @@ function DataTablePagination() {
       {/* Table */}
       <div className='overflow-x-auto'>
         <table className='w-full text-sm'>
-          <thead className='border-b bg-muted/30'>
+          <thead className='bg-muted/30 border-b'>
             <tr>
               <th className='px-4 py-3 text-left font-medium'>
                 <div className='flex items-center gap-2'>
@@ -116,7 +131,9 @@ function DataTablePagination() {
             {mockUsers.map((user) => (
               <tr key={user.id} className='hover:bg-muted/30 transition-colors'>
                 <td className='px-4 py-3 font-medium'>{user.name}</td>
-                <td className='text-muted-foreground px-4 py-3'>{user.email}</td>
+                <td className='text-muted-foreground px-4 py-3'>
+                  {user.email}
+                </td>
                 <td className='text-muted-foreground px-4 py-3'>{user.date}</td>
               </tr>
             ))}
@@ -133,7 +150,7 @@ function DataTablePagination() {
           <select
             value={pageSize}
             onChange={(e) => setPageSize(Number(e.target.value))}
-            className='rounded-lg border bg-background px-2 py-1 text-sm'
+            className='bg-background rounded-lg border px-2 py-1 text-sm'
           >
             <option value={10}>10 per page</option>
             <option value={25}>25 per page</option>
@@ -147,7 +164,7 @@ function DataTablePagination() {
             {(props) => (
               <button
                 {...props}
-                className='flex size-8 items-center justify-center rounded-lg border transition-colors hover:bg-muted disabled:opacity-50 disabled:pointer-events-none'
+                className='hover:bg-muted flex size-8 items-center justify-center rounded-lg border transition-colors disabled:pointer-events-none disabled:opacity-50'
               >
                 <IconChevronsLeft className='size-4' />
               </button>
@@ -158,7 +175,7 @@ function DataTablePagination() {
             {(props) => (
               <button
                 {...props}
-                className='flex size-8 items-center justify-center rounded-lg border transition-colors hover:bg-muted disabled:opacity-50 disabled:pointer-events-none'
+                className='hover:bg-muted flex size-8 items-center justify-center rounded-lg border transition-colors disabled:pointer-events-none disabled:opacity-50'
               >
                 <IconChevronLeft className='size-4' />
               </button>
@@ -182,7 +199,7 @@ function DataTablePagination() {
                     'flex size-8 items-center justify-center rounded-lg text-sm font-medium transition-colors',
                     selected
                       ? 'bg-foreground text-background'
-                      : 'border hover:bg-muted',
+                      : 'hover:bg-muted border',
                   )}
                 >
                   {page}
@@ -195,7 +212,7 @@ function DataTablePagination() {
             {(props) => (
               <button
                 {...props}
-                className='flex size-8 items-center justify-center rounded-lg border transition-colors hover:bg-muted disabled:opacity-50 disabled:pointer-events-none'
+                className='hover:bg-muted flex size-8 items-center justify-center rounded-lg border transition-colors disabled:pointer-events-none disabled:opacity-50'
               >
                 <IconChevronRight className='size-4' />
               </button>
@@ -206,7 +223,7 @@ function DataTablePagination() {
             {(props) => (
               <button
                 {...props}
-                className='flex size-8 items-center justify-center rounded-lg border transition-colors hover:bg-muted disabled:opacity-50 disabled:pointer-events-none'
+                className='hover:bg-muted flex size-8 items-center justify-center rounded-lg border transition-colors disabled:pointer-events-none disabled:opacity-50'
               >
                 <IconChevronsRight className='size-4' />
               </button>
@@ -225,7 +242,14 @@ function DataTablePagination() {
 const galleryImages = Array.from({ length: 6 }, (_, i) => ({
   id: i + 1,
   title: `Photo ${i + 1}`,
-  color: ['bg-rose-100', 'bg-blue-100', 'bg-emerald-100', 'bg-amber-100', 'bg-violet-100', 'bg-cyan-100'][i],
+  color: [
+    'bg-rose-100',
+    'bg-blue-100',
+    'bg-emerald-100',
+    'bg-amber-100',
+    'bg-violet-100',
+    'bg-cyan-100',
+  ][i],
 }));
 
 function GalleryPagination() {
@@ -253,7 +277,7 @@ function GalleryPagination() {
             {(props) => (
               <button
                 {...props}
-                className='mr-2 flex items-center gap-1 rounded-lg px-3 py-2 text-sm font-medium transition-colors hover:bg-muted disabled:opacity-50 disabled:pointer-events-none'
+                className='hover:bg-muted mr-2 flex items-center gap-1 rounded-lg px-3 py-2 text-sm font-medium transition-colors disabled:pointer-events-none disabled:opacity-50'
               >
                 <IconChevronLeft className='size-4' />
                 Previous
@@ -276,9 +300,7 @@ function GalleryPagination() {
                   disabled={disabled}
                   className={cn(
                     'flex size-10 items-center justify-center rounded-full text-sm font-medium transition-colors',
-                    selected
-                      ? 'bg-blue-600 text-white'
-                      : 'hover:bg-muted',
+                    selected ? 'bg-blue-600 text-white' : 'hover:bg-muted',
                   )}
                 >
                   {page}
@@ -291,7 +313,7 @@ function GalleryPagination() {
             {(props) => (
               <button
                 {...props}
-                className='ml-2 flex items-center gap-1 rounded-lg px-3 py-2 text-sm font-medium transition-colors hover:bg-muted disabled:opacity-50 disabled:pointer-events-none'
+                className='hover:bg-muted ml-2 flex items-center gap-1 rounded-lg px-3 py-2 text-sm font-medium transition-colors disabled:pointer-events-none disabled:opacity-50'
               >
                 Next
                 <IconChevronRight className='size-4' />
@@ -310,13 +332,13 @@ function GalleryPagination() {
 
 function CompactPagination() {
   return (
-    <div className='inline-flex items-center rounded-lg border bg-card'>
+    <div className='bg-card inline-flex items-center rounded-lg border'>
       <PaginationRoot totalPages={50} siblingCount={0} boundaryCount={0}>
         <PaginationControl type='previous'>
           {(props) => (
             <button
               {...props}
-              className='flex size-9 items-center justify-center border-r transition-colors hover:bg-muted disabled:opacity-50 disabled:pointer-events-none'
+              className='hover:bg-muted flex size-9 items-center justify-center border-r transition-colors disabled:pointer-events-none disabled:opacity-50'
             >
               <IconChevronLeft className='size-4' />
             </button>
@@ -338,7 +360,7 @@ function CompactPagination() {
           {(props) => (
             <button
               {...props}
-              className='flex size-9 items-center justify-center border-l transition-colors hover:bg-muted disabled:opacity-50 disabled:pointer-events-none'
+              className='hover:bg-muted flex size-9 items-center justify-center border-l transition-colors disabled:pointer-events-none disabled:opacity-50'
             >
               <IconChevronRight className='size-4' />
             </button>

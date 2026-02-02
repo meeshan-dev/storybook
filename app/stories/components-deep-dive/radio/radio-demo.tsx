@@ -1,14 +1,14 @@
 import {
+  IconBuilding,
   IconCheck,
   IconCreditCard,
   IconMoon,
+  IconPackage,
   IconRocket,
   IconSun,
   IconSunMoon,
   IconTruck,
   IconTruckDelivery,
-  IconPackage,
-  IconBuilding,
 } from '@tabler/icons-react';
 import { cn } from '~/lib/utils';
 import { Radio, RadioGroupRoot, RadioIcon } from './radio';
@@ -119,7 +119,9 @@ function PricingPlans() {
             <div className='mb-4 flex items-start justify-between'>
               <div>
                 <h4 className='font-semibold'>{plan.name}</h4>
-                <p className='text-muted-foreground text-sm'>{plan.description}</p>
+                <p className='text-muted-foreground text-sm'>
+                  {plan.description}
+                </p>
               </div>
               <PlanIndicator>
                 <Radio value={plan.id}>
@@ -137,7 +139,10 @@ function PricingPlans() {
 
             <ul className='space-y-2'>
               {plan.features.map((feature) => (
-                <li key={feature} className='text-muted-foreground flex items-center gap-2 text-sm'>
+                <li
+                  key={feature}
+                  className='text-muted-foreground flex items-center gap-2 text-sm'
+                >
                   <IconCheck className='size-4 text-emerald-600 dark:text-emerald-400' />
                   {feature}
                 </li>
@@ -226,7 +231,9 @@ function ShippingOptions() {
                   </span>
                 )}
               </div>
-              <span className='text-muted-foreground text-sm'>{option.description}</span>
+              <span className='text-muted-foreground text-sm'>
+                {option.description}
+              </span>
             </div>
 
             <span className='font-semibold'>{option.price}</span>
@@ -262,8 +269,8 @@ function ThemeSelector() {
               'focus-within:ring-ring/50 outline-none focus-within:ring-[3px]',
             )}
           >
-            <div className='bg-muted/50 group-has-[input:checked]:bg-purple-600/10 dark:group-has-[input:checked]:bg-purple-400/10 flex size-12 items-center justify-center rounded-full transition-colors'>
-              <theme.icon className='text-muted-foreground group-has-[input:checked]:text-purple-600 dark:group-has-[input:checked]:text-purple-400 size-6 transition-colors' />
+            <div className='bg-muted/50 flex size-12 items-center justify-center rounded-full transition-colors group-has-[input:checked]:bg-purple-600/10 dark:group-has-[input:checked]:bg-purple-400/10'>
+              <theme.icon className='text-muted-foreground size-6 transition-colors group-has-[input:checked]:text-purple-600 dark:group-has-[input:checked]:text-purple-400' />
             </div>
 
             <span className='text-sm font-medium'>{theme.name}</span>
@@ -290,9 +297,17 @@ function ThemeSelector() {
 /* ---------------------------------- */
 
 const paymentMethods = [
-  { id: 'card', name: 'Credit Card', description: 'Pay with Visa, Mastercard, etc.' },
+  {
+    id: 'card',
+    name: 'Credit Card',
+    description: 'Pay with Visa, Mastercard, etc.',
+  },
   { id: 'paypal', name: 'PayPal', description: 'Quick and secure payment' },
-  { id: 'crypto', name: 'Cryptocurrency', description: 'Bitcoin, Ethereum accepted' },
+  {
+    id: 'crypto',
+    name: 'Cryptocurrency',
+    description: 'Bitcoin, Ethereum accepted',
+  },
 ];
 
 function PaymentMethod() {
@@ -323,7 +338,9 @@ function PaymentMethod() {
 
             <div className='flex-1'>
               <span className='font-medium'>{method.name}</span>
-              <p className='text-muted-foreground text-sm'>{method.description}</p>
+              <p className='text-muted-foreground text-sm'>
+                {method.description}
+              </p>
             </div>
 
             {method.id === 'card' && (
@@ -358,7 +375,13 @@ function PlanIndicator({ children }: { children: React.ReactNode }) {
   );
 }
 
-function ShippingIndicator({ children, color }: { children: React.ReactNode; color: 'blue' }) {
+function ShippingIndicator({
+  children,
+  color,
+}: {
+  children: React.ReactNode;
+  color: 'blue';
+}) {
   return (
     <div
       className={cn(
@@ -375,7 +398,13 @@ function ShippingIndicator({ children, color }: { children: React.ReactNode; col
   );
 }
 
-function ThemeIndicator({ children, color }: { children: React.ReactNode; color: 'purple' }) {
+function ThemeIndicator({
+  children,
+  color,
+}: {
+  children: React.ReactNode;
+  color: 'purple';
+}) {
   return (
     <div
       className={cn(

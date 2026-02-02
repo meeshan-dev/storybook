@@ -36,19 +36,18 @@ export const Default: StoryObj<typeof meta> = {
           attribute for browser-native grouping
         </li>
         <li>
-          <strong>Context-based state</strong> —{' '}
-          <code>RadioGroupRoot</code> manages selection state, individual{' '}
-          <code>Radio</code> components subscribe automatically
+          <strong>Context-based state</strong> — <code>RadioGroupRoot</code>{' '}
+          manages selection state, individual <code>Radio</code> components
+          subscribe automatically
         </li>
         <li>
-          <strong>CSS-driven visuals</strong> — Uses{' '}
-          <code>:checked</code> and <code>group-has-[input:checked]</code> for
-          zero-JS indicator updates
+          <strong>CSS-driven visuals</strong> — Uses <code>:checked</code> and{' '}
+          <code>group-has-[input:checked]</code> for zero-JS indicator updates
         </li>
         <li>
-          <strong>Icon slot system</strong> —{' '}
-          <code>RadioIcon</code> with <code>type="box"</code> and{' '}
-          <code>type="check"</code> for conditional rendering
+          <strong>Icon slot system</strong> — <code>RadioIcon</code> with{' '}
+          <code>type="box"</code> and <code>type="check"</code> for conditional
+          rendering
         </li>
         <li>
           <strong>Form integration</strong> — Works with native form submission
@@ -150,7 +149,9 @@ export const Default: StoryObj<typeof meta> = {
         <li>
           Grouped by <code>name</code> attribute for screen readers
         </li>
-        <li>Arrow key navigation moves focus AND selection (standard pattern)</li>
+        <li>
+          Arrow key navigation moves focus AND selection (standard pattern)
+        </li>
         <li>Visible focus ring with proper contrast</li>
         <li>Disabled state properly announced and prevents interaction</li>
       </ul>

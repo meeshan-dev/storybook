@@ -59,10 +59,7 @@ function CountrySelectorCombobox() {
           <IconFlag size={16} />
           Country of Residence
         </Label>
-        <Combobox
-          options={countries}
-          placeholder='Search countries...'
-        />
+        <Combobox options={countries} placeholder='Search countries...' />
       </div>
     </section>
   );
@@ -103,10 +100,7 @@ function UserSearchCombobox() {
           <IconUser size={16} />
           Assignee
         </Label>
-        <Combobox
-          options={teamMembers}
-          placeholder='Search team members...'
-        />
+        <Combobox options={teamMembers} placeholder='Search team members...' />
       </div>
     </section>
   );
@@ -155,11 +149,7 @@ function SkillsMultiSelect() {
           <IconSearch size={16} />
           Skills & Technologies
         </Label>
-        <Combobox
-          multiple
-          options={skills}
-          placeholder='Search skills...'
-        />
+        <Combobox multiple options={skills} placeholder='Search skills...' />
       </div>
     </section>
   );
@@ -180,7 +170,11 @@ const programmingLanguages = [
   { label: 'Rust', value: 'rust', tier: 'enterprise' },
   { label: 'Swift', value: 'swift', tier: 'enterprise' },
   { label: 'Kotlin', value: 'kotlin', tier: 'enterprise' },
-].map((l) => ({ label: `${l.label} ${l.tier !== 'free' ? `(${l.tier})` : ''}`, value: l.value, disabled: l.tier !== 'free' }));
+].map((l) => ({
+  label: `${l.label} ${l.tier !== 'free' ? `(${l.tier})` : ''}`,
+  value: l.value,
+  disabled: l.tier !== 'free',
+}));
 
 function ProgrammingLanguagesCombobox() {
   return (
@@ -199,9 +193,14 @@ function ProgrammingLanguagesCombobox() {
         <Label>Primary Language</Label>
         <Combobox
           multiple
-          options={programmingLanguages.map((l) => ({ label: l.label, value: l.value }))}
+          options={programmingLanguages.map((l) => ({
+            label: l.label,
+            value: l.value,
+          }))}
           getOptionDisabled={(opt) => {
-            const lang = programmingLanguages.find((l) => l.value === opt.value);
+            const lang = programmingLanguages.find(
+              (l) => l.value === opt.value,
+            );
             return lang?.disabled ?? false;
           }}
           placeholder='Search languages...'

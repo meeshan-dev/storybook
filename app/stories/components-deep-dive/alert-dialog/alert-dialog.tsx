@@ -15,11 +15,7 @@ const [AlertDialogCtx, useAlertDialogCtx] = createContextScope<{
   contentRef: React.RefObject<HTMLDivElement | null>;
 }>();
 
-export function AlertDialogRoot({
-  children,
-}: {
-  children?: React.ReactNode;
-}) {
+export function AlertDialogRoot({ children }: { children?: React.ReactNode }) {
   const contentRef = useRef<HTMLDivElement>(null);
 
   const [open, setOpen] = useState(false);

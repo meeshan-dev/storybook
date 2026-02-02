@@ -193,11 +193,7 @@ export function TooltipTrigger({
 
 /* ———————————————————— Portal ———————————————————— */
 
-export const TooltipPortal = ({
-  children,
-}: {
-  children?: React.ReactNode;
-}) => {
+export const TooltipPortal = ({ children }: { children?: React.ReactNode }) => {
   const context = useTooltipCtx();
 
   return (

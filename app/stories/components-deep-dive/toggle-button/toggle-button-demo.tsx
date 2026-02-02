@@ -1,21 +1,21 @@
 import {
-  IconLayoutGrid,
-  IconLayoutList,
-  IconLayoutColumns,
-  IconBold,
-  IconItalic,
-  IconUnderline,
-  IconStrikethrough,
-  IconAlignLeft,
   IconAlignCenter,
-  IconAlignRight,
   IconAlignJustified,
-  IconStar,
-  IconHeart,
+  IconAlignLeft,
+  IconAlignRight,
+  IconBold,
   IconBookmark,
   IconFilter,
+  IconHeart,
+  IconItalic,
+  IconLayoutColumns,
+  IconLayoutGrid,
+  IconLayoutList,
   IconSortAscending,
   IconSortDescending,
+  IconStar,
+  IconStrikethrough,
+  IconUnderline,
 } from '@tabler/icons-react';
 import { cn } from '~/lib/utils';
 import { ToggleButton, ToggleButtonGroup } from './toggle-button';
@@ -94,7 +94,7 @@ const viewModes = [
 function ViewSwitcher() {
   return (
     <ToggleButtonGroup exclusive defaultValue='grid'>
-      <div className='inline-flex rounded-lg border bg-card p-1'>
+      <div className='bg-card inline-flex rounded-lg border p-1'>
         {viewModes.map((mode) => (
           <ToggleButton key={mode.value} value={mode.value}>
             {(props, { isSelected }) => (
@@ -109,7 +109,9 @@ function ViewSwitcher() {
                 aria-label={mode.label}
               >
                 <mode.icon className='size-4' />
-                <span className='hidden sm:inline capitalize'>{mode.value}</span>
+                <span className='hidden capitalize sm:inline'>
+                  {mode.value}
+                </span>
               </button>
             )}
           </ToggleButton>
@@ -160,7 +162,7 @@ function TextFormatting() {
       </ToggleButtonGroup>
 
       {/* Preview */}
-      <div className='max-w-md rounded-lg border bg-card p-4'>
+      <div className='bg-card max-w-md rounded-lg border p-4'>
         <p className='text-sm'>
           <span className='font-bold'>This is bold text. </span>
           Select formatting options above to see how multiple styles can be
@@ -185,7 +187,7 @@ const alignOptions = [
 function TextAlignment() {
   return (
     <ToggleButtonGroup exclusive defaultValue='left'>
-      <div className='inline-flex gap-1 rounded-lg bg-muted p-1'>
+      <div className='bg-muted inline-flex gap-1 rounded-lg p-1'>
         {alignOptions.map((option) => (
           <ToggleButton key={option.value} value={option.value}>
             {(props, { isSelected }) => (
@@ -285,7 +287,7 @@ function QuickActions() {
 function SortDirection() {
   return (
     <div className='flex items-center gap-4'>
-      <div className='flex items-center gap-2 rounded-lg border bg-card px-3 py-2'>
+      <div className='bg-card flex items-center gap-2 rounded-lg border px-3 py-2'>
         <IconFilter className='text-muted-foreground size-4' />
         <span className='text-sm font-medium'>Sort by: Date</span>
       </div>
@@ -297,7 +299,7 @@ function SortDirection() {
               <button
                 {...props}
                 className={cn(
-                  'flex items-center gap-2 px-3 py-2 text-sm font-medium transition-colors border-r',
+                  'flex items-center gap-2 border-r px-3 py-2 text-sm font-medium transition-colors',
                   isSelected
                     ? 'bg-emerald-600 text-white'
                     : 'bg-card text-muted-foreground hover:text-foreground hover:bg-muted',

@@ -17,7 +17,10 @@ export const Default: StoryObj<typeof meta> = {
 
       <p>
         A production-grade, accessible menu component implementing the{' '}
-        <a href='https://www.w3.org/WAI/ARIA/apg/patterns/menu/' target='_blank'>
+        <a
+          href='https://www.w3.org/WAI/ARIA/apg/patterns/menu/'
+          target='_blank'
+        >
           WAI-ARIA Menu Pattern
         </a>
         . Supports action items, checkbox items, radio groups, nested groups,
@@ -117,7 +120,9 @@ export const Default: StoryObj<typeof meta> = {
               <td className='py-2 pr-4'>
                 <code>A-Z</code>
               </td>
-              <td className='py-2'>Typeahead: focus item starting with letter</td>
+              <td className='py-2'>
+                Typeahead: focus item starting with letter
+              </td>
             </tr>
           </tbody>
         </table>

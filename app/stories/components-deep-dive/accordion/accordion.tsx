@@ -9,22 +9,22 @@ type AccordionRootProps<Type, IsSingleCollapsible> = {
   children?: React.ReactNode;
   disabled?: boolean;
 } & (Type extends 'multiple'
+  ? {
+      type?: Type;
+      defaultValue?: string[];
+      isSingleCollapsible?: undefined;
+    }
+  : IsSingleCollapsible extends true
     ? {
-        type?: Type;
-        defaultValue?: string[];
-        isSingleCollapsible?: undefined;
+        type: Type;
+        defaultValue?: string | null;
+        isSingleCollapsible?: IsSingleCollapsible;
       }
-    : IsSingleCollapsible extends true
-      ? {
-          type: Type;
-          defaultValue?: string | null;
-          isSingleCollapsible?: IsSingleCollapsible;
-        }
-      : {
-          type: Type;
-          defaultValue?: string;
-          isSingleCollapsible: IsSingleCollapsible;
-        });
+    : {
+        type: Type;
+        defaultValue?: string;
+        isSingleCollapsible: IsSingleCollapsible;
+      });
 
 type AccordionCtxProps = {
   rootId: string;

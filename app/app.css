@@ -427,23 +427,19 @@
     @apply mt-2;
   }
 
-  p:has(+ .story-demo) {
-    @apply mb-7;
-  }
-
   .story-demo {
-    @apply mb-10;
+    @apply mt-10;
 
     & > h2 {
-      @apply mb-3 text-sm font-semibold has-[+_p]:mb-1;
+      @apply text-sm font-semibold;
     }
 
     & > p {
-      @apply mb-3 text-sm;
+      @apply mt-1 text-sm;
     }
 
     & > div {
-      @apply min-h-75 content-center rounded-xl border p-5;
+      @apply mt-4 min-h-75 content-center rounded-xl border p-5;
     }
   }
 }

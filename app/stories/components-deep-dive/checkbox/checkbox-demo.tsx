@@ -1,14 +1,14 @@
-import { useState } from 'react';
 import {
   IconCheck,
-  IconMinus,
-  IconTrash,
+  IconDownload,
   IconEdit,
   IconEye,
-  IconDownload,
+  IconMinus,
   IconShare,
   IconStar,
+  IconTrash,
 } from '@tabler/icons-react';
+import { useState } from 'react';
 import { cn } from '~/lib/utils';
 import { CheckboxIcon, CheckboxRoot } from './checkbox';
 
@@ -141,15 +141,12 @@ function TaskList() {
             <span
               className={cn(
                 'flex-1 transition-all',
-                task.completed &&
-                  'text-muted-foreground line-through',
+                task.completed && 'text-muted-foreground line-through',
               )}
             >
               {task.label}
             </span>
-            {task.completed && (
-              <IconStar className='size-4 text-amber-500' />
-            )}
+            {task.completed && <IconStar className='size-4 text-amber-500' />}
           </label>
         ))}
       </div>
@@ -195,7 +192,11 @@ const permissions = [
 ];
 
 const roles = [
-  { id: 'admin', label: 'Admin', permissions: ['view', 'edit', 'delete', 'download', 'share'] },
+  {
+    id: 'admin',
+    label: 'Admin',
+    permissions: ['view', 'edit', 'delete', 'download', 'share'],
+  },
   { id: 'editor', label: 'Editor', permissions: ['view', 'edit', 'download'] },
   { id: 'viewer', label: 'Viewer', permissions: ['view'] },
 ];
@@ -227,7 +228,7 @@ function PermissionsMatrix() {
     <div className='overflow-x-auto rounded-xl border'>
       <table className='w-full'>
         <thead>
-          <tr className='border-b bg-muted/30'>
+          <tr className='bg-muted/30 border-b'>
             <th className='px-4 py-3 text-left font-medium'>Role</th>
             {permissions.map((perm) => (
               <th key={perm.id} className='px-4 py-3 text-center'>
@@ -307,7 +308,8 @@ function TermsAcceptance() {
           className={cn(
             'group flex cursor-pointer items-start gap-3 rounded-lg border p-4 transition-all select-none',
             'hover:border-foreground/20',
-            terms && 'border-emerald-600/50 bg-emerald-50/50 dark:border-emerald-400/50 dark:bg-emerald-950/20',
+            terms &&
+              'border-emerald-600/50 bg-emerald-50/50 dark:border-emerald-400/50 dark:bg-emerald-950/20',
           )}
         >
           <div className='pt-0.5'>
@@ -318,7 +320,10 @@ function TermsAcceptance() {
             <span className='text-destructive ml-1'>*</span>
             <p className='text-muted-foreground mt-1 text-sm'>
               I agree to the{' '}
-              <a href='#' className='text-blue-600 underline dark:text-blue-400'>
+              <a
+                href='#'
+                className='text-blue-600 underline dark:text-blue-400'
+              >
                 Terms of Service
               </a>{' '}
               and confirm that I am at least 18 years old.
@@ -330,18 +335,25 @@ function TermsAcceptance() {
           className={cn(
             'group flex cursor-pointer items-start gap-3 rounded-lg border p-4 transition-all select-none',
             'hover:border-foreground/20',
-            privacy && 'border-emerald-600/50 bg-emerald-50/50 dark:border-emerald-400/50 dark:bg-emerald-950/20',
+            privacy &&
+              'border-emerald-600/50 bg-emerald-50/50 dark:border-emerald-400/50 dark:bg-emerald-950/20',
           )}
         >
           <div className='pt-0.5'>
-            <TermsCheckbox checked={privacy} onChange={() => setPrivacy(!privacy)} />
+            <TermsCheckbox
+              checked={privacy}
+              onChange={() => setPrivacy(!privacy)}
+            />
           </div>
           <div>
             <span className='font-medium'>Privacy Policy</span>
             <span className='text-destructive ml-1'>*</span>
             <p className='text-muted-foreground mt-1 text-sm'>
               I have read and understand the{' '}
-              <a href='#' className='text-blue-600 underline dark:text-blue-400'>
+              <a
+                href='#'
+                className='text-blue-600 underline dark:text-blue-400'
+              >
                 Privacy Policy
               </a>
               .
@@ -353,15 +365,21 @@ function TermsAcceptance() {
           className={cn(
             'group flex cursor-pointer items-start gap-3 rounded-lg border p-4 transition-all select-none',
             'hover:border-foreground/20',
-            marketing && 'border-purple-600/50 bg-purple-50/50 dark:border-purple-400/50 dark:bg-purple-950/20',
+            marketing &&
+              'border-purple-600/50 bg-purple-50/50 dark:border-purple-400/50 dark:bg-purple-950/20',
           )}
         >
           <div className='pt-0.5'>
-            <MarketingCheckbox checked={marketing} onChange={() => setMarketing(!marketing)} />
+            <MarketingCheckbox
+              checked={marketing}
+              onChange={() => setMarketing(!marketing)}
+            />
           </div>
           <div>
             <span className='font-medium'>Marketing Communications</span>
-            <span className='text-muted-foreground ml-1 text-sm'>(Optional)</span>
+            <span className='text-muted-foreground ml-1 text-sm'>
+              (Optional)
+            </span>
             <p className='text-muted-foreground mt-1 text-sm'>
               I'd like to receive updates about new features and special offers.
             </p>
@@ -491,7 +509,8 @@ function FeatureSelection() {
             className={cn(
               'group flex cursor-pointer items-start gap-3 rounded-xl border p-4 transition-all select-none',
               'hover:border-foreground/20',
-              isSelected && 'border-blue-600/50 bg-blue-50/50 dark:border-blue-400/50 dark:bg-blue-950/20',
+              isSelected &&
+                'border-blue-600/50 bg-blue-50/50 dark:border-blue-400/50 dark:bg-blue-950/20',
               feature.included && 'pointer-events-none opacity-70',
             )}
           >

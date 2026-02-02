@@ -6,14 +6,14 @@ import { createContextScope } from '~/lib/context-scope';
 type ToggleButtonGroupProps<Exclusive> = {
   children?: React.ReactNode;
 } & (Exclusive extends true
-    ? {
-        exclusive: Exclusive;
-        defaultValue?: string;
-      }
-    : {
-        exclusive?: Exclusive;
-        defaultValue?: string[];
-      });
+  ? {
+      exclusive: Exclusive;
+      defaultValue?: string;
+    }
+  : {
+      exclusive?: Exclusive;
+      defaultValue?: string[];
+    });
 
 interface GroupCtxProps {
   value: string | null | string[];

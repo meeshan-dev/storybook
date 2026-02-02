@@ -31,9 +31,9 @@ export const Default: StoryObj<typeof meta> = {
 
       <ul>
         <li>
-          <strong>Flexible expansion modes</strong> — <code>type="multiple"</code>{' '}
-          allows any number of items open, <code>type="single"</code> enforces
-          accordion behavior
+          <strong>Flexible expansion modes</strong> —{' '}
+          <code>type="multiple"</code> allows any number of items open,{' '}
+          <code>type="single"</code> enforces accordion behavior
         </li>
         <li>
           <strong>Collapsible control</strong> — Single mode supports{' '}
@@ -92,7 +92,9 @@ export const Default: StoryObj<typeof meta> = {
             <tr>
               <td className='py-2 pr-4'>Single (non-collapsible)</td>
               <td className='py-2 pr-4'>
-                <code>type="single" isSingleCollapsible={'{'}false{'}'}</code>
+                <code>
+                  type="single" isSingleCollapsible={'{'}false{'}'}
+                </code>
               </td>
               <td className='py-2'>Always exactly one item open</td>
             </tr>
@@ -155,10 +157,11 @@ export const Default: StoryObj<typeof meta> = {
       <h2>Animation Details</h2>
 
       <p>
-        Content height animation uses motion/react's <code>AnimatePresence</code>{' '}
-        with <code>initial</code>, <code>animate</code>, and <code>exit</code>{' '}
-        states. The content measures its natural height and animates from 0 to
-        full height with opacity transition for a smooth reveal effect.
+        Content height animation uses motion/react's{' '}
+        <code>AnimatePresence</code> with <code>initial</code>,{' '}
+        <code>animate</code>, and <code>exit</code> states. The content measures
+        its natural height and animates from 0 to full height with opacity
+        transition for a smooth reveal effect.
       </p>
 
       <StorySourceCode>{sourceCode}</StorySourceCode>

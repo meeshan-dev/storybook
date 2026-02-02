@@ -139,7 +139,9 @@ function DeleteItemDialog() {
         <div className='flex items-center gap-3'>
           <div className='bg-background flex-1 rounded border p-3'>
             <p className='text-sm font-medium'>project-proposal-v2.pdf</p>
-            <p className='text-muted-foreground text-xs'>2.4 MB • PDF Document</p>
+            <p className='text-muted-foreground text-xs'>
+              2.4 MB • PDF Document
+            </p>
           </div>
 
           <AlertDialogRoot>

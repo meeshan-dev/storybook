@@ -386,7 +386,9 @@ function MultiStepWizardDialog() {
               </Button>
 
               {step < totalSteps ? (
-                <Button onClick={() => setStep((s) => Math.min(totalSteps, s + 1))}>
+                <Button
+                  onClick={() => setStep((s) => Math.min(totalSteps, s + 1))}
+                >
                   Continue
                   <IconArrowRight size={16} />
                 </Button>
@@ -501,9 +503,7 @@ function NestedDialogDemo() {
                                 )}
                               </AlertDialogClose>
                               <AlertDialogClose>
-                                {(props) => (
-                                  <Button {...props}>Confirm</Button>
-                                )}
+                                {(props) => <Button {...props}>Confirm</Button>}
                               </AlertDialogClose>
                             </div>
                           </AlertDialogContent>

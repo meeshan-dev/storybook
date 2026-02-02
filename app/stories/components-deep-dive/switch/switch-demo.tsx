@@ -4,9 +4,9 @@ import {
   IconDeviceAnalytics,
   IconLock,
   IconMail,
-  IconMoon,
   IconMoodHappyFilled,
   IconMoodNeutral,
+  IconMoon,
   IconShield,
   IconWifi,
 } from '@tabler/icons-react';
@@ -70,7 +70,7 @@ function NotificationPreferences() {
           ({ id, icon: Icon, title, description, defaultChecked }) => (
             <label
               key={id}
-              className='group flex cursor-pointer items-center gap-4 p-4 transition-colors hover:bg-secondary/50'
+              className='group hover:bg-secondary/50 flex cursor-pointer items-center gap-4 p-4 transition-colors'
             >
               <div className='bg-primary/10 text-primary flex size-10 shrink-0 items-center justify-center rounded-lg'>
                 <Icon size={20} />
@@ -115,7 +115,7 @@ const privacySettings = [
     id: 'activity-status',
     icon: IconWifi,
     title: 'Show Activity Status',
-    description: 'Let others see when you\'re online',
+    description: "Let others see when you're online",
     defaultChecked: true,
     disabled: true,
   },
@@ -136,7 +136,14 @@ function PrivacySettings() {
 
       <div className='space-y-3'>
         {privacySettings.map(
-          ({ id, icon: Icon, title, description, defaultChecked, disabled }) => (
+          ({
+            id,
+            icon: Icon,
+            title,
+            description,
+            defaultChecked,
+            disabled,
+          }) => (
             <label
               key={id}
               className={cn(
@@ -191,8 +198,8 @@ function FeatureToggles() {
 
       <div className='space-y-3'>
         {/* Dark Mode with moon icon */}
-        <label className='group flex cursor-pointer items-center gap-4 rounded-xl border p-4 transition-colors hover:bg-secondary/50 has-[input:checked]:border-blue-600/30 has-[input:checked]:bg-blue-600/5'>
-          <div className='flex size-10 shrink-0 items-center justify-center rounded-lg bg-secondary text-muted-foreground group-has-[input:checked]:bg-blue-600/10 group-has-[input:checked]:text-blue-600 dark:group-has-[input:checked]:text-blue-400'>
+        <label className='group hover:bg-secondary/50 flex cursor-pointer items-center gap-4 rounded-xl border p-4 transition-colors has-[input:checked]:border-blue-600/30 has-[input:checked]:bg-blue-600/5'>
+          <div className='bg-secondary text-muted-foreground flex size-10 shrink-0 items-center justify-center rounded-lg group-has-[input:checked]:bg-blue-600/10 group-has-[input:checked]:text-blue-600 dark:group-has-[input:checked]:text-blue-400'>
             <IconMoon size={20} />
           </div>
           <div className='flex-1'>
@@ -216,8 +223,8 @@ function FeatureToggles() {
         </label>
 
         {/* Auto-Sync with cloud icon */}
-        <label className='group flex cursor-pointer items-center gap-4 rounded-xl border p-4 transition-colors hover:bg-secondary/50 has-[input:checked]:border-purple-600/30 has-[input:checked]:bg-purple-600/5'>
-          <div className='flex size-10 shrink-0 items-center justify-center rounded-lg bg-secondary text-muted-foreground group-has-[input:checked]:bg-purple-600/10 group-has-[input:checked]:text-purple-600 dark:group-has-[input:checked]:text-purple-400'>
+        <label className='group hover:bg-secondary/50 flex cursor-pointer items-center gap-4 rounded-xl border p-4 transition-colors has-[input:checked]:border-purple-600/30 has-[input:checked]:bg-purple-600/5'>
+          <div className='bg-secondary text-muted-foreground flex size-10 shrink-0 items-center justify-center rounded-lg group-has-[input:checked]:bg-purple-600/10 group-has-[input:checked]:text-purple-600 dark:group-has-[input:checked]:text-purple-400'>
             <IconCloud size={20} />
           </div>
           <div className='flex-1'>
@@ -234,8 +241,8 @@ function FeatureToggles() {
         </label>
 
         {/* Mood toggle with emoji icons */}
-        <label className='group flex cursor-pointer items-center gap-4 rounded-xl border p-4 transition-colors hover:bg-secondary/50 has-[input:checked]:border-amber-600/30 has-[input:checked]:bg-amber-600/5'>
-          <div className='flex size-10 shrink-0 items-center justify-center rounded-lg bg-secondary text-muted-foreground group-has-[input:checked]:bg-amber-600/10 group-has-[input:checked]:text-amber-600 dark:group-has-[input:checked]:text-amber-400'>
+        <label className='group hover:bg-secondary/50 flex cursor-pointer items-center gap-4 rounded-xl border p-4 transition-colors has-[input:checked]:border-amber-600/30 has-[input:checked]:bg-amber-600/5'>
+          <div className='bg-secondary text-muted-foreground flex size-10 shrink-0 items-center justify-center rounded-lg group-has-[input:checked]:bg-amber-600/10 group-has-[input:checked]:text-amber-600 dark:group-has-[input:checked]:text-amber-400'>
             <IconMoodHappyFilled size={20} />
           </div>
           <div className='flex-1'>
@@ -248,7 +255,10 @@ function FeatureToggles() {
             <TrackAmber>
               <Thumb>
                 <SwitchIcon type='off'>
-                  <IconMoodNeutral size={14} className='text-muted-foreground' />
+                  <IconMoodNeutral
+                    size={14}
+                    className='text-muted-foreground'
+                  />
                 </SwitchIcon>
                 <SwitchIcon type='on'>
                   <IconMoodHappyFilled
