@@ -1,5 +1,4 @@
 import { IconChevronDown } from '@tabler/icons-react';
-import { Badge } from '~/components/ui/badge';
 import { Button } from '~/components/ui/button';
 import {
   AccordionContent,
@@ -8,7 +7,7 @@ import {
   AccordionTrigger,
 } from './accordion';
 
-function AccordionExample({
+export function AccordionDemo({
   type,
   isSingleCollapsible,
 }: {
@@ -16,25 +15,7 @@ function AccordionExample({
   isSingleCollapsible?: boolean;
 }) {
   return (
-    <div className='bg-secondary w-full max-w-xl rounded-lg p-3'>
-      <Badge className='mb-3'>
-        {(() => {
-          if (type === 'multiple') {
-            return 'Multiple item expansion';
-          }
-
-          if (type === 'single' && isSingleCollapsible === true) {
-            return 'Single item expansion (collapsible)';
-          }
-
-          if (type === 'single' && isSingleCollapsible === false) {
-            return 'Single item expansion (non-collapsible)';
-          }
-
-          return '';
-        })()}
-      </Badge>
-
+    <div className='mx-auto flex w-full max-w-md flex-col'>
       <AccordionRoot
         {...({
           defaultValue: type === 'multiple' ? ['1'] : '1',
@@ -64,7 +45,11 @@ function AccordionExample({
           <AccordionItem key={id} value={`${id}`} disabled={disabled}>
             <AccordionTrigger headingLevel='h2'>
               {(props) => (
-                <Button {...props} variant='ghost' className='group w-full'>
+                <Button
+                  {...props}
+                  variant='ghost'
+                  className='group w-full py-5'
+                >
                   {title}
 
                   <IconChevronDown
@@ -77,29 +62,13 @@ function AccordionExample({
 
             <AccordionContent>
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores
-              pariatur vitae consectetur ullam repellendus illo suscipit
-              perspiciatis at maxime neque exercitationem qui doloribus
-              architecto reiciendis modi debitis aliquid, ex id!
+              pariatur vitae consectetur ullam repellendus illo
             </AccordionContent>
 
-            <hr className='dark:border-ring/10 border-ring/20 last:hidden has-[+_h2>button[aria-expanded=true]]:opacity-0' />
+            <hr className='border-ring/20 last:hidden' />
           </AccordionItem>
         ))}
       </AccordionRoot>
     </div>
-  );
-}
-
-export function AccordionPreview() {
-  return (
-    <main className='flex grow items-center justify-center py-10'>
-      <section>
-        <AccordionExample type='multiple' />
-        <div className='mt-5' />
-        <AccordionExample type='single' isSingleCollapsible />
-        <div className='mt-5' />
-        <AccordionExample type='single' isSingleCollapsible={false} />
-      </section>
-    </main>
   );
 }

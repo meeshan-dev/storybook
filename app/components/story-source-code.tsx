@@ -6,21 +6,25 @@ SyntaxHighlighter.registerLanguage('tsx', tsx);
 
 export function StorySourceCode({ children }: { children: string }) {
   return (
-    <main className='flex h-full overflow-hidden rounded-lg'>
-      <SyntaxHighlighter
-        language='tsx'
-        style={dracula}
-        showLineNumbers
-        customStyle={{
-          margin: 0,
-          borderRadius: 0,
-          colorScheme: 'dark',
-          flexGrow: 1,
-          overflow: 'auto',
-        }}
-      >
-        {children}
-      </SyntaxHighlighter>
-    </main>
+    <>
+      <h2>Source Code</h2>
+
+      <div className='mt-3 flex max-h-[80vh] overflow-hidden rounded-lg'>
+        <SyntaxHighlighter
+          language='tsx'
+          style={dracula}
+          showLineNumbers
+          customStyle={{
+            margin: 0,
+            borderRadius: 0,
+            colorScheme: 'dark',
+            flexGrow: 1,
+            overflow: 'auto',
+          }}
+        >
+          {children}
+        </SyntaxHighlighter>
+      </div>
+    </>
   );
 }

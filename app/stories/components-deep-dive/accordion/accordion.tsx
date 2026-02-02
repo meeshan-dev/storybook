@@ -1,18 +1,10 @@
-import {
-  AnimatePresence,
-  motion,
-  type HTMLMotionProps,
-  type TargetAndTransition,
-  type Transition,
-} from 'motion/react';
+import { AnimatePresence, motion } from 'motion/react';
 import React, { useId, useState } from 'react';
-import { twMerge } from 'tailwind-merge';
 import { createContextScope } from '~/lib/context-scope';
-import { mergeMotionProp } from '~/lib/merge-motion-prop';
 
 // <<--------------------Accordion-------------------->>
 
-export type AccordionRootProps<Type, IsSingleCollapsible> = {
+type AccordionRootProps<Type, IsSingleCollapsible> = {
   disabled?: boolean;
   children: React.ReactNode;
 } & (Type extends 'multiple'
@@ -173,27 +165,14 @@ export const AccordionItem = (props: AccordionItemProps) => {
 
 type HeadingLevel = `h${2 | 3 | 4 | 5 | 6}`;
 
-export const AccordionTrigger = (
-  props: Omit<
-    React.ComponentPropsWithRef<'button'>,
-    'children' | 'id' | 'aria-expanded' | 'aria-controls'
-  > & {
-    headingLevel: HeadingLevel;
-    headingProps?: Omit<React.ComponentPropsWithRef<HeadingLevel>, 'children'>;
-    children?: (
-      props: Omit<React.ComponentPropsWithRef<'button'>, 'children'>,
-    ) => React.ReactNode;
-  },
-) => {
-  const {
-    disabled: disabledProp,
-    children,
-    headingLevel,
-    headingProps,
-    onClick: onClickProp,
-    onKeyDown: onKeyDownProp,
-    ...restProps
-  } = props;
+export const AccordionTrigger = (props: {
+  disabled?: boolean;
+  headingLevel: HeadingLevel;
+  children?: (
+    props: Omit<React.ComponentPropsWithRef<'button'>, 'children'>,
+  ) => React.ReactNode;
+}) => {
+  const { disabled: disabledProp, children, headingLevel } = props;
 
   const accordionCtx = useAccordionCtx();
   const itemCtx = useAccordionItemCtx();
@@ -208,8 +187,6 @@ export const AccordionTrigger = (
   };
 
   const onKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>) => {
-    onKeyDownProp?.(e);
-
     if (disabled) return;
 
     const key = e.key;
@@ -272,27 +249,16 @@ export const AccordionTrigger = (
     );
   }
 
-  if ((headingProps as { children?: unknown })?.children) {
-    throw new Error(
-      'AccordionTrigger: headingProps.children prop is not allowed',
-    );
-  }
-
   return (
-    <Heading {...headingProps}>
+    <Heading>
       {children?.({
-        ...restProps,
         onKeyDown,
         disabled,
-        onClick: (e) => {
-          handleToggle();
-          onClickProp?.(e);
-        },
+        onClick: handleToggle,
         id: itemCtx.triggerId,
         'aria-expanded': isExpended,
         'aria-controls': itemCtx.contentId,
         ...{
-          'data-expanded': isExpended,
           'data-accordtion-item': accordionCtx.rootId,
         },
       })}
@@ -302,57 +268,41 @@ export const AccordionTrigger = (
 
 // <<--------------------Accordion Content-------------------->>
 
-const default_initial: TargetAndTransition = {
-  height: 0,
-  opacity: 0,
-  overflow: 'hidden',
-};
-
-const default_animate: TargetAndTransition = {
-  height: 'auto',
-  opacity: 1,
-  overflow: 'hidden',
-};
-
-const default_exit: TargetAndTransition = {
-  height: 0,
-  opacity: 0,
-  overflow: 'hidden',
-};
-
-const default_transition: Transition = { duration: 0.2 };
-
-export const AccordionContent = (
-  props: Omit<React.ComponentPropsWithRef<'div'>, 'id'> & {
-    motionProps?: Omit<HTMLMotionProps<'div'>, 'children'>;
-  },
-) => {
-  const {
-    className,
-    motionProps: { initial, animate, exit, transition, ...motionProps } = {},
-    ...restProps
-  } = props;
-
+export const AccordionContent = ({
+  children,
+}: {
+  children?: React.ReactNode;
+}) => {
   const itemCtx = useAccordionItemCtx();
 
   return (
     <AnimatePresence>
       {!itemCtx.isExpended ? null : (
         <motion.div
-          {...motionProps}
-          initial={mergeMotionProp(initial, default_initial)}
-          animate={mergeMotionProp(animate, default_animate)}
-          exit={mergeMotionProp(exit, default_exit)}
-          transition={mergeMotionProp(transition, default_transition)}
+          initial={{
+            height: 0,
+            opacity: 0,
+            overflow: 'hidden',
+          }}
+          animate={{
+            height: 'auto',
+            opacity: 1,
+            overflow: 'hidden',
+          }}
+          exit={{
+            height: 0,
+            opacity: 0,
+            overflow: 'hidden',
+          }}
+          transition={{ duration: 0.2 }}
         >
           <div
-            {...restProps}
             id={itemCtx.contentId}
-            className={twMerge(
-              '[&_a]:hover:text-foreground overflow-hidden px-3 py-4 text-sm [&_a]:underline [&_a]:underline-offset-3 [&_p:not(:last-child)]:mb-4',
-              className,
-            )}
-          />
+            aria-labelledby={itemCtx.triggerId}
+            className='[&_a]:hover:text-foreground overflow-hidden px-3 pb-4 text-sm [&_a]:underline [&_a]:underline-offset-3 [&_p:not(:last-child)]:mb-4'
+          >
+            {children}
+          </div>
         </motion.div>
       )}
     </AnimatePresence>
