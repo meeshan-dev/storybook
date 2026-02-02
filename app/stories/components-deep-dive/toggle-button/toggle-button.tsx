@@ -3,8 +3,9 @@ import { createContextScope } from '~/lib/context-scope';
 
 /* ———————————————————— Group ———————————————————— */
 
-type ToggleButtonGroupProps<Exclusive> = ChildrenProp &
-  (Exclusive extends true
+type ToggleButtonGroupProps<Exclusive> = {
+  children?: React.ReactNode;
+} & (Exclusive extends true
     ? {
         exclusive: Exclusive;
         defaultValue?: string;

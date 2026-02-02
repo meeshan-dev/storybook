@@ -41,7 +41,8 @@ export const TooltipRoot = ({
   trigger,
   defaultOpen,
   disabled,
-}: ChildrenProp & {
+}: {
+  children?: React.ReactNode;
   showDelay?: number;
   hideDelay?: number;
   trigger?: Trigger;
@@ -192,7 +193,11 @@ export function TooltipTrigger({
 
 /* ———————————————————— Portal ———————————————————— */
 
-export const TooltipPortal = ({ children }: ChildrenProp) => {
+export const TooltipPortal = ({
+  children,
+}: {
+  children?: React.ReactNode;
+}) => {
   const context = useTooltipCtx();
 
   return (

@@ -14,6 +14,7 @@ import React, { useEffectEvent, useId, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { createContextScope } from '~/lib/context-scope';
 import { getLayers } from '~/lib/get-layers';
+import { cn } from '~/lib/utils';
 import { useOnClickOutside } from '~/stories/hooks/use-on-click-outside';
 import { useScrollLock } from '~/stories/hooks/use-scroll-lock';
 
@@ -37,7 +38,8 @@ export function MenuRoot({
   children,
   loop = false,
   disableCloseOnEscape = false,
-}: ChildrenProp & {
+}: {
+  children?: React.ReactNode;
   loop?: boolean;
   disableCloseOnEscape?: boolean;
 }) {
@@ -87,7 +89,13 @@ export function MenuRoot({
 
 /* ———————————————————— Content ———————————————————— */
 
-export function MenuContent({ children }: ChildrenProp) {
+export function MenuContent({
+  children,
+  className,
+}: {
+  children?: React.ReactNode;
+  className?: string;
+}) {
   const arrowRef = React.useRef<SVGSVGElement>(null);
   const innerRef = React.useRef<HTMLDivElement>(null);
   const ulRef = React.useRef<HTMLUListElement>(null);
@@ -265,7 +273,10 @@ export function MenuContent({ children }: ChildrenProp) {
       id={menuCtx.contentId}
       tabIndex={-1}
       style={floatingReturn.floatingStyles}
-      className='bg-background ring-foreground/10 relative z-50 w-full max-w-(--reference-width) min-w-40 rounded-md p-1 ring-1 outline-none data-[hide=true]:hidden'
+      className={cn(
+        'bg-background ring-foreground/10 relative z-50 w-full max-w-(--reference-width) min-w-40 rounded-md p-1 ring-1 outline-none data-[hide=true]:hidden',
+        className,
+      )}
       ref={(node) => {
         innerRef.current = node;
         floatingReturn.refs.setFloating(node);
@@ -333,13 +344,16 @@ function ItemBase({
   onClick,
   variant,
   children,
+  className,
   ...restProps
-}: ChildrenProp & {
+}: {
+  children?: React.ReactNode;
   disabled?: boolean;
   onClick?: React.MouseEventHandler<HTMLLIElement>;
   role: string;
   'aria-checked'?: boolean;
   variant?: 'destructive';
+  className?: string;
 }) {
   const id = React.useId();
 
@@ -370,7 +384,10 @@ function ItemBase({
         e.preventDefault();
         onClick?.(e as unknown as React.MouseEvent<HTMLLIElement>);
       }}
-      className='focus:bg-secondary flex gap-2 rounded-md px-3 py-2 text-sm outline-none aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[variant=destructive]:text-red-600 dark:data-[variant=destructive]:text-red-400 *:[svg]:size-4'
+      className={cn(
+        'focus:bg-secondary flex gap-2 rounded-md px-3 py-2 text-sm outline-none aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[variant=destructive]:text-red-600 dark:data-[variant=destructive]:text-red-400 *:[svg]:size-4',
+        className,
+      )}
     >
       {children}
     </li>
@@ -384,10 +401,13 @@ export function MenuItem({
   disableCloseOnClick,
   disabled,
   variant,
-}: ChildrenProp & {
+  className,
+}: {
+  children?: React.ReactNode;
   disabled?: boolean;
   disableCloseOnClick?: boolean;
   variant?: 'destructive';
+  className?: string;
 }) {
   const menuCtx = useMenuCtx();
 
@@ -396,6 +416,7 @@ export function MenuItem({
       disabled={disabled}
       variant={variant}
       role='menuitem'
+      className={className}
       onClick={() => {
         if (!disableCloseOnClick) menuCtx.handleClose();
       }}
@@ -414,12 +435,15 @@ export function MenuCheckboxItem({
   disableCloseOnChange,
   disabled,
   variant,
-}: ChildrenProp & {
+  className,
+}: {
+  children?: React.ReactNode;
   checked?: boolean;
   onChange?: (checked: boolean) => void;
   disableCloseOnChange?: boolean;
   disabled?: boolean;
   variant?: 'destructive';
+  className?: string;
 }) {
   const menuCtx = useMenuCtx();
 
@@ -429,6 +453,7 @@ export function MenuCheckboxItem({
       variant={variant}
       role='menuitemcheckbox'
       aria-checked={checked}
+      className={className}
       onClick={() => {
         if (!disableCloseOnChange) menuCtx.handleClose();
         onChange?.(!checked);
@@ -453,7 +478,8 @@ export const MenuRadioGroup = ({
   onChange,
   value,
   children,
-}: ChildrenProp & {
+}: {
+  children?: React.ReactNode;
   onChange?: (value: string) => void;
   value?: string;
 }) => {
@@ -472,11 +498,14 @@ export function MenuRadioItem({
   disableCloseOnChange,
   disabled,
   variant,
-}: ChildrenProp & {
+  className,
+}: {
+  children?: React.ReactNode;
   value: string;
   disableCloseOnChange?: boolean;
   disabled?: boolean;
   variant?: 'destructive';
+  className?: string;
 }) {
   const menuCtx = useMenuCtx();
   const menuRadioGroupCtx = useMenuRadioGroupCtx();
@@ -489,6 +518,7 @@ export function MenuRadioItem({
       variant={variant}
       role='menuitemradio'
       aria-checked={checked}
+      className={className}
       onClick={() => {
         if (!disableCloseOnChange) menuCtx.handleClose();
 
@@ -502,8 +532,13 @@ export function MenuRadioItem({
 
 /* ———————————————————— Separator ———————————————————— */
 
-export function MenuSeparator() {
-  return <div role='separator' className='bg-foreground/10 my-1 h-px' />;
+export function MenuSeparator({ className }: { className?: string }) {
+  return (
+    <div
+      role='separator'
+      className={cn('bg-foreground/10 my-1 h-px', className)}
+    />
+  );
 }
 
 /* ———————————————————— Group ———————————————————— */
@@ -512,7 +547,11 @@ const [MenuGroupProvider, useMenuGroupCtx] = createContextScope<{
   labelId?: string;
 }>();
 
-export function MenuGroup({ children }: ChildrenProp) {
+export function MenuGroup({
+  children,
+}: {
+  children?: React.ReactNode;
+}) {
   const labelId = useId();
 
   return (
@@ -523,14 +562,23 @@ export function MenuGroup({ children }: ChildrenProp) {
 }
 /* ———————————————————— Group Label ———————————————————— */
 
-export function MenuGroupLabel({ children }: { children: string }) {
+export function MenuGroupLabel({
+  children,
+  className,
+}: {
+  children: string;
+  className?: string;
+}) {
   const { labelId } = useMenuGroupCtx();
 
   return (
     <div
       id={labelId}
       role='presentation'
-      className='text-foreground/70 px-3 py-1.5 text-xs font-medium'
+      className={cn(
+        'text-foreground/70 px-3 py-1.5 text-xs font-medium',
+        className,
+      )}
     >
       {children}
     </div>
@@ -538,7 +586,11 @@ export function MenuGroupLabel({ children }: { children: string }) {
 }
 /* ———————————————————— Group Content ———————————————————— */
 
-export function MenuGroupContent({ children }: ChildrenProp) {
+export function MenuGroupContent({
+  children,
+}: {
+  children?: React.ReactNode;
+}) {
   const { labelId } = useMenuGroupCtx();
 
   return (
@@ -550,7 +602,11 @@ export function MenuGroupContent({ children }: ChildrenProp) {
 
 /* ———————————————————— Portal ———————————————————— */
 
-export const MenuPortal = ({ children }: ChildrenProp) => {
+export const MenuPortal = ({
+  children,
+}: {
+  children?: React.ReactNode;
+}) => {
   const menuCtx = useMenuCtx();
 
   return (

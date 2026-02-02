@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { createContextScope } from '~/lib/context-scope';
+import { cn } from '~/lib/utils';
 
 /* ———————————————————— Root ———————————————————— */
 
@@ -25,7 +26,8 @@ export function TabsRoot({
   orientation = 'horizontal',
   activationMode = 'automatic',
   children,
-}: ChildrenProp & {
+}: {
+  children?: React.ReactNode;
   defaultValue?: string;
   loop?: boolean;
   activationMode?: ActivationMode;
@@ -57,7 +59,13 @@ export function TabsRoot({
 
 /* ———————————————————— List ———————————————————— */
 
-export function TabsList({ children }: ChildrenProp) {
+export function TabsList({
+  children,
+  className,
+}: {
+  children?: React.ReactNode;
+  className?: string;
+}) {
   const tabsCtx = useTabsCtx();
 
   const isClickFocusRef = React.useRef(false);
@@ -99,11 +107,12 @@ export function TabsList({ children }: ChildrenProp) {
 
         isClickFocusRef.current = false;
       }}
-      className={
+      className={cn(
         tabsCtx.orientation === 'horizontal'
           ? 'flex w-full gap-2 rounded-lg p-2 *:grow'
-          : 'flex flex-col gap-2 rounded-lg p-2 *:w-full'
-      }
+          : 'flex flex-col gap-2 rounded-lg p-2 *:w-full',
+        className,
+      )}
     >
       {children}
     </div>
@@ -239,7 +248,12 @@ export function TabsTrigger({
 export function TabsContent({
   value,
   children,
-}: ChildrenProp & { value: string }) {
+  className,
+}: {
+  children?: React.ReactNode;
+  value: string;
+  className?: string;
+}) {
   const tabsCtx = useTabsCtx();
 
   const isSelected = value === tabsCtx.value;
@@ -253,7 +267,7 @@ export function TabsContent({
       aria-labelledby={triggerId}
       id={contentId}
       tabIndex={0}
-      className='w-full rounded-lg p-2 text-sm'
+      className={cn('w-full rounded-lg p-2 text-sm', className)}
     >
       {children}
     </div>

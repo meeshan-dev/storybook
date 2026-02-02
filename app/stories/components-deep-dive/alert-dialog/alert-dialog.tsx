@@ -2,6 +2,7 @@ import React, { useEffectEvent, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { createContextScope } from '~/lib/context-scope';
 import { getLayers } from '~/lib/get-layers';
+import { cn } from '~/lib/utils';
 import { useFocusTrap } from '~/stories/hooks/use-focus-trap';
 import { useScrollLock } from '~/stories/hooks/use-scroll-lock';
 
@@ -14,7 +15,11 @@ const [AlertDialogCtx, useAlertDialogCtx] = createContextScope<{
   contentRef: React.RefObject<HTMLDivElement | null>;
 }>();
 
-export function AlertDialogRoot({ children }: ChildrenProp) {
+export function AlertDialogRoot({
+  children,
+}: {
+  children?: React.ReactNode;
+}) {
   const contentRef = useRef<HTMLDivElement>(null);
 
   const [open, setOpen] = useState(false);
@@ -87,7 +92,11 @@ export const AlertDialogClose = ({
 
 /* ———————————————————— Portal ———————————————————— */
 
-export const AlertDialogPortal = ({ children }: ChildrenProp) => {
+export const AlertDialogPortal = ({
+  children,
+}: {
+  children?: React.ReactNode;
+}) => {
   const { open } = useAlertDialogCtx();
 
   if (!open) return null;
@@ -97,9 +106,20 @@ export const AlertDialogPortal = ({ children }: ChildrenProp) => {
 
 /* ———————————————————— Overlay ———————————————————— */
 
-export const AlertDialogOverlay = ({ children }: ChildrenProp) => {
+export const AlertDialogOverlay = ({
+  children,
+  className,
+}: {
+  children?: React.ReactNode;
+  className?: string;
+}) => {
   return (
-    <div className='fixed inset-0 isolate z-50 bg-black/10 supports-backdrop-filter:backdrop-blur-xs'>
+    <div
+      className={cn(
+        'fixed inset-0 isolate z-50 bg-black/10 supports-backdrop-filter:backdrop-blur-xs',
+        className,
+      )}
+    >
       {children}
     </div>
   );
@@ -112,7 +132,13 @@ const [AlertDialogContentCtx, useAlertDialogContentCtx] = createContextScope<{
   descriptionId: string;
 }>();
 
-export function AlertDialogContent({ children }: ChildrenProp) {
+export function AlertDialogContent({
+  children,
+  className,
+}: {
+  children?: React.ReactNode;
+  className?: string;
+}) {
   const { contentRef, handleClose } = useAlertDialogCtx();
 
   const focusTrapProps = useFocusTrap();
@@ -162,7 +188,10 @@ export function AlertDialogContent({ children }: ChildrenProp) {
         tabIndex={focusTrapProps.tabIndex}
         role='alertdialog'
         aria-modal={true}
-        className='bg-background ring-foreground/10 fixed top-1/2 left-1/2 z-50 grid w-[min(100%,calc(100%-2rem))] max-w-sm -translate-x-1/2 -translate-y-1/2 gap-4 rounded-xl p-4 ring-1 outline-none'
+        className={cn(
+          'bg-background ring-foreground/10 fixed top-1/2 left-1/2 z-50 grid w-[min(100%,calc(100%-2rem))] max-w-sm -translate-x-1/2 -translate-y-1/2 gap-4 rounded-xl p-4 ring-1 outline-none',
+          className,
+        )}
       >
         {children}
       </div>
@@ -172,11 +201,17 @@ export function AlertDialogContent({ children }: ChildrenProp) {
 
 /* ———————————————————— Title ———————————————————— */
 
-export function AlertDialogTitle({ children }: ChildrenProp) {
+export function AlertDialogTitle({
+  children,
+  className,
+}: {
+  children?: React.ReactNode;
+  className?: string;
+}) {
   const { titleId } = useAlertDialogContentCtx();
 
   return (
-    <div id={titleId} className='text-base font-medium'>
+    <div id={titleId} className={cn('text-base font-medium', className)}>
       {children}
     </div>
   );
@@ -184,13 +219,22 @@ export function AlertDialogTitle({ children }: ChildrenProp) {
 
 /* ———————————————————— Description ———————————————————— */
 
-export function AlertDialogDescription({ children }: ChildrenProp) {
+export function AlertDialogDescription({
+  children,
+  className,
+}: {
+  children?: React.ReactNode;
+  className?: string;
+}) {
   const { descriptionId } = useAlertDialogContentCtx();
 
   return (
     <div
       id={descriptionId}
-      className='text-muted-foreground *:[a]:hover:text-foreground text-sm text-balance md:text-pretty *:[a]:underline *:[a]:underline-offset-3'
+      className={cn(
+        'text-muted-foreground *:[a]:hover:text-foreground text-sm text-balance md:text-pretty *:[a]:underline *:[a]:underline-offset-3',
+        className,
+      )}
     >
       {children}
     </div>

@@ -1,6 +1,7 @@
 import React, { useEffectEvent, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { createContextScope } from '~/lib/context-scope';
+import { cn } from '~/lib/utils';
 import { getLayers } from '~/lib/get-layers';
 import { useFocusTrap } from '~/stories/hooks/use-focus-trap';
 import { useOnClickOutside } from '~/stories/hooks/use-on-click-outside';
@@ -20,7 +21,11 @@ interface DialogCtxProps {
 
 const [DialogCtx, useDialogCtx] = createContextScope<DialogCtxProps>();
 
-export function DialogRoot({ children }: ChildrenProp) {
+export function DialogRoot({
+  children,
+}: {
+  children?: React.ReactNode;
+}) {
   const contentId = React.useId();
   const titleId = React.useId();
   const descriptionId = React.useId();
@@ -64,7 +69,11 @@ export function DialogRoot({ children }: ChildrenProp) {
 
 /* ———————————————————— Portal ———————————————————— */
 
-export const DialogPortal = ({ children }: ChildrenProp) => {
+export const DialogPortal = ({
+  children,
+}: {
+  children?: React.ReactNode;
+}) => {
   const dialogCtx = useDialogCtx();
 
   return dialogCtx.open
@@ -97,15 +106,26 @@ export function DialogTrigger({
 
 /* ———————————————————— Overlay ———————————————————— */
 
-export function DialogOverlay() {
+export function DialogOverlay({ className }: { className?: string }) {
   return (
-    <div className='fixed inset-0 isolate z-50 bg-black/10 duration-100 supports-backdrop-filter:backdrop-blur-xs' />
+    <div
+      className={cn(
+        'fixed inset-0 isolate z-50 bg-black/10 duration-100 supports-backdrop-filter:backdrop-blur-xs',
+        className,
+      )}
+    />
   );
 }
 
 /* ———————————————————— Content ———————————————————— */
 
-export function DialogContent({ children }: ChildrenProp) {
+export function DialogContent({
+  children,
+  className,
+}: {
+  children?: React.ReactNode;
+  className?: string;
+}) {
   const { contentRef, open, contentId, titleId, descriptionId, handleClose } =
     useDialogCtx();
 
@@ -169,7 +189,10 @@ export function DialogContent({ children }: ChildrenProp) {
       id={contentId}
       aria-labelledby={titleId}
       aria-describedby={descriptionId}
-      className='bg-background ring-foreground/10 fixed top-1/2 left-1/2 z-50 grid w-[min(100%,calc(100%-2rem))] max-w-lg -translate-x-1/2 -translate-y-1/2 gap-4 rounded-xl p-4 ring-1 duration-100 outline-none'
+      className={cn(
+        'bg-background ring-foreground/10 fixed top-1/2 left-1/2 z-50 grid w-[min(100%,calc(100%-2rem))] max-w-lg -translate-x-1/2 -translate-y-1/2 gap-4 rounded-xl p-4 ring-1 duration-100 outline-none',
+        className,
+      )}
     >
       {children}
     </div>
@@ -198,11 +221,17 @@ export function DialogClose({
 
 /* ———————————————————— Title ———————————————————— */
 
-export function DialogTitle({ children }: ChildrenProp) {
+export function DialogTitle({
+  children,
+  className,
+}: {
+  children?: React.ReactNode;
+  className?: string;
+}) {
   const { titleId } = useDialogCtx();
 
   return (
-    <div id={titleId} className='text-base font-medium'>
+    <div id={titleId} className={cn('text-base font-medium', className)}>
       {children}
     </div>
   );
@@ -210,13 +239,22 @@ export function DialogTitle({ children }: ChildrenProp) {
 
 /* ———————————————————— Description ———————————————————— */
 
-export function DialogDescription({ children }: ChildrenProp) {
+export function DialogDescription({
+  children,
+  className,
+}: {
+  children?: React.ReactNode;
+  className?: string;
+}) {
   const { descriptionId } = useDialogCtx();
 
   return (
     <div
       id={descriptionId}
-      className='text-muted-foreground *:[a]:hover:text-foreground text-sm text-balance md:text-pretty *:[a]:underline *:[a]:underline-offset-3'
+      className={cn(
+        'text-muted-foreground *:[a]:hover:text-foreground text-sm text-balance md:text-pretty *:[a]:underline *:[a]:underline-offset-3',
+        className,
+      )}
     >
       {children}
     </div>

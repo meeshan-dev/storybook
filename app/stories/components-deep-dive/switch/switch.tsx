@@ -11,7 +11,11 @@ export function SwitchRoot({
   defaultChecked,
   children,
   disabled,
-}: ChildrenProp & { disabled?: boolean; defaultChecked?: boolean }) {
+}: {
+  children?: React.ReactNode;
+  disabled?: boolean;
+  defaultChecked?: boolean;
+}) {
   const [checked, setChecked] = React.useState(!!defaultChecked);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {

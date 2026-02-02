@@ -1,10 +1,12 @@
 import { AnimatePresence, motion } from 'motion/react';
 import React, { useId, useState } from 'react';
 import { createContextScope } from '~/lib/context-scope';
+import { cn } from '~/lib/utils';
 
 /* ———————————————————— Root ———————————————————— */
 
-type AccordionRootProps<Type, IsSingleCollapsible> = ChildrenProp & {
+type AccordionRootProps<Type, IsSingleCollapsible> = {
+  children?: React.ReactNode;
   disabled?: boolean;
 } & (Type extends 'multiple'
     ? {
@@ -114,7 +116,8 @@ export function AccordionRoot<
 
 /* ———————————————————— Item ———————————————————— */
 
-type AccordionItemProps = ChildrenProp & {
+type AccordionItemProps = {
+  children?: React.ReactNode;
   value: string;
   disabled?: boolean;
 };
@@ -266,7 +269,13 @@ export const AccordionTrigger = (props: {
 
 /* ———————————————————— Content ———————————————————— */
 
-export const AccordionContent = ({ children }: ChildrenProp) => {
+export const AccordionContent = ({
+  children,
+  className,
+}: {
+  children?: React.ReactNode;
+  className?: string;
+}) => {
   const itemCtx = useAccordionItemCtx();
 
   return (
@@ -293,7 +302,10 @@ export const AccordionContent = ({ children }: ChildrenProp) => {
           <div
             id={itemCtx.contentId}
             aria-labelledby={itemCtx.triggerId}
-            className='[&_a]:hover:text-foreground overflow-hidden px-3 pb-4 text-sm [&_a]:underline [&_a]:underline-offset-3 [&_p:not(:last-child)]:mb-4'
+            className={cn(
+              '[&_a]:hover:text-foreground overflow-hidden px-3 pb-4 text-sm [&_a]:underline [&_a]:underline-offset-3 [&_p:not(:last-child)]:mb-4',
+              className,
+            )}
           >
             {children}
           </div>

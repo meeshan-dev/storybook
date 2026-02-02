@@ -1,11 +1,13 @@
 import { AnimatePresence, motion } from 'motion/react';
 import React, { useId, useState } from 'react';
 import { createContextScope } from '~/lib/context-scope';
+import { cn } from '~/lib/utils';
 
 /* ———————————————————— Root ———————————————————— */
 
-type DisclosureRootProps<Type, IsSingleCollapsible> = ChildrenProp &
-  (Type extends 'multiple'
+type DisclosureRootProps<Type, IsSingleCollapsible> = {
+  children?: React.ReactNode;
+} & (Type extends 'multiple'
     ? {
         type?: Type;
         defaultValue?: string[];
@@ -104,7 +106,8 @@ export function DisclosureRoot<
 
 /* ———————————————————— Item ———————————————————— */
 
-type DisclosureItemProps = ChildrenProp & {
+type DisclosureItemProps = {
+  children?: React.ReactNode;
   value: string;
   disabled?: boolean;
 };
@@ -187,7 +190,13 @@ export const DisclosureTrigger = ({
 
 /* ———————————————————— Content ———————————————————— */
 
-export const DisclosureContent = ({ children }: ChildrenProp) => {
+export const DisclosureContent = ({
+  children,
+  className,
+}: {
+  children?: React.ReactNode;
+  className?: string;
+}) => {
   const itemCtx = useDisclosureItemCtx();
 
   return (
@@ -213,7 +222,10 @@ export const DisclosureContent = ({ children }: ChildrenProp) => {
         >
           <div
             id={itemCtx.contentId}
-            className='[&_a]:hover:text-foreground overflow-hidden px-3 py-4 text-sm [&_a]:underline [&_a]:underline-offset-3 [&_p:not(:last-child)]:mb-4'
+            className={cn(
+              '[&_a]:hover:text-foreground overflow-hidden px-3 py-4 text-sm [&_a]:underline [&_a]:underline-offset-3 [&_p:not(:last-child)]:mb-4',
+              className,
+            )}
           >
             {children}
           </div>

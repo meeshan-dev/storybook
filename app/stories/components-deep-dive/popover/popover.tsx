@@ -14,6 +14,7 @@ import React, { useEffectEvent, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { createContextScope } from '~/lib/context-scope';
 import { getLayers } from '~/lib/get-layers';
+import { cn } from '~/lib/utils';
 import { useOnClickOutside } from '~/stories/hooks/use-on-click-outside';
 
 /* ———————————————————— Root ———————————————————— */
@@ -35,7 +36,10 @@ const [PopoverCtx, usePopoverCtx] = createContextScope<PopoverCtxProps>();
 export const PopoverRoot = ({
   children,
   defaultOpen,
-}: ChildrenProp & { defaultOpen?: boolean }) => {
+}: {
+  children?: React.ReactNode;
+  defaultOpen?: boolean;
+}) => {
   const returnFocusToRef = React.useRef<HTMLElement | null>(null);
 
   const contentRef = React.useRef<HTMLElement | null>(null);
@@ -233,7 +237,11 @@ export function PopoverContent({
 
 /* ———————————————————— Portal ———————————————————— */
 
-export const PopoverPortal = ({ children }: ChildrenProp) => {
+export const PopoverPortal = ({
+  children,
+}: {
+  children?: React.ReactNode;
+}) => {
   const popoverCtx = usePopoverCtx();
 
   return (
@@ -261,11 +269,17 @@ export function PopoverClose({
 
 /* ———————————————————— Title ———————————————————— */
 
-export function PopoverTitle({ children }: ChildrenProp) {
+export function PopoverTitle({
+  children,
+  className,
+}: {
+  children?: React.ReactNode;
+  className?: string;
+}) {
   const { titleId } = usePopoverCtx();
 
   return (
-    <div id={titleId} className='text-base font-medium'>
+    <div id={titleId} className={cn('text-base font-medium', className)}>
       {children}
     </div>
   );
@@ -273,13 +287,22 @@ export function PopoverTitle({ children }: ChildrenProp) {
 
 /* ———————————————————— Description ———————————————————— */
 
-export function PopoverDescription({ children }: ChildrenProp) {
+export function PopoverDescription({
+  children,
+  className,
+}: {
+  children?: React.ReactNode;
+  className?: string;
+}) {
   const { descriptionId } = usePopoverCtx();
 
   return (
     <div
       id={descriptionId}
-      className='text-muted-foreground *:[a]:hover:text-foreground text-sm text-balance md:text-pretty *:[a]:underline *:[a]:underline-offset-3'
+      className={cn(
+        'text-muted-foreground *:[a]:hover:text-foreground text-sm text-balance md:text-pretty *:[a]:underline *:[a]:underline-offset-3',
+        className,
+      )}
     >
       {children}
     </div>

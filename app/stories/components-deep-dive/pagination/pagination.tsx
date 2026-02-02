@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
 import { createContextScope } from '~/lib/context-scope';
+import { cn } from '~/lib/utils';
 
 /* ———————————————————— Root ———————————————————— */
 
@@ -21,12 +22,15 @@ export function PaginationRoot({
   siblingCount = 1,
   disabled,
   children,
-}: ChildrenProp & {
+  className,
+}: {
+  children?: React.ReactNode;
   totalPages?: number;
   boundaryCount?: number;
   siblingCount?: number;
   defaultPage?: number;
   disabled?: boolean;
+  className?: string;
 }) {
   const [currentPage, setCurrentPage] = useState(defaultPage);
 
@@ -90,7 +94,12 @@ export function PaginationRoot({
         pages,
       }}
     >
-      <ul className='flex flex-wrap items-center justify-center gap-2'>
+      <ul
+        className={cn(
+          'flex flex-wrap items-center justify-center gap-2',
+          className,
+        )}
+      >
         {children}
       </ul>
     </PaginationProvider>

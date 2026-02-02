@@ -18,7 +18,8 @@ export function RadioGroupRoot({
   defaultValue,
   name,
   children,
-}: ChildrenProp & {
+}: {
+  children?: React.ReactNode;
   defaultValue?: string;
   name: string;
 }) {
@@ -37,7 +38,8 @@ export function Radio({
   value,
   children,
   disabled,
-}: ChildrenProp & {
+}: {
+  children?: React.ReactNode;
   disabled?: boolean;
   value: string;
 }) {
