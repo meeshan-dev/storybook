@@ -123,10 +123,6 @@ export const useScrollLock = ({
     } else {
       handleUnlock();
     }
-
-    return () => {
-      handleUnlock();
-    };
   }, [isLocked]);
 };
 
