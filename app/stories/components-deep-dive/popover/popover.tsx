@@ -9,8 +9,6 @@ import {
   shift as shiftMiddleware,
   size,
   useFloating,
-  type Placement,
-  type Strategy,
 } from '@floating-ui/react';
 import React, { useEffectEvent, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
@@ -18,10 +16,7 @@ import { createContextScope } from '~/lib/context-scope';
 import { getLayers } from '~/lib/get-layers';
 import { useOnClickOutside } from '~/stories/hooks/use-on-click-outside';
 
-export interface PopoverRootProps {
-  children?: React.ReactNode;
-  defaultOpen?: boolean;
-}
+/* ———————————————————— Root ———————————————————— */
 
 interface PopoverCtxProps {
   open: boolean;
@@ -37,9 +32,10 @@ interface PopoverCtxProps {
 
 const [PopoverCtx, usePopoverCtx] = createContextScope<PopoverCtxProps>();
 
-export const PopoverRoot = (props: PopoverRootProps) => {
-  const { children, defaultOpen } = props;
-
+export const PopoverRoot = ({
+  children,
+  defaultOpen,
+}: ChildrenProp & { defaultOpen?: boolean }) => {
   const returnFocusToRef = React.useRef<HTMLElement | null>(null);
 
   const contentRef = React.useRef<HTMLElement | null>(null);
@@ -89,7 +85,7 @@ export const PopoverRoot = (props: PopoverRootProps) => {
   );
 };
 
-// <<--------------------Trigger-------------------->>
+/* ———————————————————— Trigger ———————————————————— */
 
 export function PopoverTrigger({
   children,
@@ -111,21 +107,11 @@ export function PopoverTrigger({
   );
 }
 
-// <<--------------------Content-------------------->>
+/* ———————————————————— Content ———————————————————— */
 
-export interface PopoverContentProps {
-  /** distance between combobox and listbox
-   * @default 5
-   */
-  offset?: number;
-  /** padding used to prevent arrow to touch content edges. its usefull when content has rounded corners.
-   * @default 10
-   */
-  arrowPadding?: number;
-  /** @default bottom */
-  placement?: Placement;
-  /** @default absolute */
-  strategy?: Strategy;
+export function PopoverContent({
+  children,
+}: {
   children?: (props: {
     props: React.ComponentPropsWithRef<'div'>;
     arrowProps: {
@@ -133,17 +119,7 @@ export interface PopoverContentProps {
       context: FloatingContext;
     };
   }) => React.ReactNode;
-}
-
-export function PopoverContent(props: PopoverContentProps) {
-  const {
-    children,
-    offset = 5,
-    arrowPadding = 10,
-    placement = 'bottom',
-    strategy = 'absolute',
-  } = props;
-
+}) {
   const popoverCtx = usePopoverCtx();
 
   const { contentRef } = popoverCtx;
@@ -153,18 +129,18 @@ export function PopoverContent(props: PopoverContentProps) {
 
   const floatingReturn = useFloating<HTMLButtonElement>({
     open: popoverCtx.open,
-    placement,
+    placement: 'bottom',
     elements: { reference: popoverCtx.trigger },
     whileElementsMounted: autoUpdate,
-    strategy,
+    strategy: 'absolute',
     middleware: [
-      offsetMiddleware({ mainAxis: offset }),
+      offsetMiddleware({ mainAxis: 5 }),
       flipMiddleware(),
       shiftMiddleware({ limiter: limitShift() }),
       // eslint-disable-next-line react-hooks/refs
       arrowMiddleware({
         element: arrowRef,
-        padding: arrowPadding,
+        padding: 10,
       }),
       size({
         apply({ rects, elements }) {
@@ -255,21 +231,17 @@ export function PopoverContent(props: PopoverContentProps) {
   );
 }
 
-// <<--------------------Portal-------------------->>
+/* ———————————————————— Portal ———————————————————— */
 
-export const PopoverPortal = ({
-  children,
-  container = globalThis?.document?.body,
-}: {
-  children?: React.ReactNode;
-  container?: Element;
-}) => {
+export const PopoverPortal = ({ children }: ChildrenProp) => {
   const popoverCtx = usePopoverCtx();
 
-  return <>{popoverCtx.open && createPortal(children, container)}</>;
+  return (
+    <>{popoverCtx.open && createPortal(children, globalThis?.document?.body)}</>
+  );
 };
 
-// <<--------------------Close-------------------->>
+/* ———————————————————— Close ———————————————————— */
 
 export function PopoverClose({
   children,
@@ -287,31 +259,26 @@ export function PopoverClose({
   );
 }
 
-// <<--------------------Popover Title-------------------->>
+/* ———————————————————— Title ———————————————————— */
 
-export function PopoverTitle(props: React.ComponentPropsWithRef<'div'>) {
-  const { children, ...restProps } = props;
-
+export function PopoverTitle({ children }: ChildrenProp) {
   const { titleId } = usePopoverCtx();
 
   return (
-    <div id={titleId} {...restProps} className='text-base font-medium'>
+    <div id={titleId} className='text-base font-medium'>
       {children}
     </div>
   );
 }
 
-// <<--------------------Popover Description-------------------->>
+/* ———————————————————— Description ———————————————————— */
 
-export function PopoverDescription(props: React.ComponentPropsWithRef<'div'>) {
-  const { children, ...restProps } = props;
-
+export function PopoverDescription({ children }: ChildrenProp) {
   const { descriptionId } = usePopoverCtx();
 
   return (
     <div
       id={descriptionId}
-      {...restProps}
       className='text-muted-foreground *:[a]:hover:text-foreground text-sm text-balance md:text-pretty *:[a]:underline *:[a]:underline-offset-3'
     >
       {children}

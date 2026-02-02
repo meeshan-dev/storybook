@@ -4,9 +4,9 @@ import {
   IconMoodNeutral,
 } from '@tabler/icons-react';
 import { cn } from '~/lib/utils';
-import { Radio, RadioGroup, RadioIcon } from './radio'; // use context-based Radio
+import { Radio, RadioGroupRoot, RadioIcon } from './radio'; // use context-based Radio
 
-export function RadioPreview() {
+export function RadioDemo() {
   return (
     <main className='flex grow flex-col items-center justify-center gap-3 py-10'>
       <BasicRadioGroup />
@@ -55,7 +55,7 @@ function Row({
 
 function BasicRadioGroup() {
   return (
-    <RadioGroup name='billing' defaultValue='monthly'>
+    <RadioGroupRoot name='billing' defaultValue='monthly'>
       {['monthly', 'yearly'].map((option) => (
         <Row key={option}>
           <Circle>
@@ -71,7 +71,7 @@ function BasicRadioGroup() {
           </Label>
         </Row>
       ))}
-    </RadioGroup>
+    </RadioGroupRoot>
   );
 }
 
@@ -81,7 +81,7 @@ function BasicRadioGroup() {
 
 function IconRadioGroup() {
   return (
-    <RadioGroup name='mood' defaultValue='neutral'>
+    <RadioGroupRoot name='mood' defaultValue='neutral'>
       <Row>
         <IconBox>
           <Radio value='neutral'>
@@ -111,7 +111,7 @@ function IconRadioGroup() {
 
         <Label>Happy mood</Label>
       </Row>
-    </RadioGroup>
+    </RadioGroupRoot>
   );
 }
 
@@ -122,7 +122,7 @@ function IconRadioGroup() {
 function ErrorRadioGroup() {
   return (
     <>
-      <RadioGroup name='required'>
+      <RadioGroupRoot name='required'>
         {['A', 'B'].map((option) => (
           <Row key={option} state='error'>
             <Circle>
@@ -138,7 +138,7 @@ function ErrorRadioGroup() {
             </Label>
           </Row>
         ))}
-      </RadioGroup>
+      </RadioGroupRoot>
     </>
   );
 }
@@ -149,10 +149,10 @@ function ErrorRadioGroup() {
 
 function DisabledRadioGroup() {
   return (
-    <RadioGroup name='disabled' defaultValue=''>
+    <RadioGroupRoot name='disabled' defaultValue=''>
       <Row>
         <Circle>
-          <Radio value='' disabled>
+          <Radio value='disabled' disabled>
             <RadioIcon type='check'>
               <IconCheck />
             </RadioIcon>
@@ -173,7 +173,7 @@ function DisabledRadioGroup() {
 
         <Label>Disabled (selected)</Label>
       </Row>
-    </RadioGroup>
+    </RadioGroupRoot>
   );
 }
 

@@ -15,19 +15,13 @@ import {
 } from '~/components/ui/input-group';
 import { ScrollArea } from '~/components/ui/scroll-area';
 
-/**
- * ⚠️ WARNING: Experimental Code!
- * This implementation is for experimenting with optimistic UI patterns.
- * Not intended for production use.
- */
-
 type Message = {
   id: string;
   text: string;
   status: 'sending' | 'sent' | 'error';
 };
 
-export function OptimisticChat() {
+export function OptimisticChatDemo() {
   const chatInputRef = React.useRef<{ reset: () => void }>(null);
   const viewportRef = React.useRef<HTMLDivElement>(null);
   const shouldScrollToBottomRef = React.useRef(false);
@@ -108,7 +102,7 @@ export function OptimisticChat() {
   }, [messages]);
 
   return (
-    <main className='h-dvh p-5'>
+    <main className='h-[95vh] p-5'>
       <section className='bg-secondary mx-auto flex h-full w-[min(100%,375px)] flex-col rounded-lg'>
         <header className='border-foreground/20 flex items-center gap-2 border-b px-4 py-2.5'>
           <div
@@ -178,6 +172,7 @@ function ChatInput({ ref }: { ref: React.Ref<{ reset: () => void }> }) {
           type='submit'
           disabled={!value}
           form='chat-form'
+          className='rounded-full'
         >
           <IconArrowRight />
         </InputGroupButton>

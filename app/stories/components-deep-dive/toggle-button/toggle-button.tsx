@@ -1,17 +1,18 @@
 import React, { useState } from 'react';
 import { createContextScope } from '~/lib/context-scope';
 
-export type ToggleButtonGroupProps<Exclusive> = {
-  children: React.ReactNode;
-} & (Exclusive extends true
-  ? {
-      exclusive: Exclusive;
-      defaultValue?: string;
-    }
-  : {
-      exclusive?: Exclusive;
-      defaultValue?: string[];
-    });
+/* ———————————————————— Group ———————————————————— */
+
+type ToggleButtonGroupProps<Exclusive> = ChildrenProp &
+  (Exclusive extends true
+    ? {
+        exclusive: Exclusive;
+        defaultValue?: string;
+      }
+    : {
+        exclusive?: Exclusive;
+        defaultValue?: string[];
+      });
 
 interface GroupCtxProps {
   value: string | null | string[];
@@ -54,7 +55,7 @@ export const ToggleButtonGroup = <Exclusive extends boolean = false>(
   );
 };
 
-// <<--------------------Toggle Button-------------------->>
+/* ———————————————————— Button ———————————————————— */
 
 export function ToggleButton({
   value: valueProp,

@@ -17,7 +17,7 @@ import {
   TooltipTrigger,
 } from './tooltip';
 
-export function TooltipPreview() {
+export function TooltipDemo() {
   return (
     <main className='flex grow flex-col items-center justify-center gap-4 py-10 *:w-full *:max-w-50'>
       {/* Default */}

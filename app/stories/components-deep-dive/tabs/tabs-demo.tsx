@@ -2,7 +2,7 @@ import { Badge } from '~/components/ui/badge';
 import { Button } from '~/components/ui/button';
 import { TabsContent, TabsList, TabsRoot, TabsTrigger } from './tabs';
 
-export function TabsPreview() {
+export function TabsDemo() {
   return (
     <main className='flex grow flex-col items-center justify-center py-10'>
       <BasicTabsPreview />
@@ -24,7 +24,7 @@ export function BasicTabsPreview() {
 
       <div className='mt-3 flex w-full flex-col items-center justify-center rounded-lg border'>
         <TabsRoot defaultValue='account' loop>
-          <TabsList className='flex w-full gap-2 rounded-lg p-2 *:grow'>
+          <TabsList>
             {['account', 'security', 'billing'].map((value) => (
               <TabsTrigger key={value} value={value}>
                 {(props) => (
@@ -42,10 +42,7 @@ export function BasicTabsPreview() {
 
           <hr className='border-foreground/20 w-[calc(100%---spacing(4))]' />
 
-          <TabsContent
-            value='account'
-            className='w-full rounded-lg p-2 text-sm'
-          >
+          <TabsContent value='account'>
             <p className='font-medium'>Account</p>
             <p className='text-muted-foreground mt-2 px-2'>
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi,
@@ -55,7 +52,7 @@ export function BasicTabsPreview() {
             </p>
           </TabsContent>
 
-          <TabsContent value='security' className='w-full p-2 text-sm'>
+          <TabsContent value='security'>
             <p className='font-medium'>Security</p>
             <p className='text-muted-foreground mt-2 px-2'>
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi,
@@ -65,7 +62,7 @@ export function BasicTabsPreview() {
             </p>
           </TabsContent>
 
-          <TabsContent value='billing' className='w-full p-2 text-sm'>
+          <TabsContent value='billing'>
             <p className='font-medium'>Billing</p>
             <p className='text-muted-foreground mt-2 px-2'>
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi,
@@ -90,7 +87,7 @@ export function TabsPreviewManual() {
 
       <div className='mt-3 flex w-full flex-col items-center justify-center rounded-lg border'>
         <TabsRoot defaultValue='account' activationMode='manual'>
-          <TabsList className='flex w-full gap-2 rounded-lg p-2 *:grow'>
+          <TabsList>
             {['account', 'security', 'billing'].map((value) => (
               <TabsTrigger key={value} value={value}>
                 {(props) => (
@@ -108,10 +105,7 @@ export function TabsPreviewManual() {
 
           <hr className='border-foreground/20 w-[calc(100%---spacing(4))]' />
 
-          <TabsContent
-            value='account'
-            className='w-full rounded-lg p-2 text-sm'
-          >
+          <TabsContent value='account'>
             <p className='font-medium'>Account</p>
             <p className='text-muted-foreground mt-2 px-2'>
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi,
@@ -121,7 +115,7 @@ export function TabsPreviewManual() {
             </p>
           </TabsContent>
 
-          <TabsContent value='security' className='w-full p-2 text-sm'>
+          <TabsContent value='security'>
             <p className='font-medium'>Security</p>
             <p className='text-muted-foreground mt-2 px-2'>
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi,
@@ -131,7 +125,7 @@ export function TabsPreviewManual() {
             </p>
           </TabsContent>
 
-          <TabsContent value='billing' className='w-full p-2 text-sm'>
+          <TabsContent value='billing'>
             <p className='font-medium'>Billing</p>
             <p className='text-muted-foreground mt-2 px-2'>
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi,
@@ -156,7 +150,7 @@ export function TabsPreviewVertical() {
 
       <div className='mt-3 flex w-full rounded-lg border'>
         <TabsRoot defaultValue='account' orientation='vertical' loop>
-          <TabsList className='flex flex-col gap-2 rounded-lg p-2 *:w-full'>
+          <TabsList>
             {['account', 'security', 'billing'].map((value) => (
               <TabsTrigger key={value} value={value}>
                 {(props) => (
@@ -174,10 +168,7 @@ export function TabsPreviewVertical() {
 
           <div className='bg-foreground/20 sh-[calc(100%---spacing(4))] w-px place-self-center' />
 
-          <TabsContent
-            value='account'
-            className='w-full rounded-lg p-2 text-sm'
-          >
+          <TabsContent value='account'>
             <p className='font-medium'>Account</p>
             <p className='text-muted-foreground mt-2 px-2'>
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi,
@@ -185,7 +176,7 @@ export function TabsPreviewVertical() {
             </p>
           </TabsContent>
 
-          <TabsContent value='security' className='w-full p-2 text-sm'>
+          <TabsContent value='security'>
             <p className='font-medium'>Security</p>
             <p className='text-muted-foreground mt-2 px-2'>
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi,
@@ -193,7 +184,7 @@ export function TabsPreviewVertical() {
             </p>
           </TabsContent>
 
-          <TabsContent value='billing' className='w-full p-2 text-sm'>
+          <TabsContent value='billing'>
             <p className='font-medium'>Billing</p>
             <p className='text-muted-foreground mt-2 px-2'>
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi,

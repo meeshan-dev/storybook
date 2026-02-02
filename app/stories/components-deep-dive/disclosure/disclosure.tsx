@@ -1,43 +1,32 @@
-import {
-  AnimatePresence,
-  motion,
-  type HTMLMotionProps,
-  type TargetAndTransition,
-  type Transition,
-} from 'motion/react';
+import { AnimatePresence, motion } from 'motion/react';
 import React, { useId, useState } from 'react';
-import { twMerge } from 'tailwind-merge';
 import { createContextScope } from '~/lib/context-scope';
-import { mergeMotionProp } from '~/lib/merge-motion-prop';
 
-// <<--------------------Disclosure Root-------------------->>
+/* ———————————————————— Root ———————————————————— */
 
-export type DisclosureRootProps<Type, IsSingleCollapsible> = {
-  disabled?: boolean;
-  children: React.ReactNode;
-} & (Type extends 'multiple'
-  ? {
-      type?: Type;
-      defaultValue?: string[];
-      isSingleCollapsible?: undefined;
-    }
-  : IsSingleCollapsible extends true
+type DisclosureRootProps<Type, IsSingleCollapsible> = ChildrenProp &
+  (Type extends 'multiple'
     ? {
-        type: Type;
-        defaultValue?: string | null;
-        isSingleCollapsible?: IsSingleCollapsible;
+        type?: Type;
+        defaultValue?: string[];
+        isSingleCollapsible?: undefined;
       }
-    : {
-        type: Type;
-        defaultValue?: string;
-        isSingleCollapsible: IsSingleCollapsible;
-      });
+    : IsSingleCollapsible extends true
+      ? {
+          type: Type;
+          defaultValue?: string | null;
+          isSingleCollapsible?: IsSingleCollapsible;
+        }
+      : {
+          type: Type;
+          defaultValue?: string;
+          isSingleCollapsible: IsSingleCollapsible;
+        });
 
 interface DisclosureCtxProps {
   rootId: string;
   onOpen: (value: string) => void;
   onClose: (value: string) => void;
-  disabled?: boolean;
   value: string | string[] | null;
   type: 'multiple' | 'single';
 }
@@ -51,7 +40,6 @@ export function DisclosureRoot<
 >(props: DisclosureRootProps<Type, IsSingleCollapsible>) {
   const {
     defaultValue,
-    disabled,
     isSingleCollapsible = true,
     type = 'multiple',
     children,
@@ -64,8 +52,6 @@ export function DisclosureRoot<
   );
 
   const onOpen = (openedItem: string) => {
-    if (disabled) return;
-
     if (type === 'single') {
       setValue(openedItem);
     }
@@ -76,8 +62,6 @@ export function DisclosureRoot<
   };
 
   const onClose = (closedItem: string) => {
-    if (disabled) return;
-
     if (type === 'single' && !isSingleCollapsible) return;
     if (type === 'single' && isSingleCollapsible) {
       setValue(null);
@@ -111,7 +95,6 @@ export function DisclosureRoot<
         type,
         onClose,
         onOpen,
-        disabled,
       }}
     >
       {children}
@@ -119,13 +102,12 @@ export function DisclosureRoot<
   );
 }
 
-// <<--------------------Disclosure Item-------------------->>
+/* ———————————————————— Item ———————————————————— */
 
-interface DisclosureItemProps {
+type DisclosureItemProps = ChildrenProp & {
   value: string;
   disabled?: boolean;
-  children: React.ReactNode;
-}
+};
 
 interface DisclosureItemCtxProps {
   value: string;
@@ -160,39 +142,25 @@ export const DisclosureItem = (props: DisclosureItemProps) => {
   );
 };
 
-// <<--------------------Disclosure Trigger-------------------->>
+/* ———————————————————— Trigger ———————————————————— */
 
-export const DisclosureTrigger = (
-  props: Omit<
-    React.ComponentPropsWithRef<'button'>,
-    'children' | 'id' | 'aria-expanded' | 'aria-controls'
-  > & {
-    children?: (
-      props: Omit<React.ComponentPropsWithRef<'button'>, 'children'>,
-    ) => React.ReactNode;
-  },
-) => {
-  const {
-    disabled: disabledProp,
-    children,
-    onClick: onClickProp,
-    onKeyDown: onKeyDownProp,
-    ...restProps
-  } = props;
+export const DisclosureTrigger = ({
+  children,
+}: {
+  children?: (
+    props: Omit<React.ComponentPropsWithRef<'button'>, 'children'>,
+  ) => React.ReactNode;
+}) => {
   const disclosureCtx = useDisclosureCtx();
   const itemCtx = useDisclosureItemCtx();
 
-  const disabled = disclosureCtx.disabled || disabledProp || itemCtx.disabled;
-  const isOpen = itemCtx.isOpen;
-
   const handleToggle = () => {
-    if (isOpen) disclosureCtx.onClose(itemCtx.value);
+    if (itemCtx.isOpen) disclosureCtx.onClose(itemCtx.value);
     else disclosureCtx.onOpen(itemCtx.value);
   };
 
   const onKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>) => {
-    onKeyDownProp?.(e);
-    if (disabled) return;
+    if (itemCtx.disabled) return;
     if ([' ', 'Enter'].includes(e.key)) {
       e.preventDefault();
       handleToggle();
@@ -202,18 +170,14 @@ export const DisclosureTrigger = (
   return (
     <>
       {children?.({
-        ...restProps,
         onKeyDown,
-        disabled,
-        onClick: (e) => {
-          handleToggle();
-          onClickProp?.(e);
-        },
+        disabled: itemCtx.disabled,
+        onClick: handleToggle,
         id: itemCtx.triggerId,
-        'aria-expanded': isOpen,
+        'aria-expanded': itemCtx.isOpen,
         'aria-controls': itemCtx.contentId,
         ...{
-          'data-expanded': isOpen,
+          'data-expanded': itemCtx.isOpen,
           'data-disclosure-item': disclosureCtx.rootId,
         },
       })}
@@ -221,55 +185,38 @@ export const DisclosureTrigger = (
   );
 };
 
-// <<--------------------Disclosure Content-------------------->>
+/* ———————————————————— Content ———————————————————— */
 
-const default_initial: TargetAndTransition = {
-  height: 0,
-  opacity: 0,
-  overflow: 'hidden',
-};
-const default_animate: TargetAndTransition = {
-  height: 'auto',
-  opacity: 1,
-  overflow: 'hidden',
-};
-const default_exit: TargetAndTransition = {
-  height: 0,
-  opacity: 0,
-  overflow: 'hidden',
-};
-const default_transition: Transition = { duration: 0.2 };
-
-export const DisclosureContent = (
-  props: Omit<React.ComponentPropsWithRef<'div'>, 'id'> & {
-    motionProps?: Omit<HTMLMotionProps<'div'>, 'children'>;
-  },
-) => {
-  const {
-    className,
-    motionProps: { initial, animate, exit, transition, ...motionProps } = {},
-    ...restProps
-  } = props;
+export const DisclosureContent = ({ children }: ChildrenProp) => {
   const itemCtx = useDisclosureItemCtx();
 
   return (
     <AnimatePresence>
       {!itemCtx.isOpen ? null : (
         <motion.div
-          {...motionProps}
-          initial={mergeMotionProp(initial, default_initial)}
-          animate={mergeMotionProp(animate, default_animate)}
-          exit={mergeMotionProp(exit, default_exit)}
-          transition={mergeMotionProp(transition, default_transition)}
+          initial={{
+            height: 0,
+            opacity: 0,
+            overflow: 'hidden',
+          }}
+          animate={{
+            height: 'auto',
+            opacity: 1,
+            overflow: 'hidden',
+          }}
+          exit={{
+            height: 0,
+            opacity: 0,
+            overflow: 'hidden',
+          }}
+          transition={{ duration: 0.2 }}
         >
           <div
-            {...restProps}
             id={itemCtx.contentId}
-            className={twMerge(
-              '[&_a]:hover:text-foreground overflow-hidden px-3 py-4 text-sm [&_a]:underline [&_a]:underline-offset-3 [&_p:not(:last-child)]:mb-4',
-              className,
-            )}
-          />
+            className='[&_a]:hover:text-foreground overflow-hidden px-3 py-4 text-sm [&_a]:underline [&_a]:underline-offset-3 [&_p:not(:last-child)]:mb-4'
+          >
+            {children}
+          </div>
         </motion.div>
       )}
     </AnimatePresence>

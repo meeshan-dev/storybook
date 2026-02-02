@@ -1,23 +1,17 @@
 import React, { useState } from 'react';
 import { createContextScope } from '~/lib/context-scope';
 
+/* ———————————————————— Root ———————————————————— */
+
 type ActivationMode = 'automatic' | 'manual';
 type Orientation = 'horizontal' | 'vertical';
-
-export interface TabsRootProps {
-  defaultValue?: string;
-  loop?: boolean;
-  activationMode?: ActivationMode;
-  orientation?: Orientation;
-  children?: React.ReactNode;
-}
 
 interface TabsCtxProps {
   value: string;
   rootId: string;
   activationMode: ActivationMode;
   orientation: Orientation;
-  loop: TabsRootProps['loop'];
+  loop: boolean;
   isTabbingBackOut: boolean;
   setIsTabbingBackOut: React.Dispatch<React.SetStateAction<boolean>>;
   setValue: React.Dispatch<React.SetStateAction<string>>;
@@ -25,15 +19,18 @@ interface TabsCtxProps {
 
 const [TabsCtx, useTabsCtx] = createContextScope<TabsCtxProps>();
 
-export function TabsRoot(props: TabsRootProps) {
-  const {
-    defaultValue,
-    loop = false,
-    orientation = 'horizontal',
-    activationMode = 'automatic',
-    children,
-  } = props;
-
+export function TabsRoot({
+  defaultValue,
+  loop = false,
+  orientation = 'horizontal',
+  activationMode = 'automatic',
+  children,
+}: ChildrenProp & {
+  defaultValue?: string;
+  loop?: boolean;
+  activationMode?: ActivationMode;
+  orientation?: Orientation;
+}) {
   const [value, setValue] = useState(defaultValue ?? '');
 
   const [isTabbingBackOut, setIsTabbingBackOut] = React.useState(false);
@@ -58,18 +55,15 @@ export function TabsRoot(props: TabsRootProps) {
   );
 }
 
-// <<--------------------Tabs List-------------------->>
+/* ———————————————————— List ———————————————————— */
 
-export function TabsList(props: React.ComponentPropsWithRef<'div'>) {
-  const { ...restProps } = props;
-
+export function TabsList({ children }: ChildrenProp) {
   const tabsCtx = useTabsCtx();
 
   const isClickFocusRef = React.useRef(false);
 
   return (
     <div
-      {...restProps}
       tabIndex={tabsCtx.isTabbingBackOut ? -1 : 0}
       role='tablist'
       aria-orientation={tabsCtx.orientation}
@@ -105,11 +99,18 @@ export function TabsList(props: React.ComponentPropsWithRef<'div'>) {
 
         isClickFocusRef.current = false;
       }}
-    />
+      className={
+        tabsCtx.orientation === 'horizontal'
+          ? 'flex w-full gap-2 rounded-lg p-2 *:grow'
+          : 'flex flex-col gap-2 rounded-lg p-2 *:w-full'
+      }
+    >
+      {children}
+    </div>
   );
 }
 
-// <<--------------------Tabs Trigger-------------------->>
+/* ———————————————————— Trigger ———————————————————— */
 
 export function TabsTrigger({
   value,
@@ -233,13 +234,12 @@ export function TabsTrigger({
   );
 }
 
-// <<--------------------Tabs Content-------------------->>
+/* ———————————————————— Content ———————————————————— */
 
-export function TabsContent(
-  props: React.ComponentPropsWithRef<'div'> & { value: string },
-) {
-  const { value, ...contentProps } = props;
-
+export function TabsContent({
+  value,
+  children,
+}: ChildrenProp & { value: string }) {
   const tabsCtx = useTabsCtx();
 
   const isSelected = value === tabsCtx.value;
@@ -248,12 +248,14 @@ export function TabsContent(
 
   return !isSelected ? null : (
     <div
-      {...contentProps}
       data-orientation={tabsCtx.orientation}
       role='tabpanel'
       aria-labelledby={triggerId}
       id={contentId}
       tabIndex={0}
-    />
+      className='w-full rounded-lg p-2 text-sm'
+    >
+      {children}
+    </div>
   );
 }

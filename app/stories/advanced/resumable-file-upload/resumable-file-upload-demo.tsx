@@ -48,7 +48,7 @@ type FileItem = {
   file: File;
 };
 
-export function ResumableFileUploadPreview() {
+export function ResumableFileUploadDemo() {
   const inputRef = useRef<HTMLInputElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const allowScrollToBottomRef = useRef(false);
@@ -97,8 +97,8 @@ export function ResumableFileUploadPreview() {
   }, [files]);
 
   return (
-    <main className='flex grow overflow-auto'>
-      <section className='bg-secondary mx-auto flex w-full max-w-lg grow flex-col overflow-auto rounded-lg'>
+    <>
+      <section className='bg-secondary mx-auto flex h-[95vh] w-full max-w-lg flex-col overflow-auto rounded-lg'>
         {files.length > 0 && (
           <>
             <div
@@ -160,7 +160,7 @@ export function ResumableFileUploadPreview() {
         tabIndex={-1}
         onChange={handleInputChange}
       />
-    </main>
+    </>
   );
 }
 

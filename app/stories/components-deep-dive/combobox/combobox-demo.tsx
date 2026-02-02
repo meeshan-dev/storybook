@@ -1,7 +1,7 @@
 import { Label } from '~/components/ui/label';
 import { Combobox } from './combobox';
 
-export function ComboboxPreview() {
+export function ComboboxDemo() {
   return (
     <main className='flex grow flex-col items-center justify-center gap-3'>
       <div className='w-72 space-y-2'>

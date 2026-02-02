@@ -1,8 +1,8 @@
 import { IconMoodHappyFilled, IconMoodNeutral } from '@tabler/icons-react';
 import { cn } from '~/lib/utils';
-import { Switch, SwitchIcon } from './switch';
+import { SwitchIcon, SwitchRoot } from './switch';
 
-export function SwitchPreview() {
+export function SwitchDemo() {
   return (
     <main className='flex grow flex-col items-center justify-center gap-3 py-10'>
       <BasicSwitch />
@@ -41,11 +41,11 @@ function Row({ children }: { children: React.ReactNode }) {
 function BasicSwitch() {
   return (
     <Row>
-      <Switch defaultChecked>
+      <SwitchRoot defaultChecked>
         <Track>
           <Thumb />
         </Track>
-      </Switch>
+      </SwitchRoot>
 
       <Label>Enable notifications</Label>
     </Row>
@@ -59,7 +59,7 @@ function BasicSwitch() {
 function IconSwitch() {
   return (
     <Row>
-      <Switch defaultChecked>
+      <SwitchRoot defaultChecked>
         <Track>
           <Thumb>
             <SwitchIcon type='off'>
@@ -71,7 +71,7 @@ function IconSwitch() {
             </SwitchIcon>
           </Thumb>
         </Track>
-      </Switch>
+      </SwitchRoot>
 
       <Label>Mood mode</Label>
     </Row>
@@ -85,11 +85,11 @@ function IconSwitch() {
 function DisabledSwitch({ checked }: { checked: boolean }) {
   return (
     <Row>
-      <Switch disabled checked={checked}>
+      <SwitchRoot disabled defaultChecked={checked}>
         <Track>
           <Thumb />
         </Track>
-      </Switch>
+      </SwitchRoot>
 
       <Label>Disabled ({checked ? 'On' : 'Off'})</Label>
     </Row>

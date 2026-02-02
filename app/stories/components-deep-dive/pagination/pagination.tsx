@@ -1,16 +1,7 @@
 import { useMemo, useState } from 'react';
 import { createContextScope } from '~/lib/context-scope';
 
-export interface PaginationProps {
-  totalPages?: number;
-  boundaryCount?: number;
-  siblingCount?: number;
-  defaultPage?: number;
-  disabled?: boolean;
-  children: React.ReactNode;
-  listProps?: Omit<React.ComponentPropsWithRef<'ul'>, 'className'>;
-  className?: string;
-}
+/* ———————————————————— Root ———————————————————— */
 
 const range = (start: number, end: number) =>
   Array.from({ length: end - start + 1 }, (_, i) => start + i);
@@ -23,18 +14,20 @@ const [PaginationProvider, usePaginationCtx] = createContextScope<{
   pages: Array<number | 'ellipsis'>;
 }>();
 
-export function PaginationRoot(props: PaginationProps) {
-  const {
-    defaultPage = 1,
-    totalPages = 10,
-    boundaryCount = 1,
-    siblingCount = 1,
-    disabled,
-    children,
-    listProps,
-    className,
-  } = props;
-
+export function PaginationRoot({
+  defaultPage = 1,
+  totalPages = 10,
+  boundaryCount = 1,
+  siblingCount = 1,
+  disabled,
+  children,
+}: ChildrenProp & {
+  totalPages?: number;
+  boundaryCount?: number;
+  siblingCount?: number;
+  defaultPage?: number;
+  disabled?: boolean;
+}) {
   const [currentPage, setCurrentPage] = useState(defaultPage);
 
   const pages = useMemo(() => {
@@ -97,12 +90,14 @@ export function PaginationRoot(props: PaginationProps) {
         pages,
       }}
     >
-      <ul {...listProps} className={className}>
+      <ul className='flex flex-wrap items-center justify-center gap-2'>
         {children}
       </ul>
     </PaginationProvider>
   );
 }
+
+/* ———————————————————— Pages ———————————————————— */
 
 export function PaginationPages(props: {
   children: (args: {
@@ -139,6 +134,8 @@ export function PaginationPages(props: {
     </>
   );
 }
+
+/* ———————————————————— Control ———————————————————— */
 
 export function PaginationControl({
   type,

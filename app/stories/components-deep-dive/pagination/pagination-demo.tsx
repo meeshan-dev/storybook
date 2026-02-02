@@ -12,15 +12,10 @@ import {
   PaginationRoot,
 } from './pagination';
 
-export function PaginationPreview() {
+export function PaginationDemo() {
   return (
     <div className='flex grow flex-col items-center justify-center gap-4'>
-      <PaginationRoot
-        totalPages={20}
-        boundaryCount={1}
-        siblingCount={1}
-        className='flex flex-wrap items-center justify-center gap-2'
-      >
+      <PaginationRoot totalPages={20}>
         <PaginationControl type='first'>
           {(props) => (
             <Button {...props} variant='secondary' size='icon'>

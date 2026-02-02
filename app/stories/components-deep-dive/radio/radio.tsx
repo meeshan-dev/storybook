@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { createContextScope } from '~/lib/context-scope';
 
+/* ———————————————————— Root ———————————————————— */
+
 type RadioGroupContextValue = {
   name: string;
   value: string;
@@ -12,15 +14,14 @@ const [RadioGroupProvider, useRadioGroupCtx] =
 
 const [RadioProvider, useRadioCtx] = createContextScope<{ checked: boolean }>();
 
-/* -------------------- Radio Group -------------------- */
-
-export function RadioGroup(props: {
+export function RadioGroupRoot({
+  defaultValue,
+  name,
+  children,
+}: ChildrenProp & {
   defaultValue?: string;
   name: string;
-  children: React.ReactNode;
 }) {
-  const { defaultValue, name, children } = props;
-
   const [value, setValue] = useState(defaultValue || '');
 
   return (
@@ -30,15 +31,16 @@ export function RadioGroup(props: {
   );
 }
 
-/* -------------------- Radio -------------------- */
+/* ———————————————————— Radio ———————————————————— */
 
-export function Radio(
-  props: Omit<React.ComponentPropsWithRef<'input'>, 'value'> & {
-    value: string;
-  },
-) {
-  const { value, children, ...restProps } = props;
-
+export function Radio({
+  value,
+  children,
+  disabled,
+}: ChildrenProp & {
+  disabled?: boolean;
+  value: string;
+}) {
   const group = useRadioGroupCtx();
 
   if (!value) throw new Error('Radio component requires a value prop.');
@@ -48,10 +50,10 @@ export function Radio(
   return (
     <RadioProvider value={{ checked }}>
       <input
-        {...restProps}
         type='radio'
         name={group.name}
         value={value}
+        disabled={disabled}
         checked={checked}
         className='sr-only'
         onChange={(e) => {
@@ -66,7 +68,7 @@ export function Radio(
   );
 }
 
-/* -------------------- Radio Icon -------------------- */
+/* ———————————————————— Icon ———————————————————— */
 
 export function RadioIcon({
   type,

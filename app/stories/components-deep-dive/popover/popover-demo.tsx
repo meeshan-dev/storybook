@@ -20,7 +20,7 @@ import {
   PopoverTrigger,
 } from './popover';
 
-export function PopoverPreview() {
+export function PopoverDemo() {
   return (
     <div className='flex grow flex-col items-center justify-center gap-6 *:w-full *:max-w-60'>
       <PopoverRoot>

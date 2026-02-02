@@ -1,4 +1,3 @@
-import { FloatingArrow } from '@floating-ui/react';
 import { IconCheck } from '@tabler/icons-react';
 import { useState } from 'react';
 import { Button } from '~/components/ui/button';
@@ -27,7 +26,7 @@ import {
   MenuTrigger,
 } from './menu';
 
-export function MenuPreview() {
+export function MenuDemo() {
   return (
     <div className='flex grow flex-col items-center justify-center gap-4 *:w-full *:max-w-60'>
       <BasicMenu />
@@ -39,7 +38,7 @@ export function MenuPreview() {
   );
 }
 
-function BasicMenu({ className }: { className?: string }) {
+function BasicMenu() {
   return (
     <MenuRoot>
       <MenuTrigger>
@@ -51,12 +50,7 @@ function BasicMenu({ className }: { className?: string }) {
       </MenuTrigger>
 
       <MenuPortal>
-        <MenuContent
-          className={className}
-          arrow={(props) => (
-            <FloatingArrow {...props} className='fill-foreground' />
-          )}
-        >
+        <MenuContent>
           <MenuItem>New file</MenuItem>
           <MenuItem>Open…</MenuItem>
           <MenuSeparator />
@@ -86,11 +80,7 @@ function CheckboxMenu() {
       </MenuTrigger>
 
       <MenuPortal>
-        <MenuContent
-          arrow={(props) => (
-            <FloatingArrow {...props} className='fill-foreground' />
-          )}
-        >
+        <MenuContent>
           <MenuCheckboxItem
             checked={visible.grid}
             disableCloseOnChange
@@ -137,11 +127,7 @@ function RadioMenu() {
       </MenuTrigger>
 
       <MenuPortal>
-        <MenuContent
-          arrow={(props) => (
-            <FloatingArrow {...props} className='fill-foreground' />
-          )}
-        >
+        <MenuContent>
           <MenuGroup>
             <MenuGroupContent>
               <MenuRadioGroup value={align} onChange={setAlign}>
@@ -178,11 +164,7 @@ function GroupMenu() {
       </MenuTrigger>
 
       <MenuPortal>
-        <MenuContent
-          arrow={(props) => (
-            <FloatingArrow {...props} className='fill-foreground' />
-          )}
-        >
+        <MenuContent>
           <MenuGroup>
             <MenuGroupLabel>Profile</MenuGroupLabel>
             <MenuGroupContent>
@@ -197,7 +179,7 @@ function GroupMenu() {
             <MenuGroupLabel>Danger zone</MenuGroupLabel>
             <MenuGroupContent>
               <MenuItem>Sign out</MenuItem>
-              <MenuItem className='text-red-600'>Delete account</MenuItem>
+              <MenuItem variant='destructive'>Delete account</MenuItem>
             </MenuGroupContent>
           </MenuGroup>
         </MenuContent>
@@ -240,7 +222,7 @@ function MenuInDialog() {
                 )}
               </DialogClose>
 
-              <BasicMenu className='w-40' />
+              <BasicMenu />
             </div>
           </DialogContent>
         </DialogPortal>

@@ -4,9 +4,9 @@ import {
   IconMoodNeutral,
 } from '@tabler/icons-react';
 import { cn } from '~/lib/utils';
-import { Checkbox, CheckboxIcon } from './checkbox';
+import { CheckboxIcon, CheckboxRoot } from './checkbox';
 
-export function CheckboxPreview() {
+export function CheckboxDemo() {
   return (
     <main className='flex grow flex-col items-center justify-center gap-3'>
       <BasicCheckbox />
@@ -54,11 +54,11 @@ function BasicCheckbox() {
   return (
     <Row>
       <Box>
-        <Checkbox defaultChecked>
+        <CheckboxRoot defaultChecked>
           <CheckboxIcon type='check'>
             <IconCheck />
           </CheckboxIcon>
-        </Checkbox>
+        </CheckboxRoot>
       </Box>
 
       <Label>Accept terms and conditions</Label>
@@ -74,14 +74,14 @@ function IconCheckbox() {
   return (
     <Row>
       <div className='flex size-6 items-center justify-center *:[svg]:size-6'>
-        <Checkbox defaultChecked>
+        <CheckboxRoot defaultChecked>
           <CheckboxIcon type='box'>
             <IconMoodNeutral className='text-muted-foreground' />
           </CheckboxIcon>
           <CheckboxIcon type='check'>
             <IconMoodHappyFilled className='text-amber-500 dark:text-amber-400' />
           </CheckboxIcon>
-        </Checkbox>
+        </CheckboxRoot>
       </div>
 
       <Label>Emoji toggle</Label>
@@ -97,11 +97,11 @@ function DisabledCheckbox({ checked }: { checked: boolean }) {
   return (
     <Row>
       <Box>
-        <Checkbox disabled checked={checked}>
+        <CheckboxRoot disabled defaultChecked={checked}>
           <CheckboxIcon type='check'>
             <IconCheck />
           </CheckboxIcon>
-        </Checkbox>
+        </CheckboxRoot>
       </Box>
 
       <Label>Disabled ({checked ? 'checked' : 'unchecked'})</Label>
@@ -117,11 +117,11 @@ function ErrorCheckbox() {
   return (
     <Row state='error'>
       <Box>
-        <Checkbox aria-invalid>
+        <CheckboxRoot aria-invalid>
           <CheckboxIcon type='check'>
             <IconCheck />
           </CheckboxIcon>
-        </Checkbox>
+        </CheckboxRoot>
       </Box>
 
       <div className='flex flex-col'>

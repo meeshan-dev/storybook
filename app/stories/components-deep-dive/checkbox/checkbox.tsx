@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { createContextScope } from '~/lib/context-scope';
 
+/* ———————————————————— Root ———————————————————— */
+
 const [CheckboxProvider, useCheckboxCtx] = createContextScope<{
   checked: boolean;
   indeterminate: boolean;
 }>();
 
-export function Checkbox(
+export function CheckboxRoot(
   props: React.ComponentPropsWithRef<'input'> & {
     indeterminate?: boolean;
   },
@@ -50,7 +52,7 @@ export function Checkbox(
   );
 }
 
-// <<--------------------Checkbox Icon-------------------->>
+/* ———————————————————— Icon ———————————————————— */
 
 export function CheckboxIcon({
   type,

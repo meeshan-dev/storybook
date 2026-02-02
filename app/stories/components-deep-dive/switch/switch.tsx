@@ -1,15 +1,17 @@
 import * as React from 'react';
 import { createContextScope } from '~/lib/context-scope';
 
+/* ———————————————————— Root ———————————————————— */
+
 const [SwitchProvider, useSwitchCtx] = createContextScope<{
   checked: boolean;
 }>();
 
-export function Switch(props: React.ComponentPropsWithRef<'input'>) {
-  const { defaultChecked, ref, children, ...restProps } = props;
-
-  const innerRef = React.useRef<HTMLInputElement>(null);
-
+export function SwitchRoot({
+  defaultChecked,
+  children,
+  disabled,
+}: ChildrenProp & { disabled?: boolean; defaultChecked?: boolean }) {
   const [checked, setChecked] = React.useState(!!defaultChecked);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -20,21 +22,13 @@ export function Switch(props: React.ComponentPropsWithRef<'input'>) {
   return (
     <SwitchProvider value={{ checked }}>
       <input
-        {...restProps}
-        ref={(node) => {
-          innerRef.current = node;
-          if (typeof ref === 'function') {
-            ref(node);
-          } else if (ref) {
-            ref.current = node;
-          }
-        }}
         type='checkbox'
         role='switch'
         checked={checked}
         onChange={handleChange}
         className='sr-only'
         aria-checked={checked}
+        disabled={disabled}
       />
 
       {children}
@@ -42,7 +36,7 @@ export function Switch(props: React.ComponentPropsWithRef<'input'>) {
   );
 }
 
-// <<--------------------Switch Icon-------------------->>
+/* ———————————————————— Icon ———————————————————— */
 
 export function SwitchIcon({
   type,

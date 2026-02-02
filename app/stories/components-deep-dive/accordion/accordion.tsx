@@ -2,37 +2,36 @@ import { AnimatePresence, motion } from 'motion/react';
 import React, { useId, useState } from 'react';
 import { createContextScope } from '~/lib/context-scope';
 
-// <<--------------------Accordion-------------------->>
+/* ———————————————————— Root ———————————————————— */
 
-type AccordionRootProps<Type, IsSingleCollapsible> = {
+type AccordionRootProps<Type, IsSingleCollapsible> = ChildrenProp & {
   disabled?: boolean;
-  children: React.ReactNode;
 } & (Type extends 'multiple'
-  ? {
-      type?: Type;
-      defaultValue?: string[];
-      isSingleCollapsible?: undefined;
-    }
-  : IsSingleCollapsible extends true
     ? {
-        type: Type;
-        defaultValue?: string | null;
-        isSingleCollapsible?: IsSingleCollapsible;
+        type?: Type;
+        defaultValue?: string[];
+        isSingleCollapsible?: undefined;
       }
-    : {
-        type: Type;
-        defaultValue?: string;
-        isSingleCollapsible: IsSingleCollapsible;
-      });
+    : IsSingleCollapsible extends true
+      ? {
+          type: Type;
+          defaultValue?: string | null;
+          isSingleCollapsible?: IsSingleCollapsible;
+        }
+      : {
+          type: Type;
+          defaultValue?: string;
+          isSingleCollapsible: IsSingleCollapsible;
+        });
 
-interface AccordionCtxProps {
+type AccordionCtxProps = {
   rootId: string;
   onExpand: (value: string) => void;
   onCollapse: (value: string) => void;
   disabled?: boolean;
   value: string | string[] | null;
   type: 'multiple' | 'single';
-}
+};
 
 const [AccordionCtx, useAccordionCtx] = createContextScope<AccordionCtxProps>();
 
@@ -113,21 +112,20 @@ export function AccordionRoot<
   );
 }
 
-// <<--------------------Accordion Item-------------------->>
+/* ———————————————————— Item ———————————————————— */
 
-interface AccordionItemProps {
+type AccordionItemProps = ChildrenProp & {
   value: string;
   disabled?: boolean;
-  children: React.ReactNode;
-}
+};
 
-interface AccordionItemCtxProps {
+type AccordionItemCtxProps = {
   value: string;
   triggerId: string;
   contentId: string;
   isExpended: boolean;
   disabled?: boolean;
-}
+};
 
 const [AccordionItemCtx, useAccordionItemCtx] =
   createContextScope<AccordionItemCtxProps>();
@@ -161,7 +159,7 @@ export const AccordionItem = (props: AccordionItemProps) => {
   );
 };
 
-// <<--------------------Accordion Trigger-------------------->>
+/* ———————————————————— Trigger ———————————————————— */
 
 type HeadingLevel = `h${2 | 3 | 4 | 5 | 6}`;
 
@@ -266,13 +264,9 @@ export const AccordionTrigger = (props: {
   );
 };
 
-// <<--------------------Accordion Content-------------------->>
+/* ———————————————————— Content ———————————————————— */
 
-export const AccordionContent = ({
-  children,
-}: {
-  children?: React.ReactNode;
-}) => {
+export const AccordionContent = ({ children }: ChildrenProp) => {
   const itemCtx = useAccordionItemCtx();
 
   return (

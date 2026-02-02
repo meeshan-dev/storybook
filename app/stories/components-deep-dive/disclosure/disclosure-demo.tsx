@@ -90,7 +90,7 @@ function DisclosureExample({
   );
 }
 
-export function DisclosurePreview() {
+export function DisclosureDemo() {
   return (
     <main className='flex grow items-center justify-center py-10'>
       <section>

@@ -20,7 +20,7 @@ import {
   DialogTrigger,
 } from './dialog';
 
-export function DialogPreview() {
+export function DialogDemo() {
   return (
     <div className='flex grow flex-col items-center justify-center gap-6 *:w-full *:max-w-60'>
       <BasicDialog />
@@ -83,7 +83,7 @@ function NestedDialog() {
       <DialogPortal>
         <DialogOverlay />
 
-        <DialogContent className='max-w-lg'>
+        <DialogContent>
           <DialogTitle>First dialog</DialogTitle>
 
           <p className='text-muted-foreground text-sm'>

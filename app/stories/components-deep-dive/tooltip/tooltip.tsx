@@ -17,20 +17,9 @@ import { createPortal } from 'react-dom';
 import { createContextScope } from '~/lib/context-scope';
 import { getLayers } from '~/lib/get-layers';
 
-type Trigger = 'hover' | 'focus';
+/* ———————————————————— Root ———————————————————— */
 
-export interface TooltipRootProps {
-  children?: React.ReactNode;
-  showDelay?: number;
-  hideDelay?: number;
-  /**
-   * On which action tooltip shows. undefined means show tooltip on both 'hover' and 'keyboard focus'
-   * @default undefined
-   */
-  trigger?: Trigger;
-  defaultOpen?: boolean;
-  disabled?: boolean;
-}
+type Trigger = 'hover' | 'focus';
 
 interface TooltipCtxProps {
   showTooltip: (immediate?: boolean) => void;
@@ -45,16 +34,20 @@ const [TooltipCtx, useTooltipCtx] = createContextScope<TooltipCtxProps>();
 
 const tooltips: Record<string, (a: boolean) => void> = {};
 
-export const TooltipRoot = (props: TooltipRootProps) => {
-  const {
-    children,
-    showDelay = 100,
-    hideDelay = 300,
-    trigger,
-    defaultOpen,
-    disabled,
-  } = props;
-
+export const TooltipRoot = ({
+  children,
+  showDelay = 100,
+  hideDelay = 300,
+  trigger,
+  defaultOpen,
+  disabled,
+}: ChildrenProp & {
+  showDelay?: number;
+  hideDelay?: number;
+  trigger?: Trigger;
+  defaultOpen?: boolean;
+  disabled?: boolean;
+}) => {
   const [open, setOpen] = useState(!!defaultOpen);
 
   const identifier = React.useId();
@@ -146,7 +139,7 @@ export const TooltipRoot = (props: TooltipRootProps) => {
   );
 };
 
-// <<--------------------Trigger-------------------->>
+/* ———————————————————— Trigger ———————————————————— */
 
 export function TooltipTrigger({
   children,
@@ -197,35 +190,30 @@ export function TooltipTrigger({
   );
 }
 
-// <<--------------------Portal-------------------->>
+/* ———————————————————— Portal ———————————————————— */
 
-export const TooltipPortal = ({
-  children,
-  container = globalThis?.document?.body,
-}: {
-  children?: React.ReactNode;
-  container?: Element;
-}) => {
+export const TooltipPortal = ({ children }: ChildrenProp) => {
   const context = useTooltipCtx();
 
-  return <>{context.open && createPortal(children, container)}</>;
+  return (
+    <>{context.open && createPortal(children, globalThis?.document?.body)}</>
+  );
 };
 
-// <<--------------------Content-------------------->>
+/* ———————————————————— Content ———————————————————— */
 
-export interface TooltipContentProps {
+export function TooltipContent({
+  disableInteractive,
+  children,
+  offset = 5,
+  arrowPadding = 10,
+  placement = 'bottom',
+  strategy = 'absolute',
+}: {
   disableInteractive?: boolean;
-  /** distance between combobox and listbox
-   * @default 5
-   */
   offset?: number;
-  /** padding used to prevent arrow to touch content edges. its usefull when content has rounded corners.
-   * @default 10
-   */
   arrowPadding?: number;
-  /** @default bottom */
   placement?: Placement;
-  /** @default absolute */
   strategy?: Strategy;
   children?: (props: {
     props: React.ComponentPropsWithRef<'div'>;
@@ -234,18 +222,7 @@ export interface TooltipContentProps {
       context: FloatingContext;
     };
   }) => React.ReactNode;
-}
-
-export function TooltipContent(props: TooltipContentProps) {
-  const {
-    disableInteractive,
-    children,
-    offset = 5,
-    arrowPadding = 10,
-    placement = 'bottom',
-    strategy = 'absolute',
-  } = props;
-
+}) {
   const tooltipCtx = useTooltipCtx();
 
   const arrowRef = useRef<SVGSVGElement | null>(null);

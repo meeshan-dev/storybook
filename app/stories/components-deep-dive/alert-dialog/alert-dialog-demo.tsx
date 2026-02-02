@@ -10,7 +10,7 @@ import {
   AlertDialogTrigger,
 } from './alert-dialog';
 
-export function AlertDialogPreview() {
+export function AlertDialogDemo() {
   return (
     <div className='flex grow items-center justify-center'>
       <article className='bg-secondary w-full max-w-lg space-y-4 rounded-lg p-5'>

@@ -1,10 +1,8 @@
 import {
-  type FloatingContext,
-  type Placement,
-  type Strategy,
   arrow as arrowMiddleware,
   autoUpdate,
   flip as flipMiddleware,
+  FloatingArrow,
   hide as hideMiddleware,
   limitShift,
   offset as offsetMiddleware,
@@ -14,18 +12,12 @@ import {
 } from '@floating-ui/react';
 import React, { useEffectEvent, useId, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { twMerge } from 'tailwind-merge';
 import { createContextScope } from '~/lib/context-scope';
 import { getLayers } from '~/lib/get-layers';
 import { useOnClickOutside } from '~/stories/hooks/use-on-click-outside';
 import { useScrollLock } from '~/stories/hooks/use-scroll-lock';
 
-export interface MenuRootProps {
-  children?: React.ReactNode;
-  defaultOpen?: boolean;
-  loop?: boolean;
-  disableCloseOnEscape?: boolean;
-}
+/* ———————————————————— Root ———————————————————— */
 
 interface MenuCtxProps {
   open: boolean;
@@ -41,17 +33,17 @@ interface MenuCtxProps {
 
 const [MenuCtx, useMenuCtx] = createContextScope<MenuCtxProps>();
 
-export function MenuRoot(props: MenuRootProps) {
-  const {
-    children,
-    defaultOpen,
-    loop = false,
-    disableCloseOnEscape = false,
-  } = props;
-
+export function MenuRoot({
+  children,
+  loop = false,
+  disableCloseOnEscape = false,
+}: ChildrenProp & {
+  loop?: boolean;
+  disableCloseOnEscape?: boolean;
+}) {
   const contentRef = React.useRef<HTMLElement | null>(null);
 
-  const [open, setOpen] = useState(!!defaultOpen);
+  const [open, setOpen] = useState(false);
 
   const contentId = React.useId();
 
@@ -93,40 +85,9 @@ export function MenuRoot(props: MenuRootProps) {
   );
 }
 
-// <<--------------------Content-------------------->>
+/* ———————————————————— Content ———————————————————— */
 
-export interface MenuContentProps extends React.ComponentPropsWithRef<'div'> {
-  /** distance between combobox and listbox
-   * @default 5
-   */
-  offset?: number;
-  /** padding used to prevent arrow to touch content edges. its usefull when content has rounded corners.
-   * @default 10
-   */
-  arrowPadding?: number;
-  /** @default bottom */
-  placement?: Placement;
-  /** @default absolute */
-  strategy?: Strategy;
-  arrow?: (props: {
-    ref: React.RefObject<SVGSVGElement | null>;
-    context: FloatingContext;
-  }) => React.ReactNode;
-}
-
-export function MenuContent(props: MenuContentProps) {
-  const {
-    ref,
-    children,
-    className,
-    offset = 5,
-    arrowPadding = 10,
-    placement = 'bottom',
-    strategy = 'absolute',
-    arrow,
-    ...restProps
-  } = props;
-
+export function MenuContent({ children }: ChildrenProp) {
   const arrowRef = React.useRef<SVGSVGElement>(null);
   const innerRef = React.useRef<HTMLDivElement>(null);
   const ulRef = React.useRef<HTMLUListElement>(null);
@@ -137,18 +98,18 @@ export function MenuContent(props: MenuContentProps) {
 
   const floatingReturn = useFloating<HTMLButtonElement>({
     open: menuCtx.open,
-    placement,
+    placement: 'bottom',
     elements: { reference: menuCtx.trigger },
     whileElementsMounted: autoUpdate,
-    strategy,
+    strategy: 'absolute',
     middleware: [
-      offsetMiddleware({ mainAxis: offset }),
+      offsetMiddleware({ mainAxis: 5 }),
       flipMiddleware(),
       shiftMiddleware({ limiter: limitShift() }),
       // eslint-disable-next-line react-hooks/refs
       arrowMiddleware({
         element: arrowRef,
-        padding: arrowPadding,
+        padding: 10,
       }),
       size({
         apply({ rects, elements }) {
@@ -300,30 +261,17 @@ export function MenuContent(props: MenuContentProps) {
 
   return (
     <div
-      {...restProps}
       data-hide={!!floatingReturn.middlewareData.hide?.referenceHidden}
       id={menuCtx.contentId}
       tabIndex={-1}
-      style={{
-        ...restProps.style,
-        ...floatingReturn.floatingStyles,
-      }}
-      className={twMerge(
-        'bg-background ring-foreground/10 relative z-50 w-(--reference-width) rounded-md p-1 ring-1 outline-none data-[hide=true]:hidden',
-        className,
-      )}
+      style={floatingReturn.floatingStyles}
+      className='bg-background ring-foreground/10 relative z-50 w-full max-w-(--reference-width) min-w-40 rounded-md p-1 ring-1 outline-none data-[hide=true]:hidden'
       ref={(node) => {
         innerRef.current = node;
         floatingReturn.refs.setFloating(node);
         contentRef.current = node;
 
         node?.focus();
-
-        if (typeof ref === 'function') {
-          ref(node);
-        } else if (ref) {
-          ref.current = node;
-        }
 
         if (!node) return;
 
@@ -341,8 +289,11 @@ export function MenuContent(props: MenuContentProps) {
         handleCharSearch(e);
       }}
     >
-      {/* eslint-disable-next-line react-hooks/refs */}
-      {arrow && arrow({ ref: arrowRef, context: floatingReturn.context })}
+      <FloatingArrow
+        context={floatingReturn.context}
+        ref={arrowRef}
+        className='fill-foreground'
+      />
 
       <ul ref={ulRef} role='menu' tabIndex={-1} className='outline-none'>
         {children}
@@ -351,7 +302,7 @@ export function MenuContent(props: MenuContentProps) {
   );
 }
 
-// <<--------------------Trigger-------------------->>
+/* ———————————————————— Trigger ———————————————————— */
 
 export function MenuTrigger({
   children,
@@ -375,15 +326,21 @@ export function MenuTrigger({
   );
 }
 
-// <<--------------------Item Implement-------------------->>
+/* ———————————————————— Item Base ———————————————————— */
 
-interface ItemBasePorps extends React.ComponentPropsWithRef<'li'> {
+function ItemBase({
+  disabled,
+  onClick,
+  variant,
+  children,
+  ...restProps
+}: ChildrenProp & {
   disabled?: boolean;
-}
-
-function ItemBase(props: ItemBasePorps) {
-  const { disabled, onClick, className, ...restProps } = props;
-
+  onClick?: React.MouseEventHandler<HTMLLIElement>;
+  role: string;
+  'aria-checked'?: boolean;
+  variant?: 'destructive';
+}) {
   const id = React.useId();
 
   const menuCtx = useMenuCtx();
@@ -391,12 +348,11 @@ function ItemBase(props: ItemBasePorps) {
   return (
     <li
       {...restProps}
+      data-variant={variant}
       id={id}
       onClick={onClick}
       aria-disabled={disabled}
       onMouseEnter={(e) => {
-        restProps.onMouseEnter?.(e);
-
         if (disabled) return;
 
         for (const item of getActiveItems(menuCtx.contentId)) {
@@ -407,8 +363,6 @@ function ItemBase(props: ItemBasePorps) {
         e.currentTarget.focus();
       }}
       onKeyDown={(e) => {
-        restProps.onKeyDown?.(e);
-
         const key = e.key;
 
         if (![' ', 'Tab'].includes(key)) return;
@@ -416,33 +370,34 @@ function ItemBase(props: ItemBasePorps) {
         e.preventDefault();
         onClick?.(e as unknown as React.MouseEvent<HTMLLIElement>);
       }}
-      className={twMerge(
-        'focus:bg-secondary flex gap-2 rounded-md px-3 py-2 text-sm outline-none aria-disabled:pointer-events-none aria-disabled:opacity-50 *:[svg]:size-4',
-        className,
-      )}
-    />
+      className='focus:bg-secondary flex gap-2 rounded-md px-3 py-2 text-sm outline-none aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[variant=destructive]:text-red-600 dark:data-[variant=destructive]:text-red-400 *:[svg]:size-4'
+    >
+      {children}
+    </li>
   );
 }
 
-// <<--------------------Item-------------------->>
+/* ———————————————————— Item ———————————————————— */
 
-export interface MenuItemProps extends ItemBasePorps {
+export function MenuItem({
+  children,
+  disableCloseOnClick,
+  disabled,
+  variant,
+}: ChildrenProp & {
+  disabled?: boolean;
   disableCloseOnClick?: boolean;
-}
-
-export function MenuItem(props: MenuItemProps) {
-  const { children, onClick, disableCloseOnClick, ...restProps } = props;
-
+  variant?: 'destructive';
+}) {
   const menuCtx = useMenuCtx();
 
   return (
     <ItemBase
-      {...restProps}
+      disabled={disabled}
+      variant={variant}
       role='menuitem'
-      onClick={(e) => {
+      onClick={() => {
         if (!disableCloseOnClick) menuCtx.handleClose();
-
-        onClick?.(e);
       }}
     >
       {children}
@@ -450,23 +405,28 @@ export function MenuItem(props: MenuItemProps) {
   );
 }
 
-// <<--------------------Checkbox Item-------------------->>
+/* ———————————————————— Checkbox Item ———————————————————— */
 
-export interface MenuCheckboxItemProps extends Omit<ItemBasePorps, 'onChange'> {
+export function MenuCheckboxItem({
+  children,
+  checked,
+  onChange,
+  disableCloseOnChange,
+  disabled,
+  variant,
+}: ChildrenProp & {
   checked?: boolean;
   onChange?: (checked: boolean) => void;
   disableCloseOnChange?: boolean;
-}
-
-export function MenuCheckboxItem(props: MenuCheckboxItemProps) {
-  const { children, checked, onChange, disableCloseOnChange, ...restProps } =
-    props;
-
+  disabled?: boolean;
+  variant?: 'destructive';
+}) {
   const menuCtx = useMenuCtx();
 
   return (
     <ItemBase
-      {...restProps}
+      disabled={disabled}
+      variant={variant}
       role='menuitemcheckbox'
       aria-checked={checked}
       onClick={() => {
@@ -479,13 +439,7 @@ export function MenuCheckboxItem(props: MenuCheckboxItemProps) {
   );
 }
 
-// <<--------------------Radio Group-------------------->>
-
-export interface MenuRadioGroupProps {
-  onChange?: (value: string) => void;
-  value?: string;
-  children?: React.ReactNode;
-}
+/* ———————————————————— Radio Group ———————————————————— */
 
 interface MenuRadioGroupCtxProps {
   onChange?: (value: string) => void;
@@ -495,9 +449,14 @@ interface MenuRadioGroupCtxProps {
 const [MenuRadioGroupCtx, useMenuRadioGroupCtx] =
   createContextScope<MenuRadioGroupCtxProps>();
 
-export const MenuRadioGroup = (props: MenuRadioGroupProps) => {
-  const { onChange, value, children } = props;
-
+export const MenuRadioGroup = ({
+  onChange,
+  value,
+  children,
+}: ChildrenProp & {
+  onChange?: (value: string) => void;
+  value?: string;
+}) => {
   return (
     <MenuRadioGroupCtx value={{ value, onChange }}>
       {children}
@@ -505,16 +464,20 @@ export const MenuRadioGroup = (props: MenuRadioGroupProps) => {
   );
 };
 
-// <<--------------------Radio Item-------------------->>
+/* ———————————————————— Radio Item ———————————————————— */
 
-export interface MenuRadioItemProps extends ItemBasePorps {
+export function MenuRadioItem({
+  children,
+  value,
+  disableCloseOnChange,
+  disabled,
+  variant,
+}: ChildrenProp & {
   value: string;
   disableCloseOnChange?: boolean;
-}
-
-export function MenuRadioItem(props: MenuRadioItemProps) {
-  const { children, value, disableCloseOnChange, ...restProps } = props;
-
+  disabled?: boolean;
+  variant?: 'destructive';
+}) {
   const menuCtx = useMenuCtx();
   const menuRadioGroupCtx = useMenuRadioGroupCtx();
 
@@ -522,7 +485,8 @@ export function MenuRadioItem(props: MenuRadioItemProps) {
 
   return (
     <ItemBase
-      {...restProps}
+      disabled={disabled}
+      variant={variant}
       role='menuitemradio'
       aria-checked={checked}
       onClick={() => {
@@ -536,98 +500,65 @@ export function MenuRadioItem(props: MenuRadioItemProps) {
   );
 }
 
-// <<--------------------Separator-------------------->>
+/* ———————————————————— Separator ———————————————————— */
 
-export function MenuSeparator(
-  props: Omit<React.ComponentPropsWithRef<'div'>, 'children'>,
-) {
-  const { className, ...restProps } = props;
-
-  return (
-    <div
-      {...restProps}
-      role='separator'
-      className={twMerge('bg-foreground/10 my-1 h-px', className)}
-    />
-  );
+export function MenuSeparator() {
+  return <div role='separator' className='bg-foreground/10 my-1 h-px' />;
 }
 
-// <<--------------------Group-------------------->>
+/* ———————————————————— Group ———————————————————— */
 
 const [MenuGroupProvider, useMenuGroupCtx] = createContextScope<{
   labelId?: string;
 }>();
 
-export function MenuGroup(props: React.ComponentPropsWithRef<'li'>) {
-  const { className, children, ...restProps } = props;
-
+export function MenuGroup({ children }: ChildrenProp) {
   const labelId = useId();
 
   return (
     <MenuGroupProvider value={{ labelId }}>
-      <li {...restProps} role='none' className={className}>
-        {children}
-      </li>
+      <li role='none'>{children}</li>
     </MenuGroupProvider>
   );
 }
-// <<--------------------Group Label-------------------->>
+/* ———————————————————— Group Label ———————————————————— */
 
-export function MenuGroupLabel(
-  props: Omit<React.ComponentPropsWithRef<'div'>, 'children'> & {
-    children: string;
-  },
-) {
-  const { className, children, ...restProps } = props;
-
+export function MenuGroupLabel({ children }: { children: string }) {
   const { labelId } = useMenuGroupCtx();
 
   return (
     <div
-      {...restProps}
       id={labelId}
       role='presentation'
-      className={twMerge(
-        'text-foreground/70 px-3 py-1.5 text-xs font-medium',
-        className,
-      )}
+      className='text-foreground/70 px-3 py-1.5 text-xs font-medium'
     >
       {children}
     </div>
   );
 }
-// <<--------------------Group Content-------------------->>
+/* ———————————————————— Group Content ———————————————————— */
 
-export function MenuGroupContent(props: React.ComponentPropsWithRef<'ul'>) {
-  const { className, ...restProps } = props;
-
+export function MenuGroupContent({ children }: ChildrenProp) {
   const { labelId } = useMenuGroupCtx();
 
   return (
-    <ul
-      {...restProps}
-      role='group'
-      aria-labelledby={labelId}
-      className={className}
-    />
+    <ul role='group' aria-labelledby={labelId}>
+      {children}
+    </ul>
   );
 }
 
-// <<--------------------Portal-------------------->>
+/* ———————————————————— Portal ———————————————————— */
 
-export const MenuPortal = ({
-  children,
-  container = globalThis?.document?.body,
-}: {
-  children?: React.ReactNode;
-  container?: Element;
-}) => {
+export const MenuPortal = ({ children }: ChildrenProp) => {
   const menuCtx = useMenuCtx();
 
-  return <>{menuCtx.open && createPortal(children, container)}</>;
+  return (
+    <>{menuCtx.open && createPortal(children, globalThis?.document?.body)}</>
+  );
 };
 
-// <<--------------------Utils-------------------->>
+/* ———————————————————— Utils ———————————————————— */
 
 const getActiveItems = (contentId: string) => {
   const allItems = Array.from(
