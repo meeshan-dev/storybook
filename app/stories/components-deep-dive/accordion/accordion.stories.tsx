@@ -16,8 +16,8 @@ export const Default: StoryObj<typeof meta> = {
       <h1>Accordion</h1>
 
       <p>
-        A headless, accessible accordion component built from first principles.
-        Implements the{' '}
+        Accessible accordion component built from first principles. Implements
+        the{' '}
         <a
           href='https://www.w3.org/WAI/ARIA/apg/patterns/accordion/'
           target='_blank'
@@ -27,6 +27,16 @@ export const Default: StoryObj<typeof meta> = {
         with full keyboard navigation, screen reader support, and flexible
         expansion modes.
       </p>
+
+      <div className='story-demo not-typography'>
+        <h2>Interactive Examples</h2>
+        <p className='text-muted-foreground mb-6'>
+          Three real-world use cases demonstrating different expansion modes
+        </p>
+        <div>
+          <AccordionDemo />
+        </div>
+      </div>
 
       <h2>Implementation Highlights</h2>
 
@@ -54,16 +64,6 @@ export const Default: StoryObj<typeof meta> = {
           with <code>AnimatePresence</code>
         </li>
       </ul>
-
-      <div className='story-demo not-typography'>
-        <h2>Interactive Examples</h2>
-        <p className='text-muted-foreground mb-6'>
-          Three real-world use cases demonstrating different expansion modes
-        </p>
-        <div>
-          <AccordionDemo />
-        </div>
-      </div>
 
       <h2>Keyboard Navigation</h2>
 
@@ -127,9 +127,8 @@ export const Default: StoryObj<typeof meta> = {
         <li>Disabled items are properly announced and skip keyboard focus</li>
       </ul>
 
-      <h2>API Overview</h2>
+      <h2>Expansion Modes</h2>
 
-      <h3>Expansion Modes</h3>
       <ul>
         <li>
           <strong>Multiple</strong>: Any number of panels can be open

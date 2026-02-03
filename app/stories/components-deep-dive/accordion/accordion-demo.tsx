@@ -20,7 +20,7 @@ import {
 
 export function AccordionDemo() {
   return (
-    <div className='flex grow flex-col items-center justify-center gap-12 py-10'>
+    <div className='flex flex-col items-center justify-center gap-12 py-10'>
       <FAQAccordion />
       <SettingsPanelAccordion />
       <ProductFeaturesAccordion />
@@ -28,9 +28,9 @@ export function AccordionDemo() {
   );
 }
 
-/* ———————————————————————————————————————————————————— */
+/* ————————————————————————————————————————————————————— */
 /*  1. FAQ Section — Real-world customer support pattern */
-/* ———————————————————————————————————————————————————— */
+/* ————————————————————————————————————————————————————— */
 
 const faqItems = [
   {
@@ -67,7 +67,7 @@ const faqItems = [
 function FAQAccordion() {
   return (
     <section className='w-full max-w-2xl'>
-      <div className='mb-6 text-center'>
+      <div className='text-center'>
         <Badge variant='secondary' className='mb-2'>
           Multiple Expansion
         </Badge>
@@ -77,36 +77,32 @@ function FAQAccordion() {
         </p>
       </div>
 
-      <AccordionRoot type='multiple' defaultValue={['shipping']}>
-        <div className='divide-border divide-y rounded-xl border'>
-          {faqItems.map(({ id, icon: Icon, question, answer, disabled }) => (
-            <AccordionItem key={id} value={id} disabled={disabled}>
-              <AccordionTrigger headingLevel='h3'>
-                {(props) => (
-                  <Button
-                    {...props}
-                    variant='ghost'
-                    className='group h-auto w-full justify-start gap-3 rounded-none px-4 py-4 text-left font-medium'
-                  >
-                    <Icon
-                      size={20}
-                      className='text-muted-foreground shrink-0'
-                    />
-                    <span className='flex-1'>{question}</span>
-                    <IconChevronDown
-                      size={18}
-                      className='text-muted-foreground shrink-0 transition-transform duration-200 group-data-[expanded=true]:-rotate-180'
-                    />
-                  </Button>
-                )}
-              </AccordionTrigger>
+      <AccordionRoot
+        type='multiple'
+        defaultValue={['shipping']}
+        className='divide-border mt-6 divide-y rounded-xl border [&>div:first-child>h3>button]:rounded-t-xl [&>div:last-child>h3>button]:rounded-b-xl [&>div:last-child>h3>button[aria-expanded="true"]]:rounded-b-none'
+      >
+        {faqItems.map(({ id, icon: Icon, question, answer, disabled }) => (
+          <AccordionItem key={id} value={id} disabled={disabled}>
+            <AccordionTrigger headingLevel='h3'>
+              {(props) => (
+                <Button
+                  {...props}
+                  variant='ghost'
+                  className='hover:dark:bg-secondary relative h-auto w-full justify-start gap-3 rounded-none border-0 px-4 py-4 focus:z-50'
+                >
+                  <Icon className='size-5' />
+                  <span className='flex-1'>{question}</span>
+                  <IconChevronDown className='transition-transform duration-200 group-aria-expanded/button:-rotate-180' />
+                </Button>
+              )}
+            </AccordionTrigger>
 
-              <AccordionContent className='text-muted-foreground pl-11 leading-relaxed'>
-                {answer}
-              </AccordionContent>
-            </AccordionItem>
-          ))}
-        </div>
+            <AccordionContent className='text-muted-foreground p-3 pl-12 leading-relaxed'>
+              {answer}
+            </AccordionContent>
+          </AccordionItem>
+        ))}
       </AccordionRoot>
     </section>
   );
@@ -165,64 +161,72 @@ function SettingsPanelAccordion() {
         </p>
       </div>
 
-      <AccordionRoot type='single' defaultValue='profile' isSingleCollapsible>
-        <div className='space-y-2'>
-          {settingsSections.map(
-            ({ id, icon: Icon, title, description, settings, disabled }) => (
-              <AccordionItem key={id} value={id} disabled={disabled}>
-                <div
-                  className={`bg-secondary/50 overflow-hidden rounded-lg border transition-colors ${disabled ? 'opacity-50' : ''}`}
-                >
-                  <AccordionTrigger headingLevel='h3'>
-                    {(props) => (
-                      <Button
-                        {...props}
-                        variant='ghost'
-                        className='group h-auto w-full justify-start gap-4 rounded-none p-4 text-left'
-                      >
-                        <div className='bg-primary/10 text-primary flex size-10 shrink-0 items-center justify-center rounded-lg'>
-                          <Icon size={20} />
-                        </div>
-                        <div className='flex-1'>
-                          <div className='flex items-center gap-2 font-semibold'>
-                            {title}
-                            {disabled && (
-                              <Badge variant='outline' className='text-xs'>
-                                Coming Soon
-                              </Badge>
-                            )}
-                          </div>
-                          <p className='text-muted-foreground text-sm font-normal'>
-                            {description}
-                          </p>
-                        </div>
-                        <IconChevronDown
-                          size={18}
-                          className='text-muted-foreground shrink-0 transition-transform duration-200 group-data-[expanded=true]:-rotate-180'
-                        />
-                      </Button>
-                    )}
-                  </AccordionTrigger>
+      <AccordionRoot
+        type='single'
+        defaultValue='profile'
+        isSingleCollapsible
+        className='space-y-2'
+      >
+        {settingsSections.map(
+          ({ id, icon: Icon, title, description, settings, disabled }) => (
+            <AccordionItem
+              key={id}
+              value={id}
+              disabled={disabled}
+              className='bg-secondary/50 overflow-hidden rounded-lg border transition-colors data-disabled:opacity-50'
+            >
+              <AccordionTrigger headingLevel='h3'>
+                {(props) => (
+                  <Button
+                    {...props}
+                    variant='ghost'
+                    className='h-auto w-full justify-start gap-4 rounded-none p-4 text-left'
+                  >
+                    <div className='bg-primary/10 text-primary flex size-10 shrink-0 items-center justify-center rounded-lg'>
+                      <Icon size={20} />
+                    </div>
 
-                  <AccordionContent className='bg-background space-y-3 border-t px-4 py-3'>
-                    {settings.map(({ label, value }) => (
-                      <div
-                        key={label}
-                        className='flex items-center justify-between text-sm'
-                      >
-                        <span className='text-muted-foreground'>{label}</span>
-                        <span className='font-medium'>{value}</span>
+                    <div className='flex-1'>
+                      <div className='flex items-center gap-2 font-semibold'>
+                        {title}
+
+                        {disabled && (
+                          <Badge variant='outline' className='text-xs'>
+                            Coming Soon
+                          </Badge>
+                        )}
                       </div>
-                    ))}
-                    <Button size='sm' className='mt-2 w-full'>
-                      Edit Settings
-                    </Button>
-                  </AccordionContent>
-                </div>
-              </AccordionItem>
-            ),
-          )}
-        </div>
+
+                      <p className='text-muted-foreground text-sm font-normal'>
+                        {description}
+                      </p>
+                    </div>
+
+                    <IconChevronDown
+                      size={18}
+                      className='text-muted-foreground shrink-0 transition-transform duration-200 group-aria-expanded/button:-rotate-180'
+                    />
+                  </Button>
+                )}
+              </AccordionTrigger>
+
+              <AccordionContent className='bg-background space-y-3 border-t px-4 py-3'>
+                {settings.map(({ label, value }) => (
+                  <div
+                    key={label}
+                    className='flex items-center justify-between text-sm'
+                  >
+                    <span className='text-muted-foreground'>{label}</span>
+                    <span className='font-medium'>{value}</span>
+                  </div>
+                ))}
+                <Button variant='secondary' size='sm' className='mt-2 w-full'>
+                  Edit Settings
+                </Button>
+              </AccordionContent>
+            </AccordionItem>
+          ),
+        )}
       </AccordionRoot>
     </section>
   );
@@ -266,11 +270,13 @@ const features = [
 function ProductFeaturesAccordion() {
   return (
     <section className='w-full max-w-2xl'>
-      <div className='mb-6 text-center'>
+      <div className='text-center'>
         <Badge variant='secondary' className='mb-2'>
           Single Non-Collapsible
         </Badge>
+
         <h2 className='text-2xl font-bold'>Why Choose Our Components?</h2>
+
         <p className='text-muted-foreground mt-1'>
           Always one feature highlighted, cannot collapse all
         </p>
@@ -280,41 +286,41 @@ function ProductFeaturesAccordion() {
         type='single'
         defaultValue='accessibility'
         isSingleCollapsible={false}
+        className='mt-6 grid gap-3'
       >
-        <div className='grid gap-3'>
-          {features.map(({ id, title, badge, description }) => (
-            <AccordionItem key={id} value={id}>
-              <div className='group/item overflow-hidden rounded-xl border transition-all data-[state=open]:ring-2 data-[state=open]:ring-blue-500/20'>
-                <AccordionTrigger headingLevel='h3'>
-                  {(props) => (
-                    <Button
-                      {...props}
-                      variant='ghost'
-                      className='group h-auto w-full justify-between gap-4 rounded-none p-4 text-left'
-                    >
-                      <div className='flex items-center gap-3'>
-                        <span className='font-semibold'>{title}</span>
-                        <Badge
-                          variant='outline'
-                          className='bg-primary/5 text-xs'
-                        >
-                          {badge}
-                        </Badge>
-                      </div>
-                      <div className='bg-primary/10 flex size-6 items-center justify-center rounded-full transition-transform group-data-[expanded=true]:rotate-45'>
-                        <IconPlus size={14} className='text-primary' />
-                      </div>
-                    </Button>
-                  )}
-                </AccordionTrigger>
+        {features.map(({ id, title, badge, description }) => (
+          <AccordionItem
+            key={id}
+            value={id}
+            className='overflow-hidden rounded-xl border transition-all data-open:ring-2 data-open:ring-blue-300/20'
+          >
+            <AccordionTrigger headingLevel='h3'>
+              {(props) => (
+                <Button
+                  {...props}
+                  variant='ghost'
+                  className='h-auto w-full justify-between gap-4 rounded-none p-4 text-left'
+                >
+                  <div className='flex items-center gap-3'>
+                    <span className='font-semibold'>{title}</span>
 
-                <AccordionContent className='text-muted-foreground border-t leading-relaxed'>
-                  {description}
-                </AccordionContent>
-              </div>
-            </AccordionItem>
-          ))}
-        </div>
+                    <Badge variant='outline' className='bg-primary/5 text-xs'>
+                      {badge}
+                    </Badge>
+                  </div>
+
+                  <div className='bg-primary/10 flex size-6 items-center justify-center rounded-full transition-[opacity,rotate] group-aria-expanded/button:rotate-45 group-aria-expanded/button:opacity-0'>
+                    <IconPlus size={14} className='text-primary' />
+                  </div>
+                </Button>
+              )}
+            </AccordionTrigger>
+
+            <AccordionContent className='text-muted-foreground border-t p-3 leading-relaxed'>
+              {description}
+            </AccordionContent>
+          </AccordionItem>
+        ))}
       </AccordionRoot>
     </section>
   );

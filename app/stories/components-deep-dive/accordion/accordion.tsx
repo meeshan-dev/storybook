@@ -8,6 +8,7 @@ import { cn } from '~/lib/utils';
 type AccordionRootProps<Type, IsSingleCollapsible> = {
   children?: React.ReactNode;
   disabled?: boolean;
+  className?: string;
 } & (Type extends 'multiple'
   ? {
       type?: Type;
@@ -47,6 +48,7 @@ export function AccordionRoot<
     isSingleCollapsible = true,
     type = 'multiple',
     children,
+    className,
   } = props;
 
   const rootId = useId();
@@ -109,7 +111,7 @@ export function AccordionRoot<
         disabled,
       }}
     >
-      {children}
+      <div className={className}>{children}</div>
     </AccordionCtx>
   );
 }
@@ -120,6 +122,7 @@ type AccordionItemProps = {
   children?: React.ReactNode;
   value: string;
   disabled?: boolean;
+  className?: string;
 };
 
 type AccordionItemCtxProps = {
@@ -134,7 +137,7 @@ const [AccordionItemCtx, useAccordionItemCtx] =
   createContextScope<AccordionItemCtxProps>();
 
 export const AccordionItem = (props: AccordionItemProps) => {
-  const { value, disabled, children } = props;
+  const { value, disabled, children, className } = props;
 
   const accordionCtx = useAccordionCtx();
 
@@ -157,7 +160,14 @@ export const AccordionItem = (props: AccordionItemProps) => {
         disabled,
       }}
     >
-      {children}
+      <div
+        className={className}
+        data-open={isExpended ? true : undefined}
+        data-closed={isExpended ? undefined : true}
+        data-disabled={disabled ? true : undefined}
+      >
+        {children}
+      </div>
     </AccordionItemCtx>
   );
 };
@@ -256,6 +266,10 @@ export const AccordionTrigger = (props: {
         onKeyDown,
         disabled,
         onClick: handleToggle,
+        onMouseEnter: (e) => {
+          e.currentTarget.focus();
+        },
+        type: 'button',
         id: itemCtx.triggerId,
         'aria-expanded': isExpended,
         'aria-controls': itemCtx.contentId,
@@ -302,8 +316,9 @@ export const AccordionContent = ({
           <div
             id={itemCtx.contentId}
             aria-labelledby={itemCtx.triggerId}
+            role='region'
             className={cn(
-              '[&_a]:hover:text-foreground overflow-hidden px-3 pb-4 text-sm [&_a]:underline [&_a]:underline-offset-3 [&_p:not(:last-child)]:mb-4',
+              '[&_a]:hover:text-foreground text-sm [&_a]:underline [&_a]:underline-offset-3 [&_p:not(:last-child)]:mb-4',
               className,
             )}
           >
