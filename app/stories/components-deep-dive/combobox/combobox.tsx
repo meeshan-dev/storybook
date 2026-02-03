@@ -15,21 +15,13 @@ import { InputGroup, InputGroupInput } from '~/components/ui/input-group';
 import { useControlled } from '~/stories/hooks/use-controlled';
 
 const stripDiacritics = (string: string) => {
-  return string.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+  return string.normalize('NFD').replace(/\p{Diacritic}/gu, '');
 };
 
 type Value = {
   label: string;
   value: string | number;
 };
-
-/*
----- NOTE ----
-i reset highlighlited index on:
-- when listbox opens, to highlight the selected option
-_ when user clear values ( handleClear ), i need to reset index because on reset listbox does not close and index stays same so need to reset it.
-- in editable combobox, when user either search for any option or when user press Backspace
-*/
 
 export function Combobox({
   multiple,
@@ -41,6 +33,7 @@ export function Combobox({
   open: openProp,
   defaultOpen = false,
   onOpenChange,
+  placeholder,
 }: {
   multiple?: boolean;
   options: Value[];
@@ -51,6 +44,7 @@ export function Combobox({
   open?: boolean;
   defaultOpen?: boolean;
   onOpenChange?: (open: boolean) => void;
+  placeholder?: string;
 }) {
   const inputId = React.useId();
 
@@ -742,7 +736,7 @@ export function Combobox({
           autoCapitalize='none'
           spellCheck='false'
           role='combobox'
-          placeholder='Search...'
+          placeholder={placeholder}
           className='h-5 min-w-17.5 grow p-0 text-sm'
         />
 

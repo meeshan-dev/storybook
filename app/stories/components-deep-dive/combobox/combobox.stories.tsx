@@ -28,6 +28,16 @@ export const Default: StoryObj<typeof meta> = {
         and complex keyboard navigation.
       </p>
 
+      <div className='story-demo not-typography'>
+        <h2>Interactive Examples</h2>
+        <p className='text-muted-foreground mb-6'>
+          Real-world patterns: country selector, user search, skills picker
+        </p>
+        <div>
+          <ComboboxDemo />
+        </div>
+      </div>
+
       <h2>Implementation Highlights</h2>
 
       <ul>
@@ -56,16 +66,6 @@ export const Default: StoryObj<typeof meta> = {
           values
         </li>
       </ul>
-
-      <div className='story-demo not-typography'>
-        <h2>Interactive Examples</h2>
-        <p className='text-muted-foreground mb-6'>
-          Real-world patterns: country selector, user search, skills picker
-        </p>
-        <div>
-          <ComboboxDemo />
-        </div>
-      </div>
 
       <h2>Keyboard Navigation</h2>
 

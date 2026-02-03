@@ -148,7 +148,7 @@ function TaskList() {
 
             <span
               className={cn(
-                'flex-1 transition-all',
+                'flex-1 truncate transition-all',
                 task.completed && 'text-muted-foreground line-through',
               )}
             >
