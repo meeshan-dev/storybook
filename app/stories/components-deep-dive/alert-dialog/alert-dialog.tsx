@@ -195,6 +195,39 @@ export function AlertDialogContent({
   );
 }
 
+/* ———————————————————— Header ———————————————————— */
+
+export function AlertDialogHeader({
+  children,
+  className,
+}: {
+  children?: React.ReactNode;
+  className?: string;
+}) {
+  return <div className={cn('space-y-2', className)}>{children}</div>;
+}
+
+/* ———————————————————— Footer ———————————————————— */
+
+export function AlertDialogFooter({
+  children,
+  className,
+}: {
+  children?: React.ReactNode;
+  className?: string;
+}) {
+  return (
+    <div
+      className={cn(
+        'flex flex-col-reverse gap-3 *:grow sm:flex-row sm:justify-end sm:*:grow-0',
+        className,
+      )}
+    >
+      {children}
+    </div>
+  );
+}
+
 /* ———————————————————— Title ———————————————————— */
 
 export function AlertDialogTitle({

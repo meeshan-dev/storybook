@@ -10,6 +10,8 @@ import {
   AlertDialogClose,
   AlertDialogContent,
   AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
   AlertDialogOverlay,
   AlertDialogPortal,
   AlertDialogRoot,
@@ -20,7 +22,7 @@ import {
 export function AlertDialogDemo() {
   return (
     <div className='flex grow flex-col items-center justify-center gap-8 py-10'>
-      <div className='grid w-full max-w-3xl gap-8 md:grid-cols-2'>
+      <div className='grid w-full max-w-lg gap-10'>
         <DeleteAccountDialog />
         <DeleteItemDialog />
         <LogoutDialog />
@@ -38,21 +40,20 @@ function DeleteAccountDialog() {
   return (
     <div className='space-y-3'>
       <div>
-        <Badge variant='destructive'>Destructive</Badge>
+        <Badge variant='secondary'>Destructive</Badge>
         <p className='text-muted-foreground mt-1 text-sm'>
           High-severity account deletion
         </p>
       </div>
 
-      <div className='bg-destructive/5 border-destructive/20 w-full rounded-lg border p-4'>
-        <div className='flex items-start gap-3'>
-          <div className='bg-destructive/10 text-destructive flex size-10 shrink-0 items-center justify-center rounded-lg'>
+      <div className='bg-secondary/50 w-full rounded-lg border p-4'>
+        <div className='flex items-start gap-2'>
+          <div className='flex size-10 shrink-0 items-center justify-center rounded-lg bg-rose-600/10 text-rose-600 dark:bg-rose-400/10 dark:text-rose-400'>
             <IconUserMinus size={20} />
           </div>
+
           <div className='flex-1'>
-            <h3 className='font-semibold text-red-600 dark:text-red-400'>
-              Danger Zone
-            </h3>
+            <h3 className='font-semibold'>Danger Zone</h3>
             <p className='text-muted-foreground mt-1 text-sm'>
               Permanently delete your account and all associated data.
             </p>
@@ -62,7 +63,7 @@ function DeleteAccountDialog() {
         <AlertDialogRoot>
           <AlertDialogTrigger>
             {(props) => (
-              <Button {...props} variant='destructive' className='mt-4 w-full'>
+              <Button {...props} variant='secondary' className='mt-4 w-full'>
                 <IconTrash size={16} />
                 Delete My Account
               </Button>
@@ -72,21 +73,16 @@ function DeleteAccountDialog() {
           <AlertDialogPortal>
             <AlertDialogOverlay />
             <AlertDialogContent>
-              <div className='flex gap-4'>
-                <div className='bg-destructive/10 text-destructive flex size-12 shrink-0 items-center justify-center rounded-full'>
-                  <IconAlertTriangle size={24} />
-                </div>
-                <div>
-                  <AlertDialogTitle>Delete Account?</AlertDialogTitle>
-                  <AlertDialogDescription>
-                    This action is permanent and cannot be undone. All your
-                    data, including projects, files, and settings, will be
-                    permanently deleted.
-                  </AlertDialogDescription>
-                </div>
-              </div>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Delete Account?</AlertDialogTitle>
+                <AlertDialogDescription>
+                  This action is permanent and cannot be undone. All your data,
+                  including projects, files, and settings, will be permanently
+                  deleted.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
 
-              <div className='bg-secondary/50 mt-4 rounded-lg p-3'>
+              <div className='bg-secondary/50 rounded-lg p-3'>
                 <p className='text-sm font-medium'>This will delete:</p>
                 <ul className='text-muted-foreground mt-2 space-y-1 text-sm'>
                   <li>• All 47 projects and their files</li>
@@ -96,23 +92,22 @@ function DeleteAccountDialog() {
                 </ul>
               </div>
 
-              <div className='mt-4 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end'>
+              <AlertDialogFooter>
                 <AlertDialogClose>
                   {(props) => (
-                    <Button {...props} variant='outline'>
+                    <Button {...props} variant='ghost'>
                       Cancel
                     </Button>
                   )}
                 </AlertDialogClose>
                 <AlertDialogClose>
                   {(props) => (
-                    <Button {...props} variant='destructive'>
-                      <IconTrash size={16} />
+                    <Button {...props} variant='secondary'>
                       Yes, Delete Everything
                     </Button>
                   )}
                 </AlertDialogClose>
-              </div>
+              </AlertDialogFooter>
             </AlertDialogContent>
           </AlertDialogPortal>
         </AlertDialogRoot>
@@ -137,7 +132,7 @@ function DeleteItemDialog() {
 
       <div className='bg-secondary/50 w-full rounded-lg border p-4'>
         <div className='flex items-center gap-3'>
-          <div className='bg-background flex-1 rounded border p-3'>
+          <div className='bg-background flex-1 rounded p-3'>
             <p className='text-sm font-medium'>project-proposal-v2.pdf</p>
             <p className='text-muted-foreground text-xs'>
               2.4 MB • PDF Document
@@ -156,28 +151,30 @@ function DeleteItemDialog() {
             <AlertDialogPortal>
               <AlertDialogOverlay />
               <AlertDialogContent>
-                <AlertDialogTitle>Delete File?</AlertDialogTitle>
-                <AlertDialogDescription>
-                  Are you sure you want to delete "project-proposal-v2.pdf"?
-                  This action cannot be undone.
-                </AlertDialogDescription>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Delete File?</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    Are you sure you want to delete "project-proposal-v2.pdf"?
+                    This action cannot be undone.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
 
-                <div className='mt-4 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end'>
+                <AlertDialogFooter>
                   <AlertDialogClose>
                     {(props) => (
-                      <Button {...props} variant='outline'>
+                      <Button {...props} variant='ghost'>
                         Keep File
                       </Button>
                     )}
                   </AlertDialogClose>
                   <AlertDialogClose>
                     {(props) => (
-                      <Button {...props} variant='destructive'>
+                      <Button {...props} variant='secondary'>
                         Delete File
                       </Button>
                     )}
                   </AlertDialogClose>
-                </div>
+                </AlertDialogFooter>
               </AlertDialogContent>
             </AlertDialogPortal>
           </AlertDialogRoot>
@@ -218,16 +215,17 @@ function LogoutDialog() {
               <div className='bg-primary/10 text-primary flex size-12 shrink-0 items-center justify-center rounded-full'>
                 <IconLogout size={24} />
               </div>
-              <div>
+
+              <AlertDialogHeader>
                 <AlertDialogTitle>Sign Out?</AlertDialogTitle>
                 <AlertDialogDescription>
                   You'll need to sign in again to access your account. Any
                   unsaved changes may be lost.
                 </AlertDialogDescription>
-              </div>
+              </AlertDialogHeader>
             </div>
 
-            <div className='mt-4 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end'>
+            <AlertDialogFooter>
               <AlertDialogClose>
                 {(props) => (
                   <Button {...props} variant='ghost'>
@@ -236,9 +234,13 @@ function LogoutDialog() {
                 )}
               </AlertDialogClose>
               <AlertDialogClose>
-                {(props) => <Button {...props}>Sign Out</Button>}
+                {(props) => (
+                  <Button {...props} variant='secondary'>
+                    Sign Out
+                  </Button>
+                )}
               </AlertDialogClose>
-            </div>
+            </AlertDialogFooter>
           </AlertDialogContent>
         </AlertDialogPortal>
       </AlertDialogRoot>
@@ -277,16 +279,16 @@ function UnsavedChangesDialog() {
               <div className='flex size-12 shrink-0 items-center justify-center rounded-full bg-amber-500/10 text-amber-600 dark:text-amber-400'>
                 <IconAlertTriangle size={24} />
               </div>
-              <div>
+              <AlertDialogHeader>
                 <AlertDialogTitle>Unsaved Changes</AlertDialogTitle>
                 <AlertDialogDescription>
                   You have unsaved changes that will be lost if you leave this
                   page. Do you want to save before leaving?
                 </AlertDialogDescription>
-              </div>
+              </AlertDialogHeader>
             </div>
 
-            <div className='mt-4 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end'>
+            <AlertDialogFooter>
               <AlertDialogClose>
                 {(props) => (
                   <Button {...props} variant='ghost'>
@@ -302,9 +304,13 @@ function UnsavedChangesDialog() {
                 )}
               </AlertDialogClose>
               <AlertDialogClose>
-                {(props) => <Button {...props}>Save & Leave</Button>}
+                {(props) => (
+                  <Button {...props} variant='secondary'>
+                    Save & Leave
+                  </Button>
+                )}
               </AlertDialogClose>
-            </div>
+            </AlertDialogFooter>
           </AlertDialogContent>
         </AlertDialogPortal>
       </AlertDialogRoot>

@@ -22,6 +22,16 @@ export const Default: StoryObj<typeof meta> = {
         users consciously respond to important actions.
       </p>
 
+      <div className='story-demo not-typography'>
+        <h2>Interactive Examples</h2>
+        <p className='text-muted-foreground mb-6'>
+          Common patterns: destructive actions, logout, and navigation guards
+        </p>
+        <div>
+          <AlertDialogDemo />
+        </div>
+      </div>
+
       <h2>Implementation Highlights</h2>
 
       <ul>
@@ -48,16 +58,6 @@ export const Default: StoryObj<typeof meta> = {
           preventing accidental mouse clicks
         </li>
       </ul>
-
-      <div className='story-demo not-typography'>
-        <h2>Interactive Examples</h2>
-        <p className='text-muted-foreground mb-6'>
-          Common patterns: destructive actions, logout, and navigation guards
-        </p>
-        <div>
-          <AlertDialogDemo />
-        </div>
-      </div>
 
       <h2>Alert Dialog vs Dialog</h2>
 
@@ -131,27 +131,6 @@ export const Default: StoryObj<typeof meta> = {
           </tbody>
         </table>
       </div>
-
-      <h2>Best Practices</h2>
-
-      <ul>
-        <li>
-          <strong>Clear action labels</strong> — Use descriptive button text
-          like "Delete Account" instead of generic "OK"
-        </li>
-        <li>
-          <strong>Explain consequences</strong> — Tell users exactly what will
-          happen if they proceed
-        </li>
-        <li>
-          <strong>Visual hierarchy</strong> — Make the destructive action less
-          prominent than the safe option
-        </li>
-        <li>
-          <strong>Contextual information</strong> — Show what will be affected
-          (e.g., "Delete 47 projects")
-        </li>
-      </ul>
 
       <StorySourceCode>{sourceCode}</StorySourceCode>
     </div>
