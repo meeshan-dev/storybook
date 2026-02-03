@@ -131,9 +131,11 @@ export function DialogOverlay({ className }: { className?: string }) {
 export function DialogContent({
   children,
   className,
+  wrapperClassName,
 }: {
   children?: React.ReactNode;
   className?: string;
+  wrapperClassName?: string;
 }) {
   const { contentRef, contentId, titleId, descriptionId, handleClose } =
     useDialogCtx();
@@ -197,11 +199,18 @@ export function DialogContent({
       aria-labelledby={titleId}
       aria-describedby={descriptionId}
       className={cn(
-        'bg-background ring-foreground/10 fixed top-1/2 left-1/2 z-50 grid max-h-[calc(100%-2rem)] w-[min(100%,calc(100%-2rem))] max-w-lg -translate-x-1/2 -translate-y-1/2 gap-6 overflow-auto rounded-xl p-6 text-sm ring-1 duration-100 outline-none',
-        className,
+        'ring-foreground/10 fixed top-1/2 left-1/2 z-50 flex max-h-[calc(100%-2rem)] w-[min(100%,calc(100%-2rem))] max-w-lg -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-xl p-0 ring-1 duration-100 outline-none',
+        wrapperClassName,
       )}
     >
-      {children}
+      <div
+        className={cn(
+          'bg-background grid grow gap-6 overflow-auto p-6 text-sm',
+          className,
+        )}
+      >
+        {children}
+      </div>
     </div>
   );
 }
