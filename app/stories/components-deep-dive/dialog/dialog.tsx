@@ -45,6 +45,8 @@ export function DialogRoot({
     onChange: onOpenChange,
   });
 
+  useScrollLock({ isLocked: open });
+
   const handleOpen = () => {
     setOpen(true);
   };
@@ -133,10 +135,8 @@ export function DialogContent({
   children?: React.ReactNode;
   className?: string;
 }) {
-  const { contentRef, open, contentId, titleId, descriptionId, handleClose } =
+  const { contentRef, contentId, titleId, descriptionId, handleClose } =
     useDialogCtx();
-
-  useScrollLock({ isLocked: open });
 
   const focusTrapProps = useFocusTrap();
 
@@ -197,7 +197,7 @@ export function DialogContent({
       aria-labelledby={titleId}
       aria-describedby={descriptionId}
       className={cn(
-        'bg-background ring-foreground/10 fixed top-1/2 left-1/2 z-50 grid w-[min(100%,calc(100%-2rem))] max-w-lg -translate-x-1/2 -translate-y-1/2 gap-4 rounded-xl p-4 ring-1 duration-100 outline-none',
+        'bg-background ring-foreground/10 fixed top-1/2 left-1/2 z-50 grid max-h-[calc(100%-2rem)] w-[min(100%,calc(100%-2rem))] max-w-lg -translate-x-1/2 -translate-y-1/2 gap-6 overflow-auto rounded-xl p-6 text-sm ring-1 duration-100 outline-none',
         className,
       )}
     >
@@ -223,6 +223,39 @@ export function DialogClose({
         },
       })}
     </>
+  );
+}
+
+/* ———————————————————— Header ———————————————————— */
+
+export function DialogHeader({
+  children,
+  className,
+}: {
+  children?: React.ReactNode;
+  className?: string;
+}) {
+  return <div className={cn('flex flex-col gap-2', className)}>{children}</div>;
+}
+
+/* ———————————————————— Footer ———————————————————— */
+
+export function DialogFooter({
+  children,
+  className,
+}: {
+  children?: React.ReactNode;
+  className?: string;
+}) {
+  return (
+    <div
+      className={cn(
+        'flex flex-col-reverse gap-3 *:grow sm:flex-row sm:justify-end sm:*:grow-0',
+        className,
+      )}
+    >
+      {children}
+    </div>
   );
 }
 

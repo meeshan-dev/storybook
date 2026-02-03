@@ -5,18 +5,23 @@ import {
   IconMail,
   IconMapPin,
   IconUser,
-  IconX,
 } from '@tabler/icons-react';
 import { useState } from 'react';
 import { Badge } from '~/components/ui/badge';
 import { Button } from '~/components/ui/button';
 import { Input } from '~/components/ui/input';
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
+} from '~/components/ui/input-group';
 import { Label } from '~/components/ui/label';
 import { Textarea } from '~/components/ui/textarea';
 import {
   AlertDialogClose,
   AlertDialogContent,
   AlertDialogDescription,
+  AlertDialogHeader,
   AlertDialogOverlay,
   AlertDialogPortal,
   AlertDialogRoot,
@@ -27,6 +32,8 @@ import {
   DialogClose,
   DialogContent,
   DialogDescription,
+  DialogFooter,
+  DialogHeader,
   DialogOverlay,
   DialogPortal,
   DialogRoot,
@@ -37,7 +44,7 @@ import {
 export function DialogDemo() {
   return (
     <div className='flex grow flex-col items-center justify-center gap-8 py-10'>
-      <div className='grid w-full max-w-3xl gap-8 md:grid-cols-2'>
+      <div className='grid w-full max-w-lg gap-10'>
         <EditProfileDialog />
         <ContactFormDialog />
         <MultiStepWizardDialog />
@@ -77,7 +84,7 @@ function EditProfileDialog() {
       <DialogRoot>
         <DialogTrigger>
           {(props) => (
-            <Button {...props} className='w-full'>
+            <Button {...props} variant='outline' className='w-full'>
               <IconUser size={18} />
               Edit Profile
             </Button>
@@ -87,23 +94,14 @@ function EditProfileDialog() {
         <DialogPortal>
           <DialogOverlay />
           <DialogContent>
-            <div className='flex items-start justify-between'>
-              <div>
-                <DialogTitle>Edit Profile</DialogTitle>
-                <DialogDescription>
-                  Update your personal information
-                </DialogDescription>
-              </div>
-              <DialogClose>
-                {(props) => (
-                  <Button {...props} variant='ghost' size='icon'>
-                    <IconX size={18} />
-                  </Button>
-                )}
-              </DialogClose>
-            </div>
+            <DialogHeader>
+              <DialogTitle>Edit Profile</DialogTitle>
+              <DialogDescription>
+                Update your personal information
+              </DialogDescription>
+            </DialogHeader>
 
-            <form onSubmit={handleSubmit} className='mt-4 space-y-4'>
+            <form onSubmit={handleSubmit} className='space-y-4'>
               <div className='grid gap-4 sm:grid-cols-2'>
                 <div className='space-y-2'>
                   <Label htmlFor='firstName'>First Name</Label>
@@ -111,57 +109,67 @@ function EditProfileDialog() {
                     id='firstName'
                     defaultValue='Muhammad'
                     placeholder='Enter first name'
+                    disabled={isLoading}
                   />
                 </div>
+
                 <div className='space-y-2'>
                   <Label htmlFor='lastName'>Last Name</Label>
                   <Input
                     id='lastName'
                     defaultValue='Zeeshan'
                     placeholder='Enter last name'
+                    disabled={isLoading}
                   />
                 </div>
               </div>
 
               <div className='space-y-2'>
                 <Label htmlFor='email'>Email</Label>
-                <div className='relative'>
-                  <IconMail
-                    size={16}
-                    className='text-muted-foreground absolute top-1/2 left-3 -translate-y-1/2'
-                  />
-                  <Input
+
+                <InputGroup>
+                  <InputGroupAddon align='inline-start'>
+                    <IconMail />
+                  </InputGroupAddon>
+
+                  <InputGroupInput
                     id='email'
                     type='email'
                     defaultValue='zeeshan@example.com'
-                    className='pl-9'
+                    disabled={isLoading}
                   />
-                </div>
+                </InputGroup>
               </div>
 
               <div className='space-y-2'>
                 <Label htmlFor='location'>Location</Label>
-                <div className='relative'>
-                  <IconMapPin
-                    size={16}
-                    className='text-muted-foreground absolute top-1/2 left-3 -translate-y-1/2'
-                  />
-                  <Input
+                <InputGroup>
+                  <InputGroupAddon align='inline-start'>
+                    <IconMapPin />
+                  </InputGroupAddon>
+
+                  <InputGroupInput
                     id='location'
                     defaultValue='San Francisco, CA'
-                    className='pl-9'
+                    disabled={isLoading}
                   />
-                </div>
+                </InputGroup>
               </div>
 
-              <div className='flex justify-end gap-3 pt-4'>
+              <DialogFooter>
                 <DialogClose>
                   {(props) => (
-                    <Button {...props} variant='outline' type='button'>
+                    <Button
+                      {...props}
+                      variant='ghost'
+                      type='button'
+                      disabled={isLoading}
+                    >
                       Cancel
                     </Button>
                   )}
                 </DialogClose>
+
                 <Button type='submit' disabled={isLoading}>
                   {isLoading ? (
                     <>
@@ -177,7 +185,7 @@ function EditProfileDialog() {
                     'Save Changes'
                   )}
                 </Button>
-              </div>
+              </DialogFooter>
             </form>
           </DialogContent>
         </DialogPortal>
@@ -191,6 +199,19 @@ function EditProfileDialog() {
 /* ———————————————————————————————————————————————————— */
 
 function ContactFormDialog() {
+  const [isLoading, setIsLoading] = useState(false);
+  const [isSaved, setIsSaved] = useState(false);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setTimeout(() => {
+      setIsLoading(false);
+      setIsSaved(true);
+      setTimeout(() => setIsSaved(false), 2000);
+    }, 1500);
+  };
+
   return (
     <div className='space-y-3'>
       <div>
@@ -213,15 +234,21 @@ function ContactFormDialog() {
         <DialogPortal>
           <DialogOverlay />
           <DialogContent>
-            <DialogTitle>Get in Touch</DialogTitle>
-            <DialogDescription>
-              Have a question or feedback? We'd love to hear from you.
-            </DialogDescription>
+            <DialogHeader>
+              <DialogTitle>Get in Touch</DialogTitle>
+              <DialogDescription>
+                Have a question or feedback? We'd love to hear from you.
+              </DialogDescription>
+            </DialogHeader>
 
-            <form className='mt-4 space-y-4'>
+            <form className='space-y-4' onSubmit={handleSubmit}>
               <div className='space-y-2'>
                 <Label htmlFor='contactName'>Your Name</Label>
-                <Input id='contactName' placeholder='John Doe' />
+                <Input
+                  id='contactName'
+                  placeholder='John Doe'
+                  disabled={isLoading}
+                />
               </div>
 
               <div className='space-y-2'>
@@ -230,12 +257,17 @@ function ContactFormDialog() {
                   id='contactEmail'
                   type='email'
                   placeholder='john@example.com'
+                  disabled={isLoading}
                 />
               </div>
 
               <div className='space-y-2'>
                 <Label htmlFor='subject'>Subject</Label>
-                <Input id='subject' placeholder='How can we help?' />
+                <Input
+                  id='subject'
+                  placeholder='How can we help?'
+                  disabled={isLoading}
+                />
               </div>
 
               <div className='space-y-2'>
@@ -244,19 +276,41 @@ function ContactFormDialog() {
                   id='message'
                   placeholder='Tell us more about your inquiry...'
                   rows={4}
+                  disabled={isLoading}
+                  className='max-h-75'
                 />
               </div>
 
-              <div className='flex flex-col-reverse gap-3 pt-2 sm:flex-row sm:justify-end'>
+              <DialogFooter>
                 <DialogClose>
                   {(props) => (
-                    <Button {...props} variant='ghost' type='button'>
+                    <Button
+                      {...props}
+                      variant='ghost'
+                      type='button'
+                      disabled={isLoading}
+                    >
                       Cancel
                     </Button>
                   )}
                 </DialogClose>
-                <Button type='submit'>Send Message</Button>
-              </div>
+
+                <Button type='submit' variant='secondary' disabled={isLoading}>
+                  {isLoading ? (
+                    <>
+                      <IconLoader2 size={16} className='animate-spin' />
+                      Sending...
+                    </>
+                  ) : isSaved ? (
+                    <>
+                      <IconCheck size={16} />
+                      Sent!
+                    </>
+                  ) : (
+                    'Send Message'
+                  )}
+                </Button>
+              </DialogFooter>
             </form>
           </DialogContent>
         </DialogPortal>
@@ -283,6 +337,7 @@ function MultiStepWizardDialog() {
             <Label>Full Name</Label>
             <Input placeholder='Enter your full name' />
           </div>
+
           <div className='space-y-2'>
             <Label>Date of Birth</Label>
             <Input type='date' />
@@ -303,6 +358,7 @@ function MultiStepWizardDialog() {
               <option>Monthly</option>
             </select>
           </div>
+
           <div className='space-y-2'>
             <Label>Language</Label>
             <select className='border-input bg-background w-full rounded-md border px-3 py-2'>
@@ -344,7 +400,7 @@ function MultiStepWizardDialog() {
       <DialogRoot>
         <DialogTrigger>
           {(props) => (
-            <Button {...props} variant='secondary' className='w-full'>
+            <Button {...props} variant='outline' className='w-full'>
               Start Setup Wizard
             </Button>
           )}
@@ -354,15 +410,11 @@ function MultiStepWizardDialog() {
           <DialogOverlay />
           <DialogContent>
             {/* Progress indicator */}
-            <div className='mb-6'>
-              <div className='mb-2 flex justify-between text-sm'>
-                <span className='font-medium'>
-                  Step {step} of {totalSteps}
-                </span>
-                <span className='text-muted-foreground'>
-                  {steps[step - 1].title}
-                </span>
-              </div>
+            <div className=''>
+              <p className='mb-2 text-sm font-medium'>
+                Step {step} of {totalSteps}
+              </p>
+
               <div className='bg-secondary h-2 overflow-hidden rounded-full'>
                 <div
                   className='bg-primary h-full transition-all duration-300'
@@ -371,12 +423,16 @@ function MultiStepWizardDialog() {
               </div>
             </div>
 
-            <DialogTitle>{steps[step - 1].title}</DialogTitle>
-            <DialogDescription>{steps[step - 1].description}</DialogDescription>
+            <DialogHeader>
+              <DialogTitle>{steps[step - 1].title}</DialogTitle>
+              <DialogDescription>
+                {steps[step - 1].description}
+              </DialogDescription>
+            </DialogHeader>
 
-            <div className='mt-4'>{steps[step - 1].content}</div>
+            {steps[step - 1].content}
 
-            <div className='mt-6 flex justify-between'>
+            <DialogFooter>
               <Button
                 variant='outline'
                 onClick={() => setStep((s) => Math.max(1, s - 1))}
@@ -387,6 +443,7 @@ function MultiStepWizardDialog() {
 
               {step < totalSteps ? (
                 <Button
+                  variant='secondary'
                   onClick={() => setStep((s) => Math.min(totalSteps, s + 1))}
                 >
                   Continue
@@ -395,13 +452,17 @@ function MultiStepWizardDialog() {
               ) : (
                 <DialogClose>
                   {(props) => (
-                    <Button {...props} onClick={() => setStep(1)}>
+                    <Button
+                      {...props}
+                      variant='secondary'
+                      onClick={() => setStep(1)}
+                    >
                       Complete
                     </Button>
                   )}
                 </DialogClose>
               )}
-            </div>
+            </DialogFooter>
           </DialogContent>
         </DialogPortal>
       </DialogRoot>
@@ -435,20 +496,22 @@ function NestedDialogDemo() {
         <DialogPortal>
           <DialogOverlay />
           <DialogContent>
-            <DialogTitle>First Layer</DialogTitle>
-            <DialogDescription>
-              This is the base dialog. Open another to test layer management.
-            </DialogDescription>
+            <DialogHeader>
+              <DialogTitle>First Layer</DialogTitle>
+              <DialogDescription>
+                This is the base dialog. Open another to test layer management.
+              </DialogDescription>
+            </DialogHeader>
 
-            <p className='text-muted-foreground mt-4 text-sm'>
+            <p className='text-muted-foreground text-sm'>
               Notice how each layer gets its own overlay and only the topmost
               dialog responds to keyboard and click events.
             </p>
 
-            <div className='mt-4 flex gap-3'>
+            <DialogFooter>
               <DialogClose>
                 {(props) => (
-                  <Button {...props} variant='outline'>
+                  <Button {...props} variant='ghost'>
                     Close
                   </Button>
                 )}
@@ -462,15 +525,17 @@ function NestedDialogDemo() {
                 <DialogPortal>
                   <DialogOverlay />
                   <DialogContent>
-                    <DialogTitle>Second Layer</DialogTitle>
-                    <DialogDescription>
-                      Escape key and outside click only affect this layer.
-                    </DialogDescription>
+                    <DialogHeader>
+                      <DialogTitle>Second Layer</DialogTitle>
+                      <DialogDescription>
+                        Escape key and outside click only affect this layer.
+                      </DialogDescription>
+                    </DialogHeader>
 
-                    <div className='mt-4 flex gap-3'>
+                    <DialogFooter>
                       <DialogClose>
                         {(props) => (
-                          <Button {...props} variant='outline'>
+                          <Button {...props} variant='ghost'>
                             Close
                           </Button>
                         )}
@@ -479,7 +544,7 @@ function NestedDialogDemo() {
                       <AlertDialogRoot>
                         <AlertDialogTrigger>
                           {(props) => (
-                            <Button {...props} variant='destructive'>
+                            <Button {...props} variant='secondary'>
                               Confirm Action
                             </Button>
                           )}
@@ -488,32 +553,38 @@ function NestedDialogDemo() {
                         <AlertDialogPortal>
                           <AlertDialogOverlay />
                           <AlertDialogContent>
-                            <AlertDialogTitle>Are you sure?</AlertDialogTitle>
-                            <AlertDialogDescription>
-                              This demonstrates Alert Dialog as the third layer.
-                              It won't close on outside click.
-                            </AlertDialogDescription>
+                            <AlertDialogHeader>
+                              <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                              <AlertDialogDescription>
+                                This demonstrates Alert Dialog as the third
+                                layer. It won't close on outside click.
+                              </AlertDialogDescription>
+                            </AlertDialogHeader>
 
-                            <div className='mt-4 flex justify-end gap-3'>
+                            <DialogFooter>
                               <AlertDialogClose>
                                 {(props) => (
-                                  <Button {...props} variant='outline'>
+                                  <Button {...props} variant='ghost'>
                                     Cancel
                                   </Button>
                                 )}
                               </AlertDialogClose>
                               <AlertDialogClose>
-                                {(props) => <Button {...props}>Confirm</Button>}
+                                {(props) => (
+                                  <Button {...props} variant='secondary'>
+                                    Confirm
+                                  </Button>
+                                )}
                               </AlertDialogClose>
-                            </div>
+                            </DialogFooter>
                           </AlertDialogContent>
                         </AlertDialogPortal>
                       </AlertDialogRoot>
-                    </div>
+                    </DialogFooter>
                   </DialogContent>
                 </DialogPortal>
               </DialogRoot>
-            </div>
+            </DialogFooter>
           </DialogContent>
         </DialogPortal>
       </DialogRoot>

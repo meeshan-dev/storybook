@@ -200,7 +200,7 @@ export function AlertDialogContent({
         role='alertdialog'
         aria-modal={true}
         className={cn(
-          'bg-background ring-foreground/10 fixed top-1/2 left-1/2 z-50 grid w-[min(100%,calc(100%-2rem))] max-w-sm -translate-x-1/2 -translate-y-1/2 gap-4 rounded-xl p-4 ring-1 outline-none',
+          'bg-background ring-foreground/10 fixed top-1/2 left-1/2 z-50 grid max-h-[calc(100%-2rem)] w-[min(100%,calc(100%-2rem))] max-w-lg -translate-x-1/2 -translate-y-1/2 gap-6 overflow-auto rounded-xl p-6 text-sm ring-1 duration-100 outline-none',
           className,
         )}
       >

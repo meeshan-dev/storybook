@@ -120,8 +120,10 @@ export const useScrollLock = ({
   React.useEffect(() => {
     if (isLocked) {
       handleLock();
-    } else {
-      handleUnlock();
+
+      return () => {
+        handleUnlock();
+      };
     }
   }, [isLocked]);
 };

@@ -28,6 +28,16 @@ export const Default: StoryObj<typeof meta> = {
         complex overlay scenarios.
       </p>
 
+      <div className='story-demo not-typography'>
+        <h2>Interactive Examples</h2>
+        <p className='text-muted-foreground mb-6'>
+          Real-world patterns: forms, wizards, and nested dialogs
+        </p>
+        <div>
+          <DialogDemo />
+        </div>
+      </div>
+
       <h2>Implementation Highlights</h2>
 
       <ul>
@@ -42,9 +52,8 @@ export const Default: StoryObj<typeof meta> = {
           preserving scroll position
         </li>
         <li>
-          <strong>Layer management system</strong> using{' '}
-          <code>getLayers()</code> to track stacked dialogs and ensure only the
-          topmost responds to interactions
+          <strong>Layer management system</strong> to track stacked dialogs and
+          ensure only the topmost responds to interactions
         </li>
         <li>
           <strong>Portal-based rendering</strong> with React's{' '}
@@ -58,16 +67,6 @@ export const Default: StoryObj<typeof meta> = {
           <strong>Compound component pattern</strong> for flexible composition
         </li>
       </ul>
-
-      <div className='story-demo not-typography'>
-        <h2>Interactive Examples</h2>
-        <p className='text-muted-foreground mb-6'>
-          Real-world patterns: forms, wizards, and nested dialogs
-        </p>
-        <div>
-          <DialogDemo />
-        </div>
-      </div>
 
       <h2>Keyboard Interactions</h2>
 
@@ -139,35 +138,6 @@ export const Default: StoryObj<typeof meta> = {
         </li>
         <li>Each dialog maintains its own overlay</li>
         <li>Focus is properly managed across all layers</li>
-      </ul>
-
-      <h2>Component API</h2>
-
-      <ul>
-        <li>
-          <code>DialogRoot</code> — Context provider and state manager
-        </li>
-        <li>
-          <code>DialogTrigger</code> — Render prop trigger button
-        </li>
-        <li>
-          <code>DialogPortal</code> — Renders children in document body
-        </li>
-        <li>
-          <code>DialogOverlay</code> — Backdrop overlay
-        </li>
-        <li>
-          <code>DialogContent</code> — Main dialog container with focus trap
-        </li>
-        <li>
-          <code>DialogTitle</code> — Accessible title (required)
-        </li>
-        <li>
-          <code>DialogDescription</code> — Optional description
-        </li>
-        <li>
-          <code>DialogClose</code> — Close button with render prop
-        </li>
       </ul>
 
       <StorySourceCode>{sourceCode}</StorySourceCode>
