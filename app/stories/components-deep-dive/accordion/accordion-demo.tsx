@@ -92,7 +92,7 @@ function FAQAccordion() {
                   className='hover:dark:bg-secondary relative h-auto w-full justify-start gap-3 rounded-none border-0 px-4 py-4 focus:z-50'
                 >
                   <Icon className='size-5' />
-                  <span className='flex-1'>{question}</span>
+                  <span className='flex-1 truncate'>{question}</span>
                   <IconChevronDown className='transition-transform duration-200 group-aria-expanded/button:-rotate-180' />
                 </Button>
               )}
@@ -186,7 +186,7 @@ function SettingsPanelAccordion() {
                       <Icon size={20} />
                     </div>
 
-                    <div className='flex-1'>
+                    <div className='flex-1 truncate'>
                       <div className='flex items-center gap-2 font-semibold'>
                         {title}
 
@@ -197,7 +197,7 @@ function SettingsPanelAccordion() {
                         )}
                       </div>
 
-                      <p className='text-muted-foreground text-sm font-normal'>
+                      <p className='text-muted-foreground truncate text-sm font-normal'>
                         {description}
                       </p>
                     </div>
@@ -217,7 +217,7 @@ function SettingsPanelAccordion() {
                     className='flex items-center justify-between text-sm'
                   >
                     <span className='text-muted-foreground'>{label}</span>
-                    <span className='font-medium'>{value}</span>
+                    <span className='text-end font-medium'>{value}</span>
                   </div>
                 ))}
                 <Button variant='secondary' size='sm' className='mt-2 w-full'>
@@ -301,15 +301,15 @@ function ProductFeaturesAccordion() {
                   variant='ghost'
                   className='h-auto w-full justify-between gap-4 rounded-none p-4 text-left'
                 >
-                  <div className='flex items-center gap-3'>
-                    <span className='font-semibold'>{title}</span>
+                  <div className='flex items-center gap-3 truncate'>
+                    <span className='truncate font-semibold'>{title}</span>
 
                     <Badge variant='outline' className='bg-primary/5 text-xs'>
                       {badge}
                     </Badge>
                   </div>
 
-                  <div className='bg-primary/10 flex size-6 items-center justify-center rounded-full transition-[opacity,rotate] group-aria-expanded/button:rotate-45 group-aria-expanded/button:opacity-0'>
+                  <div className='bg-primary/10 flex size-6 shrink-0 items-center justify-center rounded-full transition-[opacity,rotate] group-aria-expanded/button:rotate-45 group-aria-expanded/button:opacity-0'>
                     <IconPlus size={14} className='text-primary' />
                   </div>
                 </Button>
