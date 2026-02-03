@@ -1,8 +1,9 @@
-import React, { useEffectEvent, useRef, useState } from 'react';
+import React, { useEffectEvent, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { createContextScope } from '~/lib/context-scope';
 import { getLayers } from '~/lib/get-layers';
 import { cn } from '~/lib/utils';
+import { useControlled } from '~/stories/hooks/use-controlled';
 import { useFocusTrap } from '~/stories/hooks/use-focus-trap';
 import { useScrollLock } from '~/stories/hooks/use-scroll-lock';
 
@@ -15,10 +16,24 @@ const [AlertDialogCtx, useAlertDialogCtx] = createContextScope<{
   contentRef: React.RefObject<HTMLDivElement | null>;
 }>();
 
-export function AlertDialogRoot({ children }: { children?: React.ReactNode }) {
+export function AlertDialogRoot({
+  children,
+  open: openProp,
+  defaultOpen = false,
+  onOpenChange,
+}: {
+  children?: React.ReactNode;
+  open?: boolean;
+  defaultOpen?: boolean;
+  onOpenChange?: (open: boolean) => void;
+}) {
   const contentRef = useRef<HTMLDivElement>(null);
 
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useControlled({
+    controlled: openProp,
+    defaultValue: defaultOpen,
+    onChange: onOpenChange,
+  });
 
   useScrollLock({ isLocked: open });
 

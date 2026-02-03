@@ -10,11 +10,12 @@ import {
   size,
   useFloating,
 } from '@floating-ui/react';
-import React, { useEffectEvent, useRef, useState } from 'react';
+import React, { useEffectEvent, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { createContextScope } from '~/lib/context-scope';
 import { getLayers } from '~/lib/get-layers';
 import { cn } from '~/lib/utils';
+import { useControlled } from '~/stories/hooks/use-controlled';
 import { useOnClickOutside } from '~/stories/hooks/use-on-click-outside';
 
 /* ———————————————————— Root ———————————————————— */
@@ -35,10 +36,14 @@ const [PopoverCtx, usePopoverCtx] = createContextScope<PopoverCtxProps>();
 
 export const PopoverRoot = ({
   children,
-  defaultOpen,
+  open: openProp,
+  defaultOpen = false,
+  onOpenChange,
 }: {
   children?: React.ReactNode;
+  open?: boolean;
   defaultOpen?: boolean;
+  onOpenChange?: (open: boolean) => void;
 }) => {
   const returnFocusToRef = React.useRef<HTMLElement | null>(null);
 
@@ -47,7 +52,11 @@ export const PopoverRoot = ({
   const titleId = React.useId();
   const descriptionId = React.useId();
 
-  const [open, setOpen] = useState(!!defaultOpen);
+  const [open, setOpen] = useControlled({
+    controlled: openProp,
+    defaultValue: defaultOpen,
+    onChange: onOpenChange,
+  });
 
   const contentId = React.useId();
   const [trigger, setTrigger] = React.useState<HTMLButtonElement | null>(null);

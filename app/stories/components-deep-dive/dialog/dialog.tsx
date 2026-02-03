@@ -1,8 +1,9 @@
-import React, { useEffectEvent, useRef, useState } from 'react';
+import React, { useEffectEvent, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { createContextScope } from '~/lib/context-scope';
 import { getLayers } from '~/lib/get-layers';
 import { cn } from '~/lib/utils';
+import { useControlled } from '~/stories/hooks/use-controlled';
 import { useFocusTrap } from '~/stories/hooks/use-focus-trap';
 import { useOnClickOutside } from '~/stories/hooks/use-on-click-outside';
 import { useScrollLock } from '~/stories/hooks/use-scroll-lock';
@@ -21,14 +22,28 @@ interface DialogCtxProps {
 
 const [DialogCtx, useDialogCtx] = createContextScope<DialogCtxProps>();
 
-export function DialogRoot({ children }: { children?: React.ReactNode }) {
+export function DialogRoot({
+  children,
+  open: openProp,
+  defaultOpen = false,
+  onOpenChange,
+}: {
+  children?: React.ReactNode;
+  open?: boolean;
+  defaultOpen?: boolean;
+  onOpenChange?: (open: boolean) => void;
+}) {
   const contentId = React.useId();
   const titleId = React.useId();
   const descriptionId = React.useId();
 
   const contentRef = useRef<HTMLDivElement>(null);
 
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useControlled({
+    controlled: openProp,
+    defaultValue: defaultOpen,
+    onChange: onOpenChange,
+  });
 
   const handleOpen = () => {
     setOpen(true);

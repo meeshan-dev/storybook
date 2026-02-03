@@ -12,10 +12,11 @@ import {
   size,
   useFloating,
 } from '@floating-ui/react';
-import React, { useEffectEvent, useRef, useState } from 'react';
+import React, { useEffectEvent, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { createContextScope } from '~/lib/context-scope';
 import { getLayers } from '~/lib/get-layers';
+import { useControlled } from '~/stories/hooks/use-controlled';
 
 /* ———————————————————— Root ———————————————————— */
 
@@ -39,17 +40,25 @@ export const TooltipRoot = ({
   showDelay = 100,
   hideDelay = 300,
   trigger,
-  defaultOpen,
+  open: openProp,
+  defaultOpen = false,
+  onOpenChange,
   disabled,
 }: {
   children?: React.ReactNode;
   showDelay?: number;
   hideDelay?: number;
   trigger?: Trigger;
+  open?: boolean;
   defaultOpen?: boolean;
+  onOpenChange?: (open: boolean) => void;
   disabled?: boolean;
 }) => {
-  const [open, setOpen] = useState(!!defaultOpen);
+  const [open, setOpen] = useControlled({
+    controlled: openProp,
+    defaultValue: defaultOpen,
+    onChange: onOpenChange,
+  });
 
   const identifier = React.useId();
 

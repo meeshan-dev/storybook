@@ -1,6 +1,7 @@
-import { useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 import { createContextScope } from '~/lib/context-scope';
 import { cn } from '~/lib/utils';
+import { useControlled } from '~/stories/hooks/use-controlled';
 
 /* ———————————————————— Root ———————————————————— */
 
@@ -11,16 +12,18 @@ const [PaginationProvider, usePaginationCtx] = createContextScope<{
   currentPage: number;
   totalPages: number;
   disabled?: boolean;
-  setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
+  setCurrentPage: (page: number | ((prev: number) => number)) => void;
   pages: Array<number | 'ellipsis'>;
 }>();
 
 export function PaginationRoot({
+  page: pageProp,
   defaultPage = 1,
   totalPages = 10,
   boundaryCount = 1,
   siblingCount = 1,
   disabled,
+  onPageChange,
   children,
   className,
 }: {
@@ -28,11 +31,17 @@ export function PaginationRoot({
   totalPages?: number;
   boundaryCount?: number;
   siblingCount?: number;
+  page?: number;
   defaultPage?: number;
   disabled?: boolean;
+  onPageChange?: (page: number) => void;
   className?: string;
 }) {
-  const [currentPage, setCurrentPage] = useState(defaultPage);
+  const [currentPage, setCurrentPage] = useControlled({
+    controlled: pageProp,
+    defaultValue: defaultPage,
+    onChange: onPageChange,
+  });
 
   const pages = useMemo(() => {
     // if boundaryCount is greater than count then render all pages from 1 to count

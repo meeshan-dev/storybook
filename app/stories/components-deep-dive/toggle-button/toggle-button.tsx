@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { createContextScope } from '~/lib/context-scope';
+import { useControlled } from '~/stories/hooks/use-controlled';
 
 /* ———————————————————— Group ———————————————————— */
 
@@ -8,16 +9,20 @@ type ToggleButtonGroupProps<Exclusive> = {
 } & (Exclusive extends true
   ? {
       exclusive: Exclusive;
-      defaultValue?: string;
+      value?: string | null;
+      defaultValue?: string | null;
+      onValueChange?: (value: string | null) => void;
     }
   : {
       exclusive?: Exclusive;
+      value?: string[];
       defaultValue?: string[];
+      onValueChange?: (value: string[]) => void;
     });
 
 interface GroupCtxProps {
   value: string | null | string[];
-  setValue: React.Dispatch<React.SetStateAction<string | null | string[]>>;
+  setValue: (value: string | null | string[] | ((prev: string | null | string[]) => string | null | string[])) => void;
   exclusive: boolean;
 }
 
@@ -27,11 +32,13 @@ const [ToggleButtonCtx, useToggleButtonCtx] =
 export const ToggleButtonGroup = <Exclusive extends boolean = false>(
   props: ToggleButtonGroupProps<Exclusive>,
 ) => {
-  const { exclusive = false, defaultValue, children } = props;
+  const { exclusive = false, value: valueProp, defaultValue, onValueChange, children } = props;
 
-  const [value, setValue] = useState(
-    exclusive ? (defaultValue ?? null) : (defaultValue ?? []),
-  );
+  const [value, setValue] = useControlled({
+    controlled: valueProp,
+    defaultValue: exclusive ? (defaultValue ?? null) : (defaultValue ?? []),
+    onChange: onValueChange as ((value: string | null | string[]) => void) | undefined,
+  });
 
   if (exclusive && Array.isArray(value))
     throw new Error(

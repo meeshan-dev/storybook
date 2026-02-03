@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { createContextScope } from '~/lib/context-scope';
+import { useControlled } from '~/stories/hooks/use-controlled';
 
 /* ———————————————————— Root ———————————————————— */
 
@@ -8,15 +9,23 @@ const [SwitchProvider, useSwitchCtx] = createContextScope<{
 }>();
 
 export function SwitchRoot({
-  defaultChecked,
+  checked: checkedProp,
+  defaultChecked = false,
   children,
   disabled,
+  onCheckedChange,
 }: {
   children?: React.ReactNode;
   disabled?: boolean;
+  checked?: boolean;
   defaultChecked?: boolean;
+  onCheckedChange?: (checked: boolean) => void;
 }) {
-  const [checked, setChecked] = React.useState(!!defaultChecked);
+  const [checked, setChecked] = useControlled({
+    controlled: checkedProp,
+    defaultValue: defaultChecked,
+    onChange: onCheckedChange,
+  });
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const isChecked = event.target.checked;

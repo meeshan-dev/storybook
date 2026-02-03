@@ -1,53 +1,73 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { createContextScope } from '~/lib/context-scope';
+import { cn } from '~/lib/utils';
+import { useControlled } from '~/stories/hooks/use-controlled';
 
 /* ———————————————————— Root ———————————————————— */
 
+type CheckboxRootProps = Omit<
+  React.ComponentPropsWithRef<'input'>,
+  'checked'
+> & {
+  checked?: boolean | 'indeterminate';
+  defaultChecked?: boolean | 'indeterminate';
+  onCheckedChange?: (checked: boolean | 'indeterminate') => void;
+};
+
 const [CheckboxProvider, useCheckboxCtx] = createContextScope<{
-  checked: boolean;
-  indeterminate: boolean;
+  checked: boolean | 'indeterminate';
 }>();
 
-export function CheckboxRoot(
-  props: React.ComponentPropsWithRef<'input'> & {
-    indeterminate?: boolean;
-  },
-) {
-  const { defaultChecked, indeterminate, ref, children, ...restProps } = props;
+export function CheckboxRoot(props: CheckboxRootProps) {
+  const {
+    checked: checkedProp,
+    defaultChecked = false,
+    children,
+    onCheckedChange,
+    className,
+    disabled,
+    ...restProps
+  } = props;
 
-  const innerRef = React.useRef<HTMLInputElement>(null);
+  const [checked, setChecked] = useControlled({
+    controlled: checkedProp,
+    defaultValue: defaultChecked,
+    onChange: onCheckedChange,
+  });
 
-  const [checked, setChecked] = useState(!!defaultChecked);
-
-  React.useEffect(() => {
-    if (!innerRef.current) return;
-
-    innerRef.current.indeterminate = !!indeterminate;
-  }, [indeterminate]);
+  const handleChecked = () => {
+    if (checked === 'indeterminate') {
+      setChecked(true);
+    } else {
+      setChecked(!checked);
+    }
+  };
 
   return (
-    <CheckboxProvider value={{ checked, indeterminate: !!indeterminate }}>
-      <input
+    <CheckboxProvider value={{ checked }}>
+      <div
         {...restProps}
-        ref={(node) => {
-          innerRef.current = node;
-          if (typeof ref === 'function') {
-            ref(node);
-          } else if (ref) {
-            ref.current = node;
-          }
-        }}
-        type='checkbox'
-        checked={checked}
-        className='sr-only'
-        aria-checked={indeterminate ? 'mixed' : checked ? 'true' : 'false'}
-        onChange={(e) => {
-          const isChecked = e.target.checked;
-          setChecked(isChecked);
-        }}
-      />
-
-      {children}
+        data-checked={checked === true ? '' : undefined}
+        data-indeterminate={checked === 'indeterminate' ? '' : undefined}
+        data-disabled={disabled ? '' : undefined}
+        data-invalid={restProps['aria-invalid'] ? 'true' : undefined}
+        className={cn(
+          'border-input dark:bg-input/30 data-checked:bg-primary data-checked:text-primary-foreground dark:data-checked:bg-primary data-checked:border-primary data-invalid:data-checked:border-primary data-invalid:border-destructive dark:data-invalid:border-destructive/50 focus-within:border-ring focus-within:ring-ring/50 data-invalid:ring-destructive/20 dark:data-invalid:ring-destructive/40 relative flex size-4 shrink-0 items-center justify-center rounded-[4px] border shadow-xs transition-shadow outline-none focus-within:ring-[3px] data-disabled:cursor-not-allowed data-disabled:opacity-50 data-invalid:ring-[3px]',
+          className,
+        )}
+      >
+        {/* Visually hidden native input for label association & form submission */}
+        <input
+          {...restProps}
+          type='checkbox'
+          checked={checked === true}
+          disabled={disabled}
+          aria-checked={checked === 'indeterminate' ? 'mixed' : undefined}
+          onChange={handleChecked}
+          className='sr-only'
+        />
+        {children}
+      </div>
     </CheckboxProvider>
   );
 }
@@ -61,17 +81,17 @@ export function CheckboxIcon({
   type: 'box' | 'check' | 'indeterminate';
   children?: React.ReactNode;
 }) {
-  const { checked, indeterminate } = useCheckboxCtx();
+  const { checked } = useCheckboxCtx();
 
-  if (indeterminate && type === 'indeterminate') {
+  if (checked === 'indeterminate' && type === 'indeterminate') {
     return children;
   }
 
-  if (checked && type === 'check') {
+  if (checked === true && type === 'check') {
     return children;
   }
 
-  if (!checked && !indeterminate && type === 'box') {
+  if (checked === false && type === 'box') {
     return children;
   }
 

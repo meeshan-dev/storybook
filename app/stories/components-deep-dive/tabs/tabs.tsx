@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { createContextScope } from '~/lib/context-scope';
 import { cn } from '~/lib/utils';
+import { useControlled } from '~/stories/hooks/use-controlled';
 
 /* ———————————————————— Root ———————————————————— */
 
@@ -15,25 +16,33 @@ interface TabsCtxProps {
   loop: boolean;
   isTabbingBackOut: boolean;
   setIsTabbingBackOut: React.Dispatch<React.SetStateAction<boolean>>;
-  setValue: React.Dispatch<React.SetStateAction<string>>;
+  setValue: (value: string) => void;
 }
 
 const [TabsCtx, useTabsCtx] = createContextScope<TabsCtxProps>();
 
 export function TabsRoot({
-  defaultValue,
+  value: valueProp,
+  defaultValue = '',
   loop = false,
   orientation = 'horizontal',
   activationMode = 'automatic',
+  onValueChange,
   children,
 }: {
   children?: React.ReactNode;
+  value?: string;
   defaultValue?: string;
   loop?: boolean;
   activationMode?: ActivationMode;
   orientation?: Orientation;
+  onValueChange?: (value: string) => void;
 }) {
-  const [value, setValue] = useState(defaultValue ?? '');
+  const [value, setValue] = useControlled({
+    controlled: valueProp,
+    defaultValue,
+    onChange: onValueChange,
+  });
 
   const [isTabbingBackOut, setIsTabbingBackOut] = React.useState(false);
 

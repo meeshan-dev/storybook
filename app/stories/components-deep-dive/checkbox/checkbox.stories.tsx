@@ -27,33 +27,6 @@ export const Default: StoryObj<typeof meta> = {
         (mixed) state.
       </p>
 
-      <h2>Implementation Highlights</h2>
-
-      <ul>
-        <li>
-          <strong>Native checkbox foundation</strong> — Uses{' '}
-          <code>&lt;input type="checkbox"&gt;</code> for built-in form handling
-          and accessibility
-        </li>
-        <li>
-          <strong>Tri-state support</strong> — Handles checked, unchecked, and
-          indeterminate states via <code>HTMLInputElement.indeterminate</code>
-        </li>
-        <li>
-          <strong>Icon slot system</strong> — <code>CheckboxIcon</code> with{' '}
-          <code>type="box"</code>, <code>"check"</code>, and{' '}
-          <code>"indeterminate"</code> for conditional rendering
-        </li>
-        <li>
-          <strong>Proper ARIA</strong> — Uses <code>aria-checked="mixed"</code>{' '}
-          for indeterminate state
-        </li>
-        <li>
-          <strong>Controlled & uncontrolled</strong> — Works with React state or
-          native form submission
-        </li>
-      </ul>
-
       <div className='story-demo not-typography'>
         <h2>Interactive Examples</h2>
         <p className='text-muted-foreground mb-6'>
@@ -65,13 +38,26 @@ export const Default: StoryObj<typeof meta> = {
         </div>
       </div>
 
-      <h2>Indeterminate State</h2>
+      <h2>Implementation Highlights</h2>
 
-      <p>
-        The indeterminate state represents a "mixed" selection — useful for
-        parent checkboxes that control a group of child checkboxes where only
-        some are selected.
-      </p>
+      <ul>
+        <li>
+          Uses <code>&lt;input type="checkbox"&gt;</code> for built-in form
+          handling and accessibility
+        </li>
+        <li>Handles checked, unchecked, and indeterminate states</li>
+        <li>
+          <code>CheckboxIcon</code> with <code>type="box"</code>,{' '}
+          <code>"check"</code>, and <code>"indeterminate"</code> for conditional
+          rendering
+        </li>
+        <li>
+          Uses <code>aria-checked="mixed"</code> for indeterminate state
+        </li>
+        <li>Works with React state or native form submission</li>
+      </ul>
+
+      <h2>Indeterminate State</h2>
 
       <div className='overflow-x-auto'>
         <table className='w-full text-sm'>

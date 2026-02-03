@@ -1,7 +1,8 @@
 import { AnimatePresence, motion } from 'motion/react';
-import React, { useId, useState } from 'react';
+import React, { useId } from 'react';
 import { createContextScope } from '~/lib/context-scope';
 import { cn } from '~/lib/utils';
+import { useControlled } from '~/stories/hooks/use-controlled';
 
 /* ———————————————————— Root ———————————————————— */
 
@@ -12,18 +13,24 @@ type AccordionRootProps<Type, IsSingleCollapsible> = {
 } & (Type extends 'multiple'
   ? {
       type?: Type;
+      value?: string[];
       defaultValue?: string[];
+      onValueChange?: (value: string[]) => void;
       isSingleCollapsible?: undefined;
     }
   : IsSingleCollapsible extends true
     ? {
         type: Type;
+        value?: string | null;
         defaultValue?: string | null;
+        onValueChange?: (value: string | null) => void;
         isSingleCollapsible?: IsSingleCollapsible;
       }
     : {
         type: Type;
+        value?: string;
         defaultValue?: string;
+        onValueChange?: (value: string) => void;
         isSingleCollapsible: IsSingleCollapsible;
       });
 
@@ -43,7 +50,9 @@ export function AccordionRoot<
   IsSingleCollapsible extends boolean = true,
 >(props: AccordionRootProps<Type, IsSingleCollapsible>) {
   const {
-    defaultValue = null,
+    value: valueProp,
+    defaultValue,
+    onValueChange,
     disabled,
     isSingleCollapsible = true,
     type = 'multiple',
@@ -53,9 +62,14 @@ export function AccordionRoot<
 
   const rootId = useId();
 
-  const [value, setValue] = useState(
-    type === 'multiple' ? (defaultValue ?? []) : defaultValue,
-  );
+  const [value, setValue] = useControlled({
+    controlled: valueProp,
+    defaultValue:
+      type === 'multiple' ? (defaultValue ?? []) : (defaultValue ?? null),
+    onChange: onValueChange as
+      | ((value: string | string[] | null) => void)
+      | undefined,
+  });
 
   const onExpand = (expanedItem: string) => {
     if (disabled) return;

@@ -1,7 +1,8 @@
 import { AnimatePresence, motion } from 'motion/react';
-import React, { useId, useState } from 'react';
+import React, { useId } from 'react';
 import { createContextScope } from '~/lib/context-scope';
 import { cn } from '~/lib/utils';
+import { useControlled } from '~/stories/hooks/use-controlled';
 
 /* ———————————————————— Root ———————————————————— */
 
@@ -10,18 +11,24 @@ type DisclosureRootProps<Type, IsSingleCollapsible> = {
 } & (Type extends 'multiple'
   ? {
       type?: Type;
+      value?: string[];
       defaultValue?: string[];
+      onValueChange?: (value: string[]) => void;
       isSingleCollapsible?: undefined;
     }
   : IsSingleCollapsible extends true
     ? {
         type: Type;
+        value?: string | null;
         defaultValue?: string | null;
+        onValueChange?: (value: string | null) => void;
         isSingleCollapsible?: IsSingleCollapsible;
       }
     : {
         type: Type;
+        value?: string;
         defaultValue?: string;
+        onValueChange?: (value: string) => void;
         isSingleCollapsible: IsSingleCollapsible;
       });
 
@@ -41,7 +48,9 @@ export function DisclosureRoot<
   IsSingleCollapsible extends boolean = true,
 >(props: DisclosureRootProps<Type, IsSingleCollapsible>) {
   const {
+    value: valueProp,
     defaultValue,
+    onValueChange,
     isSingleCollapsible = true,
     type = 'multiple',
     children,
@@ -49,9 +58,11 @@ export function DisclosureRoot<
 
   const rootId = useId();
 
-  const [value, setValue] = useState(
-    type === 'multiple' ? defaultValue || [] : defaultValue || null,
-  );
+  const [value, setValue] = useControlled({
+    controlled: valueProp,
+    defaultValue: type === 'multiple' ? (defaultValue ?? []) : (defaultValue ?? null),
+    onChange: onValueChange as ((value: string | string[] | null) => void) | undefined,
+  });
 
   const onOpen = (openedItem: string) => {
     if (type === 'single') {

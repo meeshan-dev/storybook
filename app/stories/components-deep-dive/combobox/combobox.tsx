@@ -7,11 +7,12 @@ import {
   useFloating,
 } from '@floating-ui/react';
 import { IconCheck, IconChevronDown, IconX } from '@tabler/icons-react';
-import React, { useState } from 'react';
+import React from 'react';
 import { createPortal } from 'react-dom';
 import { Badge } from '~/components/ui/badge';
 import { Button } from '~/components/ui/button';
 import { InputGroup, InputGroupInput } from '~/components/ui/input-group';
+import { useControlled } from '~/stories/hooks/use-controlled';
 
 const stripDiacritics = (string: string) => {
   return string.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
@@ -34,18 +35,32 @@ export function Combobox({
   multiple,
   options,
   getOptionDisabled,
+  value: valueProp,
+  defaultValue,
+  onValueChange,
+  open: openProp,
+  defaultOpen = false,
+  onOpenChange,
 }: {
   multiple?: boolean;
   options: Value[];
   getOptionDisabled?: (option: Value) => boolean;
+  value?: Value | Value[] | null;
+  defaultValue?: Value | Value[] | null;
+  onValueChange?: (value: Value | Value[] | null) => void;
+  open?: boolean;
+  defaultOpen?: boolean;
+  onOpenChange?: (open: boolean) => void;
 }) {
   const inputId = React.useId();
 
-  const [value, setValue] = useState<Value | Value[] | null>(() =>
-    multiple ? [] : null,
-  );
+  const [value, setValue] = useControlled({
+    controlled: valueProp,
+    defaultValue: defaultValue ?? (multiple ? [] : null),
+    onChange: onValueChange,
+  });
 
-  const [inputValue, setInputValue] = useState('');
+  const [inputValue, setInputValue] = React.useState('');
 
   const inputRef = React.useRef<HTMLInputElement>(null);
   const inputWrapperRef = React.useRef<HTMLDivElement>(null);
@@ -55,7 +70,11 @@ export function Combobox({
   const defaultHighlighted = -1;
   const highlightedIndexRef = React.useRef(defaultHighlighted);
 
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useControlled({
+    controlled: openProp,
+    defaultValue: defaultOpen,
+    onChange: onOpenChange,
+  });
 
   const floatingReturn = useFloating({
     open,

@@ -9,6 +9,7 @@ import {
   IconTrash,
 } from '@tabler/icons-react';
 import { useState } from 'react';
+import { Button } from '~/components/ui/button';
 import { cn } from '~/lib/utils';
 import { CheckboxIcon, CheckboxRoot } from './checkbox';
 
@@ -23,6 +24,7 @@ export function CheckboxDemo() {
             Manage your daily tasks with indeterminate state for groups
           </p>
         </div>
+
         <TaskList />
       </section>
 
@@ -77,8 +79,13 @@ function TaskList() {
   const [tasks, setTasks] = useState(initialTasks);
 
   const completedCount = tasks.filter((t) => t.completed).length;
-  const allCompleted = completedCount === tasks.length;
-  const someCompleted = completedCount > 0 && !allCompleted;
+
+  const allCompleted =
+    completedCount === tasks.length
+      ? true
+      : completedCount === 0
+        ? false
+        : 'indeterminate';
 
   const toggleTask = (id: number) => {
     setTasks((prev) =>
@@ -100,25 +107,21 @@ function TaskList() {
           'hover:bg-muted/50',
         )}
       >
-        <CheckboxIndicator indeterminate={someCompleted} checked={allCompleted}>
-          <CheckboxRoot
-            checked={allCompleted}
-            indeterminate={someCompleted}
-            onChange={toggleAll}
-          >
-            <CheckboxIcon type='indeterminate'>
-              <IconMinus className='size-3.5 text-blue-600 dark:text-blue-400' />
-            </CheckboxIcon>
-            <CheckboxIcon type='check'>
-              <IconCheck className='size-3.5 text-blue-600 dark:text-blue-400' />
-            </CheckboxIcon>
-          </CheckboxRoot>
-        </CheckboxIndicator>
+        <CheckboxRoot checked={allCompleted} onCheckedChange={toggleAll}>
+          <CheckboxIcon type='indeterminate'>
+            <IconMinus />
+          </CheckboxIcon>
+
+          <CheckboxIcon type='check'>
+            <IconCheck />
+          </CheckboxIcon>
+        </CheckboxRoot>
+
         <span className='font-medium'>
-          {allCompleted
-            ? 'All tasks completed'
-            : someCompleted
-              ? `${completedCount} of ${tasks.length} completed`
+          {allCompleted === 'indeterminate'
+            ? `${completedCount} of ${tasks.length} completed`
+            : allCompleted
+              ? 'All tasks completed'
               : 'Select all tasks'}
         </span>
       </label>
@@ -134,10 +137,15 @@ function TaskList() {
               task.completed && 'bg-emerald-50/50 dark:bg-emerald-950/20',
             )}
           >
-            <TaskCheckbox
+            <CheckboxRoot
               checked={task.completed}
-              onChange={() => toggleTask(task.id)}
-            />
+              onCheckedChange={() => toggleTask(task.id)}
+            >
+              <CheckboxIcon type='check'>
+                <IconCheck />
+              </CheckboxIcon>
+            </CheckboxRoot>
+
             <span
               className={cn(
                 'flex-1 transition-all',
@@ -150,31 +158,6 @@ function TaskList() {
           </label>
         ))}
       </div>
-    </div>
-  );
-}
-
-function TaskCheckbox({
-  checked,
-  onChange,
-}: {
-  checked: boolean;
-  onChange: () => void;
-}) {
-  return (
-    <div
-      className={cn(
-        'flex size-5 items-center justify-center rounded border-2 transition-all',
-        checked
-          ? 'border-emerald-600 bg-emerald-600 dark:border-emerald-500 dark:bg-emerald-500'
-          : 'border-foreground/20',
-      )}
-    >
-      <CheckboxRoot checked={checked} onChange={onChange}>
-        <CheckboxIcon type='check'>
-          <IconCheck className='size-3.5 text-white' />
-        </CheckboxIcon>
-      </CheckboxRoot>
     </div>
   );
 }
@@ -249,10 +232,16 @@ function PermissionsMatrix() {
                 return (
                   <td key={perm.id} className='px-4 py-3 text-center'>
                     <label className='flex cursor-pointer justify-center'>
-                      <PermissionCheckbox
+                      <CheckboxRoot
                         checked={isChecked}
-                        onChange={() => togglePermission(role.id, perm.id)}
-                      />
+                        onCheckedChange={() =>
+                          togglePermission(role.id, perm.id)
+                        }
+                      >
+                        <CheckboxIcon type='check'>
+                          <IconCheck />
+                        </CheckboxIcon>
+                      </CheckboxRoot>
                     </label>
                   </td>
                 );
@@ -261,31 +250,6 @@ function PermissionsMatrix() {
           ))}
         </tbody>
       </table>
-    </div>
-  );
-}
-
-function PermissionCheckbox({
-  checked,
-  onChange,
-}: {
-  checked: boolean;
-  onChange: () => void;
-}) {
-  return (
-    <div
-      className={cn(
-        'flex size-5 items-center justify-center rounded border-2 transition-all',
-        checked
-          ? 'border-blue-600 bg-blue-600 dark:border-blue-500 dark:bg-blue-500'
-          : 'border-foreground/20 hover:border-foreground/40',
-      )}
-    >
-      <CheckboxRoot checked={checked} onChange={onChange}>
-        <CheckboxIcon type='check'>
-          <IconCheck className='size-3.5 text-white' />
-        </CheckboxIcon>
-      </CheckboxRoot>
     </div>
   );
 }
@@ -313,7 +277,14 @@ function TermsAcceptance() {
           )}
         >
           <div className='pt-0.5'>
-            <TermsCheckbox checked={terms} onChange={() => setTerms(!terms)} />
+            <CheckboxRoot
+              checked={terms}
+              onCheckedChange={() => setTerms(!terms)}
+            >
+              <CheckboxIcon type='check'>
+                <IconCheck />
+              </CheckboxIcon>
+            </CheckboxRoot>
           </div>
           <div>
             <span className='font-medium'>Terms of Service</span>
@@ -340,11 +311,16 @@ function TermsAcceptance() {
           )}
         >
           <div className='pt-0.5'>
-            <TermsCheckbox
+            <CheckboxRoot
               checked={privacy}
               onChange={() => setPrivacy(!privacy)}
-            />
+            >
+              <CheckboxIcon type='check'>
+                <IconCheck />
+              </CheckboxIcon>
+            </CheckboxRoot>
           </div>
+
           <div>
             <span className='font-medium'>Privacy Policy</span>
             <span className='text-destructive ml-1'>*</span>
@@ -370,10 +346,14 @@ function TermsAcceptance() {
           )}
         >
           <div className='pt-0.5'>
-            <MarketingCheckbox
+            <CheckboxRoot
               checked={marketing}
               onChange={() => setMarketing(!marketing)}
-            />
+            >
+              <CheckboxIcon type='check'>
+                <IconCheck />
+              </CheckboxIcon>
+            </CheckboxRoot>
           </div>
           <div>
             <span className='font-medium'>Marketing Communications</span>
@@ -387,67 +367,9 @@ function TermsAcceptance() {
         </label>
       </div>
 
-      <button
-        disabled={!canContinue}
-        className={cn(
-          'w-full rounded-lg px-4 py-2.5 font-medium transition-all',
-          canContinue
-            ? 'bg-emerald-600 text-white hover:bg-emerald-700'
-            : 'bg-muted text-muted-foreground cursor-not-allowed',
-        )}
-      >
+      <Button disabled={!canContinue} className='w-full'>
         {canContinue ? 'Continue' : 'Please accept required terms'}
-      </button>
-    </div>
-  );
-}
-
-function TermsCheckbox({
-  checked,
-  onChange,
-}: {
-  checked: boolean;
-  onChange: () => void;
-}) {
-  return (
-    <div
-      className={cn(
-        'flex size-5 items-center justify-center rounded border-2 transition-all',
-        checked
-          ? 'border-emerald-600 bg-emerald-600 dark:border-emerald-500 dark:bg-emerald-500'
-          : 'border-foreground/20',
-      )}
-    >
-      <CheckboxRoot checked={checked} onChange={onChange}>
-        <CheckboxIcon type='check'>
-          <IconCheck className='size-3.5 text-white' />
-        </CheckboxIcon>
-      </CheckboxRoot>
-    </div>
-  );
-}
-
-function MarketingCheckbox({
-  checked,
-  onChange,
-}: {
-  checked: boolean;
-  onChange: () => void;
-}) {
-  return (
-    <div
-      className={cn(
-        'flex size-5 items-center justify-center rounded border-2 transition-all',
-        checked
-          ? 'border-purple-600 bg-purple-600 dark:border-purple-500 dark:bg-purple-500'
-          : 'border-foreground/20',
-      )}
-    >
-      <CheckboxRoot checked={checked} onChange={onChange}>
-        <CheckboxIcon type='check'>
-          <IconCheck className='size-3.5 text-white' />
-        </CheckboxIcon>
-      </CheckboxRoot>
+      </Button>
     </div>
   );
 }
@@ -485,7 +407,9 @@ const features = [
 ];
 
 function FeatureSelection() {
-  const [selected, setSelected] = useState<Set<string>>(new Set(['backup']));
+  const [selected, setSelected] = useState<Set<string>>(
+    () => new Set(['backup']),
+  );
 
   const toggleFeature = (id: string) => {
     setSelected((prev) => {
@@ -515,12 +439,19 @@ function FeatureSelection() {
             )}
           >
             <div className='pt-0.5'>
-              <FeatureCheckbox
-                checked={isSelected}
-                onChange={() => !feature.included && toggleFeature(feature.id)}
+              <CheckboxRoot
                 disabled={feature.included}
-              />
+                checked={isSelected}
+                onCheckedChange={() =>
+                  !feature.included && toggleFeature(feature.id)
+                }
+              >
+                <CheckboxIcon type='check'>
+                  <IconCheck />
+                </CheckboxIcon>
+              </CheckboxRoot>
             </div>
+
             <div className='flex-1'>
               <div className='flex items-center justify-between'>
                 <span className='font-medium'>{feature.name}</span>
@@ -535,6 +466,7 @@ function FeatureSelection() {
                   {feature.price}
                 </span>
               </div>
+
               <p className='text-muted-foreground mt-1 text-sm'>
                 {feature.description}
               </p>
@@ -542,61 +474,6 @@ function FeatureSelection() {
           </label>
         );
       })}
-    </div>
-  );
-}
-
-function FeatureCheckbox({
-  checked,
-  onChange,
-  disabled,
-}: {
-  checked: boolean;
-  onChange: () => void;
-  disabled?: boolean;
-}) {
-  return (
-    <div
-      className={cn(
-        'flex size-5 items-center justify-center rounded border-2 transition-all',
-        checked
-          ? 'border-blue-600 bg-blue-600 dark:border-blue-500 dark:bg-blue-500'
-          : 'border-foreground/20',
-        disabled && 'opacity-50',
-      )}
-    >
-      <CheckboxRoot checked={checked} onChange={onChange} disabled={disabled}>
-        <CheckboxIcon type='check'>
-          <IconCheck className='size-3.5 text-white' />
-        </CheckboxIcon>
-      </CheckboxRoot>
-    </div>
-  );
-}
-
-/* ---------------------------------- */
-/* Shared Indicator Component          */
-/* ---------------------------------- */
-
-function CheckboxIndicator({
-  children,
-  checked,
-  indeterminate,
-}: {
-  children: React.ReactNode;
-  checked: boolean;
-  indeterminate?: boolean;
-}) {
-  return (
-    <div
-      className={cn(
-        'flex size-5 items-center justify-center rounded border-2 transition-all',
-        checked || indeterminate
-          ? 'border-blue-600 bg-blue-600 dark:border-blue-500 dark:bg-blue-500'
-          : 'border-foreground/20',
-      )}
-    >
-      {children}
     </div>
   );
 }

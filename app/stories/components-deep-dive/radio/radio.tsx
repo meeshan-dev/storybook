@@ -1,12 +1,13 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { createContextScope } from '~/lib/context-scope';
+import { useControlled } from '~/stories/hooks/use-controlled';
 
 /* ———————————————————— Root ———————————————————— */
 
 type RadioGroupContextValue = {
   name: string;
   value: string;
-  setValue: React.Dispatch<React.SetStateAction<string>>;
+  setValue: (value: string) => void;
 };
 
 const [RadioGroupProvider, useRadioGroupCtx] =
@@ -15,15 +16,23 @@ const [RadioGroupProvider, useRadioGroupCtx] =
 const [RadioProvider, useRadioCtx] = createContextScope<{ checked: boolean }>();
 
 export function RadioGroupRoot({
-  defaultValue,
+  value: valueProp,
+  defaultValue = '',
   name,
+  onValueChange,
   children,
 }: {
   children?: React.ReactNode;
+  value?: string;
   defaultValue?: string;
   name: string;
+  onValueChange?: (value: string) => void;
 }) {
-  const [value, setValue] = useState(defaultValue || '');
+  const [value, setValue] = useControlled({
+    controlled: valueProp,
+    defaultValue,
+    onChange: onValueChange,
+  });
 
   return (
     <RadioGroupProvider value={{ name, value, setValue }}>
