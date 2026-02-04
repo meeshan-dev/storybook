@@ -42,18 +42,12 @@ export const Default: StoryObj<typeof meta> = {
           <code>string[]</code> for precise TypeScript inference.
         </li>
         <li>
-          <strong>Context-based state management</strong>: Uses{' '}
-          <code>createContextScope</code> for scoped context without prop
-          drilling.
+          Uses <code>aria-pressed</code> to communicate toggle state to screen
+          readers (pressed/not pressed).
         </li>
         <li>
-          <strong>Render props pattern</strong>: Full control over button
-          rendering with <code>isSelected</code> state exposed.
-        </li>
-        <li>
-          <strong>Compound component API</strong>:{' '}
-          <code>ToggleButtonGroup</code> manages state while{' '}
-          <code>ToggleButton</code> renders individual options.
+          In exclusive mode, behaves like radio buttons semantically but with
+          individual <code>aria-pressed</code> states.
         </li>
       </ul>
 
@@ -121,111 +115,6 @@ export const Default: StoryObj<typeof meta> = {
               <kbd>Space</kbd> / <kbd>Enter</kbd>
             </td>
             <td>Toggle the focused button&apos;s pressed state</td>
-          </tr>
-        </tbody>
-      </table>
-
-      <h2>Accessibility</h2>
-
-      <ul>
-        <li>
-          Uses <code>aria-pressed</code> to communicate toggle state to screen
-          readers (pressed/not pressed).
-        </li>
-        <li>
-          Each button maintains proper focus indicators and keyboard
-          operability.
-        </li>
-        <li>
-          In exclusive mode, behaves like radio buttons semantically but with
-          individual <code>aria-pressed</code> states.
-        </li>
-        <li>
-          Custom styling must maintain sufficient color contrast for both
-          pressed and unpressed states.
-        </li>
-      </ul>
-
-      <h2>Component API</h2>
-
-      <h3>ToggleButtonGroup</h3>
-
-      <table>
-        <thead>
-          <tr>
-            <th>Prop</th>
-            <th>Type</th>
-            <th>Description</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>
-              <code>exclusive</code>
-            </td>
-            <td>
-              <code>boolean</code>
-            </td>
-            <td>Single selection mode (default: false = multiple)</td>
-          </tr>
-          <tr>
-            <td>
-              <code>value</code>
-            </td>
-            <td>
-              <code>string | null | string[]</code>
-            </td>
-            <td>Controlled value (depends on exclusive prop)</td>
-          </tr>
-          <tr>
-            <td>
-              <code>defaultValue</code>
-            </td>
-            <td>
-              <code>string | null | string[]</code>
-            </td>
-            <td>Initial value for uncontrolled usage</td>
-          </tr>
-          <tr>
-            <td>
-              <code>onValueChange</code>
-            </td>
-            <td>
-              <code>(value) =&gt; void</code>
-            </td>
-            <td>Callback when selection changes</td>
-          </tr>
-        </tbody>
-      </table>
-
-      <h3>ToggleButton</h3>
-
-      <table>
-        <thead>
-          <tr>
-            <th>Prop</th>
-            <th>Type</th>
-            <th>Description</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>
-              <code>value</code>
-            </td>
-            <td>
-              <code>string</code>
-            </td>
-            <td>Unique identifier for this button</td>
-          </tr>
-          <tr>
-            <td>
-              <code>children</code>
-            </td>
-            <td>
-              <code>(props, {'{ isSelected }'}) =&gt; ReactNode</code>
-            </td>
-            <td>Render prop for custom button rendering</td>
           </tr>
         </tbody>
       </table>

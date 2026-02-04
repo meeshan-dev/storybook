@@ -17,6 +17,7 @@ import {
   IconStrikethrough,
   IconUnderline,
 } from '@tabler/icons-react';
+import { Button } from '~/components/ui/button';
 import { cn } from '~/lib/utils';
 import { ToggleButton, ToggleButtonGroup } from './toggle-button';
 
@@ -93,30 +94,25 @@ const viewModes = [
 
 function ViewSwitcher() {
   return (
-    <ToggleButtonGroup exclusive defaultValue='grid'>
-      <div className='bg-card inline-flex rounded-lg border p-1'>
-        {viewModes.map((mode) => (
-          <ToggleButton key={mode.value} value={mode.value}>
-            {(props, { isSelected }) => (
-              <button
-                {...props}
-                className={cn(
-                  'flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors',
-                  isSelected
-                    ? 'bg-foreground text-background'
-                    : 'text-muted-foreground hover:text-foreground hover:bg-muted',
-                )}
-                aria-label={mode.label}
-              >
-                <mode.icon className='size-4' />
-                <span className='hidden capitalize sm:inline'>
-                  {mode.value}
-                </span>
-              </button>
-            )}
-          </ToggleButton>
-        ))}
-      </div>
+    <ToggleButtonGroup
+      exclusive
+      defaultValue='grid'
+      className='inline-flex rounded-lg border p-1'
+    >
+      {viewModes.map((mode) => (
+        <ToggleButton key={mode.value} value={mode.value}>
+          {(props, { isSelected }) => (
+            <Button
+              {...props}
+              aria-label={mode.label}
+              variant={isSelected ? 'secondary' : 'ghost'}
+            >
+              <mode.icon className='size-4' />
+              <span className='hidden capitalize sm:inline'>{mode.value}</span>
+            </Button>
+          )}
+        </ToggleButton>
+      ))}
     </ToggleButtonGroup>
   );
 }
@@ -134,42 +130,24 @@ const formatOptions = [
 
 function TextFormatting() {
   return (
-    <div className='space-y-4'>
-      <ToggleButtonGroup defaultValue={['bold']}>
-        <div className='inline-flex rounded-lg border'>
-          {formatOptions.map((option, index) => (
-            <ToggleButton key={option.value} value={option.value}>
-              {(props, { isSelected }) => (
-                <button
-                  {...props}
-                  className={cn(
-                    'flex size-10 items-center justify-center transition-colors',
-                    'border-r last:border-r-0',
-                    index === 0 && 'rounded-l-lg',
-                    index === formatOptions.length - 1 && 'rounded-r-lg',
-                    isSelected
-                      ? 'bg-blue-600 text-white'
-                      : 'bg-card text-muted-foreground hover:text-foreground hover:bg-muted',
-                  )}
-                  aria-label={option.label}
-                >
-                  <option.icon className='size-4' />
-                </button>
-              )}
-            </ToggleButton>
-          ))}
-        </div>
-      </ToggleButtonGroup>
-
-      {/* Preview */}
-      <div className='bg-card max-w-md rounded-lg border p-4'>
-        <p className='text-sm'>
-          <span className='font-bold'>This is bold text. </span>
-          Select formatting options above to see how multiple styles can be
-          combined together.
-        </p>
-      </div>
-    </div>
+    <ToggleButtonGroup
+      defaultValue={['bold']}
+      className='inline-flex gap-1 rounded-lg border p-1'
+    >
+      {formatOptions.map((option) => (
+        <ToggleButton key={option.value} value={option.value}>
+          {(props, { isSelected }) => (
+            <Button
+              {...props}
+              variant={isSelected ? 'secondary' : 'ghost'}
+              aria-label={option.label}
+            >
+              <option.icon className='size-4' />
+            </Button>
+          )}
+        </ToggleButton>
+      ))}
+    </ToggleButtonGroup>
   );
 }
 
@@ -186,27 +164,24 @@ const alignOptions = [
 
 function TextAlignment() {
   return (
-    <ToggleButtonGroup exclusive defaultValue='left'>
-      <div className='bg-muted inline-flex gap-1 rounded-lg p-1'>
-        {alignOptions.map((option) => (
-          <ToggleButton key={option.value} value={option.value}>
-            {(props, { isSelected }) => (
-              <button
-                {...props}
-                className={cn(
-                  'flex size-9 items-center justify-center rounded-md transition-colors',
-                  isSelected
-                    ? 'bg-background shadow-sm'
-                    : 'text-muted-foreground hover:text-foreground',
-                )}
-                aria-label={option.label}
-              >
-                <option.icon className='size-4' />
-              </button>
-            )}
-          </ToggleButton>
-        ))}
-      </div>
+    <ToggleButtonGroup
+      exclusive
+      defaultValue='left'
+      className='inline-flex rounded-lg border p-1'
+    >
+      {alignOptions.map((option) => (
+        <ToggleButton key={option.value} value={option.value}>
+          {(props, { isSelected }) => (
+            <Button
+              {...props}
+              variant={isSelected ? 'secondary' : 'ghost'}
+              aria-label={option.label}
+            >
+              <option.icon className='size-4' />
+            </Button>
+          )}
+        </ToggleButton>
+      ))}
     </ToggleButtonGroup>
   );
 }
@@ -221,8 +196,9 @@ function QuickActions() {
       <div className='flex gap-2'>
         <ToggleButton value='favorite'>
           {(props, { isSelected }) => (
-            <button
+            <Button
               {...props}
+              variant='ghost'
               className={cn(
                 'flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition-all',
                 isSelected
@@ -234,14 +210,15 @@ function QuickActions() {
                 className={cn('size-4', isSelected && 'fill-current')}
               />
               Favorite
-            </button>
+            </Button>
           )}
         </ToggleButton>
 
         <ToggleButton value='like'>
           {(props, { isSelected }) => (
-            <button
+            <Button
               {...props}
+              variant='ghost'
               className={cn(
                 'flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition-all',
                 isSelected
@@ -253,14 +230,15 @@ function QuickActions() {
                 className={cn('size-4', isSelected && 'fill-current')}
               />
               Like
-            </button>
+            </Button>
           )}
         </ToggleButton>
 
         <ToggleButton value='bookmark'>
           {(props, { isSelected }) => (
-            <button
+            <Button
               {...props}
+              variant='ghost'
               className={cn(
                 'flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition-all',
                 isSelected
@@ -272,7 +250,7 @@ function QuickActions() {
                 className={cn('size-4', isSelected && 'fill-current')}
               />
               Save
-            </button>
+            </Button>
           )}
         </ToggleButton>
       </div>
@@ -293,40 +271,30 @@ function SortDirection() {
       </div>
 
       <ToggleButtonGroup exclusive defaultValue='asc'>
-        <div className='inline-flex overflow-hidden rounded-lg border'>
+        <div className='inline-flex gap-1'>
           <ToggleButton value='asc'>
             {(props, { isSelected }) => (
-              <button
+              <Button
                 {...props}
-                className={cn(
-                  'flex items-center gap-2 border-r px-3 py-2 text-sm font-medium transition-colors',
-                  isSelected
-                    ? 'bg-emerald-600 text-white'
-                    : 'bg-card text-muted-foreground hover:text-foreground hover:bg-muted',
-                )}
+                variant={isSelected ? 'secondary' : 'ghost'}
                 aria-label='Sort ascending'
               >
                 <IconSortAscending className='size-4' />
                 Ascending
-              </button>
+              </Button>
             )}
           </ToggleButton>
 
           <ToggleButton value='desc'>
             {(props, { isSelected }) => (
-              <button
+              <Button
                 {...props}
-                className={cn(
-                  'flex items-center gap-2 px-3 py-2 text-sm font-medium transition-colors',
-                  isSelected
-                    ? 'bg-emerald-600 text-white'
-                    : 'bg-card text-muted-foreground hover:text-foreground hover:bg-muted',
-                )}
+                variant={isSelected ? 'secondary' : 'ghost'}
                 aria-label='Sort descending'
               >
                 <IconSortDescending className='size-4' />
                 Descending
-              </button>
+              </Button>
             )}
           </ToggleButton>
         </div>

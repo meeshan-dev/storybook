@@ -6,6 +6,7 @@ import { useControlled } from '~/stories/hooks/use-controlled';
 
 type ToggleButtonGroupProps<Exclusive> = {
   children?: React.ReactNode;
+  className?: string;
 } & (Exclusive extends true
   ? {
       exclusive: Exclusive;
@@ -22,7 +23,13 @@ type ToggleButtonGroupProps<Exclusive> = {
 
 interface GroupCtxProps {
   value: string | null | string[];
-  setValue: (value: string | null | string[] | ((prev: string | null | string[]) => string | null | string[])) => void;
+  setValue: (
+    value:
+      | string
+      | null
+      | string[]
+      | ((prev: string | null | string[]) => string | null | string[]),
+  ) => void;
   exclusive: boolean;
 }
 
@@ -32,12 +39,21 @@ const [ToggleButtonCtx, useToggleButtonCtx] =
 export const ToggleButtonGroup = <Exclusive extends boolean = false>(
   props: ToggleButtonGroupProps<Exclusive>,
 ) => {
-  const { exclusive = false, value: valueProp, defaultValue, onValueChange, children } = props;
+  const {
+    exclusive = false,
+    value: valueProp,
+    defaultValue,
+    onValueChange,
+    children,
+    className,
+  } = props;
 
   const [value, setValue] = useControlled({
     controlled: valueProp,
     defaultValue: exclusive ? (defaultValue ?? null) : (defaultValue ?? []),
-    onChange: onValueChange as ((value: string | null | string[]) => void) | undefined,
+    onChange: onValueChange as
+      | ((value: string | null | string[]) => void)
+      | undefined,
   });
 
   if (exclusive && Array.isArray(value))
@@ -58,7 +74,7 @@ export const ToggleButtonGroup = <Exclusive extends boolean = false>(
         exclusive,
       }}
     >
-      {children}
+      <div className={className}>{children}</div>
     </ToggleButtonCtx>
   );
 };

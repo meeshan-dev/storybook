@@ -5,3 +5,4 @@ i focused on implementation logic instead of designing full production ready reu
 
 [] pagination a11y
 [] useFloating boundary padding
+[] ensure focus-visible ring does not hide beneath other elements 
