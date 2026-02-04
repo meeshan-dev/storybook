@@ -337,7 +337,7 @@ function InteractiveTooltips() {
                 {...props}
                 className='bg-card ring-foreground/10 relative z-50 w-64 rounded-xl p-4 text-sm shadow-lg ring-1 data-[hide=true]:hidden'
               >
-                <FloatingArrow {...arrowProps} className='fill-card' />
+                <FloatingArrow {...arrowProps} className='fill-foreground' />
                 <div className='flex items-center gap-3'>
                   <div className='flex size-10 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-purple-600 font-semibold text-white'>
                     JD
@@ -382,7 +382,7 @@ function InteractiveTooltips() {
                 {...props}
                 className='bg-card ring-foreground/10 relative z-50 max-w-xs rounded-xl p-4 text-sm shadow-lg ring-1 data-[hide=true]:hidden'
               >
-                <FloatingArrow {...arrowProps} className='fill-card' />
+                <FloatingArrow {...arrowProps} className='fill-foreground' />
                 <p className='font-semibold'>Server-Side Rendering</p>
                 <p className='text-muted-foreground mt-1 text-xs'>
                   A technique where HTML is generated on the server for each
@@ -437,7 +437,7 @@ function TooltipBoxWide({
       {...props}
       className='bg-card ring-foreground/10 relative z-50 max-w-xs rounded-lg p-3 text-sm shadow-lg ring-1 data-[hide=true]:hidden'
     >
-      <FloatingArrow {...arrowProps} className='fill-card' />
+      <FloatingArrow {...arrowProps} className='fill-foreground' />
       {children}
     </div>
   );

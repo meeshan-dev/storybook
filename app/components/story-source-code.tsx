@@ -16,7 +16,7 @@ export function StorySourceCode({ children }: { children: string }) {
           showLineNumbers
           customStyle={{
             margin: 0,
-            borderRadius: 0,
+            borderRadius: 'var(--radius-lg)',
             colorScheme: 'dark',
             flexGrow: 1,
             overflow: 'auto',

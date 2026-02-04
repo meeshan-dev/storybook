@@ -147,7 +147,7 @@ export function PopoverContent({
     whileElementsMounted: autoUpdate,
     strategy: 'absolute',
     middleware: [
-      offsetMiddleware({ mainAxis: 5 }),
+      offsetMiddleware({ mainAxis: 3 + 7 /* 7 is arrow height */ }),
       flipMiddleware(),
       shiftMiddleware({ limiter: limitShift() }),
       // eslint-disable-next-line react-hooks/refs
@@ -173,23 +173,7 @@ export function PopoverContent({
     innerRef.current?.focus();
   }, [floatingReturn.isPositioned]);
 
-  useOnClickOutside(
-    innerRef,
-    (e) => {
-      if (!contentRef.current) throw new Error('Content ref is not assigned');
-
-      const topLayer = getLayers().at(-1);
-
-      const isPaused = topLayer !== contentRef.current;
-
-      if (isPaused) return;
-
-      if (e.target === popoverCtx.trigger) return;
-
-      popoverCtx.handleClose();
-    },
-    'mousedown',
-  );
+  useOnClickOutside(innerRef, popoverCtx.handleClose, 'mousedown');
 
   const onEscape = useEffectEvent((e: KeyboardEvent) => {
     if (e.key !== 'Escape') return;

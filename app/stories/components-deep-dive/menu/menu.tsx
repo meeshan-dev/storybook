@@ -122,7 +122,7 @@ export function MenuContent({
     whileElementsMounted: autoUpdate,
     strategy: 'absolute',
     middleware: [
-      offsetMiddleware({ mainAxis: 5 }),
+      offsetMiddleware({ mainAxis: 3 + 7 /* 7 is arrow height */ }),
       flipMiddleware(),
       shiftMiddleware({ limiter: limitShift() }),
       // eslint-disable-next-line react-hooks/refs
@@ -148,7 +148,7 @@ export function MenuContent({
   }>({ chars: '' }).current;
 
   useOnClickOutside(innerRef, (e) => {
-    // NOTE: prevent default is important to focus trigger on click outside
+    // NOTE: prevent default is important to return focus to trigger on click outside
     e.preventDefault();
 
     if (e.target !== menuCtx.trigger) menuCtx.handleClose();
@@ -159,7 +159,7 @@ export function MenuContent({
   React.useEffect(() => {
     if (!floatingReturn.isPositioned) return;
 
-    innerRef.current?.focus();
+    innerRef.current?.focus({ preventScroll: true });
   }, [floatingReturn.isPositioned]);
 
   const onEscape = useEffectEvent((e: KeyboardEvent) => {
@@ -183,6 +183,8 @@ export function MenuContent({
 
     const ArrowDown = key === 'ArrowDown';
     const ArrowUp = key === 'ArrowUp';
+
+    if (!ArrowDown && !ArrowUp) return;
 
     const activeItems = getActiveItems(menuCtx.contentId);
 
@@ -231,7 +233,7 @@ export function MenuContent({
   const handleCharSearch = (e: React.KeyboardEvent) => {
     const char = e.key;
 
-    if (char.length !== 1 || e.repeat) return;
+    if (!char.trim() || char.length !== 1 || e.repeat) return;
 
     const activeItems = getActiveItems(menuCtx.contentId);
 
@@ -285,15 +287,13 @@ export function MenuContent({
       tabIndex={-1}
       style={floatingReturn.floatingStyles}
       className={cn(
-        'bg-background ring-foreground/10 relative z-50 w-full max-w-(--reference-width) min-w-40 rounded-md p-1 ring-1 outline-none data-[hide=true]:hidden',
+        'bg-background ring-foreground/10 relative z-50 w-(--reference-width) rounded-md p-1 ring-1 outline-none data-[hide=true]:hidden',
         className,
       )}
       ref={(node) => {
         innerRef.current = node;
         floatingReturn.refs.setFloating(node);
         contentRef.current = node;
-
-        node?.focus();
 
         if (!node) return;
 
@@ -337,12 +337,11 @@ export function MenuTrigger({
     <>
       {children?.({
         ref: menuCtx.setTrigger,
-        role: 'button',
+        type: 'button',
         'aria-haspopup': 'menu',
         'aria-expanded': menuCtx.open,
         'aria-controls': menuCtx.open ? menuCtx.contentId : undefined,
         onClick: menuCtx.handleOpen,
-        ...{ 'data-open': menuCtx.open },
       })}
     </>
   );
@@ -388,12 +387,10 @@ function ItemBase({
         e.currentTarget.focus();
       }}
       onKeyDown={(e) => {
-        const key = e.key;
-
-        if (![' ', 'Tab'].includes(key)) return;
-
-        e.preventDefault();
-        onClick?.(e as unknown as React.MouseEvent<HTMLLIElement>);
+        if (e.key === ' ') {
+          e.preventDefault();
+          onClick?.(e as unknown as React.MouseEvent<HTMLLIElement>);
+        }
       }}
       className={cn(
         'focus:bg-secondary flex gap-2 rounded-md px-3 py-2 text-sm outline-none aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[variant=destructive]:text-red-600 dark:data-[variant=destructive]:text-red-400 *:[svg]:size-4',

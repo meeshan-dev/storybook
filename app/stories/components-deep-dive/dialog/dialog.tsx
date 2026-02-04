@@ -45,8 +45,6 @@ export function DialogRoot({
     onChange: onOpenChange,
   });
 
-  useScrollLock({ isLocked: open });
-
   const handleOpen = () => {
     setOpen(true);
   };
@@ -137,26 +135,14 @@ export function DialogContent({
   className?: string;
   wrapperClassName?: string;
 }) {
-  const { contentRef, contentId, titleId, descriptionId, handleClose } =
+  const { contentRef, contentId, open, titleId, descriptionId, handleClose } =
     useDialogCtx();
 
   const focusTrapProps = useFocusTrap();
 
-  useOnClickOutside(
-    contentRef,
-    () => {
-      if (!contentRef.current) throw new Error('Content ref is not assigned');
+  useScrollLock({ isLocked: open });
 
-      const topLayer = getLayers().at(-1);
-
-      const isPaused = topLayer !== contentRef.current;
-
-      if (isPaused) return;
-
-      handleClose();
-    },
-    'mousedown',
-  );
+  useOnClickOutside(contentRef, handleClose, 'mousedown');
 
   const onEscapeKeyDown = useEffectEvent((e: KeyboardEvent) => {
     if (e.key === 'Escape') {

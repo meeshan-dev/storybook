@@ -27,37 +27,6 @@ export const Default: StoryObj<typeof meta> = {
         and complex overlay management.
       </p>
 
-      <h2>Implementation Highlights</h2>
-
-      <ul>
-        <li>
-          <strong>DOM-driven roving tabindex</strong> — Navigation updates{' '}
-          <code>tabindex</code> directly on DOM elements, avoiding React
-          re-renders during keyboard navigation
-        </li>
-        <li>
-          <strong>Floating UI positioning</strong> — Auto-placement with
-          collision detection and configurable offsets
-        </li>
-        <li>
-          <strong>Typeahead support</strong> — Type characters to jump to
-          matching menu items
-        </li>
-        <li>
-          <strong>Checkbox and Radio patterns</strong> — Built-in support for
-          stateful menu items with proper ARIA attributes
-        </li>
-        <li>
-          <strong>Group composition</strong> — Labeled sections with
-          <code>MenuGroup</code>, <code>MenuGroupLabel</code>, and{' '}
-          <code>MenuGroupContent</code>
-        </li>
-        <li>
-          <strong>Layer-aware escape handling</strong> — Works correctly when
-          nested within dialogs
-        </li>
-      </ul>
-
       <div className='story-demo not-typography'>
         <h2>Interactive Examples</h2>
         <p className='text-muted-foreground mb-6'>
@@ -68,6 +37,42 @@ export const Default: StoryObj<typeof meta> = {
           <MenuDemo />
         </div>
       </div>
+
+      <h2>Implementation Highlights</h2>
+
+      <ul>
+        <li>
+          <strong>DOM-driven roving tabindex</strong> — Navigation updates{' '}
+          <code>tabindex</code> directly on DOM elements, avoiding React
+          re-renders during keyboard navigation
+        </li>
+        <li>
+          <strong>Typeahead support</strong> — Type characters to jump to
+          matching menu items
+        </li>
+        <li>
+          <strong>Checkbox and Radio patterns</strong> — Built-in support for
+          stateful menu items with proper ARIA attributes
+        </li>
+        <li>
+          <strong>Layer-aware escape handling</strong> — Works correctly when
+          nested within dialogs
+        </li>
+        <li>
+          <code>role="menu"</code> with <code>role="menuitem"</code> children
+        </li>
+        <li>
+          <code>aria-checked</code> for checkbox and radio items
+        </li>
+        <li>
+          <code>aria-disabled</code> for disabled items (skipped by keyboard)
+        </li>
+        <li>
+          <code>aria-labelledby</code> for labeled groups
+        </li>
+        <li>Focus returns to trigger button on close</li>
+        <li>Focus trap within menu while open</li>
+      </ul>
 
       <h2>Keyboard Navigation</h2>
 
@@ -106,7 +111,7 @@ export const Default: StoryObj<typeof meta> = {
             </tr>
             <tr className='border-b'>
               <td className='py-2 pr-4'>
-                <code>Enter</code> / <code>Space</code>
+                <code>Space</code>
               </td>
               <td className='py-2'>Activate focused item</td>
             </tr>
@@ -143,28 +148,6 @@ export const Default: StoryObj<typeof meta> = {
           <strong>MenuRadioItem</strong> — Exclusive selection within a{' '}
           <code>MenuRadioGroup</code>
         </li>
-        <li>
-          <strong>MenuSeparator</strong> — Visual divider between item groups
-        </li>
-      </ul>
-
-      <h2>Accessibility Features</h2>
-
-      <ul>
-        <li>
-          <code>role="menu"</code> with <code>role="menuitem"</code> children
-        </li>
-        <li>
-          <code>aria-checked</code> for checkbox and radio items
-        </li>
-        <li>
-          <code>aria-disabled</code> for disabled items (skipped by keyboard)
-        </li>
-        <li>
-          <code>aria-labelledby</code> for labeled groups
-        </li>
-        <li>Focus returns to trigger button on close</li>
-        <li>Focus trap within menu while open</li>
       </ul>
 
       <StorySourceCode>{sourceCode}</StorySourceCode>

@@ -74,7 +74,7 @@ export function Combobox({
     open,
     whileElementsMounted: autoUpdate,
     middleware: [
-      offsetMiddleware({ mainAxis: 8 }),
+      offsetMiddleware({ mainAxis: 3 + 7 /* 7 is arrow height */ }),
       flipMiddleware(),
       sizeMiddleware({
         apply({ rects, elements }) {
@@ -749,7 +749,7 @@ export function Combobox({
             ref={floatingReturn.refs.setFloating}
             style={floatingReturn.floatingStyles}
             data-hide={!!floatingReturn.middlewareData.hide?.referenceHidden}
-            className='bg-background ring-foreground/10 z-50 w-(--reference-width) overflow-hidden rounded-md shadow-md ring-1 outline-none'
+            className='bg-background ring-foreground/10 z-50 w-(--reference-width) overflow-hidden rounded-md shadow-md ring-1 outline-none data-[hide=true]:hidden'
           >
             {filteredOptions.length === 0 ? null : (
               <ul

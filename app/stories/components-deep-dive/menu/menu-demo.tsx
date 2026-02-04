@@ -28,6 +28,8 @@ import {
   DialogClose,
   DialogContent,
   DialogDescription,
+  DialogFooter,
+  DialogHeader,
   DialogOverlay,
   DialogPortal,
   DialogRoot,
@@ -472,13 +474,15 @@ function MenuInDialogDemo() {
         <DialogPortal>
           <DialogOverlay />
           <DialogContent>
-            <DialogTitle>Document Settings</DialogTitle>
-            <DialogDescription>
-              Configure document options. The menu will layer correctly above
-              this dialog.
-            </DialogDescription>
+            <DialogHeader>
+              <DialogTitle>Document Settings</DialogTitle>
+              <DialogDescription>
+                Configure document options. The menu will layer correctly above
+                this dialog.
+              </DialogDescription>
+            </DialogHeader>
 
-            <div className='mt-4 flex flex-col gap-3 sm:flex-row'>
+            <DialogFooter>
               <DialogClose>
                 {(props) => (
                   <Button {...props} variant='outline'>
@@ -498,7 +502,7 @@ function MenuInDialogDemo() {
                 </MenuTrigger>
 
                 <MenuPortal>
-                  <MenuContent>
+                  <MenuContent className='w-50'>
                     <MenuItem>
                       <IconDownload size={16} />
                       Export as PDF
@@ -515,7 +519,7 @@ function MenuInDialogDemo() {
                   </MenuContent>
                 </MenuPortal>
               </MenuRoot>
-            </div>
+            </DialogFooter>
           </DialogContent>
         </DialogPortal>
       </DialogRoot>

@@ -101,7 +101,7 @@ function UserProfilePopover() {
               {...props}
               className='bg-card ring-foreground/10 z-50 w-80 rounded-xl p-0 text-sm shadow-lg ring-1 outline-none data-[hide=true]:hidden'
             >
-              <FloatingArrow {...arrowProps} className='fill-card' />
+              <FloatingArrow {...arrowProps} className='fill-foreground' />
 
               {/* Cover */}
               <div className='h-20 rounded-t-xl bg-gradient-to-r from-violet-500 to-purple-600' />
@@ -196,7 +196,7 @@ function NotificationSettingsPopover() {
               {...props}
               className='bg-card ring-foreground/10 z-50 w-72 rounded-xl p-4 text-sm shadow-lg ring-1 outline-none data-[hide=true]:hidden'
             >
-              <FloatingArrow {...arrowProps} className='fill-card' />
+              <FloatingArrow {...arrowProps} className='fill-foreground' />
 
               <div className='mb-4 flex items-center justify-between'>
                 <PopoverTitle className='font-semibold'>
@@ -367,7 +367,7 @@ function FilterPopover() {
               {...props}
               className='bg-card ring-foreground/10 z-50 w-64 rounded-xl p-4 text-sm shadow-lg ring-1 outline-none data-[hide=true]:hidden'
             >
-              <FloatingArrow {...arrowProps} className='fill-card' />
+              <FloatingArrow {...arrowProps} className='fill-foreground' />
 
               <PopoverTitle className='mb-3 font-semibold'>
                 Filter Results
@@ -502,7 +502,7 @@ function DatePickerPopover() {
               {...props}
               className='bg-card ring-foreground/10 z-50 w-56 rounded-xl p-3 text-sm shadow-lg ring-1 outline-none data-[hide=true]:hidden'
             >
-              <FloatingArrow {...arrowProps} className='fill-card' />
+              <FloatingArrow {...arrowProps} className='fill-foreground' />
 
               <PopoverTitle className='mb-2 px-1 font-semibold'>
                 Quick Select

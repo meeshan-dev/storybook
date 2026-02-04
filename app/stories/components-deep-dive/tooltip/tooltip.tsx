@@ -244,7 +244,7 @@ export function TooltipContent({
     whileElementsMounted: autoUpdate,
     strategy,
     middleware: [
-      offsetMiddleware({ mainAxis: offset }),
+      offsetMiddleware({ mainAxis: 3 + 7 /* 7 is arrow height */ }),
       flipMiddleware(),
       shiftMiddleware({ limiter: limitShift() }),
       // eslint-disable-next-line react-hooks/refs
