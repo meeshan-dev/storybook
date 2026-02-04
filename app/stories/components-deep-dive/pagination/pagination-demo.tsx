@@ -6,12 +6,10 @@ import {
   IconChevronsRight,
   IconDots,
   IconMail,
-  IconPhoto,
   IconUser,
 } from '@tabler/icons-react';
 import { useState } from 'react';
 import { Button } from '~/components/ui/button';
-import { cn } from '~/lib/utils';
 import {
   PaginationControl,
   PaginationPages,
@@ -32,17 +30,6 @@ export function PaginationDemo() {
         <DataTablePagination />
       </section>
 
-      {/* Gallery Pagination */}
-      <section className='space-y-4'>
-        <div className='space-y-1'>
-          <h3 className='text-lg font-semibold'>Image Gallery</h3>
-          <p className='text-muted-foreground text-sm'>
-            Minimal pagination for browsing visual content
-          </p>
-        </div>
-        <GalleryPagination />
-      </section>
-
       {/* Compact Pagination */}
       <section className='space-y-4'>
         <div className='space-y-1'>
@@ -52,17 +39,6 @@ export function PaginationDemo() {
           </p>
         </div>
         <CompactPagination />
-      </section>
-
-      {/* Simple Pagination */}
-      <section className='space-y-4'>
-        <div className='space-y-1'>
-          <h3 className='text-lg font-semibold'>Simple Navigation</h3>
-          <p className='text-muted-foreground text-sm'>
-            Previous/Next only for linear navigation
-          </p>
-        </div>
-        <SimplePagination />
       </section>
     </main>
   );
@@ -144,9 +120,6 @@ function DataTablePagination() {
       {/* Pagination Footer */}
       <div className='flex flex-col items-center justify-between gap-4 border-t px-4 py-3 sm:flex-row'>
         <div className='flex items-center gap-4'>
-          <span className='text-muted-foreground text-sm'>
-            Showing 1-5 of {totalItems} results
-          </span>
           <select
             value={pageSize}
             onChange={(e) => setPageSize(Number(e.target.value))}
@@ -159,26 +132,26 @@ function DataTablePagination() {
           </select>
         </div>
 
-        <PaginationRoot totalPages={totalPages} siblingCount={1}>
-          <PaginationControl type='first'>
+        <PaginationRoot
+          totalPages={totalPages}
+          siblingCount={1}
+          boundaryCount={1}
+        >
+          <div className='order-1 basis-full sm:hidden' />
+
+          <PaginationControl type='first' className='order-2 sm:order-0'>
             {(props) => (
-              <button
-                {...props}
-                className='hover:bg-muted flex size-8 items-center justify-center rounded-lg border transition-colors disabled:pointer-events-none disabled:opacity-50'
-              >
+              <Button {...props} variant='outline' size='icon-xs'>
                 <IconChevronsLeft className='size-4' />
-              </button>
+              </Button>
             )}
           </PaginationControl>
 
-          <PaginationControl type='previous'>
+          <PaginationControl type='previous' className='order-3 sm:order-0'>
             {(props) => (
-              <button
-                {...props}
-                className='hover:bg-muted flex size-8 items-center justify-center rounded-lg border transition-colors disabled:pointer-events-none disabled:opacity-50'
-              >
+              <Button {...props} variant='outline' size='icon-xs'>
                 <IconChevronLeft className='size-4' />
-              </button>
+              </Button>
             )}
           </PaginationControl>
 
@@ -192,132 +165,32 @@ function DataTablePagination() {
                 );
               }
               return (
-                <button
+                <Button
                   onClick={onClick}
                   disabled={disabled}
-                  className={cn(
-                    'flex size-8 items-center justify-center rounded-lg text-sm font-medium transition-colors',
-                    selected
-                      ? 'bg-foreground text-background'
-                      : 'hover:bg-muted border',
-                  )}
+                  variant={selected ? 'default' : 'outline'}
+                  size='icon-xs'
+                  className='w-auto min-w-6'
                 >
                   {page}
-                </button>
+                </Button>
               );
             }}
           </PaginationPages>
 
-          <PaginationControl type='next'>
+          <PaginationControl type='next' className='order-4 sm:order-0'>
             {(props) => (
-              <button
-                {...props}
-                className='hover:bg-muted flex size-8 items-center justify-center rounded-lg border transition-colors disabled:pointer-events-none disabled:opacity-50'
-              >
+              <Button {...props} variant='outline' size='icon-xs'>
                 <IconChevronRight className='size-4' />
-              </button>
+              </Button>
             )}
           </PaginationControl>
 
-          <PaginationControl type='last'>
+          <PaginationControl type='last' className='order-5 sm:order-0'>
             {(props) => (
-              <button
-                {...props}
-                className='hover:bg-muted flex size-8 items-center justify-center rounded-lg border transition-colors disabled:pointer-events-none disabled:opacity-50'
-              >
+              <Button {...props} variant='outline' size='icon-xs'>
                 <IconChevronsRight className='size-4' />
-              </button>
-            )}
-          </PaginationControl>
-        </PaginationRoot>
-      </div>
-    </div>
-  );
-}
-
-/* ---------------------------------- */
-/* 2. Gallery Pagination               */
-/* ---------------------------------- */
-
-const galleryImages = Array.from({ length: 6 }, (_, i) => ({
-  id: i + 1,
-  title: `Photo ${i + 1}`,
-  color: [
-    'bg-rose-100',
-    'bg-blue-100',
-    'bg-emerald-100',
-    'bg-amber-100',
-    'bg-violet-100',
-    'bg-cyan-100',
-  ][i],
-}));
-
-function GalleryPagination() {
-  return (
-    <div className='max-w-2xl space-y-6'>
-      {/* Gallery Grid */}
-      <div className='grid grid-cols-3 gap-4'>
-        {galleryImages.map((img) => (
-          <div
-            key={img.id}
-            className={cn(
-              'flex aspect-square items-center justify-center rounded-xl',
-              img.color,
-            )}
-          >
-            <IconPhoto className='text-muted-foreground/50 size-8' />
-          </div>
-        ))}
-      </div>
-
-      {/* Centered Pagination */}
-      <div className='flex justify-center'>
-        <PaginationRoot totalPages={12} boundaryCount={1} siblingCount={2}>
-          <PaginationControl type='previous'>
-            {(props) => (
-              <button
-                {...props}
-                className='hover:bg-muted mr-2 flex items-center gap-1 rounded-lg px-3 py-2 text-sm font-medium transition-colors disabled:pointer-events-none disabled:opacity-50'
-              >
-                <IconChevronLeft className='size-4' />
-                Previous
-              </button>
-            )}
-          </PaginationControl>
-
-          <PaginationPages>
-            {({ type, page, onClick, disabled, 'data-selected': selected }) => {
-              if (type === 'ellipsis') {
-                return (
-                  <span className='text-muted-foreground px-2'>
-                    <IconDots className='size-4' />
-                  </span>
-                );
-              }
-              return (
-                <button
-                  onClick={onClick}
-                  disabled={disabled}
-                  className={cn(
-                    'flex size-10 items-center justify-center rounded-full text-sm font-medium transition-colors',
-                    selected ? 'bg-blue-600 text-white' : 'hover:bg-muted',
-                  )}
-                >
-                  {page}
-                </button>
-              );
-            }}
-          </PaginationPages>
-
-          <PaginationControl type='next'>
-            {(props) => (
-              <button
-                {...props}
-                className='hover:bg-muted ml-2 flex items-center gap-1 rounded-lg px-3 py-2 text-sm font-medium transition-colors disabled:pointer-events-none disabled:opacity-50'
-              >
-                Next
-                <IconChevronRight className='size-4' />
-              </button>
+              </Button>
             )}
           </PaginationControl>
         </PaginationRoot>
@@ -332,82 +205,49 @@ function GalleryPagination() {
 
 function CompactPagination() {
   return (
-    <div className='bg-card inline-flex items-center rounded-lg border'>
-      <PaginationRoot totalPages={50} siblingCount={0} boundaryCount={0}>
-        <PaginationControl type='previous'>
-          {(props) => (
-            <button
-              {...props}
-              className='hover:bg-muted flex size-9 items-center justify-center border-r transition-colors disabled:pointer-events-none disabled:opacity-50'
-            >
-              <IconChevronLeft className='size-4' />
-            </button>
-          )}
-        </PaginationControl>
+    <PaginationRoot
+      totalPages={50}
+      siblingCount={0}
+      boundaryCount={0}
+      className='flex-nowrap justify-start gap-0'
+    >
+      <PaginationControl type='previous'>
+        {(props) => (
+          <Button
+            {...props}
+            variant='outline'
+            size='icon'
+            className='rounded-r-none'
+          >
+            <IconChevronLeft />
+          </Button>
+        )}
+      </PaginationControl>
 
-        <PaginationPages>
-          {({ type, page, 'data-selected': selected }) => {
-            if (type === 'ellipsis' || !selected) return null;
-            return (
-              <span className='flex min-w-[80px] items-center justify-center px-3 py-2 text-sm font-medium'>
-                Page {page} of 50
-              </span>
-            );
-          }}
-        </PaginationPages>
+      <PaginationPages className='w-37.5 content-center self-stretch border-y px-3 data-[selected=false]:hidden'>
+        {({ type, page, 'data-selected': selected }) => {
+          if (type === 'ellipsis' || !selected) return null;
 
-        <PaginationControl type='next'>
-          {(props) => (
-            <button
-              {...props}
-              className='hover:bg-muted flex size-9 items-center justify-center border-l transition-colors disabled:pointer-events-none disabled:opacity-50'
-            >
-              <IconChevronRight className='size-4' />
-            </button>
-          )}
-        </PaginationControl>
-      </PaginationRoot>
-    </div>
-  );
-}
+          return (
+            <p className='w-full text-center text-sm font-medium'>
+              Page {page} of 50
+            </p>
+          );
+        }}
+      </PaginationPages>
 
-/* ---------------------------------- */
-/* 4. Simple Pagination                */
-/* ---------------------------------- */
-
-function SimplePagination() {
-  return (
-    <div className='flex items-center gap-4'>
-      <PaginationRoot totalPages={10}>
-        <PaginationControl type='previous'>
-          {(props) => (
-            <Button {...props} variant='outline'>
-              <IconChevronLeft className='mr-2 size-4' />
-              Previous
-            </Button>
-          )}
-        </PaginationControl>
-
-        <PaginationPages>
-          {({ 'data-selected': selected, page }) => {
-            if (!selected) return null;
-            return (
-              <span className='text-muted-foreground text-sm'>
-                Page {page} of 10
-              </span>
-            );
-          }}
-        </PaginationPages>
-
-        <PaginationControl type='next'>
-          {(props) => (
-            <Button {...props} variant='outline'>
-              Next
-              <IconChevronRight className='ml-2 size-4' />
-            </Button>
-          )}
-        </PaginationControl>
-      </PaginationRoot>
-    </div>
+      <PaginationControl type='next'>
+        {(props) => (
+          <Button
+            {...props}
+            variant='outline'
+            size='icon'
+            className='rounded-l-none'
+          >
+            <IconChevronRight />
+          </Button>
+        )}
+      </PaginationControl>
+    </PaginationRoot>
   );
 }

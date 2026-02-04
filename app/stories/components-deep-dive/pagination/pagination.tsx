@@ -118,15 +118,17 @@ export function PaginationRoot({
 /* ———————————————————— Pages ———————————————————— */
 
 export function PaginationPages(props: {
+  className?: string;
   children: (args: {
     type: 'page' | 'ellipsis';
     page?: number;
     onClick?: () => void;
     disabled?: boolean;
     'data-selected'?: boolean;
+    'aria-current'?: 'page';
   }) => React.ReactNode;
 }) {
-  const { children } = props;
+  const { children, className } = props;
 
   const { currentPage, disabled, setCurrentPage, pages } = usePaginationCtx();
 
@@ -135,12 +137,13 @@ export function PaginationPages(props: {
       {pages.map((ele, i) => (
         // NOTE: Using index as key to make smooth page change in boundary otherwise page change will cause ui jump issues)
         // eslint-disable-next-line @eslint-react/no-array-index-key
-        <li key={i}>
+        <li key={i} className={className} data-selected={currentPage === ele}>
           {children({
             type: ele === 'ellipsis' ? 'ellipsis' : 'page',
             page: typeof ele === 'number' ? ele : undefined,
             disabled,
             'data-selected': currentPage === ele,
+            'aria-current': currentPage === ele ? 'page' : undefined,
             onClick: () => {
               if (typeof ele === 'number') {
                 setCurrentPage(ele);
@@ -158,16 +161,18 @@ export function PaginationPages(props: {
 export function PaginationControl({
   type,
   children,
+  className,
 }: {
   type: 'first' | 'last' | 'next' | 'previous';
   children: (props: React.ComponentProps<'button'>) => React.ReactNode;
+  className?: string;
 }) {
   const { setCurrentPage, disabled, currentPage, totalPages } =
     usePaginationCtx();
 
   if (type === 'first') {
     return (
-      <li>
+      <li className={cn('flex items-center', className)}>
         {children?.({
           disabled: !!disabled || currentPage === 1,
           onClick: () => {
@@ -180,7 +185,7 @@ export function PaginationControl({
 
   if (type === 'previous') {
     return (
-      <li>
+      <li className={cn('flex items-center', className)}>
         {children?.({
           disabled: !!disabled || currentPage === 1,
           onClick: () => {
@@ -193,7 +198,7 @@ export function PaginationControl({
 
   if (type === 'next') {
     return (
-      <li>
+      <li className={cn('flex items-center', className)}>
         {children?.({
           disabled: !!disabled || currentPage === totalPages,
           onClick: () => {
@@ -206,7 +211,7 @@ export function PaginationControl({
 
   if (type === 'last') {
     return (
-      <li>
+      <li className={cn('flex items-center', className)}>
         {children?.({
           disabled: !!disabled || currentPage === totalPages,
           onClick: () => setCurrentPage(totalPages),
