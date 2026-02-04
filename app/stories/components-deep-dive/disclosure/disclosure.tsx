@@ -8,6 +8,7 @@ import { useControlled } from '~/stories/hooks/use-controlled';
 
 type DisclosureRootProps<Type, IsSingleCollapsible> = {
   children?: React.ReactNode;
+  className?: string;
 } & (Type extends 'multiple'
   ? {
       type?: Type;
@@ -54,14 +55,18 @@ export function DisclosureRoot<
     isSingleCollapsible = true,
     type = 'multiple',
     children,
+    className,
   } = props;
 
   const rootId = useId();
 
   const [value, setValue] = useControlled({
     controlled: valueProp,
-    defaultValue: type === 'multiple' ? (defaultValue ?? []) : (defaultValue ?? null),
-    onChange: onValueChange as ((value: string | string[] | null) => void) | undefined,
+    defaultValue:
+      type === 'multiple' ? (defaultValue ?? []) : (defaultValue ?? null),
+    onChange: onValueChange as
+      | ((value: string | string[] | null) => void)
+      | undefined,
   });
 
   const onOpen = (openedItem: string) => {
@@ -110,7 +115,7 @@ export function DisclosureRoot<
         onOpen,
       }}
     >
-      {children}
+      <div className={className}>{children}</div>
     </DisclosureCtx>
   );
 }
@@ -121,6 +126,7 @@ type DisclosureItemProps = {
   children?: React.ReactNode;
   value: string;
   disabled?: boolean;
+  className?: string;
 };
 
 interface DisclosureItemCtxProps {
@@ -135,7 +141,7 @@ const [DisclosureItemCtx, useDisclosureItemCtx] =
   createContextScope<DisclosureItemCtxProps>();
 
 export const DisclosureItem = (props: DisclosureItemProps) => {
-  const { value, disabled, children } = props;
+  const { value, disabled, children, className } = props;
   const disclosureCtx = useDisclosureCtx();
 
   const triggerId = React.useId();
@@ -151,7 +157,7 @@ export const DisclosureItem = (props: DisclosureItemProps) => {
     <DisclosureItemCtx
       value={{ value, triggerId, contentId, isOpen, disabled }}
     >
-      {children}
+      <div className={className}>{children}</div>
     </DisclosureItemCtx>
   );
 };

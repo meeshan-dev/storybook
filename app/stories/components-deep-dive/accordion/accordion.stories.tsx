@@ -42,26 +42,35 @@ export const Default: StoryObj<typeof meta> = {
 
       <ul>
         <li>
-          <strong>Context-based architecture</strong> using React Context for
-          clean parent-child communication without prop drilling
+          Proper <code>aria-expanded</code> state on triggers
         </li>
         <li>
-          <strong>Compound component pattern</strong> allowing flexible
-          composition with <code>AccordionRoot</code>,{' '}
-          <code>AccordionItem</code>, <code>AccordionTrigger</code>, and{' '}
-          <code>AccordionContent</code>
+          <code>aria-controls</code> linking triggers to their content regions
+        </li>
+        <li>
+          Content regions use <code>role="region"</code> with{' '}
+          <code>aria-labelledby</code>
+        </li>
+        <li>Configurable heading levels for semantic document structure</li>
+        <li>
+          <strong>Multiple</strong>: Any number of panels can be open
+          simultaneously
+        </li>
+        <li>
+          <strong>Single Collapsible</strong>: One panel at a time, can collapse
+          all
+        </li>
+        <li>
+          <strong>Single Non-Collapsible</strong>: Exactly one panel always open
+        </li>
+        <li>Disabled items are properly announced and skip keyboard focus</li>
+        <li>
+          <strong>motion/react integration</strong> for smooth height animations
+          with <code>AnimatePresence</code>
         </li>
         <li>
           <strong>TypeScript discriminated unions</strong> for type-safe props
           based on expansion mode
-        </li>
-        <li>
-          <strong>Render props pattern</strong> for complete control over
-          trigger styling and behavior
-        </li>
-        <li>
-          <strong>motion/react integration</strong> for smooth height animations
-          with <code>AnimatePresence</code>
         </li>
       </ul>
 
@@ -109,39 +118,6 @@ export const Default: StoryObj<typeof meta> = {
           </tbody>
         </table>
       </div>
-
-      <h2>Accessibility Features</h2>
-
-      <ul>
-        <li>
-          Proper <code>aria-expanded</code> state on triggers
-        </li>
-        <li>
-          <code>aria-controls</code> linking triggers to their content regions
-        </li>
-        <li>
-          Content regions use <code>role="region"</code> with{' '}
-          <code>aria-labelledby</code>
-        </li>
-        <li>Configurable heading levels for semantic document structure</li>
-        <li>Disabled items are properly announced and skip keyboard focus</li>
-      </ul>
-
-      <h2>Expansion Modes</h2>
-
-      <ul>
-        <li>
-          <strong>Multiple</strong>: Any number of panels can be open
-          simultaneously
-        </li>
-        <li>
-          <strong>Single Collapsible</strong>: One panel at a time, can collapse
-          all
-        </li>
-        <li>
-          <strong>Single Non-Collapsible</strong>: Exactly one panel always open
-        </li>
-      </ul>
 
       <StorySourceCode>{sourceCode}</StorySourceCode>
     </div>
