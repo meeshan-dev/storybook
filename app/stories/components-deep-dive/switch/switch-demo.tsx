@@ -12,7 +12,7 @@ import {
 } from '@tabler/icons-react';
 import { Badge } from '~/components/ui/badge';
 import { cn } from '~/lib/utils';
-import { SwitchIcon, SwitchRoot } from './switch';
+import { SwitchIcon, SwitchRoot, Thumb } from './switch';
 
 export function SwitchDemo() {
   return (
@@ -75,14 +75,14 @@ function NotificationPreferences() {
               <div className='bg-primary/10 text-primary flex size-10 shrink-0 items-center justify-center rounded-lg'>
                 <Icon size={20} />
               </div>
+
               <div className='flex-1'>
                 <p className='font-medium'>{title}</p>
                 <p className='text-muted-foreground text-sm'>{description}</p>
               </div>
+
               <SwitchRoot defaultChecked={defaultChecked}>
-                <Track>
-                  <Thumb />
-                </Track>
+                <Thumb />
               </SwitchRoot>
             </label>
           ),
@@ -166,10 +166,9 @@ function PrivacySettings() {
                 <p className='font-medium'>{title}</p>
                 <p className='text-muted-foreground text-sm'>{description}</p>
               </div>
+
               <SwitchRoot defaultChecked={defaultChecked} disabled={disabled}>
-                <Track>
-                  <Thumb />
-                </Track>
+                <Thumb />
               </SwitchRoot>
             </label>
           ),
@@ -208,17 +207,18 @@ function FeatureToggles() {
               Reduce eye strain in low light
             </p>
           </div>
-          <SwitchRoot defaultChecked>
-            <TrackBlue>
-              <Thumb>
-                <SwitchIcon type='off'>
-                  <span className='text-xs'>☀️</span>
-                </SwitchIcon>
-                <SwitchIcon type='on'>
-                  <span className='text-xs'>🌙</span>
-                </SwitchIcon>
-              </Thumb>
-            </TrackBlue>
+          <SwitchRoot
+            defaultChecked
+            className='has-[input:checked]:bg-blue-600'
+          >
+            <Thumb>
+              <SwitchIcon type='off'>
+                <span className='text-xs'>☀️</span>
+              </SwitchIcon>
+              <SwitchIcon type='on'>
+                <span className='text-xs'>🌙</span>
+              </SwitchIcon>
+            </Thumb>
           </SwitchRoot>
         </label>
 
@@ -233,10 +233,8 @@ function FeatureToggles() {
               Keep data synced across devices
             </p>
           </div>
-          <SwitchRoot>
-            <TrackPurple>
-              <Thumb />
-            </TrackPurple>
+          <SwitchRoot className='has-[input:checked]:bg-purple-600'>
+            <Thumb />
           </SwitchRoot>
         </label>
 
@@ -251,70 +249,24 @@ function FeatureToggles() {
               Add positive vibes to your experience
             </p>
           </div>
-          <SwitchRoot defaultChecked>
-            <TrackAmber>
-              <Thumb>
-                <SwitchIcon type='off'>
-                  <IconMoodNeutral
-                    size={14}
-                    className='text-muted-foreground'
-                  />
-                </SwitchIcon>
-                <SwitchIcon type='on'>
-                  <IconMoodHappyFilled
-                    size={14}
-                    className='text-amber-500 dark:text-amber-400'
-                  />
-                </SwitchIcon>
-              </Thumb>
-            </TrackAmber>
+          <SwitchRoot
+            defaultChecked
+            className='has-[input:checked]:bg-amber-600'
+          >
+            <Thumb>
+              <SwitchIcon type='off'>
+                <IconMoodNeutral size={14} className='text-muted-foreground' />
+              </SwitchIcon>
+              <SwitchIcon type='on'>
+                <IconMoodHappyFilled
+                  size={14}
+                  className='text-amber-500 dark:text-amber-400'
+                />
+              </SwitchIcon>
+            </Thumb>
           </SwitchRoot>
         </label>
       </div>
     </section>
-  );
-}
-
-/* ———————————————————————————————————————————————————— */
-/*  Visual Helpers                                       */
-/* ———————————————————————————————————————————————————— */
-
-function Track({ children }: { children: React.ReactNode }) {
-  return (
-    <div className='bg-foreground/20 relative flex h-6 w-11 items-center rounded-full px-0.5 transition-colors group-has-[input:checked]:bg-emerald-600'>
-      {children}
-    </div>
-  );
-}
-
-function TrackBlue({ children }: { children: React.ReactNode }) {
-  return (
-    <div className='bg-foreground/20 relative flex h-6 w-11 items-center rounded-full px-0.5 transition-colors group-has-[input:checked]:bg-blue-600'>
-      {children}
-    </div>
-  );
-}
-
-function TrackPurple({ children }: { children: React.ReactNode }) {
-  return (
-    <div className='bg-foreground/20 relative flex h-6 w-11 items-center rounded-full px-0.5 transition-colors group-has-[input:checked]:bg-purple-600'>
-      {children}
-    </div>
-  );
-}
-
-function TrackAmber({ children }: { children: React.ReactNode }) {
-  return (
-    <div className='bg-foreground/20 relative flex h-6 w-11 items-center rounded-full px-0.5 transition-colors group-has-[input:checked]:bg-amber-500'>
-      {children}
-    </div>
-  );
-}
-
-function Thumb({ children }: { children?: React.ReactNode }) {
-  return (
-    <div className='bg-background flex size-5 items-center justify-center rounded-full shadow transition-transform group-has-[input:checked]:translate-x-5'>
-      {children}
-    </div>
   );
 }
