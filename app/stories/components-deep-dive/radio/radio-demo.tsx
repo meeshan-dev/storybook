@@ -1,15 +1,4 @@
-import {
-  IconBuilding,
-  IconCheck,
-  IconCreditCard,
-  IconMoon,
-  IconPackage,
-  IconRocket,
-  IconSun,
-  IconSunMoon,
-  IconTruck,
-  IconTruckDelivery,
-} from '@tabler/icons-react';
+import { IconCheck, IconMoon, IconSun, IconSunMoon } from '@tabler/icons-react';
 import { cn } from '~/lib/utils';
 import { Radio, RadioGroupRoot, RadioIcon } from './radio';
 
@@ -165,28 +154,24 @@ const shippingOptions = [
     name: 'Standard Shipping',
     description: '5-7 business days',
     price: 'Free',
-    icon: IconPackage,
   },
   {
     id: 'express',
     name: 'Express Shipping',
     description: '2-3 business days',
     price: '$9.99',
-    icon: IconTruck,
   },
   {
     id: 'overnight',
     name: 'Overnight Delivery',
     description: 'Next business day',
     price: '$24.99',
-    icon: IconTruckDelivery,
   },
   {
     id: 'pickup',
     name: 'Store Pickup',
     description: 'Ready in 2 hours',
     price: 'Free',
-    icon: IconBuilding,
     disabled: true,
   },
 ];
@@ -218,15 +203,11 @@ function ShippingOptions() {
               </Radio>
             </ShippingIndicator>
 
-            <div className='bg-muted/50 flex size-10 items-center justify-center rounded-lg'>
-              <option.icon className='text-muted-foreground size-5' />
-            </div>
-
             <div className='flex-1'>
               <div className='flex items-center gap-2'>
                 <span className='font-medium'>{option.name}</span>
                 {option.disabled && (
-                  <span className='text-muted-foreground rounded bg-amber-500/10 px-1.5 py-0.5 text-xs text-amber-600 dark:text-amber-400'>
+                  <span className='rounded bg-amber-500/10 px-1.5 py-0.5 text-xs text-amber-600 dark:text-amber-400'>
                     Unavailable
                   </span>
                 )}
@@ -262,7 +243,7 @@ function ThemeSelector() {
           <label
             key={theme.id}
             className={cn(
-              'group flex flex-1 cursor-pointer flex-col items-center gap-2 rounded-xl border p-4 transition-all select-none',
+              'group flex flex-1 cursor-pointer flex-col items-center gap-2 rounded-xl border p-2 transition-all select-none',
               'bg-card hover:border-foreground/20',
               'has-[input:checked]:border-purple-600/50 has-[input:checked]:bg-purple-600/5',
               'dark:has-[input:checked]:border-purple-400/50 dark:has-[input:checked]:bg-purple-400/5',
@@ -342,13 +323,6 @@ function PaymentMethod() {
                 {method.description}
               </p>
             </div>
-
-            {method.id === 'card' && (
-              <IconCreditCard className='text-muted-foreground size-5' />
-            )}
-            {method.id === 'crypto' && (
-              <IconRocket className='text-muted-foreground size-5' />
-            )}
           </label>
         ))}
       </div>
