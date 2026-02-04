@@ -1,22 +1,22 @@
-import { FloatingArrow } from '@floating-ui/react';
 import {
   IconBell,
   IconBrandGithub,
   IconBrandTwitter,
   IconCalendar,
-  IconCheck,
   IconFilter,
   IconMail,
   IconMapPin,
-  IconX,
 } from '@tabler/icons-react';
 import { useState } from 'react';
+import { Badge } from '~/components/ui/badge';
 import { Button } from '~/components/ui/button';
-import { cn } from '~/lib/utils';
+import { SwitchRoot, Thumb } from '../switch/switch';
 import {
   PopoverClose,
   PopoverContent,
   PopoverDescription,
+  PopoverFooter,
+  PopoverHeader,
   PopoverPortal,
   PopoverRoot,
   PopoverTitle,
@@ -86,7 +86,7 @@ function UserProfilePopover() {
             {...props}
             className='bg-card hover:bg-muted flex items-center gap-2 rounded-full border px-3 py-1.5 text-sm transition-colors'
           >
-            <div className='flex size-7 items-center justify-center rounded-full bg-gradient-to-br from-violet-500 to-purple-600 text-xs font-semibold text-white'>
+            <div className='flex size-7 items-center justify-center rounded-full bg-linear-to-br from-violet-500 to-purple-600 text-xs font-semibold text-white'>
               SK
             </div>
             <span className='font-medium'>Sarah Kim</span>
@@ -95,72 +95,63 @@ function UserProfilePopover() {
       </PopoverTrigger>
 
       <PopoverPortal>
-        <PopoverContent>
-          {({ props, arrowProps }) => (
-            <div
-              {...props}
-              className='bg-card ring-foreground/10 z-50 w-80 rounded-xl p-0 text-sm shadow-lg ring-1 outline-none data-[hide=true]:hidden'
-            >
-              <FloatingArrow {...arrowProps} className='fill-foreground' />
+        <PopoverContent className='gap-0 p-0' outerWrapperClassName='max-w-xs'>
+          <div className='h-10 bg-linear-to-r from-violet-500 to-purple-600' />
 
-              {/* Cover */}
-              <div className='h-20 rounded-t-xl bg-gradient-to-r from-violet-500 to-purple-600' />
+          {/* Avatar & Info */}
+          <div className='relative px-4 pb-4'>
+            <div className='-mt-8 flex items-center justify-between'>
+              <div className='border-card flex size-16 items-center justify-center rounded-full border-4 bg-linear-to-br from-violet-500 to-purple-600 text-xl font-bold text-white'>
+                SK
+              </div>
 
-              {/* Avatar & Info */}
-              <div className='relative px-4 pb-4'>
-                <div className='-mt-10 mb-3 flex items-end justify-between'>
-                  <div className='border-card flex size-16 items-center justify-center rounded-full border-4 bg-gradient-to-br from-violet-500 to-purple-600 text-xl font-bold text-white'>
-                    SK
-                  </div>
-                  <Button size='sm'>Follow</Button>
-                </div>
+              <Button size='sm'>Follow</Button>
+            </div>
 
-                <div className='space-y-1'>
-                  <PopoverTitle className='text-lg font-semibold'>
-                    Sarah Kim
-                  </PopoverTitle>
-                  <p className='text-muted-foreground text-sm'>@sarahkim</p>
-                </div>
+            <div className='mt-2 space-y-1'>
+              <PopoverTitle className='text-lg font-semibold'>
+                Sarah Kim
+              </PopoverTitle>
 
-                <PopoverDescription className='mt-3'>
-                  Senior Frontend Engineer at Acme Inc. Building accessible
-                  components with React and TypeScript.
-                </PopoverDescription>
+              <p className='text-muted-foreground text-sm'>@sarahkim</p>
+            </div>
 
-                <div className='mt-4 flex flex-wrap gap-4 text-sm'>
-                  <div className='text-muted-foreground flex items-center gap-1.5'>
-                    <IconMapPin className='size-4' />
-                    San Francisco, CA
-                  </div>
-                  <div className='text-muted-foreground flex items-center gap-1.5'>
-                    <IconCalendar className='size-4' />
-                    Joined Mar 2021
-                  </div>
-                </div>
+            <PopoverDescription className='mt-3'>
+              Building accessible components with React and TypeScript.
+            </PopoverDescription>
 
-                <div className='mt-4 flex gap-2'>
-                  <a
-                    href='#'
-                    className='text-muted-foreground hover:text-foreground transition-colors'
-                  >
-                    <IconBrandGithub className='size-5' />
-                  </a>
-                  <a
-                    href='#'
-                    className='text-muted-foreground hover:text-foreground transition-colors'
-                  >
-                    <IconBrandTwitter className='size-5' />
-                  </a>
-                  <a
-                    href='#'
-                    className='text-muted-foreground hover:text-foreground transition-colors'
-                  >
-                    <IconMail className='size-5' />
-                  </a>
-                </div>
+            <div className='mt-4 flex flex-wrap gap-4 text-sm'>
+              <div className='text-muted-foreground flex items-center gap-1.5'>
+                <IconMapPin className='size-4' />
+                San Francisco, CA
+              </div>
+              <div className='text-muted-foreground flex items-center gap-1.5'>
+                <IconCalendar className='size-4' />
+                Joined Mar 2021
               </div>
             </div>
-          )}
+
+            <div className='mt-4 flex gap-2'>
+              <a
+                href='#'
+                className='text-muted-foreground hover:text-foreground transition-colors'
+              >
+                <IconBrandGithub className='size-5' />
+              </a>
+              <a
+                href='#'
+                className='text-muted-foreground hover:text-foreground transition-colors'
+              >
+                <IconBrandTwitter className='size-5' />
+              </a>
+              <a
+                href='#'
+                className='text-muted-foreground hover:text-foreground transition-colors'
+              >
+                <IconMail className='size-5' />
+              </a>
+            </div>
+          </div>
         </PopoverContent>
       </PopoverPortal>
     </PopoverRoot>
@@ -183,77 +174,62 @@ function NotificationSettingsPopover() {
       <PopoverTrigger>
         {(props) => (
           <Button {...props} variant='outline'>
-            <IconBell className='mr-2 size-4' />
+            <IconBell />
             Notifications
           </Button>
         )}
       </PopoverTrigger>
 
       <PopoverPortal>
-        <PopoverContent>
-          {({ props, arrowProps }) => (
-            <div
-              {...props}
-              className='bg-card ring-foreground/10 z-50 w-72 rounded-xl p-4 text-sm shadow-lg ring-1 outline-none data-[hide=true]:hidden'
-            >
-              <FloatingArrow {...arrowProps} className='fill-foreground' />
+        <PopoverContent outerWrapperClassName='max-w-xs'>
+          <PopoverHeader>
+            <PopoverTitle>Notification Settings</PopoverTitle>
 
-              <div className='mb-4 flex items-center justify-between'>
-                <PopoverTitle className='font-semibold'>
-                  Notification Settings
-                </PopoverTitle>
-                <PopoverClose>
-                  {(props) => (
-                    <button
-                      {...props}
-                      className='text-muted-foreground hover:text-foreground rounded p-1 transition-colors'
-                    >
-                      <IconX className='size-4' />
-                    </button>
-                  )}
-                </PopoverClose>
-              </div>
+            <PopoverDescription className='sr-only'>
+              Configure your notification preferences
+            </PopoverDescription>
+          </PopoverHeader>
 
-              <PopoverDescription className='sr-only'>
-                Configure your notification preferences
-              </PopoverDescription>
+          <div className='space-y-3'>
+            <NotificationToggle
+              label='Email notifications'
+              description='Get notified via email'
+              checked={settings.email}
+              onChange={() => setSettings((s) => ({ ...s, email: !s.email }))}
+            />
+            <NotificationToggle
+              label='Push notifications'
+              description='Browser push alerts'
+              checked={settings.push}
+              onChange={() => setSettings((s) => ({ ...s, push: !s.push }))}
+            />
+            <NotificationToggle
+              label='Marketing emails'
+              description='Product updates and tips'
+              checked={settings.marketing}
+              onChange={() =>
+                setSettings((s) => ({ ...s, marketing: !s.marketing }))
+              }
+            />
+          </div>
 
-              <div className='space-y-3'>
-                <NotificationToggle
-                  label='Email notifications'
-                  description='Get notified via email'
-                  checked={settings.email}
-                  onChange={() =>
-                    setSettings((s) => ({ ...s, email: !s.email }))
-                  }
-                />
-                <NotificationToggle
-                  label='Push notifications'
-                  description='Browser push alerts'
-                  checked={settings.push}
-                  onChange={() => setSettings((s) => ({ ...s, push: !s.push }))}
-                />
-                <NotificationToggle
-                  label='Marketing emails'
-                  description='Product updates and tips'
-                  checked={settings.marketing}
-                  onChange={() =>
-                    setSettings((s) => ({ ...s, marketing: !s.marketing }))
-                  }
-                />
-              </div>
+          <PopoverFooter>
+            <PopoverClose>
+              {(props) => (
+                <Button {...props} size='sm' variant='ghost'>
+                  Cancel
+                </Button>
+              )}
+            </PopoverClose>
 
-              <div className='mt-4 flex justify-end'>
-                <PopoverClose>
-                  {(props) => (
-                    <Button {...props} size='sm'>
-                      Save preferences
-                    </Button>
-                  )}
-                </PopoverClose>
-              </div>
-            </div>
-          )}
+            <PopoverClose>
+              {(props) => (
+                <Button {...props} size='sm' variant='secondary'>
+                  Save preferences
+                </Button>
+              )}
+            </PopoverClose>
+          </PopoverFooter>
         </PopoverContent>
       </PopoverPortal>
     </PopoverRoot>
@@ -277,23 +253,10 @@ function NotificationToggle({
         <p className='font-medium'>{label}</p>
         <p className='text-muted-foreground text-xs'>{description}</p>
       </div>
-      <button
-        type='button'
-        role='switch'
-        aria-checked={checked}
-        onClick={onChange}
-        className={cn(
-          'relative h-6 w-11 rounded-full transition-colors',
-          checked ? 'bg-emerald-600' : 'bg-muted',
-        )}
-      >
-        <span
-          className={cn(
-            'absolute top-1 left-1 size-4 rounded-full bg-white transition-transform',
-            checked && 'translate-x-5',
-          )}
-        />
-      </button>
+
+      <SwitchRoot checked={checked} onCheckedChange={onChange}>
+        <Thumb />
+      </SwitchRoot>
     </label>
   );
 }
@@ -313,10 +276,11 @@ const filterStatuses = ['Active', 'Pending', 'Completed', 'Archived'];
 
 function FilterPopover() {
   const [selectedCategories, setSelectedCategories] = useState<Set<string>>(
-    new Set(['Design']),
+    () => new Set(['Design']),
   );
+
   const [selectedStatuses, setSelectedStatuses] = useState<Set<string>>(
-    new Set(['Active']),
+    () => new Set(['Active']),
   );
 
   const toggleCategory = (cat: string) => {
@@ -349,7 +313,7 @@ function FilterPopover() {
       <PopoverTrigger>
         {(props) => (
           <Button {...props} variant='outline'>
-            <IconFilter className='mr-2 size-4' />
+            <IconFilter />
             Filters
             {activeCount > 0 && (
               <span className='ml-2 flex size-5 items-center justify-center rounded-full bg-blue-600 text-xs text-white'>
@@ -361,100 +325,71 @@ function FilterPopover() {
       </PopoverTrigger>
 
       <PopoverPortal>
-        <PopoverContent>
-          {({ props, arrowProps }) => (
-            <div
-              {...props}
-              className='bg-card ring-foreground/10 z-50 w-64 rounded-xl p-4 text-sm shadow-lg ring-1 outline-none data-[hide=true]:hidden'
-            >
-              <FloatingArrow {...arrowProps} className='fill-foreground' />
+        <PopoverContent outerWrapperClassName='max-w-sm'>
+          <PopoverHeader>
+            <PopoverTitle>Filter Results</PopoverTitle>
 
-              <PopoverTitle className='mb-3 font-semibold'>
-                Filter Results
-              </PopoverTitle>
-              <PopoverDescription className='sr-only'>
-                Select categories and statuses to filter
-              </PopoverDescription>
+            <PopoverDescription className='sr-only'>
+              Select categories and statuses to filter
+            </PopoverDescription>
+          </PopoverHeader>
 
-              <div className='space-y-4'>
-                <div>
-                  <p className='text-muted-foreground mb-2 text-xs font-medium tracking-wider uppercase'>
-                    Category
-                  </p>
-                  <div className='flex flex-wrap gap-2'>
-                    {filterCategories.map((cat) => (
-                      <FilterChip
-                        key={cat}
-                        label={cat}
-                        selected={selectedCategories.has(cat)}
-                        onClick={() => toggleCategory(cat)}
-                      />
-                    ))}
-                  </div>
-                </div>
-
-                <div>
-                  <p className='text-muted-foreground mb-2 text-xs font-medium tracking-wider uppercase'>
-                    Status
-                  </p>
-                  <div className='flex flex-wrap gap-2'>
-                    {filterStatuses.map((status) => (
-                      <FilterChip
-                        key={status}
-                        label={status}
-                        selected={selectedStatuses.has(status)}
-                        onClick={() => toggleStatus(status)}
-                      />
-                    ))}
-                  </div>
-                </div>
-              </div>
-
-              <div className='mt-4 flex justify-between border-t pt-4'>
-                <button
-                  onClick={clearAll}
-                  className='text-muted-foreground hover:text-foreground text-sm transition-colors'
-                >
-                  Clear all
-                </button>
-                <PopoverClose>
-                  {(props) => (
-                    <Button {...props} size='sm'>
-                      Apply filters
-                    </Button>
-                  )}
-                </PopoverClose>
+          <div className='space-y-4'>
+            <div>
+              <p className='text-muted-foreground mb-2 text-xs font-medium tracking-wider uppercase'>
+                Category
+              </p>
+              <div className='flex flex-wrap gap-2'>
+                {filterCategories.map((cat) => (
+                  <Badge
+                    key={cat}
+                    variant={
+                      selectedCategories.has(cat) ? 'default' : 'secondary'
+                    }
+                    onClick={() => toggleCategory(cat)}
+                    render={<button className='outline-none'>{cat}</button>}
+                  />
+                ))}
               </div>
             </div>
-          )}
+
+            <div>
+              <p className='text-muted-foreground mb-2 text-xs font-medium tracking-wider uppercase'>
+                Status
+              </p>
+              <div className='flex flex-wrap gap-2'>
+                {filterStatuses.map((status) => (
+                  <Badge
+                    key={status}
+                    variant={
+                      selectedStatuses.has(status) ? 'default' : 'secondary'
+                    }
+                    onClick={() => toggleStatus(status)}
+                    render={<button className='outline-none'>{status}</button>}
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <hr />
+
+          <PopoverFooter>
+            <Button onClick={clearAll} variant='ghost'>
+              Clear all
+            </Button>
+
+            <PopoverClose>
+              {(props) => (
+                <Button {...props} size='sm'>
+                  Apply filters
+                </Button>
+              )}
+            </PopoverClose>
+          </PopoverFooter>
         </PopoverContent>
       </PopoverPortal>
     </PopoverRoot>
-  );
-}
-
-function FilterChip({
-  label,
-  selected,
-  onClick,
-}: {
-  label: string;
-  selected: boolean;
-  onClick: () => void;
-}) {
-  return (
-    <button
-      onClick={onClick}
-      className={cn(
-        'flex items-center gap-1 rounded-full px-3 py-1 text-xs font-medium transition-colors',
-        selected
-          ? 'bg-blue-600 text-white'
-          : 'bg-muted hover:bg-muted/80 text-foreground',
-      )}
-    >
-      {selected && <IconCheck className='size-3' />}
-      {label}
-    </button>
   );
 }
 
@@ -496,58 +431,43 @@ function DatePickerPopover() {
       </PopoverTrigger>
 
       <PopoverPortal>
-        <PopoverContent>
-          {({ props, arrowProps }) => (
-            <div
-              {...props}
-              className='bg-card ring-foreground/10 z-50 w-56 rounded-xl p-3 text-sm shadow-lg ring-1 outline-none data-[hide=true]:hidden'
-            >
-              <FloatingArrow {...arrowProps} className='fill-foreground' />
+        <PopoverContent outerWrapperClassName='max-w-xs'>
+          <PopoverHeader>
+            <PopoverTitle>Quick Select</PopoverTitle>
+            <PopoverDescription className='sr-only'>
+              Choose a preset date or select custom
+            </PopoverDescription>
+          </PopoverHeader>
 
-              <PopoverTitle className='mb-2 px-1 font-semibold'>
-                Quick Select
-              </PopoverTitle>
-              <PopoverDescription className='sr-only'>
-                Choose a preset date or select custom
-              </PopoverDescription>
+          <div className='space-y-1'>
+            {presetDates.map((preset) => (
+              <PopoverClose key={preset.label}>
+                {(closeProps) => (
+                  <Button
+                    {...closeProps}
+                    onClick={() => {
+                      setSelected(preset.days);
+                      closeProps.onClick?.(
+                        {} as React.MouseEvent<HTMLButtonElement>,
+                      );
+                    }}
+                    variant={selected === preset.days ? 'secondary' : 'ghost'}
+                    className='hover:dark:bg-foreground/5 w-full cursor-pointer justify-between'
+                  >
+                    <span>{preset.label}</span>
+                    <span className='text-muted-foreground text-xs'>
+                      {getFormattedDate(preset.days)}
+                    </span>
+                  </Button>
+                )}
+              </PopoverClose>
+            ))}
+          </div>
 
-              <div className='space-y-1'>
-                {presetDates.map((preset) => (
-                  <PopoverClose key={preset.label}>
-                    {(closeProps) => (
-                      <button
-                        {...closeProps}
-                        onClick={() => {
-                          setSelected(preset.days);
-                          closeProps.onClick?.(
-                            {} as React.MouseEvent<HTMLButtonElement>,
-                          );
-                        }}
-                        className={cn(
-                          'flex w-full items-center justify-between rounded-lg px-3 py-2 transition-colors',
-                          selected === preset.days
-                            ? 'bg-blue-600 text-white'
-                            : 'hover:bg-muted',
-                        )}
-                      >
-                        <span>{preset.label}</span>
-                        <span className='text-xs opacity-70'>
-                          {getFormattedDate(preset.days)}
-                        </span>
-                      </button>
-                    )}
-                  </PopoverClose>
-                ))}
-              </div>
-
-              <div className='mt-2 border-t pt-2'>
-                <button className='text-muted-foreground hover:text-foreground hover:bg-muted flex w-full items-center gap-2 rounded-lg px-3 py-2 transition-colors'>
-                  <IconCalendar className='size-4' />
-                  Custom date...
-                </button>
-              </div>
-            </div>
-          )}
+          <Button variant='secondary' className='w-full'>
+            <IconCalendar />
+            Custom date...
+          </Button>
         </PopoverContent>
       </PopoverPortal>
     </PopoverRoot>

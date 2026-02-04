@@ -1,8 +1,8 @@
-import type { FloatingContext } from '@floating-ui/react';
 import {
   arrow as arrowMiddleware,
   autoUpdate,
   flip as flipMiddleware,
+  FloatingArrow,
   hide as hideMiddleware,
   limitShift,
   offset as offsetMiddleware,
@@ -124,14 +124,14 @@ export function PopoverTrigger({
 
 export function PopoverContent({
   children,
+  className,
+  innerWrapperClassName,
+  outerWrapperClassName,
 }: {
-  children?: (props: {
-    props: React.ComponentPropsWithRef<'div'>;
-    arrowProps: {
-      ref: React.RefObject<SVGSVGElement | null>;
-      context: FloatingContext;
-    };
-  }) => React.ReactNode;
+  children?: React.ReactNode;
+  className?: string;
+  outerWrapperClassName?: string;
+  innerWrapperClassName?: string;
 }) {
   const popoverCtx = usePopoverCtx();
 
@@ -167,6 +167,8 @@ export function PopoverContent({
     ],
   });
 
+  const { context, refs, floatingStyles } = floatingReturn;
+
   React.useEffect(() => {
     if (!floatingReturn.isPositioned) return;
 
@@ -189,42 +191,57 @@ export function PopoverContent({
   }, []);
 
   return (
-    <>
-      {children?.(
-        // eslint-disable-next-line react-hooks/refs
-        {
-          arrowProps: { ref: arrowRef, context: floatingReturn.context },
-          props: {
-            tabIndex: -1,
-            role: 'dialog',
-            id: popoverCtx.contentId,
-            style: floatingReturn.floatingStyles,
-            'aria-labelledby': popoverCtx.titleId,
-            'aria-describedby': popoverCtx.descriptionId,
-            ref: (node) => {
-              innerRef.current = node;
-              floatingReturn.refs.setFloating(node);
-              contentRef.current = node;
-
-              if (!node) return;
-
-              const topLayer = getLayers().at(-1);
-
-              if (node.dataset.layerDepth) return;
-
-              node.dataset.layerDepth = String(
-                parseInt(topLayer?.dataset.layerDepth || '0') + 1,
-              );
-            },
-            ...{
-              'data-hide':
-                !!floatingReturn.middlewareData.hide?.referenceHidden,
-              'data-layer': true,
-            },
-          },
-        },
+    <div
+      ref={refs.setFloating}
+      className={cn(
+        'relative z-50 flex max-h-[calc(100%-2rem)] w-[min(100%,calc(100%-2rem))] max-w-lg data-[hide=true]:hidden',
+        outerWrapperClassName,
       )}
-    </>
+      data-hide={!!floatingReturn.middlewareData.hide?.referenceHidden}
+      style={floatingStyles}
+    >
+      <FloatingArrow
+        context={context}
+        ref={arrowRef}
+        className='fill-foreground'
+      />
+
+      <div
+        tabIndex={-1}
+        role='dialog'
+        id={popoverCtx.contentId}
+        aria-labelledby={popoverCtx.titleId}
+        aria-describedby={popoverCtx.descriptionId}
+        data-layer={true}
+        ref={(node) => {
+          innerRef.current = node;
+          contentRef.current = node;
+
+          if (!node) return;
+
+          const topLayer = getLayers().at(-1);
+
+          if (node.dataset.layerDepth) return;
+
+          node.dataset.layerDepth = String(
+            parseInt(topLayer?.dataset.layerDepth || '0') + 1,
+          );
+        }}
+        className={cn(
+          'ring-foreground/10 bg-background flex grow overflow-hidden rounded-md p-0 ring-1 outline-none',
+          innerWrapperClassName,
+        )}
+      >
+        <div
+          className={cn(
+            'bg-background grid grow gap-6 overflow-auto p-6 text-sm',
+            className,
+          )}
+        >
+          {children}
+        </div>
+      </div>
+    </div>
   );
 }
 
@@ -253,6 +270,39 @@ export function PopoverClose({
         onClick: () => popoverCtx.handleClose(),
       })}
     </>
+  );
+}
+
+/* ———————————————————— Header ———————————————————— */
+
+export function PopoverHeader({
+  children,
+  className,
+}: {
+  children?: React.ReactNode;
+  className?: string;
+}) {
+  return <div className={cn('flex flex-col gap-2', className)}>{children}</div>;
+}
+
+/* ———————————————————— Footer ———————————————————— */
+
+export function PopoverFooter({
+  children,
+  className,
+}: {
+  children?: React.ReactNode;
+  className?: string;
+}) {
+  return (
+    <div
+      className={cn(
+        'flex flex-col-reverse gap-3 *:grow sm:flex-row sm:justify-end sm:*:grow-0',
+        className,
+      )}
+    >
+      {children}
+    </div>
   );
 }
 
