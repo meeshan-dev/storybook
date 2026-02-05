@@ -22,9 +22,7 @@ export const Default: StoryObj<typeof meta> = {
           target='_blank'
         >
           WAI-ARIA Accordion Pattern
-        </a>{' '}
-        with full keyboard navigation, screen reader support, and flexible
-        expansion modes.
+        </a>
       </p>
 
       <div className='story-demo not-typography'>

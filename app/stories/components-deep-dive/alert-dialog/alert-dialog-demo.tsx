@@ -298,13 +298,6 @@ function UnsavedChangesDialog() {
               </AlertDialogClose>
               <AlertDialogClose>
                 {(props) => (
-                  <Button {...props} variant='outline'>
-                    Don't Save
-                  </Button>
-                )}
-              </AlertDialogClose>
-              <AlertDialogClose>
-                {(props) => (
                   <Button {...props} variant='secondary'>
                     Save & Leave
                   </Button>

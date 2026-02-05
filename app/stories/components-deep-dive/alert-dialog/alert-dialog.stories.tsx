@@ -16,10 +16,13 @@ export const Default: StoryObj<typeof meta> = {
       <h1>Alert Dialog</h1>
 
       <p>
-        An accessible alert dialog for critical confirmations that require
-        explicit user acknowledgment. Unlike regular dialogs, alert dialogs{' '}
-        <strong>cannot be dismissed by clicking outside</strong> — ensuring
-        users consciously respond to important actions.
+        Implements the{' '}
+        <a
+          href='https://www.w3.org/WAI/ARIA/apg/patterns/alertdialog/'
+          target='_blank'
+        >
+          WAI-ARIA Alert Dialog
+        </a>
       </p>
 
       <div className='story-demo not-typography'>
@@ -36,14 +39,6 @@ export const Default: StoryObj<typeof meta> = {
 
       <ul>
         <li>
-          <strong>Non-dismissible by outside click</strong> — Forces explicit
-          user decision for critical actions
-        </li>
-        <li>
-          <strong>Shares infrastructure with Dialog</strong> — Same focus trap,
-          scroll lock, and portal implementation
-        </li>
-        <li>
           <strong>
             Uses <code>role="alertdialog"</code>
           </strong>{' '}
@@ -57,47 +52,15 @@ export const Default: StoryObj<typeof meta> = {
           <strong>Escape key closes</strong> — Allows keyboard dismissal while
           preventing accidental mouse clicks
         </li>
+        <li>
+          <strong>Non-dismissible by outside click</strong> — Forces explicit
+          user decision for critical actions
+        </li>
+        <li>
+          <strong>Shares infrastructure with Dialog</strong> — Same focus trap,
+          scroll lock, and portal implementation
+        </li>
       </ul>
-
-      <h2>Alert Dialog vs Dialog</h2>
-
-      <div className='overflow-x-auto'>
-        <table className='w-full text-sm'>
-          <thead>
-            <tr className='border-b'>
-              <th className='py-2 pr-4 text-left font-semibold'>Feature</th>
-              <th className='py-2 pr-4 text-left font-semibold'>Dialog</th>
-              <th className='py-2 text-left font-semibold'>Alert Dialog</th>
-            </tr>
-          </thead>
-          <tbody className='text-muted-foreground'>
-            <tr className='border-b'>
-              <td className='py-2 pr-4'>Outside click</td>
-              <td className='py-2 pr-4'>Closes dialog</td>
-              <td className='py-2'>No effect</td>
-            </tr>
-            <tr className='border-b'>
-              <td className='py-2 pr-4'>Escape key</td>
-              <td className='py-2 pr-4'>Closes dialog</td>
-              <td className='py-2'>Closes dialog</td>
-            </tr>
-            <tr className='border-b'>
-              <td className='py-2 pr-4'>ARIA role</td>
-              <td className='py-2 pr-4'>
-                <code>dialog</code>
-              </td>
-              <td className='py-2'>
-                <code>alertdialog</code>
-              </td>
-            </tr>
-            <tr>
-              <td className='py-2 pr-4'>Use case</td>
-              <td className='py-2 pr-4'>Forms, content, info</td>
-              <td className='py-2'>Confirmations, warnings</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
 
       <h2>Keyboard Interactions</h2>
 
