@@ -1,7 +1,6 @@
 import { AnimatePresence, motion } from 'motion/react';
 import React, { useId } from 'react';
 import { createContextScope } from '~/lib/context-scope';
-import { cn } from '~/lib/utils';
 import { useControlled } from '~/stories/hooks/use-controlled';
 
 /* ———————————————————— Root ———————————————————— */
@@ -331,10 +330,7 @@ export const AccordionContent = ({
             id={itemCtx.contentId}
             aria-labelledby={itemCtx.triggerId}
             role='region'
-            className={cn(
-              '[&_a]:hover:text-foreground text-sm [&_a]:underline [&_a]:underline-offset-3 [&_p:not(:last-child)]:mb-4',
-              className,
-            )}
+            className={className}
           >
             {children}
           </div>

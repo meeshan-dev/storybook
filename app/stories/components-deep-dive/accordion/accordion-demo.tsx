@@ -103,7 +103,7 @@ function FAQAccordion() {
               )}
             </AccordionTrigger>
 
-            <AccordionContent className='text-muted-foreground p-3 pl-12 leading-relaxed'>
+            <AccordionContent className='text-muted-foreground p-3 pl-12 text-sm leading-relaxed'>
               {answer}
             </AccordionContent>
           </AccordionItem>
@@ -125,7 +125,7 @@ const settingsSections = [
     description: 'Manage your personal information and preferences',
     settings: [
       { label: 'Display Name', value: 'Muhammad Zeeshan' },
-      { label: 'Email', value: 'zeeshan@example.com' },
+      { label: 'Email', value: 'hire@meeshan.dev' },
       { label: 'Language', value: 'English (US)' },
     ],
   },
@@ -215,7 +215,7 @@ function SettingsPanelAccordion() {
                 )}
               </AccordionTrigger>
 
-              <AccordionContent className='bg-background space-y-3 border-t px-4 py-3'>
+              <AccordionContent className='bg-background space-y-3 border-t px-4 py-3 text-sm'>
                 {settings.map(({ label, value }) => (
                   <div
                     key={label}
@@ -321,7 +321,7 @@ function ProductFeaturesAccordion() {
               )}
             </AccordionTrigger>
 
-            <AccordionContent className='text-muted-foreground border-t p-3 leading-relaxed'>
+            <AccordionContent className='text-muted-foreground border-t p-3 text-sm leading-relaxed'>
               {description}
             </AccordionContent>
           </AccordionItem>
