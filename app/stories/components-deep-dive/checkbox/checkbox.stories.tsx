@@ -16,15 +16,13 @@ export const Default: StoryObj<typeof meta> = {
       <h1>Checkbox</h1>
 
       <p>
-        An accessible checkbox component implementing the{' '}
+        Implements the{' '}
         <a
           href='https://www.w3.org/WAI/ARIA/apg/patterns/checkbox/'
           target='_blank'
         >
           WAI-ARIA Checkbox Pattern
         </a>
-        . Built on native HTML checkbox with support for the indeterminate
-        (mixed) state.
       </p>
 
       <div className='story-demo not-typography'>
@@ -56,37 +54,6 @@ export const Default: StoryObj<typeof meta> = {
         </li>
         <li>Works with React state or native form submission</li>
       </ul>
-
-      <h2>Indeterminate State</h2>
-
-      <div className='overflow-x-auto'>
-        <table className='w-full text-sm'>
-          <thead>
-            <tr className='border-b'>
-              <th className='py-2 pr-4 text-left font-semibold'>
-                Child Selection
-              </th>
-              <th className='py-2 text-left font-semibold'>Parent State</th>
-            </tr>
-          </thead>
-          <tbody className='text-muted-foreground'>
-            <tr className='border-b'>
-              <td className='py-2 pr-4'>None selected</td>
-              <td className='py-2'>Unchecked</td>
-            </tr>
-            <tr className='border-b'>
-              <td className='py-2 pr-4'>Some selected</td>
-              <td className='py-2'>
-                Indeterminate (<code>aria-checked="mixed"</code>)
-              </td>
-            </tr>
-            <tr>
-              <td className='py-2 pr-4'>All selected</td>
-              <td className='py-2'>Checked</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
 
       <h2>Keyboard Interactions</h2>
 

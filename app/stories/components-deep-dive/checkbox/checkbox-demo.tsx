@@ -117,7 +117,7 @@ function TaskList() {
           </CheckboxIcon>
         </CheckboxRoot>
 
-        <span className='font-medium'>
+        <span className='text-sm font-medium'>
           {allCompleted === 'indeterminate'
             ? `${completedCount} of ${tasks.length} completed`
             : allCompleted
@@ -148,13 +148,16 @@ function TaskList() {
 
             <span
               className={cn(
-                'flex-1 truncate transition-all',
+                'flex-1 truncate text-sm transition-all',
                 task.completed && 'text-muted-foreground line-through',
               )}
             >
               {task.label}
             </span>
-            {task.completed && <IconStar className='size-4 text-amber-500' />}
+
+            {task.completed && (
+              <IconStar className='size-4 text-amber-600 dark:text-amber-400' />
+            )}
           </label>
         ))}
       </div>
@@ -212,7 +215,7 @@ function PermissionsMatrix() {
       <table className='w-full'>
         <thead>
           <tr className='bg-muted/30 border-b'>
-            <th className='px-4 py-3 text-left font-medium'>Role</th>
+            <th className='px-4 py-3 text-start text-sm font-medium'>Role</th>
             {permissions.map((perm) => (
               <th key={perm.id} className='px-4 py-3 text-center'>
                 <div className='flex flex-col items-center gap-1'>
@@ -226,7 +229,7 @@ function PermissionsMatrix() {
         <tbody className='divide-y'>
           {roles.map((role) => (
             <tr key={role.id} className='hover:bg-muted/30 transition-colors'>
-              <td className='px-4 py-3 font-medium'>{role.label}</td>
+              <td className='px-4 py-3 text-sm font-medium'>{role.label}</td>
               {permissions.map((perm) => {
                 const isChecked = rolePermissions[role.id]?.has(perm.id);
                 return (
@@ -268,103 +271,83 @@ function TermsAcceptance() {
   return (
     <div className='max-w-md space-y-4'>
       <div className='space-y-3'>
-        <label
-          className={cn(
-            'group flex cursor-pointer items-start gap-3 rounded-lg border p-4 transition-all select-none',
-            'hover:border-foreground/20',
-            terms &&
-              'border-emerald-600/50 bg-emerald-50/50 dark:border-emerald-400/50 dark:bg-emerald-950/20',
-          )}
-        >
-          <div className='pt-0.5'>
-            <CheckboxRoot
-              checked={terms}
-              onCheckedChange={() => setTerms(!terms)}
+        {[
+          {
+            label: 'Terms of Service',
+            description: (
+              <>
+                I agree to the{' '}
+                <a
+                  href='#'
+                  className='text-blue-600 underline dark:text-blue-400'
+                >
+                  Terms of Service
+                </a>{' '}
+                and confirm that I am at least 18 years old.
+              </>
+            ),
+            required: true,
+            checked: terms,
+            onChange: setTerms,
+          },
+          {
+            label: 'Privacy Policy',
+            description: (
+              <>
+                I have read and understand the{' '}
+                <a
+                  href='#'
+                  className='text-blue-600 underline dark:text-blue-400'
+                >
+                  Privacy Policy
+                </a>
+                .
+              </>
+            ),
+            required: true,
+            checked: privacy,
+            onChange: setPrivacy,
+          },
+          {
+            label: 'Marketing Communications',
+            description:
+              "I'd like to receive updates about new features and special offers.",
+            required: false,
+            checked: marketing,
+            onChange: setMarketing,
+          },
+        ].map(({ label, description, required, checked, onChange }) => {
+          return (
+            <label
+              key={label}
+              className={cn(
+                'group hover:border-foreground/20 grid cursor-pointer rounded-lg border p-4 transition-all select-none',
+                checked &&
+                  'border-emerald-600/50 bg-emerald-50/50 dark:border-emerald-400/50 dark:bg-emerald-950/20',
+              )}
             >
-              <CheckboxIcon type='check'>
-                <IconCheck />
-              </CheckboxIcon>
-            </CheckboxRoot>
-          </div>
-          <div>
-            <span className='font-medium'>Terms of Service</span>
-            <span className='text-destructive ml-1'>*</span>
-            <p className='text-muted-foreground mt-1 text-sm'>
-              I agree to the{' '}
-              <a
-                href='#'
-                className='text-blue-600 underline dark:text-blue-400'
-              >
-                Terms of Service
-              </a>{' '}
-              and confirm that I am at least 18 years old.
-            </p>
-          </div>
-        </label>
+              <div className='flex items-center gap-2'>
+                <CheckboxRoot
+                  checked={checked}
+                  onCheckedChange={() => onChange(!checked)}
+                >
+                  <CheckboxIcon type='check'>
+                    <IconCheck />
+                  </CheckboxIcon>
+                </CheckboxRoot>
 
-        <label
-          className={cn(
-            'group flex cursor-pointer items-start gap-3 rounded-lg border p-4 transition-all select-none',
-            'hover:border-foreground/20',
-            privacy &&
-              'border-emerald-600/50 bg-emerald-50/50 dark:border-emerald-400/50 dark:bg-emerald-950/20',
-          )}
-        >
-          <div className='pt-0.5'>
-            <CheckboxRoot
-              checked={privacy}
-              onChange={() => setPrivacy(!privacy)}
-            >
-              <CheckboxIcon type='check'>
-                <IconCheck />
-              </CheckboxIcon>
-            </CheckboxRoot>
-          </div>
+                <p className='font-medium'>
+                  {label}
+                  {required && <span className='text-destructive ml-1'>*</span>}
+                </p>
+              </div>
 
-          <div>
-            <span className='font-medium'>Privacy Policy</span>
-            <span className='text-destructive ml-1'>*</span>
-            <p className='text-muted-foreground mt-1 text-sm'>
-              I have read and understand the{' '}
-              <a
-                href='#'
-                className='text-blue-600 underline dark:text-blue-400'
-              >
-                Privacy Policy
-              </a>
-              .
-            </p>
-          </div>
-        </label>
-
-        <label
-          className={cn(
-            'group flex cursor-pointer items-start gap-3 rounded-lg border p-4 transition-all select-none',
-            'hover:border-foreground/20',
-            marketing &&
-              'border-purple-600/50 bg-purple-50/50 dark:border-purple-400/50 dark:bg-purple-950/20',
-          )}
-        >
-          <div className='pt-0.5'>
-            <CheckboxRoot
-              checked={marketing}
-              onChange={() => setMarketing(!marketing)}
-            >
-              <CheckboxIcon type='check'>
-                <IconCheck />
-              </CheckboxIcon>
-            </CheckboxRoot>
-          </div>
-          <div>
-            <span className='font-medium'>Marketing Communications</span>
-            <span className='text-muted-foreground ml-1 text-sm'>
-              (Optional)
-            </span>
-            <p className='text-muted-foreground mt-1 text-sm'>
-              I'd like to receive updates about new features and special offers.
-            </p>
-          </div>
-        </label>
+              <p className='text-muted-foreground mt-1 text-sm'>
+                {description}
+              </p>
+            </label>
+          );
+        })}
       </div>
 
       <Button disabled={!canContinue} className='w-full'>
@@ -431,30 +414,29 @@ function FeatureSelection() {
           <label
             key={feature.id}
             className={cn(
-              'group flex cursor-pointer items-start gap-3 rounded-xl border p-4 transition-all select-none',
+              'group grid cursor-pointer rounded-xl border p-4 transition-all select-none',
               'hover:border-foreground/20',
               isSelected &&
                 'border-blue-600/50 bg-blue-50/50 dark:border-blue-400/50 dark:bg-blue-950/20',
               feature.included && 'pointer-events-none opacity-70',
             )}
           >
-            <div className='pt-0.5'>
-              <CheckboxRoot
-                disabled={feature.included}
-                checked={isSelected}
-                onCheckedChange={() =>
-                  !feature.included && toggleFeature(feature.id)
-                }
-              >
-                <CheckboxIcon type='check'>
-                  <IconCheck />
-                </CheckboxIcon>
-              </CheckboxRoot>
-            </div>
-
             <div className='flex-1'>
-              <div className='flex items-center justify-between'>
-                <span className='font-medium'>{feature.name}</span>
+              <div className='flex items-center gap-2'>
+                <CheckboxRoot
+                  disabled={feature.included}
+                  checked={isSelected}
+                  onCheckedChange={() =>
+                    !feature.included && toggleFeature(feature.id)
+                  }
+                >
+                  <CheckboxIcon type='check'>
+                    <IconCheck />
+                  </CheckboxIcon>
+                </CheckboxRoot>
+
+                <p className='grow font-medium'>{feature.name}</p>
+
                 <span
                   className={cn(
                     'text-sm font-medium',

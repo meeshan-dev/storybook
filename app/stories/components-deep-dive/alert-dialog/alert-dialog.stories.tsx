@@ -21,7 +21,7 @@ export const Default: StoryObj<typeof meta> = {
           href='https://www.w3.org/WAI/ARIA/apg/patterns/alertdialog/'
           target='_blank'
         >
-          WAI-ARIA Alert Dialog
+          WAI-ARIA Alert Dialog Pattern
         </a>
       </p>
 
