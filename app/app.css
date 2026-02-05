@@ -435,11 +435,11 @@
     }
 
     & > p {
-      @apply mt-1 text-sm;
+      @apply text-muted-foreground mt-1 text-sm;
     }
 
     & > div {
-      @apply mt-4 min-h-75 content-center rounded-xl border p-5;
+      @apply mt-6 min-h-75 content-center rounded-xl border p-5;
     }
   }
 }

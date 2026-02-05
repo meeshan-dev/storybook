@@ -1,4 +1,3 @@
-import { FloatingArrow } from '@floating-ui/react';
 import {
   IconBold,
   IconCode,
@@ -14,7 +13,13 @@ import {
   IconUnderline,
 } from '@tabler/icons-react';
 import { Button } from '~/components/ui/button';
-import { cn } from '~/lib/utils';
+import { Input } from '~/components/ui/input';
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupTextarea,
+} from '~/components/ui/input-group';
+import { Label } from '~/components/ui/label';
 import {
   TooltipContent,
   TooltipPortal,
@@ -89,52 +94,28 @@ export function TooltipDemo() {
 /* ---------------------------------- */
 
 const toolbarActions = [
-  { icon: IconEdit, label: 'Edit', shortcut: 'E' },
-  { icon: IconCopy, label: 'Copy', shortcut: '⌘C' },
-  { icon: IconShare, label: 'Share', shortcut: '⌘⇧S' },
-  { icon: IconDownload, label: 'Download', shortcut: '⌘D' },
-  { icon: IconTrash, label: 'Delete', shortcut: '⌫', destructive: true },
+  { icon: IconEdit, label: 'Edit' },
+  { icon: IconCopy, label: 'Copy' },
+  { icon: IconShare, label: 'Share' },
+  { icon: IconDownload, label: 'Download' },
+  { icon: IconTrash, label: 'Delete' },
 ];
 
 function ToolbarActions() {
   return (
-    <div className='bg-card flex items-center gap-1 rounded-lg border p-2'>
-      {toolbarActions.map((action, index) => (
+    <div className='inline-flex items-center gap-1'>
+      {toolbarActions.map((action) => (
         <TooltipRoot key={action.label}>
           <TooltipTrigger>
             {(props) => (
-              <button
-                {...props}
-                className={cn(
-                  'flex size-9 items-center justify-center rounded-md transition-colors',
-                  'hover:bg-muted focus:ring-ring/50 focus:ring-2 focus:outline-none',
-                  action.destructive &&
-                    'hover:bg-red-100 dark:hover:bg-red-950/50',
-                )}
-              >
-                <action.icon
-                  className={cn(
-                    'size-5',
-                    action.destructive
-                      ? 'text-red-600 dark:text-red-400'
-                      : 'text-muted-foreground',
-                  )}
-                />
-              </button>
+              <Button {...props} size='icon' variant='outline'>
+                <action.icon />
+              </Button>
             )}
           </TooltipTrigger>
 
           <TooltipPortal>
-            <TooltipContent placement='bottom'>
-              {({ props, arrowProps }) => (
-                <TooltipBox {...props} arrowProps={arrowProps}>
-                  <span>{action.label}</span>
-                  <kbd className='bg-foreground/10 ml-2 rounded px-1.5 py-0.5 font-mono text-xs'>
-                    {action.shortcut}
-                  </kbd>
-                </TooltipBox>
-              )}
-            </TooltipContent>
+            <TooltipContent>{action.label}</TooltipContent>
           </TooltipPortal>
         </TooltipRoot>
       ))}
@@ -147,51 +128,36 @@ function ToolbarActions() {
 /* ---------------------------------- */
 
 const formattingOptions = [
-  { icon: IconBold, label: 'Bold', shortcut: '⌘B' },
-  { icon: IconItalic, label: 'Italic', shortcut: '⌘I' },
-  { icon: IconUnderline, label: 'Underline', shortcut: '⌘U' },
-  { icon: IconLink, label: 'Insert Link', shortcut: '⌘K' },
-  { icon: IconCode, label: 'Code', shortcut: '⌘E' },
+  { icon: IconBold, label: 'Bold' },
+  { icon: IconItalic, label: 'Italic' },
+  { icon: IconUnderline, label: 'Underline' },
+  { icon: IconLink, label: 'Insert Link' },
+  { icon: IconCode, label: 'Code' },
 ];
 
 function TextFormattingToolbar() {
   return (
-    <div className='max-w-lg'>
-      <div className='bg-muted/30 flex items-center gap-0.5 rounded-t-lg border border-b-0 px-2 py-1.5'>
+    <InputGroup className='w-full max-w-md'>
+      <InputGroupAddon align='block-start' className='border-b'>
         {formattingOptions.map((option) => (
           <TooltipRoot key={option.label} showDelay={200}>
             <TooltipTrigger>
               {(props) => (
-                <button
-                  {...props}
-                  className='hover:bg-background focus:ring-ring/50 flex size-8 items-center justify-center rounded transition-colors focus:ring-2 focus:outline-none'
-                >
-                  <option.icon className='text-muted-foreground size-4' />
-                </button>
+                <Button {...props} size='icon' variant='ghost'>
+                  <option.icon />
+                </Button>
               )}
             </TooltipTrigger>
 
             <TooltipPortal>
-              <TooltipContent placement='top'>
-                {({ props, arrowProps }) => (
-                  <TooltipBox {...props} arrowProps={arrowProps}>
-                    {option.label}
-                    <kbd className='bg-foreground/10 ml-2 rounded px-1.5 py-0.5 font-mono text-xs'>
-                      {option.shortcut}
-                    </kbd>
-                  </TooltipBox>
-                )}
-              </TooltipContent>
+              <TooltipContent>{option.label}</TooltipContent>
             </TooltipPortal>
           </TooltipRoot>
         ))}
-      </div>
-      <textarea
-        className='bg-background focus:ring-ring/50 w-full resize-none rounded-b-lg border px-3 py-2 text-sm focus:ring-2 focus:outline-none'
-        rows={3}
-        placeholder='Start typing...'
-      />
-    </div>
+      </InputGroupAddon>
+
+      <InputGroupTextarea rows={3} placeholder='Start typing...' />
+    </InputGroup>
   );
 }
 
@@ -204,76 +170,58 @@ function FormFieldHints() {
     <div className='max-w-sm space-y-4'>
       <div className='space-y-2'>
         <div className='flex items-center gap-2'>
-          <label className='text-sm font-medium'>API Key</label>
+          <Label>API Key</Label>
           <TooltipRoot>
             <TooltipTrigger>
               {(props) => (
-                <button
-                  {...props}
-                  className='text-muted-foreground hover:text-foreground focus:ring-ring/50 rounded transition-colors focus:ring-2 focus:outline-none'
-                >
-                  <IconHelp className='size-4' />
-                </button>
+                <Button {...props} size='icon-sm' variant='ghost'>
+                  <IconHelp />
+                </Button>
               )}
             </TooltipTrigger>
 
             <TooltipPortal>
-              <TooltipContent placement='right'>
-                {({ props, arrowProps }) => (
-                  <TooltipBoxWide {...props} arrowProps={arrowProps}>
-                    <strong>Where to find your API key:</strong>
-                    <p className='text-muted-foreground mt-1'>
-                      Go to Settings → Developer → API Keys to generate a new
-                      key.
-                    </p>
-                  </TooltipBoxWide>
-                )}
+              <TooltipContent placement='right' className='max-w-xs'>
+                <strong>Where to find your API key:</strong>
+                <p className='text-muted-foreground mt-1'>
+                  Go to Settings → Developer → API Keys to generate a new key.
+                </p>
               </TooltipContent>
             </TooltipPortal>
           </TooltipRoot>
         </div>
-        <input
-          type='password'
-          placeholder='sk_live_...'
-          className='bg-background focus:ring-ring/50 w-full rounded-lg border px-3 py-2 text-sm focus:ring-2 focus:outline-none'
-        />
+
+        <Input type='password' placeholder='sk_live_...' className='max-w-sm' />
       </div>
 
       <div className='space-y-2'>
         <div className='flex items-center gap-2'>
-          <label className='text-sm font-medium'>Webhook URL</label>
+          <Label>Webhook URL</Label>
           <TooltipRoot>
             <TooltipTrigger>
               {(props) => (
-                <button
-                  {...props}
-                  className='focus:ring-ring/50 rounded text-blue-600 focus:ring-2 focus:outline-none dark:text-blue-400'
-                >
-                  <IconInfoCircle className='size-4' />
-                </button>
+                <Button {...props} size='icon-sm' variant='ghost'>
+                  <IconInfoCircle />
+                </Button>
               )}
             </TooltipTrigger>
 
             <TooltipPortal>
-              <TooltipContent placement='right'>
-                {({ props, arrowProps }) => (
-                  <TooltipBoxWide {...props} arrowProps={arrowProps}>
-                    <strong>Webhook Requirements:</strong>
-                    <ul className='text-muted-foreground mt-1 list-inside list-disc text-xs'>
-                      <li>Must be a valid HTTPS URL</li>
-                      <li>Should respond within 30 seconds</li>
-                      <li>Return 2xx status code</li>
-                    </ul>
-                  </TooltipBoxWide>
-                )}
+              <TooltipContent placement='right' className='max-w-xs'>
+                <strong>Webhook Requirements:</strong>
+                <ul className='text-muted-foreground mt-1 list-inside list-disc text-xs'>
+                  <li>Must be a valid HTTPS URL</li>
+                  <li>Should respond within 30 seconds</li>
+                  <li>Return 2xx status code</li>
+                </ul>
               </TooltipContent>
             </TooltipPortal>
           </TooltipRoot>
         </div>
-        <input
+        <Input
           type='url'
           placeholder='https://your-server.com/webhook'
-          className='bg-background focus:ring-ring/50 w-full rounded-lg border px-3 py-2 text-sm focus:ring-2 focus:outline-none'
+          className='max-w-sm'
         />
       </div>
     </div>
@@ -301,11 +249,7 @@ function PlacementExamples() {
 
           <TooltipPortal>
             <TooltipContent placement={placement}>
-              {({ props, arrowProps }) => (
-                <TooltipBox {...props} arrowProps={arrowProps}>
-                  Tooltip on {placement}
-                </TooltipBox>
-              )}
+              Tooltip on {placement}
             </TooltipContent>
           </TooltipPortal>
         </TooltipRoot>
@@ -331,34 +275,29 @@ function InteractiveTooltips() {
         </TooltipTrigger>
 
         <TooltipPortal>
-          <TooltipContent placement='top' disableInteractive={false}>
-            {({ props, arrowProps }) => (
-              <div
-                {...props}
-                className='bg-card ring-foreground/10 relative z-50 w-64 rounded-xl p-4 text-sm shadow-lg ring-1 data-[hide=true]:hidden'
-              >
-                <FloatingArrow {...arrowProps} className='fill-foreground' />
-                <div className='flex items-center gap-3'>
-                  <div className='flex size-10 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-purple-600 font-semibold text-white'>
-                    JD
-                  </div>
-                  <div>
-                    <p className='font-semibold'>John Doe</p>
-                    <p className='text-muted-foreground text-xs'>
-                      Senior Engineer
-                    </p>
-                  </div>
-                </div>
-                <div className='mt-3 flex gap-2'>
-                  <Button size='xs' variant='outline' className='flex-1'>
-                    Profile
-                  </Button>
-                  <Button size='xs' className='flex-1'>
-                    Message
-                  </Button>
-                </div>
+          <TooltipContent
+            placement='top'
+            disableInteractive={false}
+            className='relative w-64 shadow-lg'
+          >
+            <div className='flex items-center gap-3'>
+              <div className='flex size-10 items-center justify-center rounded-full bg-linear-to-br from-blue-500 to-purple-600 font-semibold text-white'>
+                JD
               </div>
-            )}
+              <div>
+                <p className='font-semibold'>John Doe</p>
+                <p className='text-muted-foreground text-xs'>Senior Engineer</p>
+              </div>
+            </div>
+
+            <div className='mt-3 flex gap-2'>
+              <Button size='xs' variant='outline' className='flex-1'>
+                Profile
+              </Button>
+              <Button size='xs' className='flex-1'>
+                Message
+              </Button>
+            </div>
           </TooltipContent>
         </TooltipPortal>
       </TooltipRoot>
@@ -376,69 +315,25 @@ function InteractiveTooltips() {
         </TooltipTrigger>
 
         <TooltipPortal>
-          <TooltipContent placement='top' disableInteractive={false}>
-            {({ props, arrowProps }) => (
-              <div
-                {...props}
-                className='bg-card ring-foreground/10 relative z-50 max-w-xs rounded-xl p-4 text-sm shadow-lg ring-1 data-[hide=true]:hidden'
-              >
-                <FloatingArrow {...arrowProps} className='fill-foreground' />
-                <p className='font-semibold'>Server-Side Rendering</p>
-                <p className='text-muted-foreground mt-1 text-xs'>
-                  A technique where HTML is generated on the server for each
-                  request, improving initial load time and SEO.
-                </p>
-                <a
-                  href='#'
-                  className='mt-2 inline-block text-xs text-blue-600 hover:underline dark:text-blue-400'
-                >
-                  Learn more →
-                </a>
-              </div>
-            )}
+          <TooltipContent
+            placement='top'
+            disableInteractive={false}
+            className='max-w-xs'
+          >
+            <p className='font-semibold'>Server-Side Rendering</p>
+            <p className='text-muted-foreground mt-1 text-xs'>
+              A technique where HTML is generated on the server for each
+              request, improving initial load time and SEO.
+            </p>
+            <a
+              href='#'
+              className='mt-2 inline-block text-xs text-blue-600 hover:underline dark:text-blue-400'
+            >
+              Learn more →
+            </a>
           </TooltipContent>
         </TooltipPortal>
       </TooltipRoot>
-    </div>
-  );
-}
-
-/* ---------------------------------- */
-/* Shared Tooltip Components           */
-/* ---------------------------------- */
-
-function TooltipBox({
-  children,
-  arrowProps,
-  ...props
-}: React.HTMLAttributes<HTMLDivElement> & {
-  arrowProps: any;
-}) {
-  return (
-    <div
-      {...props}
-      className='bg-foreground text-background relative z-50 flex items-center rounded-md px-3 py-1.5 text-sm data-[hide=true]:hidden'
-    >
-      <FloatingArrow {...arrowProps} className='fill-foreground' />
-      {children}
-    </div>
-  );
-}
-
-function TooltipBoxWide({
-  children,
-  arrowProps,
-  ...props
-}: React.HTMLAttributes<HTMLDivElement> & {
-  arrowProps: any;
-}) {
-  return (
-    <div
-      {...props}
-      className='bg-card ring-foreground/10 relative z-50 max-w-xs rounded-lg p-3 text-sm shadow-lg ring-1 data-[hide=true]:hidden'
-    >
-      <FloatingArrow {...arrowProps} className='fill-foreground' />
-      {children}
     </div>
   );
 }

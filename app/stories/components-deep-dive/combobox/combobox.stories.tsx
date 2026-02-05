@@ -30,9 +30,7 @@ export const Default: StoryObj<typeof meta> = {
 
       <div className='story-demo not-typography'>
         <h2>Interactive Examples</h2>
-        <p className='text-muted-foreground mb-6'>
-          Real-world patterns: country selector, user search, skills picker
-        </p>
+        <p>Real-world patterns: country selector, user search, skills picker</p>
         <div>
           <ComboboxDemo />
         </div>

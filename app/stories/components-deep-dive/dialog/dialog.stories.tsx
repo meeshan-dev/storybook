@@ -30,9 +30,7 @@ export const Default: StoryObj<typeof meta> = {
 
       <div className='story-demo not-typography'>
         <h2>Interactive Examples</h2>
-        <p className='text-muted-foreground mb-6'>
-          Real-world patterns: forms, wizards, and nested dialogs
-        </p>
+        <p>Real-world patterns: forms, wizards, and nested dialogs</p>
         <div>
           <DialogDemo />
         </div>

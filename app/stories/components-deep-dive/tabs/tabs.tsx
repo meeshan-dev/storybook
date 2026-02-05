@@ -29,10 +29,12 @@ export function TabsRoot({
   activationMode = 'automatic',
   onValueChange,
   children,
+  className,
 }: {
   children?: React.ReactNode;
   value?: string;
   defaultValue?: string;
+  className?: string;
   loop?: boolean;
   activationMode?: ActivationMode;
   orientation?: Orientation;
@@ -61,7 +63,7 @@ export function TabsRoot({
         setValue,
       }}
     >
-      {children}
+      <div className={className}>{children}</div>
     </TabsCtx>
   );
 }

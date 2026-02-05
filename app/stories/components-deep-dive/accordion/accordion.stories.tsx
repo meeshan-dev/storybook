@@ -30,7 +30,7 @@ export const Default: StoryObj<typeof meta> = {
 
       <div className='story-demo not-typography'>
         <h2>Interactive Examples</h2>
-        <p className='text-muted-foreground mb-6'>
+        <p>
           Three real-world use cases demonstrating different expansion modes
         </p>
         <div>

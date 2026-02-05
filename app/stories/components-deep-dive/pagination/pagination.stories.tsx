@@ -23,9 +23,7 @@ export const Default: StoryObj<typeof meta> = {
 
       <div className='story-demo not-typography'>
         <h2>Interactive Examples</h2>
-        <p className='text-muted-foreground mb-6'>
-          Data table, gallery, compact, and simple pagination styles
-        </p>
+        <p>Data table, gallery, compact, and simple pagination styles</p>
         <div>
           <PaginationDemo />
         </div>

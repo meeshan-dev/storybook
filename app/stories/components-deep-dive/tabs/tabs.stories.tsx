@@ -27,6 +27,14 @@ export const Default: StoryObj<typeof meta> = {
         activation modes, and optional keyboard looping.
       </p>
 
+      <div className='story-demo not-typography'>
+        <h2>Interactive Example</h2>
+        <p>Dashboard overview</p>
+        <div>
+          <TabsDemo />
+        </div>
+      </div>
+
       <h2>Implementation Highlights</h2>
 
       <ul>
@@ -43,28 +51,24 @@ export const Default: StoryObj<typeof meta> = {
           orientations with appropriate arrow key bindings
         </li>
         <li>
-          <strong>Render props pattern</strong> — Full control over trigger
-          styling with access to selection state
+          <code>role="tablist"</code> on the tab container
         </li>
         <li>
-          <strong>Controlled and uncontrolled</strong> — Works with or without
-          external state management
+          <code>role="tab"</code> on each trigger with{' '}
+          <code>aria-selected</code> state
         </li>
         <li>
-          <strong>Compound components</strong> — Clean API with TabsRoot,
-          TabsList, TabsTrigger, and TabsContent
+          <code>role="tabpanel"</code> on content with{' '}
+          <code>aria-labelledby</code>
         </li>
+        <li>
+          <code>aria-orientation</code> indicates horizontal or vertical layout
+        </li>
+        <li>
+          <code>aria-controls</code> links tabs to their panels
+        </li>
+        <li>Only selected panel is visible; others are hidden</li>
       </ul>
-
-      <div className='story-demo not-typography'>
-        <h2>Interactive Examples</h2>
-        <p className='text-muted-foreground mb-6'>
-          Dashboard overview, settings navigation, and product details
-        </p>
-        <div>
-          <TabsDemo />
-        </div>
-      </div>
 
       <h2>Keyboard Navigation</h2>
 
@@ -130,29 +134,6 @@ export const Default: StoryObj<typeof meta> = {
           <strong>Manual</strong> — Tab requires Enter or Space to select. Best
           when tab content requires loading or has side effects.
         </li>
-      </ul>
-
-      <h2>Accessibility Features</h2>
-
-      <ul>
-        <li>
-          <code>role="tablist"</code> on the tab container
-        </li>
-        <li>
-          <code>role="tab"</code> on each trigger with{' '}
-          <code>aria-selected</code> state
-        </li>
-        <li>
-          <code>role="tabpanel"</code> on content with{' '}
-          <code>aria-labelledby</code>
-        </li>
-        <li>
-          <code>aria-orientation</code> indicates horizontal or vertical layout
-        </li>
-        <li>
-          <code>aria-controls</code> links tabs to their panels
-        </li>
-        <li>Only selected panel is visible; others are hidden</li>
       </ul>
 
       <StorySourceCode>{sourceCode}</StorySourceCode>

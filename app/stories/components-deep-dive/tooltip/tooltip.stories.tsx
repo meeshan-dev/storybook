@@ -27,14 +27,19 @@ export const Default: StoryObj<typeof meta> = {
         detection.
       </p>
 
+      <div className='story-demo not-typography'>
+        <h2>Interactive Examples</h2>
+        <p>
+          Toolbar actions, text formatting, form hints, and interactive tooltips
+        </p>
+        <div>
+          <TooltipDemo />
+        </div>
+      </div>
+
       <h2>Implementation Highlights</h2>
 
       <ul>
-        <li>
-          <strong>Floating UI positioning</strong> — Uses{' '}
-          <code>@floating-ui/react</code> with flip, shift, and offset
-          middleware for automatic repositioning
-        </li>
         <li>
           <strong>Single tooltip guarantee</strong> — Global registry ensures
           only one tooltip is visible at a time
@@ -55,20 +60,16 @@ export const Default: StoryObj<typeof meta> = {
           allows hovering over tooltip content
         </li>
         <li>
-          <strong>Render prop pattern</strong> — Full control over trigger and
-          content rendering
+          Uses <code>role="tooltip"</code> for screen reader announcement
         </li>
+        <li>
+          Trigger has <code>aria-describedby</code> pointing to tooltip
+        </li>
+        <li>Opens on keyboard focus by default</li>
+        <li>Escape key dismisses without moving focus</li>
+        <li>Does not trap focus (unlike dialogs)</li>
+        <li>Disabled triggers prevent tooltip from appearing</li>
       </ul>
-
-      <div className='story-demo not-typography'>
-        <h2>Interactive Examples</h2>
-        <p className='text-muted-foreground mb-6'>
-          Toolbar actions, text formatting, form hints, and interactive tooltips
-        </p>
-        <div>
-          <TooltipDemo />
-        </div>
-      </div>
 
       <h2>Keyboard Interactions</h2>
 
@@ -141,34 +142,6 @@ export const Default: StoryObj<typeof meta> = {
           </tbody>
         </table>
       </div>
-
-      <h2>Accessibility Features</h2>
-
-      <ul>
-        <li>
-          Uses <code>role="tooltip"</code> for screen reader announcement
-        </li>
-        <li>
-          Trigger has <code>aria-describedby</code> pointing to tooltip
-        </li>
-        <li>Opens on keyboard focus by default</li>
-        <li>Escape key dismisses without moving focus</li>
-        <li>Does not trap focus (unlike dialogs)</li>
-        <li>Disabled triggers prevent tooltip from appearing</li>
-      </ul>
-
-      <h2>Best Practices</h2>
-
-      <ul>
-        <li>Keep tooltip content brief and informative</li>
-        <li>Don't put essential information only in tooltips</li>
-        <li>Use consistent placement across similar elements</li>
-        <li>Include keyboard shortcuts in toolbar tooltips</li>
-        <li>
-          Use interactive tooltips sparingly — consider popover for complex
-          content
-        </li>
-      </ul>
 
       <StorySourceCode>{sourceCode}</StorySourceCode>
     </div>

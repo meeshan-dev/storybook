@@ -29,9 +29,7 @@ export const Default: StoryObj<typeof meta> = {
 
       <div className='story-demo not-typography'>
         <h2>Interactive Examples</h2>
-        <p className='text-muted-foreground mb-6'>
-          FAQ section, settings panel, filter sidebar, and feature details
-        </p>
+        <p>FAQ section, settings panel, filter sidebar, and feature details</p>
         <div>
           <DisclosureDemo />
         </div>

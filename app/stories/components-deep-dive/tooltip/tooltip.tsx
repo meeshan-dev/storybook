@@ -1,21 +1,21 @@
-import type { FloatingContext } from '@floating-ui/react';
 import {
-  type Placement,
-  type Strategy,
   arrow as arrowMiddleware,
   autoUpdate,
   flip as flipMiddleware,
+  FloatingArrow,
   hide as hideMiddleware,
   limitShift,
   offset as offsetMiddleware,
   shift as shiftMiddleware,
   size,
   useFloating,
+  type Placement,
 } from '@floating-ui/react';
 import React, { useEffectEvent, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { createContextScope } from '~/lib/context-scope';
 import { getLayers } from '~/lib/get-layers';
+import { cn } from '~/lib/utils';
 import { useControlled } from '~/stories/hooks/use-controlled';
 
 /* ———————————————————— Root ———————————————————— */
@@ -215,23 +215,13 @@ export const TooltipPortal = ({ children }: { children?: React.ReactNode }) => {
 export function TooltipContent({
   disableInteractive,
   children,
-  offset = 5,
-  arrowPadding = 10,
-  placement = 'bottom',
-  strategy = 'absolute',
+  className,
+  placement,
 }: {
   disableInteractive?: boolean;
-  offset?: number;
-  arrowPadding?: number;
+  children?: React.ReactNode;
+  className?: string;
   placement?: Placement;
-  strategy?: Strategy;
-  children?: (props: {
-    props: React.ComponentPropsWithRef<'div'>;
-    arrowProps: {
-      ref: React.RefObject<SVGSVGElement | null>;
-      context: FloatingContext;
-    };
-  }) => React.ReactNode;
 }) {
   const tooltipCtx = useTooltipCtx();
 
@@ -239,10 +229,10 @@ export function TooltipContent({
 
   const floatingReturn = useFloating<HTMLButtonElement>({
     open: tooltipCtx.open,
-    placement,
+    placement: placement || 'top',
     elements: { reference: tooltipCtx.triggerEle },
     whileElementsMounted: autoUpdate,
-    strategy,
+    strategy: 'absolute',
     middleware: [
       offsetMiddleware({ mainAxis: 3 + 7 /* 7 is arrow height */ }),
       flipMiddleware(),
@@ -250,7 +240,7 @@ export function TooltipContent({
       // eslint-disable-next-line react-hooks/refs
       arrowMiddleware({
         element: arrowRef,
-        padding: arrowPadding,
+        padding: 10,
       }),
       size({
         apply({ rects, elements }) {
@@ -279,40 +269,44 @@ export function TooltipContent({
   }, []);
 
   return (
-    <>
-      {/* eslint-disable-next-line react-hooks/refs */}
-      {children?.({
-        arrowProps: { ref: arrowRef, context: floatingReturn.context },
-        props: {
-          style: floatingReturn.floatingStyles,
-          ref: (node) => {
-            floatingReturn.refs.setFloating(node);
+    <div
+      style={floatingReturn.floatingStyles}
+      ref={(node) => {
+        floatingReturn.refs.setFloating(node);
 
-            if (!node) return;
+        if (!node) return;
 
-            const topLayer = getLayers().at(-1);
+        const topLayer = getLayers().at(-1);
 
-            if (node.dataset.layerDepth) return;
+        if (node.dataset.layerDepth) return;
 
-            node.dataset.layerDepth = String(
-              parseInt(topLayer?.dataset.layerDepth || '0') + 1,
-            );
-          },
-          role: 'tooltip',
-          onMouseEnter: () => {
-            if (disableInteractive) return;
-            tooltipCtx.showTooltip(true);
-          },
-          onMouseLeave: () => {
-            if (disableInteractive) return;
-            tooltipCtx.hideTooltip(false);
-          },
-          ...{
-            'data-hide': !!floatingReturn.middlewareData.hide?.referenceHidden,
-            'data-layer': true,
-          },
-        },
-      })}
-    </>
+        node.dataset.layerDepth = String(
+          parseInt(topLayer?.dataset.layerDepth || '0') + 1,
+        );
+      }}
+      role='tooltip'
+      onMouseEnter={() => {
+        if (disableInteractive) return;
+        tooltipCtx.showTooltip(true);
+      }}
+      onMouseLeave={() => {
+        if (disableInteractive) return;
+        tooltipCtx.hideTooltip(false);
+      }}
+      data-hide={!!floatingReturn.middlewareData.hide?.referenceHidden}
+      data-layer={true}
+      className={cn(
+        'bg-background ring-foreground/10 z-50 rounded-md p-2 text-sm shadow-md ring-1 outline-none data-[hide=true]:hidden',
+        className,
+      )}
+    >
+      <FloatingArrow
+        context={floatingReturn.context}
+        ref={arrowRef}
+        className='fill-foreground'
+      />
+
+      {children}
+    </div>
   );
 }
