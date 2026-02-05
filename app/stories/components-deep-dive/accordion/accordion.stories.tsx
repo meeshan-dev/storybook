@@ -16,8 +16,7 @@ export const Default: StoryObj<typeof meta> = {
       <h1>Accordion</h1>
 
       <p>
-        Accessible accordion component built from first principles. Implements
-        the{' '}
+        Implements the{' '}
         <a
           href='https://www.w3.org/WAI/ARIA/apg/patterns/accordion/'
           target='_blank'

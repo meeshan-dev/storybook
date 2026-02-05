@@ -80,16 +80,21 @@ function FAQAccordion() {
       <AccordionRoot
         type='multiple'
         defaultValue={['shipping']}
-        className='divide-border mt-6 divide-y rounded-xl border [&>div:first-child>h3>button]:rounded-t-xl [&>div:last-child>h3>button]:rounded-b-xl [&>div:last-child>h3>button[aria-expanded="true"]]:rounded-b-none'
+        className='divide-border mt-6 divide-y'
       >
         {faqItems.map(({ id, icon: Icon, question, answer, disabled }) => (
-          <AccordionItem key={id} value={id} disabled={disabled}>
+          <AccordionItem
+            key={id}
+            value={id}
+            disabled={disabled}
+            className='focus-within:ring-ring/50 relative overflow-hidden border first:rounded-t-xl last:rounded-b-xl focus-within:z-50 focus-within:ring-[3px]'
+          >
             <AccordionTrigger headingLevel='h3'>
               {(props) => (
                 <Button
                   {...props}
                   variant='ghost'
-                  className='hover:dark:bg-secondary relative h-auto w-full justify-start gap-3 rounded-none border-0 px-4 py-4 focus:z-50'
+                  className='h-auto w-full justify-start gap-3 border-0 px-4 py-4 focus-visible:ring-0'
                 >
                   <Icon className='size-5' />
                   <span className='flex-1 truncate'>{question}</span>
@@ -173,14 +178,14 @@ function SettingsPanelAccordion() {
               key={id}
               value={id}
               disabled={disabled}
-              className='bg-secondary/50 overflow-hidden rounded-lg border transition-colors data-disabled:opacity-50'
+              className='focus-within:ring-ring/50 relative overflow-hidden border first:rounded-t-xl last:rounded-b-xl focus-within:z-50 focus-within:ring-[3px]'
             >
               <AccordionTrigger headingLevel='h3'>
                 {(props) => (
                   <Button
                     {...props}
                     variant='ghost'
-                    className='h-auto w-full justify-start gap-4 rounded-none p-4 text-left'
+                    className='h-auto w-full justify-start gap-4 border-0 p-4 text-left focus-visible:ring-0'
                   >
                     <div className='bg-primary/10 text-primary flex size-10 shrink-0 items-center justify-center rounded-lg'>
                       <Icon size={20} />
@@ -292,14 +297,14 @@ function ProductFeaturesAccordion() {
           <AccordionItem
             key={id}
             value={id}
-            className='overflow-hidden rounded-xl border transition-all data-open:ring-2 data-open:ring-blue-300/20'
+            className='focus-within:ring-ring/50 relative overflow-hidden rounded-xl border focus-within:z-50 focus-within:ring-[3px]'
           >
             <AccordionTrigger headingLevel='h3'>
               {(props) => (
                 <Button
                   {...props}
                   variant='ghost'
-                  className='h-auto w-full justify-between gap-4 rounded-none p-4 text-left'
+                  className='h-auto w-full justify-between gap-4 border-0 p-4 text-left focus-visible:ring-0'
                 >
                   <div className='flex items-center gap-3 truncate'>
                     <span className='truncate font-semibold'>{title}</span>
