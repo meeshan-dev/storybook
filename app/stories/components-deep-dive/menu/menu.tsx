@@ -287,7 +287,7 @@ export function MenuContent({
       tabIndex={-1}
       style={floatingReturn.floatingStyles}
       className={cn(
-        'bg-background ring-foreground/10 relative z-50 w-(--reference-width) rounded-md p-1 ring-1 outline-none data-[hide=true]:hidden',
+        'bg-background ring-foreground/10 relative z-50 w-(--reference-width) rounded-md p-1 shadow-md ring-1 outline-none data-[hide=true]:hidden',
         className,
       )}
       ref={(node) => {
@@ -393,7 +393,7 @@ function ItemBase({
         }
       }}
       className={cn(
-        'focus:bg-secondary flex gap-2 rounded-md px-3 py-2 text-sm outline-none aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[variant=destructive]:text-red-600 dark:data-[variant=destructive]:text-red-400 *:[svg]:size-4',
+        'focus:bg-secondary [&_svg]:text-muted-foreground [&_kbd]:text-muted-foreground flex items-center gap-2 rounded-md px-3 py-2 text-sm outline-none aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[variant=destructive]:text-red-600 dark:data-[variant=destructive]:text-red-400 [&_kbd]:inline-flex [&_kbd]:items-center [&_kbd]:justify-center [&_kbd]:gap-1 [&_kbd]:text-xs [&_kbd]:leading-0 [&_kbd]:font-medium [&_kbd]:tabular-nums [&_kbd>svg]:size-3.5 [&>svg]:size-4',
         className,
       )}
     >

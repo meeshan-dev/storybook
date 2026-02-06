@@ -185,7 +185,7 @@ export function DialogContent({
       aria-labelledby={titleId}
       aria-describedby={descriptionId}
       className={cn(
-        'ring-foreground/10 fixed top-1/2 left-1/2 z-50 flex max-h-[calc(100%-2rem)] w-[min(100%,calc(100%-2rem))] max-w-lg -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-xl p-0 ring-1 duration-100 outline-none',
+        'ring-foreground/10 fixed top-1/2 left-1/2 z-50 flex max-h-[calc(100%-2rem)] w-[min(100%,calc(100%-2rem))] max-w-lg -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-xl p-0 shadow-md ring-1 duration-100 outline-none',
         wrapperClassName,
       )}
     >

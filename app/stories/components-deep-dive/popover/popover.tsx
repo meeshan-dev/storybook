@@ -194,7 +194,7 @@ export function PopoverContent({
     <div
       ref={refs.setFloating}
       className={cn(
-        'relative z-50 flex max-h-[calc(100%-2rem)] w-[min(100%,calc(100%-2rem))] max-w-lg data-[hide=true]:hidden',
+        'relative z-50 flex max-h-[calc(100%-2rem)] w-[min(100%,calc(100%-2rem))] max-w-lg shadow-md data-[hide=true]:hidden',
         outerWrapperClassName,
       )}
       data-hide={!!floatingReturn.middlewareData.hide?.referenceHidden}

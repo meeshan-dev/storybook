@@ -1,6 +1,8 @@
 import {
+  IconArrowUp,
   IconCheck,
   IconClipboard,
+  IconCommand,
   IconCopy,
   IconCut,
   IconDownload,
@@ -95,12 +97,16 @@ function FileActionsMenu() {
             <MenuItem>
               <IconPlus size={16} />
               <span className='flex-1'>New File</span>
-              <kbd className='text-muted-foreground text-xs'>⌘N</kbd>
+              <kbd>
+                <IconCommand /> <IconArrowUp /> <span>N</span>
+              </kbd>
             </MenuItem>
             <MenuItem>
               <IconFolderPlus size={16} />
               <span className='flex-1'>New Folder</span>
-              <kbd className='text-muted-foreground text-xs'>⌘⇧N</kbd>
+              <kbd>
+                <IconCommand /> <IconArrowUp /> <span>D</span>
+              </kbd>
             </MenuItem>
             <MenuSeparator />
             <MenuItem>
@@ -110,7 +116,9 @@ function FileActionsMenu() {
             <MenuItem>
               <IconDownload size={16} />
               <span className='flex-1'>Download</span>
-              <kbd className='text-muted-foreground text-xs'>⌘D</kbd>
+              <kbd>
+                <IconCommand /> <IconArrowUp /> <span>J</span>
+              </kbd>
             </MenuItem>
             <MenuSeparator />
             <MenuItem>
@@ -125,7 +133,9 @@ function FileActionsMenu() {
             <MenuItem variant='destructive'>
               <IconTrash size={16} />
               <span className='flex-1'>Move to Trash</span>
-              <kbd className='text-muted-foreground text-xs'>⌘⌫</kbd>
+              <kbd>
+                <IconCommand /> <IconArrowUp /> <span>Backspace</span>
+              </kbd>
             </MenuItem>
           </MenuContent>
         </MenuPortal>
@@ -413,23 +423,31 @@ function ContextActionsMenu() {
             <MenuItem>
               <IconCut size={16} />
               <span className='flex-1'>Cut</span>
-              <kbd className='text-muted-foreground text-xs'>⌘X</kbd>
+              <kbd>
+                <IconCommand /> <span>X</span>
+              </kbd>
             </MenuItem>
             <MenuItem>
               <IconCopy size={16} />
               <span className='flex-1'>Copy</span>
-              <kbd className='text-muted-foreground text-xs'>⌘C</kbd>
+              <kbd>
+                <IconCommand /> <span>C</span>
+              </kbd>
             </MenuItem>
             <MenuItem>
               <IconClipboard size={16} />
               <span className='flex-1'>Paste</span>
-              <kbd className='text-muted-foreground text-xs'>⌘V</kbd>
+              <kbd>
+                <IconCommand /> <span>V</span>
+              </kbd>
             </MenuItem>
             <MenuSeparator />
             <MenuItem>
               <IconPencil size={16} />
               <span className='flex-1'>Rename</span>
-              <kbd className='text-muted-foreground text-xs'>F2</kbd>
+              <kbd>
+                <span>F2</span>
+              </kbd>
             </MenuItem>
             <MenuItem>
               <IconFolder size={16} />
@@ -439,7 +457,9 @@ function ContextActionsMenu() {
             <MenuItem variant='destructive'>
               <IconTrash size={16} />
               <span className='flex-1'>Delete</span>
-              <kbd className='text-muted-foreground text-xs'>⌫</kbd>
+              <kbd>
+                <span>Backspace</span>
+              </kbd>
             </MenuItem>
           </MenuContent>
         </MenuPortal>
