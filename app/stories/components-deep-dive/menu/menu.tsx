@@ -124,7 +124,7 @@ export function MenuContent({
     middleware: [
       offsetMiddleware({ mainAxis: 3 + 7 /* 7 is arrow height */ }),
       flipMiddleware(),
-      shiftMiddleware({ limiter: limitShift() }),
+      shiftMiddleware({ limiter: limitShift(), padding: 10 }),
       // eslint-disable-next-line react-hooks/refs
       arrowMiddleware({
         element: arrowRef,
