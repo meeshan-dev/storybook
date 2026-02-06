@@ -16,15 +16,13 @@ export const Default: StoryObj<typeof meta> = {
       <h1>Disclosure</h1>
 
       <p>
-        An accessible disclosure (accordion) component implementing the{' '}
+        Implements the{' '}
         <a
           href='https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/'
           target='_blank'
         >
           WAI-ARIA Disclosure Pattern
         </a>
-        . Supports single or multiple expansion modes with smooth animations via
-        motion/react.
       </p>
 
       <div className='story-demo not-typography'>
@@ -39,33 +37,26 @@ export const Default: StoryObj<typeof meta> = {
 
       <ul>
         <li>
-          Proper <code>aria-expanded</code> state on triggers
+          Proper trigger semantics with <code>aria-expanded</code> and{' '}
+          <code>aria-controls</code>
         </li>
         <li>
-          <code>aria-controls</code> linking triggers to their content regions
+          Content linked to triggers via <code>aria-labelledby</code>
         </li>
         <li>
-          Content uses <code>aria-labelledby</code> to link back to the trigger
+          Multiple expansion modes:
+          <strong>Multiple</strong>, <strong>Single Collapsible</strong>,{' '}
+          <strong>Single Non-Collapsible</strong>
         </li>
         <li>
-          <strong>Multiple</strong>: Any number of panels can be open
-          simultaneously
+          Disabled panels are announced and skipped in keyboard navigation
         </li>
         <li>
-          <strong>Single Collapsible</strong>: One panel at a time, can collapse
-          all
+          Smooth height animations via <strong>motion/react</strong> and{' '}
+          <code>AnimatePresence</code>
         </li>
         <li>
-          <strong>Single Non-Collapsible</strong>: Exactly one panel always open
-        </li>
-        <li>Disabled items are properly announced and skip keyboard focus</li>
-        <li>
-          <strong>motion/react integration</strong> for smooth height animations
-          with <code>AnimatePresence</code>
-        </li>
-        <li>
-          <strong>TypeScript discriminated unions</strong> for type-safe props
-          based on expansion mode
+          Type-safe props with <strong>TypeScript discriminated unions</strong>
         </li>
       </ul>
 

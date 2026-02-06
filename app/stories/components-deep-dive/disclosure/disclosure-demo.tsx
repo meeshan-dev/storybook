@@ -128,7 +128,7 @@ function FAQSection() {
             )}
           </DisclosureTrigger>
 
-          <DisclosureContent className='text-muted-foreground px-5 pl-12'>
+          <DisclosureContent className='text-muted-foreground px-5 pl-12 text-sm'>
             {item.answer}
           </DisclosureContent>
         </DisclosureItem>
@@ -212,7 +212,7 @@ function SettingsPanel() {
             )}
           </DisclosureTrigger>
 
-          <DisclosureContent className='space-y-3 border-b px-4 last:border-b-0'>
+          <DisclosureContent className='space-y-3 border-b px-4 text-sm last:border-b-0'>
             {section.content.map((item) => (
               <div
                 key={item.label}
@@ -292,7 +292,7 @@ function FilterPanel() {
               )}
             </DisclosureTrigger>
 
-            <DisclosureContent className='space-y-2 border-b px-4 py-3'>
+            <DisclosureContent className='space-y-2 border-b px-4 py-3 text-sm'>
               {group.options.map((option) => (
                 <label
                   key={option}
@@ -392,7 +392,7 @@ function FeatureList() {
             )}
           </DisclosureTrigger>
 
-          <DisclosureContent>
+          <DisclosureContent className='text-sm'>
             <p className='text-muted-foreground mb-3'>{feature.description}</p>
 
             <div className='flex flex-wrap gap-2'>

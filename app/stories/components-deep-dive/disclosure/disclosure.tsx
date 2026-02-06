@@ -1,7 +1,6 @@
 import { AnimatePresence, motion } from 'motion/react';
 import React, { useId } from 'react';
 import { createContextScope } from '~/lib/context-scope';
-import { cn } from '~/lib/utils';
 import { useControlled } from '~/stories/hooks/use-controlled';
 
 /* ———————————————————— Root ———————————————————— */
@@ -237,13 +236,7 @@ export const DisclosureContent = ({
           }}
           transition={{ duration: 0.2 }}
         >
-          <div
-            id={itemCtx.contentId}
-            className={cn(
-              '[&_a]:hover:text-foreground overflow-hidden px-3 py-4 text-sm [&_a]:underline [&_a]:underline-offset-3 [&_p:not(:last-child)]:mb-4',
-              className,
-            )}
-          >
+          <div id={itemCtx.contentId} className={className}>
             {children}
           </div>
         </motion.div>
