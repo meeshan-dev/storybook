@@ -105,7 +105,7 @@ function ViewSwitcher() {
             <Button
               {...props}
               aria-label={mode.label}
-              variant={isSelected ? 'secondary' : 'ghost'}
+              variant={isSelected ? 'default' : 'ghost'}
             >
               <mode.icon className='size-4' />
               <span className='hidden capitalize sm:inline'>{mode.value}</span>
@@ -139,7 +139,7 @@ function TextFormatting() {
           {(props, { isSelected }) => (
             <Button
               {...props}
-              variant={isSelected ? 'secondary' : 'ghost'}
+              variant={isSelected ? 'default' : 'ghost'}
               aria-label={option.label}
             >
               <option.icon className='size-4' />
@@ -174,7 +174,7 @@ function TextAlignment() {
           {(props, { isSelected }) => (
             <Button
               {...props}
-              variant={isSelected ? 'secondary' : 'ghost'}
+              variant={isSelected ? 'default' : 'ghost'}
               aria-label={option.label}
             >
               <option.icon className='size-4' />
@@ -276,7 +276,7 @@ function SortDirection() {
             {(props, { isSelected }) => (
               <Button
                 {...props}
-                variant={isSelected ? 'secondary' : 'ghost'}
+                variant={isSelected ? 'default' : 'ghost'}
                 aria-label='Sort ascending'
               >
                 <IconSortAscending className='size-4' />
@@ -289,7 +289,7 @@ function SortDirection() {
             {(props, { isSelected }) => (
               <Button
                 {...props}
-                variant={isSelected ? 'secondary' : 'ghost'}
+                variant={isSelected ? 'default' : 'ghost'}
                 aria-label='Sort descending'
               >
                 <IconSortDescending className='size-4' />
