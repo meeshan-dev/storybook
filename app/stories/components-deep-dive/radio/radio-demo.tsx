@@ -91,7 +91,7 @@ function PricingPlans() {
         {pricingPlans.map((plan) => (
           <label
             key={plan.id}
-            className='group bg-card hover:border-foreground/20 relative flex cursor-pointer flex-col rounded-xl border p-5 transition-all select-none focus-within:ring-[3px] has-[input:checked]:border-emerald-600/50 has-[input:checked]:bg-emerald-600/5 focus-within:has-[input:checked]:border-emerald-600 focus-within:has-[input:checked]:ring-emerald-600/50 dark:has-[input:checked]:border-emerald-400/50 dark:has-[input:checked]:bg-emerald-400/5 dark:focus-within:has-[input:checked]:border-emerald-400 dark:focus-within:has-[input:checked]:ring-emerald-400/50'
+            className='group bg-card hover:border-foreground/20 relative flex cursor-pointer flex-col rounded-xl border p-5 transition-all select-none has-[input:checked]:border-emerald-600/50 has-[input:checked]:has-[input:checked]:border-emerald-600 has-[input:checked]:bg-emerald-600/5 has-[input:checked]:ring-[3px] has-[input:checked]:has-[input:checked]:ring-emerald-600/50 dark:has-[input:checked]:border-emerald-400/50 dark:has-[input:checked]:has-[input:checked]:border-emerald-400 dark:has-[input:checked]:bg-emerald-400/5 dark:has-[input:checked]:has-[input:checked]:ring-emerald-400/50'
           >
             {plan.popular && (
               <span className='absolute -top-2.5 right-4 rounded-full bg-emerald-600 px-2 py-0.5 text-xs font-medium text-white dark:bg-emerald-500'>
@@ -177,7 +177,7 @@ function ShippingOptions() {
         {shippingOptions.map((option) => (
           <label
             key={option.id}
-            className='group bg-card hover:border-foreground/20 flex cursor-pointer items-center gap-4 rounded-lg border p-4 transition-all outline-none select-none focus-within:ring-[3px] has-[input:checked]:border-blue-600/50 has-[input:checked]:bg-blue-600/5 focus-within:has-[input:checked]:border-blue-600 focus-within:has-[input:checked]:ring-blue-600/50 has-[input:disabled]:pointer-events-none has-[input:disabled]:opacity-50 dark:has-[input:checked]:border-blue-400/50 dark:has-[input:checked]:bg-blue-400/5 focus-within:dark:has-[input:checked]:border-blue-400 focus-within:dark:has-[input:checked]:ring-blue-400/50'
+            className='group bg-card hover:border-foreground/20 flex cursor-pointer items-center gap-4 rounded-lg border p-4 transition-all outline-none select-none has-[input:checked]:border-blue-600/50 has-[input:checked]:has-[input:checked]:border-blue-600 has-[input:checked]:bg-blue-600/5 has-[input:checked]:ring-[3px] has-[input:checked]:has-[input:checked]:ring-blue-600/50 has-[input:disabled]:pointer-events-none has-[input:disabled]:opacity-50 dark:has-[input:checked]:border-blue-400/50 has-[input:checked]:dark:has-[input:checked]:border-blue-400 dark:has-[input:checked]:bg-blue-400/5 has-[input:checked]:dark:has-[input:checked]:ring-blue-400/50'
           >
             <ShippingIndicator color='blue'>
               <Radio value={option.id} disabled={option.disabled}>
@@ -229,7 +229,7 @@ function ThemeSelector() {
         {themes.map((theme) => (
           <label
             key={theme.id}
-            className='group bg-card hover:border-foreground/20 flex flex-1 cursor-pointer flex-col items-center gap-2 rounded-xl border p-2 transition-all outline-none select-none focus-within:ring-[3px] has-[input:checked]:border-purple-600/50 has-[input:checked]:bg-purple-600/5 focus-within:has-[input:checked]:border-purple-600 focus-within:has-[input:checked]:ring-purple-600/50 dark:has-[input:checked]:border-purple-400/50 dark:has-[input:checked]:bg-purple-400/5 focus-within:dark:has-[input:checked]:border-purple-400 focus-within:dark:has-[input:checked]:ring-purple-400/50'
+            className='group bg-card hover:border-foreground/20 flex flex-1 cursor-pointer flex-col items-center gap-2 rounded-xl border p-2 transition-all outline-none select-none has-[input:checked]:border-purple-600/50 has-[input:checked]:has-[input:checked]:border-purple-600 has-[input:checked]:bg-purple-600/5 has-[input:checked]:ring-[3px] has-[input:checked]:has-[input:checked]:ring-purple-600/50 dark:has-[input:checked]:border-purple-400/50 has-[input:checked]:dark:has-[input:checked]:border-purple-400 dark:has-[input:checked]:bg-purple-400/5 has-[input:checked]:dark:has-[input:checked]:ring-purple-400/50'
           >
             <div className='bg-muted/50 flex size-12 items-center justify-center rounded-full transition-colors group-has-[input:checked]:bg-purple-600/10 dark:group-has-[input:checked]:bg-purple-400/10'>
               <theme.icon className='text-muted-foreground size-6 transition-colors group-has-[input:checked]:text-purple-600 dark:group-has-[input:checked]:text-purple-400' />
@@ -279,7 +279,7 @@ function PaymentMethod() {
         {paymentMethods.map((method) => (
           <label
             key={method.id}
-            className='group bg-card hover:border-foreground/20 flex cursor-pointer items-center gap-3 rounded-lg border px-4 py-3 transition-all outline-none select-none focus-within:ring-[3px] has-[input:checked]:border-emerald-600/50 has-[input:checked]:bg-emerald-600/5 focus-within:has-[input:checked]:border-emerald-600 focus-within:has-[input:checked]:ring-emerald-600/50 dark:has-[input:checked]:border-emerald-600/50 dark:has-[input:checked]:bg-emerald-600/5 focus-within:dark:has-[input:checked]:border-emerald-600 focus-within:dark:has-[input:checked]:ring-emerald-600/50'
+            className='group bg-card hover:border-foreground/20 flex cursor-pointer items-center gap-3 rounded-lg border px-4 py-3 transition-all outline-none select-none has-[input:checked]:border-emerald-600/50 has-[input:checked]:bg-emerald-600/5 has-[input:focus-visible]:ring-[3px] has-[input:focus-visible]:has-[input:checked]:border-emerald-600 has-[input:focus-visible]:has-[input:checked]:ring-emerald-600/50 dark:has-[input:checked]:border-emerald-600/50 dark:has-[input:checked]:bg-emerald-600/5 has-[input:focus-visible]:dark:has-[input:checked]:border-emerald-600 has-[input:focus-visible]:dark:has-[input:checked]:ring-emerald-600/50'
           >
             <ClassicRadioIndicator>
               <Radio value={method.id}>
