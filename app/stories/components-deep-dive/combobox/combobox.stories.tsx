@@ -16,16 +16,13 @@ export const Default: StoryObj<typeof meta> = {
       <h1>Combobox</h1>
 
       <p>
-        A sophisticated, fully accessible combobox component built from first
-        principles. Implements the{' '}
+        Implements the{' '}
         <a
           href='https://www.w3.org/WAI/ARIA/apg/patterns/combobox/'
           target='_blank'
         >
           WAI-ARIA Combobox Pattern
-        </a>{' '}
-        with support for single selection, multi-selection, typeahead search,
-        and complex keyboard navigation.
+        </a>
       </p>
 
       <div className='story-demo not-typography'>
@@ -40,28 +37,43 @@ export const Default: StoryObj<typeof meta> = {
 
       <ul>
         <li>
-          <strong>Diacritics-insensitive filtering</strong> — Search matches
-          "café" when typing "cafe" using Unicode normalization
-        </li>
-        <li>
-          <strong>Floating UI integration</strong> — Auto-positioned dropdown
-          with collision detection and dynamic sizing
+          <strong>Multi-select with tags</strong> — Removable tags with keyboard
+          support (Backspace to remove last)
         </li>
         <li>
           <strong>Virtual highlighting</strong> — Separate highlight state from
           selection for smooth keyboard navigation
         </li>
         <li>
-          <strong>Multi-select with tags</strong> — Removable tags with keyboard
-          support (Backspace to remove last)
-        </li>
-        <li>
           <strong>Focus management</strong> — Proper focus flow between input,
           listbox, and tag removal buttons
         </li>
         <li>
+          <strong>Diacritics-insensitive filtering</strong> — Search matches
+          "café" when typing "cafe" using Unicode normalization
+        </li>
+        <li>
           <strong>TypeScript generics</strong> — Full type inference for option
           values
+        </li>
+        <li>
+          <code>role="combobox"</code> on input with{' '}
+          <code>aria-autocomplete="list"</code>
+        </li>
+        <li>
+          <code>aria-expanded</code> indicates listbox visibility
+        </li>
+        <li>
+          <code>aria-activedescendant</code> tracks highlighted option
+        </li>
+        <li>
+          <code>role="listbox"</code> with <code>role="option"</code> children
+        </li>
+        <li>
+          <code>aria-selected</code> on selected options
+        </li>
+        <li>
+          <code>aria-disabled</code> on disabled options
         </li>
       </ul>
 
@@ -125,54 +137,6 @@ export const Default: StoryObj<typeof meta> = {
           </tbody>
         </table>
       </div>
-
-      <h2>Accessibility Features</h2>
-
-      <ul>
-        <li>
-          <code>role="combobox"</code> on input with{' '}
-          <code>aria-autocomplete="list"</code>
-        </li>
-        <li>
-          <code>aria-expanded</code> indicates listbox visibility
-        </li>
-        <li>
-          <code>aria-activedescendant</code> tracks highlighted option
-        </li>
-        <li>
-          <code>role="listbox"</code> with <code>role="option"</code> children
-        </li>
-        <li>
-          <code>aria-selected</code> on selected options
-        </li>
-        <li>
-          <code>aria-disabled</code> on disabled options
-        </li>
-        <li>Live region announces selection changes to screen readers</li>
-      </ul>
-
-      <h2>Architecture</h2>
-
-      <p>The combobox manages several interconnected states:</p>
-
-      <ul>
-        <li>
-          <strong>Open state</strong> — Whether the dropdown is visible
-        </li>
-        <li>
-          <strong>Search query</strong> — Current filter text
-        </li>
-        <li>
-          <strong>Highlighted index</strong> — Visual focus within listbox
-        </li>
-        <li>
-          <strong>Selected values</strong> — Current selection (single or
-          multiple)
-        </li>
-        <li>
-          <strong>Filtered options</strong> — Computed from search query
-        </li>
-      </ul>
 
       <StorySourceCode>{sourceCode}</StorySourceCode>
     </div>
