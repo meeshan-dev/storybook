@@ -102,23 +102,25 @@ const faqItems = [
 
 function FAQSection() {
   return (
-    <DisclosureRoot
-      type='multiple'
-      defaultValue={['returns']}
-      className='divide-border mt-6 divide-y rounded-xl border [&>div:first-child>button]:rounded-t-xl [&>div:last-child>button]:rounded-b-xl [&>div:last-child>button[aria-expanded="true"]]:rounded-b-none'
-    >
+    <DisclosureRoot type='multiple' defaultValue={['returns']} className='mt-6'>
       {faqItems.map((item) => (
-        <DisclosureItem key={item.id} value={item.id}>
+        <DisclosureItem
+          key={item.id}
+          value={item.id}
+          className='has-[[aria-expanded]:focus-visible]:border-ring has-[[aria-expanded]:focus-visible]:ring-ring/50 relative overflow-hidden border border-t-0 first:rounded-t-xl first:border-t last:rounded-b-xl has-[[aria-expanded]:focus-visible]:z-50 has-[[aria-expanded]:focus-visible]:ring-[3px]'
+        >
           <DisclosureTrigger>
             {(props) => (
               <Button
                 {...props}
                 variant='ghost'
-                className='hover:dark:bg-secondary relative h-auto w-full gap-3 rounded-none border-0 px-4 py-4 text-start focus:z-50'
+                className='dark:hover:bg-secondary h-auto w-full justify-start gap-3 rounded-none border-0 px-4 py-4 focus-visible:ring-0'
               >
                 <IconQuestionMark className='text-muted-foreground size-5' />
 
-                <span className='grow truncate'>{item.question}</span>
+                <span className='grow truncate text-start'>
+                  {item.question}
+                </span>
 
                 <span className='bg-muted group-aria-expanded/button:bg-foreground group-aria-expanded/button:text-background flex size-6 items-center justify-center rounded-full transition-colors'>
                   <IconPlus className='group-aria-expanded/button:hidden' />
@@ -128,7 +130,7 @@ function FAQSection() {
             )}
           </DisclosureTrigger>
 
-          <DisclosureContent className='text-muted-foreground px-5 pl-12 text-sm'>
+          <DisclosureContent className='text-muted-foreground p-3 pl-12 text-sm leading-relaxed'>
             {item.answer}
           </DisclosureContent>
         </DisclosureItem>
@@ -190,20 +192,24 @@ function SettingsPanel() {
       type='single'
       defaultValue='general'
       isSingleCollapsible
-      className='divide-border mx-auto mt-6 w-full max-w-md divide-y rounded-xl border [&>div:first-child>button]:rounded-t-xl [&>div:last-child>button]:rounded-b-xl [&>div:last-child>button[aria-expanded="true"]]:rounded-b-none'
+      className='mt-6'
     >
       {settingsSections.map((section) => (
-        <DisclosureItem key={section.id} value={section.id}>
+        <DisclosureItem
+          key={section.id}
+          value={section.id}
+          className='has-[[aria-expanded]:focus-visible]:border-ring has-[[aria-expanded]:focus-visible]:ring-ring/50 relative overflow-hidden border border-t-0 first:rounded-t-xl first:border-t last:rounded-b-xl has-[[aria-expanded]:focus-visible]:z-50 has-[[aria-expanded]:focus-visible]:ring-[3px]'
+        >
           <DisclosureTrigger>
             {(props) => (
               <Button
                 {...props}
                 variant='ghost'
-                className='hover:dark:bg-secondary relative h-auto w-full gap-3 rounded-none border-0 px-4 py-4 text-start focus:z-50'
+                className='dark:hover:bg-secondary h-auto w-full justify-start gap-3 rounded-none border-0 px-4 py-4 focus-visible:ring-0'
               >
                 <section.icon className='text-muted-foreground' />
 
-                <span className='grow truncate font-medium'>
+                <span className='grow truncate text-start'>
                   {section.title}
                 </span>
 
@@ -212,7 +218,7 @@ function SettingsPanel() {
             )}
           </DisclosureTrigger>
 
-          <DisclosureContent className='space-y-3 border-b px-4 text-sm last:border-b-0'>
+          <DisclosureContent className='text-muted-foreground space-y-3 border-b p-5 text-sm leading-relaxed last:border-b-0'>
             {section.content.map((item) => (
               <div
                 key={item.label}
@@ -272,8 +278,8 @@ const filterGroups = [
 
 function FilterPanel() {
   return (
-    <div className='mx-auto mt-6 w-64 rounded-xl border'>
-      <div className='border-b px-4 py-3'>
+    <div className='mx-auto mt-6 w-64'>
+      <div className='rounded-t-xl border px-4 py-3'>
         <h4 className='font-semibold'>Filters</h4>
       </div>
 
@@ -282,17 +288,20 @@ function FilterPanel() {
           <DisclosureItem key={group.id} value={group.id}>
             <DisclosureTrigger>
               {(props) => (
-                <button
+                <Button
                   {...props}
-                  className='group hover:bg-muted/50 flex w-full items-center justify-between border-b px-4 py-3 text-left text-sm font-medium transition-colors'
+                  variant='ghost'
+                  className='dark:hover:bg-secondary border-border relative h-auto w-full gap-3 rounded-none border-t-0 px-4 py-4 focus-visible:z-50'
                 >
-                  {group.title}
+                  <span className='grow truncate text-start'>
+                    {group.title}
+                  </span>
                   <IconChevronDown className='text-muted-foreground size-4 transition-transform group-data-[expanded=true]:rotate-180' />
-                </button>
+                </Button>
               )}
             </DisclosureTrigger>
 
-            <DisclosureContent className='space-y-2 border-b px-4 py-3 text-sm'>
+            <DisclosureContent className='text-muted-foreground space-y-2 border border-t-0 p-5 text-sm leading-relaxed'>
               {group.options.map((option) => (
                 <label
                   key={option}
@@ -314,7 +323,7 @@ function FilterPanel() {
         ))}
       </DisclosureRoot>
 
-      <div className='flex gap-2 p-4'>
+      <div className='flex gap-2 rounded-b-xl border border-t-0 p-4'>
         <Button variant='outline' className='flex-1'>
           Clear
         </Button>
@@ -365,25 +374,24 @@ function FeatureList() {
       type='single'
       defaultValue='api'
       isSingleCollapsible={false}
-      className='divide-border mt-6 divide-y rounded-xl border [&>div:first-child>button]:rounded-t-xl [&>div:last-child>button]:rounded-b-xl [&>div:last-child>button[aria-expanded="true"]]:rounded-b-none'
+      className='mt-6'
     >
       {features.map((feature) => (
-        <DisclosureItem key={feature.id} value={feature.id}>
+        <DisclosureItem
+          key={feature.id}
+          value={feature.id}
+          className='has-[[aria-expanded]:focus-visible]:border-ring has-[[aria-expanded]:focus-visible]:ring-ring/50 relative overflow-hidden border border-t-0 first:rounded-t-xl first:border-t last:rounded-b-xl has-[[aria-expanded]:focus-visible]:z-50 has-[[aria-expanded]:focus-visible]:ring-[3px]'
+        >
           <DisclosureTrigger>
             {(props) => (
               <Button
                 {...props}
                 variant='ghost'
-                className='hover:dark:bg-secondary relative h-auto w-full gap-3 rounded-none border-0 px-4 py-4 text-start focus:z-50'
+                className='dark:hover:bg-secondary h-auto w-full justify-start gap-3 rounded-none border-0 px-4 py-4 focus-visible:ring-0'
               >
                 <feature.icon className='size-5' />
 
-                <div className='flex-1'>
-                  <span className='font-semibold'>{feature.title}</span>
-                  <p className='text-muted-foreground mt-0.5 text-sm group-data-[expanded=true]:hidden'>
-                    Click to learn more
-                  </p>
-                </div>
+                <div className='grow truncate text-start'>{feature.title}</div>
 
                 <div className='bg-foreground text-background flex size-6 items-center justify-center rounded-full opacity-0 transition-opacity group-aria-expanded/button:opacity-100'>
                   <IconChevronDown className='size-4' />
@@ -392,7 +400,7 @@ function FeatureList() {
             )}
           </DisclosureTrigger>
 
-          <DisclosureContent className='text-sm'>
+          <DisclosureContent className='text-muted-foreground p-3 pl-12 text-sm leading-relaxed'>
             <p className='text-muted-foreground mb-3'>{feature.description}</p>
 
             <div className='flex flex-wrap gap-2'>

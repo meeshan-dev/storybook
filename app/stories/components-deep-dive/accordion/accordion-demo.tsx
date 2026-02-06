@@ -80,14 +80,14 @@ function FAQAccordion() {
       <AccordionRoot
         type='multiple'
         defaultValue={['shipping']}
-        className='divide-border mt-6 divide-y'
+        className='mt-6'
       >
         {faqItems.map(({ id, icon: Icon, question, answer, disabled }) => (
           <AccordionItem
             key={id}
             value={id}
             disabled={disabled}
-            className='focus-within:ring-ring/50 relative overflow-hidden border first:rounded-t-xl last:rounded-b-xl focus-within:z-50 focus-within:ring-[3px]'
+            className='has-[[aria-expanded]:focus-visible]:border-ring has-[[aria-expanded]:focus-visible]:ring-ring/50 relative overflow-hidden border border-t-0 first:rounded-t-xl first:border-t last:rounded-b-xl has-[[aria-expanded]:focus-visible]:z-50 has-[[aria-expanded]:focus-visible]:ring-[3px]'
           >
             <AccordionTrigger headingLevel='h3'>
               {(props) => (
@@ -178,7 +178,7 @@ function SettingsPanelAccordion() {
               key={id}
               value={id}
               disabled={disabled}
-              className='focus-within:ring-ring/50 relative overflow-hidden border first:rounded-t-xl last:rounded-b-xl focus-within:z-50 focus-within:ring-[3px]'
+              className='has-[[aria-expanded]:focus-visible]:border-ring has-[[aria-expanded]:focus-visible]:ring-ring/50 relative overflow-hidden border first:rounded-t-xl last:rounded-b-xl has-[[aria-expanded]:focus-visible]:z-50 has-[[aria-expanded]:focus-visible]:ring-[3px]'
             >
               <AccordionTrigger headingLevel='h3'>
                 {(props) => (
@@ -297,7 +297,7 @@ function ProductFeaturesAccordion() {
           <AccordionItem
             key={id}
             value={id}
-            className='focus-within:ring-ring/50 relative overflow-hidden rounded-xl border focus-within:z-50 focus-within:ring-[3px]'
+            className='has-[[aria-expanded]:focus-visible]:border-ring has-[[aria-expanded]:focus-visible]:ring-ring/50 relative overflow-hidden rounded-xl border has-[[aria-expanded]:focus-visible]:z-50 has-[[aria-expanded]:focus-visible]:ring-[3px]'
           >
             <AccordionTrigger headingLevel='h3'>
               {(props) => (
