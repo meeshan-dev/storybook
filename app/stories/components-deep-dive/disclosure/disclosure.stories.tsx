@@ -75,7 +75,7 @@ export const Default: StoryObj<typeof meta> = {
               <td className='py-2 pr-4'>
                 <code>Enter</code> / <code>Space</code>
               </td>
-              <td className='py-2'>Toggle the focused accordion panel</td>
+              <td className='py-2'>Toggle the focused disclosure panel</td>
             </tr>
             <tr className='border-b'>
               <td className='py-2 pr-4'>
