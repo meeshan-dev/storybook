@@ -40,36 +40,31 @@ export const Default: StoryObj<typeof meta> = {
 
       <ul>
         <li>
-          <strong>DOM-driven roving tabindex</strong> — Navigation updates{' '}
-          <code>tabindex</code> directly on DOM elements, avoiding React
-          re-renders during keyboard navigation
+          <strong>DOM-driven roving tabindex</strong> — Updates{' '}
+          <code>tabindex</code> directly to avoid React re-renders during
+          navigation
         </li>
         <li>
-          <strong>Typeahead support</strong> — Type characters to jump to
-          matching menu items
+          <strong>Typeahead support</strong> — Jump to menu items by typing
         </li>
         <li>
-          <strong>Checkbox and Radio patterns</strong> — Built-in support for
-          stateful menu items with proper ARIA attributes
+          <strong>Checkbox & radio patterns</strong> — Stateful items with
+          proper ARIA attributes
         </li>
         <li>
-          <strong>Layer-aware escape handling</strong> — Works correctly when
-          nested within dialogs
+          <strong>Layer-aware escape handling</strong> — Works correctly inside
+          nested dialogs
         </li>
         <li>
-          <code>role="menu"</code> with <code>role="menuitem"</code> children
+          <strong>Accessible roles & attributes</strong> —{' '}
+          <code>role="menu"</code>, <code>role="menuitem"</code>,{' '}
+          <code>aria-checked</code>, <code>aria-disabled</code>,{' '}
+          <code>aria-labelledby</code>
         </li>
         <li>
-          <code>aria-checked</code> for checkbox and radio items
+          <strong>Focus management</strong> — Focus trap while open and returns
+          to trigger on close
         </li>
-        <li>
-          <code>aria-disabled</code> for disabled items (skipped by keyboard)
-        </li>
-        <li>
-          <code>aria-labelledby</code> for labeled groups
-        </li>
-        <li>Focus returns to trigger button on close</li>
-        <li>Focus trap within menu while open</li>
       </ul>
 
       <h2>Keyboard Navigation</h2>

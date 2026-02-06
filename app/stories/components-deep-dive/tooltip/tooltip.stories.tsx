@@ -43,29 +43,25 @@ export const Default: StoryObj<typeof meta> = {
           only one tooltip is visible at a time
         </li>
         <li>
-          <strong>Configurable triggers</strong> — Support for hover, focus, or
+          <strong>Configurable triggers</strong> — Supports hover, focus, or
           both via <code>trigger</code> prop
         </li>
         <li>
-          <strong>Show/hide delays</strong> — Prevents flickering with
-          configurable delays for smooth UX
+          <strong>Show/hide delays</strong> — Prevents flickering and ensures
+          smooth UX
         </li>
         <li>
-          <strong>Interactive mode</strong> —{' '}
-          <code>
-            disableInteractive={'{'}false{'}'}
-          </code>{' '}
-          allows hovering over tooltip content
+          <strong>Interactive mode</strong> — Allows hovering over tooltip
+          content with <code>disableInteractive={false}</code>
         </li>
         <li>
-          Uses <code>role="tooltip"</code> for screen reader announcement
+          <strong>Accessible markup</strong> — <code>role="tooltip"</code> and
+          trigger with <code>aria-describedby</code>
         </li>
         <li>
-          Trigger has <code>aria-describedby</code> pointing to tooltip
+          Keyboard support — Opens on focus; Escape dismisses without moving
+          focus
         </li>
-        <li>Opens on keyboard focus by default</li>
-        <li>Escape key dismisses without moving focus</li>
-        <li>Does not trap focus (unlike dialogs)</li>
         <li>Disabled triggers prevent tooltip from appearing</li>
       </ul>
 

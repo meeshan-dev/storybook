@@ -37,35 +37,24 @@ export const Default: StoryObj<typeof meta> = {
 
       <ul>
         <li>
-          <strong>Roving tabindex management</strong> — Only the active tab is
-          in the tab order; arrow keys move focus between triggers
+          <strong>Roving tabindex</strong> — Only active tab is tabbable; arrow
+          keys move focus
         </li>
         <li>
-          <strong>Activation modes</strong> — Automatic (focus selects) vs
-          Manual (Enter/Space required)
+          <strong>Activation modes</strong> — Automatic (focus selects) or
+          Manual (Enter/Space)
         </li>
         <li>
           <strong>Bi-directional support</strong> — Horizontal and vertical
-          orientations with appropriate arrow key bindings
+          orientations with proper arrow key handling
         </li>
         <li>
-          <code>role="tablist"</code> on the tab container
+          Accessible roles and attributes — <code>role="tablist"</code>,{' '}
+          <code>role="tab"</code> with <code>aria-selected</code>,{' '}
+          <code>role="tabpanel"</code> with <code>aria-labelledby</code>,{' '}
+          <code>aria-controls</code>, <code>aria-orientation</code>
         </li>
-        <li>
-          <code>role="tab"</code> on each trigger with{' '}
-          <code>aria-selected</code> state
-        </li>
-        <li>
-          <code>role="tabpanel"</code> on content with{' '}
-          <code>aria-labelledby</code>
-        </li>
-        <li>
-          <code>aria-orientation</code> indicates horizontal or vertical layout
-        </li>
-        <li>
-          <code>aria-controls</code> links tabs to their panels
-        </li>
-        <li>Only selected panel is visible; others are hidden</li>
+        <li>Only the selected panel is visible; others are hidden</li>
       </ul>
 
       <h2>Keyboard Navigation</h2>

@@ -37,20 +37,23 @@ export const Default: StoryObj<typeof meta> = {
 
       <ul>
         <li>
-          <strong>Smart page calculation</strong> — Uses boundary and sibling
-          counts to compute visible pages with proper ellipsis placement
+          <strong>Smart page calculation</strong> — Computes visible pages with
+          proper ellipsis using boundary and sibling counts
         </li>
         <li>
-          <strong>Memoized computation</strong> — Page range calculation
-          memoized to prevent unnecessary recalculation
+          <strong>Memoized computation</strong> — Prevents unnecessary
+          recalculation of page ranges
         </li>
         <li>
-          Uses semantic <code>&lt;ul&gt;</code>/<code>&lt;li&gt;</code>{' '}
-          structure
+          Semantic <code>&lt;ul&gt;/&lt;li&gt;</code> structure for
+          accessibility
         </li>
-        <li>Controls are properly disabled at boundaries</li>
         <li>
-          Current page indicated via <code>aria-current="page"</code> and{' '}
+          Boundary-aware controls — Disabled appropriately at first and last
+          pages
+        </li>
+        <li>
+          Current page indicated with <code>aria-current="page"</code> and{' '}
           <code>data-selected</code> for styling
         </li>
       </ul>

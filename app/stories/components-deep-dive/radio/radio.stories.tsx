@@ -40,11 +40,11 @@ export const Default: StoryObj<typeof meta> = {
       <ul>
         <li>
           <strong>Native input foundation</strong> — Uses{' '}
-          <code>&lt;input type="radio"&gt;</code> with <code>name</code>{' '}
-          attribute for browser-native grouping
+          <code>&lt;input type="radio"&gt;</code> with <code>name</code> for
+          browser-native grouping
         </li>
         <li>
-          <strong>CSS-driven visuals</strong> — Uses <code>:checked</code> and{' '}
+          <strong>CSS-driven visuals</strong> — <code>:checked</code> and{' '}
           <code>has-[input:checked]</code> for zero-JS indicator updates
         </li>
         <li>
@@ -53,8 +53,8 @@ export const Default: StoryObj<typeof meta> = {
           rendering
         </li>
         <li>
-          <strong>Form integration</strong> — Works with native form submission
-          and controlled/uncontrolled patterns
+          <strong>Form integration</strong> — Works with native forms and
+          controlled/uncontrolled patterns
         </li>
       </ul>
 

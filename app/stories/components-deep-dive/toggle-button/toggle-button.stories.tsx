@@ -40,17 +40,18 @@ export const Default: StoryObj<typeof meta> = {
 
       <ul>
         <li>
-          <strong>Type-safe generics</strong>: Exclusive mode uses{' '}
-          <code>string | null</code> while multiple mode uses{' '}
-          <code>string[]</code> for precise TypeScript inference.
+          <strong>Type-safe generics</strong> — Exclusive mode uses{' '}
+          <code>string | null</code>, while multiple mode uses{' '}
+          <code>string[]</code> for precise TypeScript inference
         </li>
         <li>
-          Uses <code>aria-pressed</code> to communicate toggle state to screen
-          readers (pressed/not pressed).
+          <strong>Accessible toggle state</strong> — Uses{' '}
+          <code>aria-pressed</code> to convey pressed/not pressed to screen
+          readers
         </li>
         <li>
-          In exclusive mode, behaves like radio buttons semantically but with
-          individual <code>aria-pressed</code> states.
+          <strong>Exclusive mode behavior</strong> — Functions like radio
+          buttons with individual <code>aria-pressed</code> states
         </li>
       </ul>
 

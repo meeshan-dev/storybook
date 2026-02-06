@@ -40,17 +40,17 @@ export const Default: StoryObj<typeof meta> = {
 
       <ul>
         <li>
-          Trigger has <code>aria-expanded</code> and <code>aria-controls</code>{' '}
-          attributes
+          Trigger with <code>aria-expanded</code> and <code>aria-controls</code>
         </li>
         <li>
-          Content has <code>aria-labelledby</code> and{' '}
-          <code>aria-describedby</code> linked to title and description
+          Content linked via <code>aria-labelledby</code> and{' '}
+          <code>aria-describedby</code>
         </li>
-        <li>Focus moves to popover content on open</li>
-        <li>Focus returns to trigger on close</li>
-        <li>Escape key closes popover</li>
-        <li>Click outside closes popover (layer-aware)</li>
+        <li>
+          Focus management — Moves into popover on open, returns to trigger on
+          close
+        </li>
+        <li>Dismissal — Escape key and layer-aware outside click</li>
       </ul>
 
       <h2>Keyboard Interactions</h2>
