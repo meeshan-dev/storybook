@@ -39,7 +39,7 @@ export function SwitchRoot({
     <SwitchProvider value={{ checked }}>
       <div
         className={cn(
-          'group bg-foreground has-[input:focus-visible]:ring-ring/50 has-[input:focus-visible]:border-ring has-[input:checked]:bg-foreground relative flex h-6 w-11 shrink-0 items-center rounded-full border border-transparent px-0.5 transition-colors has-[input:focus-visible]:ring-[3px]',
+          'group bg-foreground/25 has-[input:focus-visible]:ring-ring/50 has-[input:focus-visible]:border-ring has-[input:checked]:bg-foreground relative flex h-6 w-11 shrink-0 items-center rounded-full p-0.5 transition-colors has-[input:focus-visible]:ring-[3px]',
           className,
         )}
       >
@@ -88,7 +88,7 @@ export function Thumb({
   return (
     <div
       className={cn(
-        'bg-background flex size-5 shrink-0 items-center justify-center rounded-full shadow transition-transform group-has-[input:checked]:translate-x-5',
+        'bg-background flex aspect-square h-full shrink-0 items-center justify-center rounded-full shadow transition-transform group-has-[input:checked]:translate-x-full',
         className,
       )}
     >
