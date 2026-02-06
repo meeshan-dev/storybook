@@ -39,7 +39,7 @@ export function SwitchRoot({
     <SwitchProvider value={{ checked }}>
       <div
         className={cn(
-          'group bg-foreground/20 focus-within:ring-ring/50 focus-within:border-ring relative flex h-6 w-11 shrink-0 items-center rounded-full border border-transparent px-0.5 transition-colors focus-within:ring-[3px] has-[input:checked]:bg-emerald-600',
+          'group bg-foreground has-[input:focus-visible]:ring-ring/50 has-[input:focus-visible]:border-ring has-[input:checked]:bg-foreground relative flex h-6 w-11 shrink-0 items-center rounded-full border border-transparent px-0.5 transition-colors has-[input:focus-visible]:ring-[3px]',
           className,
         )}
       >

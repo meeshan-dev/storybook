@@ -52,7 +52,7 @@ export function CheckboxRoot(props: CheckboxRootProps) {
         data-disabled={disabled ? '' : undefined}
         data-invalid={restProps['aria-invalid'] ? 'true' : undefined}
         className={cn(
-          'border-input dark:bg-input/30 data-checked:bg-primary data-checked:text-primary-foreground dark:data-checked:bg-primary data-checked:border-primary data-invalid:data-checked:border-primary data-invalid:border-destructive dark:data-invalid:border-destructive/50 focus-within:border-ring focus-within:ring-ring/50 data-invalid:ring-destructive/20 dark:data-invalid:ring-destructive/40 relative flex size-4 shrink-0 items-center justify-center rounded-[4px] border shadow-xs transition-shadow outline-none focus-within:ring-[3px] data-disabled:cursor-not-allowed data-disabled:opacity-50 data-invalid:ring-[3px]',
+          'border-input dark:bg-input/30 data-checked:bg-primary data-checked:text-primary-foreground dark:data-checked:bg-primary data-checked:border-primary data-invalid:data-checked:border-primary data-invalid:border-destructive dark:data-invalid:border-destructive/50 has-[input:focus-visible]:border-ring has-[input:focus-visible]:ring-ring/50 data-invalid:ring-destructive/20 dark:data-invalid:ring-destructive/40 relative flex size-4 shrink-0 items-center justify-center rounded-[4px] border shadow-xs transition-shadow outline-none has-[input:focus-visible]:ring-[3px] data-disabled:cursor-not-allowed data-disabled:opacity-50 data-invalid:ring-[3px]',
           className,
         )}
       >

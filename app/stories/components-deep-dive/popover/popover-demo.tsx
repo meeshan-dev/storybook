@@ -451,11 +451,11 @@ function DatePickerPopover() {
                         {} as React.MouseEvent<HTMLButtonElement>,
                       );
                     }}
-                    variant={selected === preset.days ? 'secondary' : 'ghost'}
+                    variant={selected === preset.days ? 'default' : 'ghost'}
                     className='hover:dark:bg-foreground/5 w-full cursor-pointer justify-between'
                   >
                     <span>{preset.label}</span>
-                    <span className='text-muted-foreground text-xs'>
+                    <span className='text-xs'>
                       {getFormattedDate(preset.days)}
                     </span>
                   </Button>
