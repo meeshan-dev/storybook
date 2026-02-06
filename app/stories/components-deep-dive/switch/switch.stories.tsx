@@ -16,15 +16,13 @@ export const Default: StoryObj<typeof meta> = {
       <h1>Switch</h1>
 
       <p>
-        An accessible toggle switch component implementing the{' '}
+        Implements the{' '}
         <a
           href='https://www.w3.org/WAI/ARIA/apg/patterns/switch/'
           target='_blank'
         >
           WAI-ARIA Switch Pattern
         </a>
-        . Built on native HTML checkbox for maximum browser compatibility while
-        providing a clean visual toggle interface.
       </p>
 
       <div className='story-demo not-typography'>

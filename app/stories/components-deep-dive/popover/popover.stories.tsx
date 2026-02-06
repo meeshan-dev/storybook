@@ -16,9 +16,13 @@ export const Default: StoryObj<typeof meta> = {
       <h1>Popover</h1>
 
       <p>
-        An accessible popover component for displaying rich interactive content
-        anchored to a trigger element. Uses Floating UI for intelligent
-        positioning and the layer system for proper stacking.
+        Implements the{' '}
+        <a
+          href='https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/'
+          target='_blank'
+        >
+          WAI-ARIA Dialog (non-modal) Pattern
+        </a>
       </p>
 
       <div className='story-demo not-typography'>

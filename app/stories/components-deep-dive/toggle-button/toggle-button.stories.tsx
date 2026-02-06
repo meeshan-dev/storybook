@@ -16,10 +16,13 @@ export const Default: StoryObj<typeof meta> = {
       <h1>Toggle Button</h1>
 
       <p>
-        A pressable element that maintains an on/off state, perfect for toggling
-        features, selecting options, or switching between modes. Can be used
-        individually or grouped for exclusive (single) or multiple selection
-        patterns.
+        Implements the{' '}
+        <a
+          href='https://www.w3.org/WAI/ARIA/apg/patterns/button/'
+          target='_blank'
+        >
+          WAI-ARIA Button (toggle) Pattern
+        </a>
       </p>
 
       <div className='story-demo not-typography'>

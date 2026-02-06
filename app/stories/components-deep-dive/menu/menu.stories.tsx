@@ -16,15 +16,13 @@ export const Default: StoryObj<typeof meta> = {
       <h1>Menu</h1>
 
       <p>
-        A production-grade, accessible menu component implementing the{' '}
+        Implements the{' '}
         <a
           href='https://www.w3.org/WAI/ARIA/apg/patterns/menu/'
           target='_blank'
         >
           WAI-ARIA Menu Pattern
         </a>
-        . Supports action items, checkbox items, radio groups, nested groups,
-        and complex overlay management.
       </p>
 
       <div className='story-demo not-typography'>

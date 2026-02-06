@@ -16,15 +16,13 @@ export const Default: StoryObj<typeof meta> = {
       <h1>Radio Group</h1>
 
       <p>
-        An accessible radio group component implementing the{' '}
+        Implements the{' '}
         <a
           href='https://www.w3.org/WAI/ARIA/apg/patterns/radio/'
           target='_blank'
         >
-          WAI-ARIA Radio Group Pattern
+          WAI-ARIA Radio Pattern
         </a>
-        . Built on native HTML radio inputs with React Context for group state
-        management.
       </p>
 
       <div className='story-demo not-typography'>

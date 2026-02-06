@@ -16,15 +16,13 @@ export const Default: StoryObj<typeof meta> = {
       <h1>Tooltip</h1>
 
       <p>
-        An accessible tooltip component implementing the{' '}
+        Implements the{' '}
         <a
           href='https://www.w3.org/WAI/ARIA/apg/patterns/tooltip/'
           target='_blank'
         >
           WAI-ARIA Tooltip Pattern
         </a>
-        . Powered by Floating UI for intelligent positioning with collision
-        detection.
       </p>
 
       <div className='story-demo not-typography'>

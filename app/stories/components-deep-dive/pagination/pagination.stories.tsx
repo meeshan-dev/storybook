@@ -16,9 +16,13 @@ export const Default: StoryObj<typeof meta> = {
       <h1>Pagination</h1>
 
       <p>
-        A headless pagination component with smart page range calculation and
-        ellipsis handling. Implements boundary and sibling page algorithms for
-        optimal UX.
+        Implements the{' '}
+        <a
+          href='https://design-system.w3.org/components/pagination.html'
+          target='_blank'
+        >
+          W3C Pagination Component
+        </a>
       </p>
 
       <div className='story-demo not-typography'>

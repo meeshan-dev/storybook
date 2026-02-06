@@ -16,15 +16,13 @@ export const Default: StoryObj<typeof meta> = {
       <h1>Tabs</h1>
 
       <p>
-        A flexible, accessible tabs component implementing the{' '}
+        Implements the{' '}
         <a
           href='https://www.w3.org/WAI/ARIA/apg/patterns/tabs/'
           target='_blank'
         >
           WAI-ARIA Tabs Pattern
         </a>
-        . Supports horizontal and vertical orientations, automatic and manual
-        activation modes, and optional keyboard looping.
       </p>
 
       <div className='story-demo not-typography'>
