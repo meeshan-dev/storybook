@@ -295,7 +295,7 @@ function ContactFormDialog() {
                   )}
                 </DialogClose>
 
-                <Button type='submit' variant='secondary' disabled={isLoading}>
+                <Button type='submit' disabled={isLoading}>
                   {isLoading ? (
                     <>
                       <IconLoader2 size={16} className='animate-spin' />
@@ -374,13 +374,13 @@ function MultiStepWizardDialog() {
       title: 'Confirmation',
       description: 'Review and confirm',
       content: (
-        <div className='bg-secondary/50 rounded-lg p-4 text-center'>
+        <div>
           <IconCheck
             size={48}
             className='mx-auto mb-3 text-emerald-500 dark:text-emerald-400'
           />
-          <p className='font-semibold'>All set!</p>
-          <p className='text-muted-foreground mt-1 text-sm'>
+          <p className='text-center font-semibold'>All set!</p>
+          <p className='text-muted-foreground mt-1 text-center text-sm'>
             Your preferences have been configured.
           </p>
         </div>
@@ -434,7 +434,7 @@ function MultiStepWizardDialog() {
 
             <DialogFooter>
               <Button
-                variant='outline'
+                variant='ghost'
                 onClick={() => setStep((s) => Math.max(1, s - 1))}
                 disabled={step === 1}
               >
@@ -452,11 +452,7 @@ function MultiStepWizardDialog() {
               ) : (
                 <DialogClose>
                   {(props) => (
-                    <Button
-                      {...props}
-                      variant='secondary'
-                      onClick={() => setStep(1)}
-                    >
+                    <Button {...props} onClick={() => setStep(1)}>
                       Complete
                     </Button>
                   )}
@@ -519,7 +515,11 @@ function NestedDialogDemo() {
 
               <DialogRoot>
                 <DialogTrigger>
-                  {(props) => <Button {...props}>Open Second Dialog</Button>}
+                  {(props) => (
+                    <Button {...props} variant='secondary'>
+                      Open Second Dialog
+                    </Button>
+                  )}
                 </DialogTrigger>
 
                 <DialogPortal>

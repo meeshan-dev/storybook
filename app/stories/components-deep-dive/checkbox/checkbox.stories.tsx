@@ -40,19 +40,21 @@ export const Default: StoryObj<typeof meta> = {
 
       <ul>
         <li>
-          Uses <code>&lt;input type="checkbox"&gt;</code> for built-in form
-          handling and accessibility
-        </li>
-        <li>Handles checked, unchecked, and indeterminate states</li>
-        <li>
-          <code>CheckboxIcon</code> with <code>type="box"</code>,{' '}
-          <code>"check"</code>, and <code>"indeterminate"</code> for conditional
-          rendering
+          Native <code>&lt;input type="checkbox"&gt;</code> for built-in
+          accessibility and form support
         </li>
         <li>
-          Uses <code>aria-checked="mixed"</code> for indeterminate state
+          Supports <strong>checked</strong>, <strong>unchecked</strong>, and
+          <strong>indeterminate</strong> states
         </li>
-        <li>Works with React state or native form submission</li>
+        <li>
+          Conditional icon rendering via <code>CheckboxIcon</code>(
+          <code>box</code>, <code>check</code>, <code>indeterminate</code>)
+        </li>
+        <li>
+          Proper indeterminate semantics with <code>aria-checked="mixed"</code>
+        </li>
+        <li>Works with React state and native form submission</li>
       </ul>
 
       <h2>Keyboard Interactions</h2>

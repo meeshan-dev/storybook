@@ -39,35 +39,30 @@ export const Default: StoryObj<typeof meta> = {
 
       <ul>
         <li>
-          Proper <code>aria-expanded</code> state on triggers
+          Proper trigger semantics with
+          <code>aria-expanded</code> and <code>aria-controls</code>
         </li>
         <li>
-          <code>aria-controls</code> linking triggers to their content regions
+          Accessible content regions using
+          <code>role="region"</code> and <code>aria-labelledby</code>
+        </li>
+        <li>Configurable heading levels for correct document semantics</li>
+        <li>
+          Multiple expansion modes:
+          <strong>Multiple</strong>,<strong>Single (collapsible)</strong>,
+          <strong>Single (non-collapsible)</strong>
         </li>
         <li>
-          Content regions use <code>role="region"</code> with{' '}
-          <code>aria-labelledby</code>
-        </li>
-        <li>Configurable heading levels for semantic document structure</li>
-        <li>
-          <strong>Multiple</strong>: Any number of panels can be open
-          simultaneously
+          Disabled items are announced correctly and skipped in keyboard
+          navigation
         </li>
         <li>
-          <strong>Single Collapsible</strong>: One panel at a time, can collapse
-          all
+          Smooth height animations via
+          <strong>motion/react</strong> with <code>AnimatePresence</code>
         </li>
         <li>
-          <strong>Single Non-Collapsible</strong>: Exactly one panel always open
-        </li>
-        <li>Disabled items are properly announced and skip keyboard focus</li>
-        <li>
-          <strong>motion/react integration</strong> for smooth height animations
-          with <code>AnimatePresence</code>
-        </li>
-        <li>
-          <strong>TypeScript discriminated unions</strong> for type-safe props
-          based on expansion mode
+          Type-safe APIs using
+          <strong>TypeScript discriminated unions</strong>
         </li>
       </ul>
 

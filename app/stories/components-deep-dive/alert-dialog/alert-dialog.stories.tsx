@@ -39,26 +39,21 @@ export const Default: StoryObj<typeof meta> = {
 
       <ul>
         <li>
-          <strong>
-            Uses <code>role="alertdialog"</code>
-          </strong>{' '}
-          — Proper semantic role for assistive technologies
+          <strong>Alert semantics</strong> using <code>role="alertdialog"</code>
         </li>
         <li>
-          <strong>Layer-aware</strong> — Works correctly when nested within
-          other dialogs
+          <strong>Layer-aware behavior</strong> for safe nesting inside dialogs
         </li>
         <li>
-          <strong>Escape key closes</strong> — Allows keyboard dismissal while
-          preventing accidental mouse clicks
+          <strong>Keyboard dismissible</strong> via Escape key
         </li>
         <li>
-          <strong>Non-dismissible by outside click</strong> — Forces explicit
-          user decision for critical actions
+          <strong>No outside click dismissal</strong> to enforce explicit user
+          action
         </li>
         <li>
-          <strong>Shares infrastructure with Dialog</strong> — Same focus trap,
-          scroll lock, and portal implementation
+          <strong>Shared Dialog infrastructure</strong> (focus trap, scroll
+          lock, portals)
         </li>
       </ul>
 

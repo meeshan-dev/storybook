@@ -16,16 +16,13 @@ export const Default: StoryObj<typeof meta> = {
       <h1>Dialog</h1>
 
       <p>
-        A fully-featured, accessible modal dialog component built from
-        primitives. Implements the{' '}
+        Implements the{' '}
         <a
           href='https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/'
           target='_blank'
         >
           WAI-ARIA Dialog Pattern
-        </a>{' '}
-        with focus trapping, scroll locking, and layer-aware behavior for
-        complex overlay scenarios.
+        </a>
       </p>
 
       <div className='story-demo not-typography'>
@@ -40,29 +37,36 @@ export const Default: StoryObj<typeof meta> = {
 
       <ul>
         <li>
-          <strong>Custom focus trap hook</strong> using{' '}
-          <code>useFocusTrap</code> that handles edge cases like dynamically
-          added content
+          <strong>Focus management</strong> with focus trap, auto-focus on open,
+          and restore on close
         </li>
         <li>
-          <strong>Scroll lock implementation</strong> via{' '}
-          <code>useScrollLock</code> preventing background scroll while
+          <strong>Scroll lock</strong> to prevent background scroll while
           preserving scroll position
         </li>
         <li>
-          <strong>Layer management system</strong> to track stacked dialogs and
-          ensure only the topmost responds to interactions
+          <strong>Layer management</strong> for stacked dialogs. Only the
+          topmost responds to Escape and outside clicks
         </li>
         <li>
-          <strong>Portal-based rendering</strong> with React's{' '}
-          <code>createPortal</code> for proper stacking context isolation
+          <strong>Portal-based rendering</strong> for proper stacking and
+          isolation
         </li>
         <li>
-          <strong>Click outside detection</strong> via{' '}
-          <code>useOnClickOutside</code> with layer awareness
+          <strong>Layer-aware outside click detection</strong>
         </li>
         <li>
-          <strong>Compound component pattern</strong> for flexible composition
+          <strong>Accessible markup</strong> with
+          <code>role="dialog"</code>, <code>aria-modal</code>,
+          <code>aria-labelledby</code>, and <code>aria-describedby</code>
+        </li>
+        <li>
+          <strong>Inert background</strong> hidden from screen readers while
+          dialogs are open
+        </li>
+        <li>
+          <strong>Independent overlays</strong> per dialog with consistent
+          behavior
         </li>
       </ul>
 
@@ -102,41 +106,6 @@ export const Default: StoryObj<typeof meta> = {
           </tbody>
         </table>
       </div>
-
-      <h2>Accessibility Features</h2>
-
-      <ul>
-        <li>
-          <code>role="dialog"</code> with <code>aria-modal="true"</code>
-        </li>
-        <li>
-          <code>aria-labelledby</code> pointing to dialog title
-        </li>
-        <li>
-          <code>aria-describedby</code> pointing to dialog description
-        </li>
-        <li>Focus moves into dialog on open and returns to trigger on close</li>
-        <li>Focus is trapped within the dialog while open</li>
-        <li>Background content is inert and hidden from screen readers</li>
-      </ul>
-
-      <h2>Layer Management</h2>
-
-      <p>
-        The dialog uses a layer tracking system that allows multiple dialogs to
-        be stacked. Key behaviors:
-      </p>
-
-      <ul>
-        <li>
-          Only the <strong>topmost dialog</strong> responds to Escape key
-        </li>
-        <li>
-          Only the <strong>topmost dialog</strong> closes on outside click
-        </li>
-        <li>Each dialog maintains its own overlay</li>
-        <li>Focus is properly managed across all layers</li>
-      </ul>
 
       <StorySourceCode>{sourceCode}</StorySourceCode>
     </div>
