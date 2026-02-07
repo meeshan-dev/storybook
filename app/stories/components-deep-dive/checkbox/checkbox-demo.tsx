@@ -15,7 +15,7 @@ import { CheckboxIcon, CheckboxRoot } from './checkbox';
 
 export function CheckboxDemo() {
   return (
-    <main className='flex grow flex-col gap-12 py-10'>
+    <section data-demo className='flex grow flex-col gap-12'>
       {/* Task List */}
       <section className='space-y-4'>
         <div className='space-y-1'>
@@ -60,7 +60,7 @@ export function CheckboxDemo() {
         </div>
         <FeatureSelection />
       </section>
-    </main>
+    </section>
   );
 }
 

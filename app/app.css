@@ -150,18 +150,20 @@
   html {
     @apply font-sans;
   }
-  .typography {
-    max-width: 65ch;
-    color: var(--color-foreground);
-  }
-  .typography h1:not(.not-typography h1) {
+}
+
+@utility typography {
+  max-width: 65ch;
+  color: var(--color-foreground);
+
+  h1:not(:is(.not-typography, [data-demo]) *) {
     scroll-margin: calc(var(--spacing) * 20);
     font-size: var(--text-4xl);
     line-height: var(--text-4xl--line-height);
     font-weight: 800;
     letter-spacing: var(--tracking-tight);
   }
-  .typography h2:not(.not-typography h2) {
+  h2:not(:is(.not-typography, [data-demo]) *) {
     scroll-margin: calc(var(--spacing) * 20);
     border-bottom: 1px solid var(--color-border);
     padding-bottom: calc(var(--spacing) * 2);
@@ -171,10 +173,10 @@
     letter-spacing: var(--tracking-tight);
     margin-top: calc(var(--spacing) * 12);
   }
-  .typography h2:not(.not-typography h2):first-child {
+  h2:not(:is(.not-typography, [data-demo]) *):first-child {
     margin-top: 0;
   }
-  .typography h3:not(.not-typography h3) {
+  h3:not(:is(.not-typography, [data-demo]) *) {
     scroll-margin: calc(var(--spacing) * 20);
     font-size: var(--text-2xl);
     line-height: var(--text-2xl--line-height);
@@ -182,10 +184,10 @@
     letter-spacing: var(--tracking-tight);
     margin-top: calc(var(--spacing) * 12);
   }
-  .typography h3:not(.not-typography h3):first-child {
+  h3:not(:is(.not-typography, [data-demo]) *):first-child {
     margin-top: 0;
   }
-  .typography h4:not(.not-typography h4) {
+  h4:not(:is(.not-typography, [data-demo]) *) {
     scroll-margin: calc(var(--spacing) * 20);
     font-size: var(--text-xl);
     line-height: var(--text-xl--line-height);
@@ -193,10 +195,10 @@
     letter-spacing: var(--tracking-tight);
     margin-top: calc(var(--spacing) * 12);
   }
-  .typography h4:not(.not-typography h4):first-child {
+  h4:not(:is(.not-typography, [data-demo]) *):first-child {
     margin-top: 0;
   }
-  .typography h5:not(.not-typography h5) {
+  h5:not(:is(.not-typography, [data-demo]) *) {
     scroll-margin: calc(var(--spacing) * 20);
     font-size: var(--text-lg);
     line-height: var(--text-lg--line-height);
@@ -204,10 +206,10 @@
     letter-spacing: var(--tracking-tight);
     margin-top: calc(var(--spacing) * 12);
   }
-  .typography h5:not(.not-typography h5):first-child {
+  h5:not(:is(.not-typography, [data-demo]) *):first-child {
     margin-top: 0;
   }
-  .typography h6:not(.not-typography h6) {
+  h6:not(:is(.not-typography, [data-demo]) *) {
     scroll-margin: calc(var(--spacing) * 20);
     font-size: var(--text-base);
     line-height: var(--text-base--line-height);
@@ -215,110 +217,110 @@
     letter-spacing: var(--tracking-tight);
     margin-top: calc(var(--spacing) * 12);
   }
-  .typography h6:not(.not-typography h6):first-child {
+  h6:not(:is(.not-typography, [data-demo]) *):first-child {
     margin-top: 0;
   }
-  .typography h1:not(.not-typography h1) + p,
-  .typography h2:not(.not-typography h2) + p,
-  .typography h3:not(.not-typography h3) + p,
-  .typography h4:not(.not-typography h4) + p,
-  .typography h5:not(.not-typography h5) + p,
-  .typography h6:not(.not-typography h6) + p {
+  h1:not(:is(.not-typography, [data-demo]) *) + p,
+  h2:not(:is(.not-typography, [data-demo]) *) + p,
+  h3:not(:is(.not-typography, [data-demo]) *) + p,
+  h4:not(:is(.not-typography, [data-demo]) *) + p,
+  h5:not(:is(.not-typography, [data-demo]) *) + p,
+  h6:not(:is(.not-typography, [data-demo]) *) + p {
     margin-top: 0;
   }
-  .typography p:not(.not-typography p) {
+  p:not(:is(.not-typography, [data-demo]) *) {
     line-height: 1.75;
   }
-  .typography p:not(.not-typography p):not(:first-child) {
+  p:not(:is(.not-typography, [data-demo]) *):not(:first-child) {
     margin-top: calc(var(--spacing) * 6);
   }
-  .typography li:not(.not-typography li) {
+  li:not(:is(.not-typography, [data-demo]) *) {
     line-height: 1.75;
   }
-  .typography a:not(.not-typography a) {
+  a:not(:is(.not-typography, [data-demo]) *) {
     font-weight: 500;
     color: var(--color-primary);
     text-decoration: underline;
     text-underline-offset: var(--spacing);
   }
-  .typography blockquote:not(.not-typography blockquote) {
+  blockquote:not(:is(.not-typography, [data-demo]) *) {
     margin-top: calc(var(--spacing) * 6);
     border-left: 2px solid var(--color-border);
     padding-left: calc(var(--spacing) * 6);
     font-style: italic;
   }
-  .typography table:not(.not-typography table) {
+  table:not(:is(.not-typography, [data-demo]) *) {
     margin-top: calc(var(--spacing) * 6);
     margin-bottom: calc(var(--spacing) * 6);
     width: 100%;
     overflow-y: auto;
   }
-  .typography table:not(.not-typography table) thead tr {
+  table:not(:is(.not-typography, [data-demo]) *) thead tr {
     margin: 0;
     border-top: 1px solid var(--color-border);
     padding: 0;
   }
-  .typography table:not(.not-typography table) thead tr:nth-child(even) {
+  table:not(:is(.not-typography, [data-demo]) *) thead tr:nth-child(even) {
     background-color: var(--color-muted);
   }
-  .typography table:not(.not-typography table) th {
+  table:not(:is(.not-typography, [data-demo]) *) th {
     border: 1px solid var(--color-border);
     padding: calc(var(--spacing) * 2) calc(var(--spacing) * 4);
     text-align: left;
     font-weight: 700;
   }
-  .typography table:not(.not-typography table) th[align='center'] {
+  table:not(:is(.not-typography, [data-demo]) *) th[align='center'] {
     text-align: center;
   }
-  .typography table:not(.not-typography table) th[align='right'] {
+  table:not(:is(.not-typography, [data-demo]) *) th[align='right'] {
     text-align: right;
   }
-  .typography table:not(.not-typography table) tbody tr {
+  table:not(:is(.not-typography, [data-demo]) *) tbody tr {
     margin: 0;
     border-top: 1px solid var(--color-border);
     padding: 0;
   }
-  .typography table:not(.not-typography table) tbody tr:nth-child(even) {
+  table:not(:is(.not-typography, [data-demo]) *) tbody tr:nth-child(even) {
     background-color: var(--color-muted);
   }
-  .typography table:not(.not-typography table) td {
+  table:not(:is(.not-typography, [data-demo]) *) td {
     border: 1px solid var(--color-border);
     padding: calc(var(--spacing) * 2) calc(var(--spacing) * 4);
     text-align: left;
   }
-  .typography table:not(.not-typography table) td[align='center'] {
+  table:not(:is(.not-typography, [data-demo]) *) td[align='center'] {
     text-align: center;
   }
-  .typography table:not(.not-typography table) td[align='right'] {
+  table:not(:is(.not-typography, [data-demo]) *) td[align='right'] {
     text-align: right;
   }
-  .typography ul:not(.not-typography ul) {
+  ul:not(:is(.not-typography, [data-demo]) *) {
     margin-top: calc(var(--spacing) * 6);
     margin-left: calc(var(--spacing) * 6);
     list-style: disc;
   }
-  .typography ul:not(.not-typography ul) > li {
+  ul:not(:is(.not-typography, [data-demo]) *) > li {
     margin-top: calc(var(--spacing) * 2);
   }
-  .typography ul:not(.not-typography ul) p {
+  ul:not(:is(.not-typography, [data-demo]) *) p {
     margin-top: 0;
     margin-bottom: 0;
     display: inline;
   }
-  .typography ol:not(.not-typography ol) {
+  ol:not(:is(.not-typography, [data-demo]) *) {
     margin-top: calc(var(--spacing) * 6);
     margin-left: calc(var(--spacing) * 6);
     list-style: decimal;
   }
-  .typography ol:not(.not-typography ol) > li {
+  ol:not(:is(.not-typography, [data-demo]) *) > li {
     margin-top: calc(var(--spacing) * 2);
   }
-  .typography ol:not(.not-typography ol) p {
+  ol:not(:is(.not-typography, [data-demo]) *) p {
     margin-top: 0;
     margin-bottom: 0;
     display: inline;
   }
-  .typography pre:not(.not-typography pre) {
+  pre:not(:is(.not-typography, [data-demo]) *) {
     background-color: var(--color-muted);
     border-radius: calc(var(--radius) - 2px);
     padding: calc(var(--spacing) * 4);
@@ -328,7 +330,7 @@
     line-height: var(--text-sm--line-height);
     overflow-y: auto;
   }
-  .typography code:not(pre code):not(.not-typography code) {
+  code:not(pre code):not(:is(.not-typography, [data-demo]) *) {
     position: relative;
     border-radius: var(--radius);
     background-color: var(--color-muted);
@@ -338,37 +340,37 @@
     line-height: var(--text-sm--line-height);
     font-weight: 600;
   }
-  .typography .lead:not(.not-typography .lead) {
+  .lead:not(:is(.not-typography, [data-demo]) *) {
     font-size: var(--text-xl);
     line-height: var(--text-xl--line-height);
     color: var(--color-muted-foreground);
   }
-  .typography .large:not(.not-typography .large) {
+  .large:not(:is(.not-typography, [data-demo]) *) {
     font-size: var(--text-lg);
     line-height: var(--text-lg--line-height);
     font-weight: 600;
   }
-  .typography .small:not(.not-typography .small) {
+  .small:not(:is(.not-typography, [data-demo]) *) {
     font-size: var(--text-sm);
     line-height: 1;
     font-weight: 500;
   }
-  .typography .muted:not(.not-typography .muted) {
+  .muted:not(:is(.not-typography, [data-demo]) *) {
     font-size: var(--text-sm);
     line-height: var(--text-sm--line-height);
     color: var(--color-muted-foreground);
   }
-  .typography img:not(.not-typography img),
-  .typography picture:not(.not-typography picture),
-  .typography video:not(.not-typography video) {
+  img:not(:is(.not-typography, [data-demo]) *),
+  picture:not(:is(.not-typography, [data-demo]) *),
+  video:not(:is(.not-typography, [data-demo]) *) {
     margin-top: calc(var(--spacing) * 6);
     margin-bottom: calc(var(--spacing) * 6);
   }
-  .typography picture > img:not(.not-typography picture > img) {
+  picture > img:not(:is(.not-typography, [data-demo]) *) {
     margin-top: 0;
     margin-bottom: 0;
   }
-  .typography kbd:not(.not-typography kbd) {
+  kbd:not(:is(.not-typography, [data-demo]) *) {
     border-radius: calc(var(--radius) - 2px);
     background-color: var(--color-muted);
     padding: calc(var(--spacing) * 0.5) calc(var(--spacing) * 1.5);
@@ -376,44 +378,44 @@
     line-height: var(--text-xs--line-height);
     font-weight: 600;
   }
-  .typography hr:not(.not-typography hr) {
+  hr:not(:is(.not-typography, [data-demo]) *) {
     margin-top: calc(var(--spacing) * 10);
     margin-bottom: calc(var(--spacing) * 10);
   }
-  .typography dl:not(.not-typography dl) {
+  dl:not(:is(.not-typography, [data-demo]) *) {
     margin-top: calc(var(--spacing) * 6);
     margin-bottom: calc(var(--spacing) * 6);
   }
-  .typography dl:not(.not-typography dl) dt {
+  dl:not(:is(.not-typography, [data-demo]) *) dt {
     font-weight: 600;
     margin-top: calc(var(--spacing) * 6);
     letter-spacing: var(--tracking-tight);
   }
-  .typography dl:not(.not-typography dl) dt:first-child {
+  dl:not(:is(.not-typography, [data-demo]) *) dt:first-child {
     margin-top: 0;
   }
-  .typography details:not(.not-typography details) {
+  details:not(:is(.not-typography, [data-demo]) *) {
     margin-top: calc(var(--spacing) * 6);
   }
-  .typography details:not(.not-typography details) summary {
+  details:not(:is(.not-typography, [data-demo]) *) summary {
     cursor: pointer;
     font-weight: 600;
     margin-top: calc(var(--spacing) * 6);
     letter-spacing: var(--tracking-tight);
   }
-  .typography details:not(.not-typography details) p:first-of-type {
+  details:not(:is(.not-typography, [data-demo]) *) p:first-of-type {
     margin-top: calc(var(--spacing) * 2);
   }
-  .typography mark:not(.not-typography mark) {
+  mark:not(:is(.not-typography, [data-demo]) *) {
     background-color: var(--color-yellow-300);
   }
-  .typography small:not(.not-typography small) {
+  small:not(:is(.not-typography, [data-demo]) *) {
     font-size: var(--text-xs);
     line-height: 1;
   }
 
   @media (min-width: 1024px) {
-    .typography h1:not(.not-typography h1) {
+    h1:not(:is(.not-typography, [data-demo]) *) {
       font-size: var(--text-5xl);
       line-height: var(--text-5xl--line-height);
     }
@@ -421,25 +423,15 @@
 }
 
 @utility story {
-  @apply mx-auto max-w-3xl pt-5 [&_h2,h3]:border-0;
+  @apply typography mx-auto max-w-3xl pt-5 [&_h1:not(:is(.not-typography,[data-demo])_*)]:text-2xl [&_h2:not(:is(.not-typography,[data-demo])_*)]:text-xl [&_h2:not(:is(.not-typography,[data-demo])_*),&_h3:not(:is(.not-typography,[data-demo])_*)]:border-0 [&_h3:not(:is(.not-typography,[data-demo])_*)]:text-lg;
 
-  h1 + p {
-    @apply mt-2;
+  h1 + p:not(:is(.not-typography, [data-demo])*):not(:first-child) {
+    @apply mt-3;
   }
 
-  .story-demo {
-    @apply mt-10;
-
-    & > h2 {
-      @apply text-sm font-semibold;
-    }
-
-    & > p {
-      @apply text-muted-foreground mt-1 text-sm;
-    }
-
-    & > div {
-      @apply mt-6 min-h-75 content-center rounded-xl border p-5;
-    }
+  p:not(:is(.not-typography, [data-demo]) *):not(:first-child):has(
+      + hr + [data-demo]
+    ) {
+    @apply mt-1;
   }
 }

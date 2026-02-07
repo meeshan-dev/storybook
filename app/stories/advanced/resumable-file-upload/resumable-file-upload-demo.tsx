@@ -98,7 +98,10 @@ export function ResumableFileUploadDemo() {
 
   return (
     <>
-      <section className='bg-secondary mx-auto flex h-[95vh] w-full max-w-lg flex-col overflow-auto rounded-lg'>
+      <section
+        data-demo
+        className='bg-secondary mx-auto flex h-[90vh] w-full max-w-lg flex-col overflow-auto rounded-lg'
+      >
         {files.length > 0 && (
           <>
             <div

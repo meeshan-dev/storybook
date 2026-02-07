@@ -24,7 +24,7 @@ import {
 
 export function DisclosureDemo() {
   return (
-    <main className='flex grow flex-col gap-12 py-10'>
+    <section data-demo className='flex grow flex-col gap-12'>
       {/* FAQ Section */}
       <section className='flex flex-col justify-center'>
         <h3 className='text-center text-lg font-semibold'>
@@ -65,7 +65,7 @@ export function DisclosureDemo() {
 
         <FilterPanel />
       </section>
-    </main>
+    </section>
   );
 }
 

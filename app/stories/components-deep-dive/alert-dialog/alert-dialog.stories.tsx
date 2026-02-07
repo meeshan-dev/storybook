@@ -12,7 +12,7 @@ export default meta;
 export const Default: StoryObj<typeof meta> = {
   name: 'Alert Dialog',
   render: () => (
-    <div className='story typography'>
+    <div className='story'>
       <h1>Alert Dialog</h1>
 
       <p>
@@ -25,15 +25,15 @@ export const Default: StoryObj<typeof meta> = {
         </a>
       </p>
 
-      <div className='story-demo not-typography'>
-        <h2>Interactive demo</h2>
-        <p>
-          Common patterns: destructive actions, logout, and navigation guards
-        </p>
-        <div>
-          <AlertDialogDemo />
-        </div>
-      </div>
+      <h2>Interactive demo</h2>
+
+      <p>Common patterns: destructive actions, logout, and navigation guards</p>
+
+      <hr />
+
+      <AlertDialogDemo />
+
+      <hr />
 
       <h2>Implementation Highlights</h2>
 

@@ -12,7 +12,7 @@ export default meta;
 export const Default: StoryObj<typeof meta> = {
   name: 'Disclosure',
   render: () => (
-    <div className='story typography'>
+    <div className='story'>
       <h1>Disclosure</h1>
 
       <p>
@@ -25,13 +25,15 @@ export const Default: StoryObj<typeof meta> = {
         </a>
       </p>
 
-      <div className='story-demo not-typography'>
-        <h2>Interactive demo</h2>
-        <p>FAQ section, settings panel, filter sidebar, and feature details</p>
-        <div>
-          <DisclosureDemo />
-        </div>
-      </div>
+      <h2>Interactive demo</h2>
+
+      <p>FAQ section, settings panel, filter sidebar, and feature details</p>
+
+      <hr />
+
+      <DisclosureDemo />
+
+      <hr />
 
       <h2>Implementation Highlights</h2>
 

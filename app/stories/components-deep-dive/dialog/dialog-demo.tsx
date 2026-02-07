@@ -43,14 +43,17 @@ import {
 
 export function DialogDemo() {
   return (
-    <div className='flex grow flex-col items-center justify-center gap-8 py-10'>
+    <section
+      data-demo
+      className='flex grow flex-col items-center justify-center gap-8'
+    >
       <div className='grid w-full max-w-lg gap-10'>
         <EditProfileDialog />
         <ContactFormDialog />
         <MultiStepWizardDialog />
         <NestedDialogDemo />
       </div>
-    </div>
+    </section>
   );
 }
 

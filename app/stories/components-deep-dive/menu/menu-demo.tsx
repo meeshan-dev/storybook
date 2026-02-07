@@ -55,7 +55,10 @@ import {
 
 export function MenuDemo() {
   return (
-    <div className='flex grow flex-col items-center justify-center gap-8 py-10'>
+    <section
+      data-demo
+      className='flex grow flex-col items-center justify-center gap-8'
+    >
       <div className='grid w-full max-w-3xl gap-8 md:grid-cols-2'>
         <FileActionsMenu />
         <EditorViewOptionsMenu />
@@ -64,7 +67,7 @@ export function MenuDemo() {
         <ContextActionsMenu />
         <MenuInDialogDemo />
       </div>
-    </div>
+    </section>
   );
 }
 

@@ -25,7 +25,7 @@ import {
 
 export function PopoverDemo() {
   return (
-    <main className='flex grow flex-col gap-12 py-10'>
+    <section data-demo className='flex grow flex-col gap-12'>
       {/* User Profile Card */}
       <section className='space-y-4'>
         <div className='space-y-1'>
@@ -69,7 +69,7 @@ export function PopoverDemo() {
         </div>
         <DatePickerPopover />
       </section>
-    </main>
+    </section>
   );
 }
 

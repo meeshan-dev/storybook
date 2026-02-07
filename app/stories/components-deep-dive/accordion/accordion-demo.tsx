@@ -20,11 +20,14 @@ import {
 
 export function AccordionDemo() {
   return (
-    <div className='flex flex-col items-center justify-center gap-12 py-10'>
+    <section
+      data-demo
+      className='mx-auto flex w-full max-w-2xl flex-col items-center gap-12'
+    >
       <FAQAccordion />
       <SettingsPanelAccordion />
       <ProductFeaturesAccordion />
-    </div>
+    </section>
   );
 }
 
@@ -66,7 +69,7 @@ const faqItems = [
 
 function FAQAccordion() {
   return (
-    <section className='w-full max-w-2xl'>
+    <div className='w-full'>
       <div className='text-center'>
         <Badge variant='secondary' className='mb-2'>
           Multiple Expansion
@@ -109,7 +112,7 @@ function FAQAccordion() {
           </AccordionItem>
         ))}
       </AccordionRoot>
-    </section>
+    </div>
   );
 }
 
@@ -155,7 +158,7 @@ const settingsSections = [
 
 function SettingsPanelAccordion() {
   return (
-    <section className='w-full max-w-2xl'>
+    <div className='w-full'>
       <div className='mb-6 text-center'>
         <Badge variant='secondary' className='mb-2'>
           Single Collapsible
@@ -233,7 +236,7 @@ function SettingsPanelAccordion() {
           ),
         )}
       </AccordionRoot>
-    </section>
+    </div>
   );
 }
 
@@ -274,7 +277,7 @@ const features = [
 
 function ProductFeaturesAccordion() {
   return (
-    <section className='w-full max-w-2xl'>
+    <div className='w-full'>
       <div className='text-center'>
         <Badge variant='secondary' className='mb-2'>
           Single Non-Collapsible
@@ -327,6 +330,6 @@ function ProductFeaturesAccordion() {
           </AccordionItem>
         ))}
       </AccordionRoot>
-    </section>
+    </div>
   );
 }

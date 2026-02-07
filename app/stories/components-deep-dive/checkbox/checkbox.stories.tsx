@@ -12,7 +12,7 @@ export default meta;
 export const Default: StoryObj<typeof meta> = {
   name: 'Checkbox',
   render: () => (
-    <div className='story typography'>
+    <div className='story'>
       <h1>Checkbox</h1>
 
       <p>
@@ -25,16 +25,17 @@ export const Default: StoryObj<typeof meta> = {
         </a>
       </p>
 
-      <div className='story-demo not-typography'>
-        <h2>Interactive demo</h2>
-        <p>
-          Task lists, permissions matrix, terms acceptance, and feature
-          selection
-        </p>
-        <div>
-          <CheckboxDemo />
-        </div>
-      </div>
+      <h2>Interactive demo</h2>
+
+      <p>
+        Task lists, permissions matrix, terms acceptance, and feature selection
+      </p>
+
+      <hr />
+
+      <CheckboxDemo />
+
+      <hr />
 
       <h2>Implementation Highlights</h2>
 

@@ -12,7 +12,7 @@ export default meta;
 export const Default: StoryObj<typeof meta> = {
   name: 'Menu',
   render: () => (
-    <div className='story typography'>
+    <div className='story'>
       <h1>Menu</h1>
 
       <p>
@@ -25,16 +25,17 @@ export const Default: StoryObj<typeof meta> = {
         </a>
       </p>
 
-      <div className='story-demo not-typography'>
-        <h2>Interactive demo</h2>
-        <p>
-          File actions, view options, alignment, account menu, and nested
-          patterns
-        </p>
-        <div>
-          <MenuDemo />
-        </div>
-      </div>
+      <h2>Interactive demo</h2>
+
+      <p>
+        File actions, view options, alignment, account menu, and nested patterns
+      </p>
+
+      <hr />
+
+      <MenuDemo />
+
+      <hr />
 
       <h2>Implementation Highlights</h2>
 

@@ -21,14 +21,15 @@ import {
 
 export function AlertDialogDemo() {
   return (
-    <div className='flex grow flex-col items-center justify-center gap-8 py-10'>
-      <div className='grid w-full max-w-lg gap-10'>
-        <DeleteAccountDialog />
-        <DeleteItemDialog />
-        <LogoutDialog />
-        <UnsavedChangesDialog />
-      </div>
-    </div>
+    <section
+      data-demo
+      className='flex w-full max-w-lg grow flex-col items-center gap-10'
+    >
+      <DeleteAccountDialog />
+      <DeleteItemDialog />
+      <LogoutDialog />
+      <UnsavedChangesDialog />
+    </section>
   );
 }
 

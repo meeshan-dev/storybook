@@ -23,7 +23,7 @@ import { ToggleButton, ToggleButtonGroup } from './toggle-button';
 
 export function ToggleButtonDemo() {
   return (
-    <main className='flex grow flex-col gap-12 py-10'>
+    <section data-demo className='flex grow flex-col gap-12'>
       {/* View Switcher */}
       <section className='space-y-4'>
         <div className='space-y-1'>
@@ -78,7 +78,7 @@ export function ToggleButtonDemo() {
         </div>
         <SortDirection />
       </section>
-    </main>
+    </section>
   );
 }
 

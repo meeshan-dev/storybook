@@ -12,7 +12,7 @@ export default meta;
 export const Default: StoryObj<typeof meta> = {
   name: 'Toggle Button',
   render: () => (
-    <div className='story typography'>
+    <div className='story'>
       <h1>Toggle Button</h1>
 
       <p>
@@ -25,16 +25,18 @@ export const Default: StoryObj<typeof meta> = {
         </a>
       </p>
 
-      <div className='story-demo not-typography'>
-        <h2>Interactive demo</h2>
-        <p>
-          Real-world patterns: view switchers, text formatting, alignment
-          controls, quick actions, and sort toggles.
-        </p>
-        <div>
-          <ToggleButtonDemo />
-        </div>
-      </div>
+      <h2>Interactive demo</h2>
+
+      <p>
+        Real-world patterns: view switchers, text formatting, alignment
+        controls, quick actions, and sort toggles.
+      </p>
+
+      <hr />
+
+      <ToggleButtonDemo />
+
+      <hr />
 
       <h2>Implementation Highlights</h2>
 

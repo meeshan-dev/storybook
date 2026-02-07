@@ -12,7 +12,7 @@ export default meta;
 export const Default: StoryObj<typeof meta> = {
   name: 'Popover',
   render: () => (
-    <div className='story typography'>
+    <div className='story'>
       <h1>Popover</h1>
 
       <p>
@@ -25,16 +25,18 @@ export const Default: StoryObj<typeof meta> = {
         </a>
       </p>
 
-      <div className='story-demo not-typography'>
-        <h2>Interactive demo</h2>
-        <p>
-          User profile cards, notification settings, filter panels, and date
-          selection
-        </p>
-        <div>
-          <PopoverDemo />
-        </div>
-      </div>
+      <h2>Interactive demo</h2>
+
+      <p>
+        User profile cards, notification settings, filter panels, and date
+        selection
+      </p>
+
+      <hr />
+
+      <PopoverDemo />
+
+      <hr />
 
       <h2>Implementation Highlights</h2>
 

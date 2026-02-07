@@ -102,48 +102,49 @@ export function OptimisticChatDemo() {
   }, [messages]);
 
   return (
-    <main className='h-[95vh] p-5'>
-      <section className='bg-secondary mx-auto flex h-full w-[min(100%,375px)] flex-col rounded-lg'>
-        <header className='border-foreground/20 flex items-center gap-2 border-b px-4 py-2.5'>
-          <div
-            className='bg-foreground/10 size-7 rounded-full'
-            aria-hidden='true'
-          />
-          <h1 className='text-secondary-foreground text-sm'>Optimistic Chat</h1>
-        </header>
+    <section
+      data-demo
+      className='bg-secondary mx-auto flex h-[90vh] w-[min(100%,375px)] flex-col rounded-lg'
+    >
+      <header className='border-foreground/20 flex items-center gap-2 border-b px-4 py-2.5'>
+        <div
+          className='bg-foreground/10 size-7 rounded-full'
+          aria-hidden='true'
+        />
+        <h1 className='text-secondary-foreground text-sm'>Optimistic Chat</h1>
+      </header>
 
-        <form
-          id='chat-form'
-          className='flex grow overflow-auto'
-          onSubmit={handleSubmit}
+      <form
+        id='chat-form'
+        className='flex grow overflow-auto'
+        onSubmit={handleSubmit}
+      >
+        <ScrollArea
+          viewportRef={viewportRef}
+          className='grow'
+          scrollbarClassName='data-vertical:w-1.5'
+          thumbClassName='bg-foreground/20'
         >
-          <ScrollArea
-            viewportRef={viewportRef}
-            className='grow'
-            scrollbarClassName='data-vertical:w-1.5'
-            thumbClassName='bg-foreground/20'
-          >
-            <ul className='flex grow flex-col items-end gap-2 p-2'>
-              {messages.map((msg) => (
-                <Message
-                  key={msg.id}
-                  msg={msg}
-                  onRetry={() => {
-                    startTransition(async () => {
-                      sendMessage(msg, true);
-                    });
-                  }}
-                />
-              ))}
-            </ul>
-          </ScrollArea>
-        </form>
+          <ul className='flex grow flex-col items-end gap-2 p-2'>
+            {messages.map((msg) => (
+              <Message
+                key={msg.id}
+                msg={msg}
+                onRetry={() => {
+                  startTransition(async () => {
+                    sendMessage(msg, true);
+                  });
+                }}
+              />
+            ))}
+          </ul>
+        </ScrollArea>
+      </form>
 
-        <footer className='p-2 pb-2'>
-          <ChatInput ref={chatInputRef} />
-        </footer>
-      </section>
-    </main>
+      <footer className='p-2 pb-2'>
+        <ChatInput ref={chatInputRef} />
+      </footer>
+    </section>
   );
 }
 

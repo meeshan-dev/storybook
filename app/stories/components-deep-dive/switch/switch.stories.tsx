@@ -12,7 +12,7 @@ export default meta;
 export const Default: StoryObj<typeof meta> = {
   name: 'Switch',
   render: () => (
-    <div className='story typography'>
+    <div className='story'>
       <h1>Switch</h1>
 
       <p>
@@ -25,15 +25,17 @@ export const Default: StoryObj<typeof meta> = {
         </a>
       </p>
 
-      <div className='story-demo not-typography'>
-        <h2>Interactive demo</h2>
-        <p>
-          Notification preferences, privacy settings, and custom feature toggles
-        </p>
-        <div>
-          <SwitchDemo />
-        </div>
-      </div>
+      <h2>Interactive demo</h2>
+
+      <p>
+        Notification preferences, privacy settings, and custom feature toggles
+      </p>
+
+      <hr />
+
+      <SwitchDemo />
+
+      <hr />
 
       <h2>Implementation Highlights</h2>
 

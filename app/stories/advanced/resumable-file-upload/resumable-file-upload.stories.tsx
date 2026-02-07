@@ -24,7 +24,7 @@ export const Default: StoryObj<typeof meta> = {
     };
   },
   render: () => (
-    <div className='story typography'>
+    <div className='story'>
       <h1>Resumable File Upload</h1>
 
       <p>
@@ -33,13 +33,15 @@ export const Default: StoryObj<typeof meta> = {
         real-world scenarios.
       </p>
 
-      <div className='story-demo not-typography'>
-        <h2>Interactive demo</h2>
-        <p>Select files to upload and test pause, resume, and cancel.</p>
-        <div>
-          <ResumableFileUploadDemo />
-        </div>
-      </div>
+      <h2>Interactive demo</h2>
+
+      <p>Select files to upload and test pause, resume, and cancel.</p>
+
+      <hr />
+
+      <ResumableFileUploadDemo />
+
+      <hr />
 
       <h2>Features</h2>
 

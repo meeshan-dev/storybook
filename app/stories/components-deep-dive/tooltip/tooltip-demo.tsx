@@ -29,7 +29,7 @@ import {
 
 export function TooltipDemo() {
   return (
-    <main className='flex grow flex-col gap-12 py-10'>
+    <section data-demo className='flex grow flex-col gap-12'>
       {/* Toolbar Actions */}
       <section className='space-y-4'>
         <div className='space-y-1'>
@@ -85,7 +85,7 @@ export function TooltipDemo() {
         </div>
         <InteractiveTooltips />
       </section>
-    </main>
+    </section>
   );
 }
 

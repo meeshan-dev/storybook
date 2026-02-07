@@ -12,7 +12,7 @@ export default meta;
 export const Default: StoryObj<typeof meta> = {
   name: 'Accordion',
   render: () => (
-    <div className='story typography'>
+    <div className='story'>
       <h1>Accordion</h1>
 
       <p>
@@ -25,15 +25,15 @@ export const Default: StoryObj<typeof meta> = {
         </a>
       </p>
 
-      <div className='story-demo not-typography'>
-        <h2>Interactive demo</h2>
-        <p>
-          Three real-world use cases demonstrating different expansion modes
-        </p>
-        <div>
-          <AccordionDemo />
-        </div>
-      </div>
+      <h2>Interactive demo</h2>
+
+      <p>Three real-world use cases demonstrating different expansion modes</p>
+
+      <hr />
+
+      <AccordionDemo />
+
+      <hr />
 
       <h2>Implementation Highlights</h2>
 

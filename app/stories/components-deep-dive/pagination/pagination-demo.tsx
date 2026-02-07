@@ -18,7 +18,7 @@ import {
 
 export function PaginationDemo() {
   return (
-    <main className='flex grow flex-col gap-12 py-10'>
+    <section data-demo className='flex grow flex-col gap-12'>
       {/* Data Table Pagination */}
       <section className='space-y-4'>
         <div className='space-y-1'>
@@ -40,7 +40,7 @@ export function PaginationDemo() {
         </div>
         <CompactPagination />
       </section>
-    </main>
+    </section>
   );
 }
 

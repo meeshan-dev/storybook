@@ -16,11 +16,14 @@ import { SwitchIcon, SwitchRoot, Thumb } from './switch';
 
 export function SwitchDemo() {
   return (
-    <div className='flex grow flex-col items-center justify-center gap-12 py-10'>
+    <section
+      data-demo
+      className='flex grow flex-col items-center justify-center gap-12'
+    >
       <NotificationPreferences />
       <PrivacySettings />
       <FeatureToggles />
-    </div>
+    </section>
   );
 }
 

@@ -4,7 +4,7 @@ import { Radio, RadioGroupRoot, RadioIcon } from './radio';
 
 export function RadioDemo() {
   return (
-    <main className='flex grow flex-col gap-12 py-10'>
+    <section data-demo className='flex grow flex-col gap-12'>
       {/* Pricing Plans */}
       <section className='space-y-4'>
         <div className='space-y-1'>
@@ -48,7 +48,7 @@ export function RadioDemo() {
         </div>
         <PaymentMethod />
       </section>
-    </main>
+    </section>
   );
 }
 

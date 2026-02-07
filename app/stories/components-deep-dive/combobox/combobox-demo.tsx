@@ -5,12 +5,15 @@ import { Combobox } from './combobox';
 
 export function ComboboxDemo() {
   return (
-    <div className='flex grow flex-col items-center justify-center gap-12 py-10'>
+    <section
+      data-demo
+      className='flex grow flex-col items-center justify-center gap-12'
+    >
       <CountrySelectorCombobox />
       <UserSearchCombobox />
       <SkillsMultiSelect />
       <ProgrammingLanguagesCombobox />
-    </div>
+    </section>
   );
 }
 

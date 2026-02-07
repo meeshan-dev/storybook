@@ -24,7 +24,7 @@ export const Default: StoryObj<typeof meta> = {
     };
   },
   render: () => (
-    <div className='story typography'>
+    <div className='story'>
       <h1>Optimistic Chat</h1>
 
       <p>
@@ -33,13 +33,15 @@ export const Default: StoryObj<typeof meta> = {
         background.
       </p>
 
-      <div className='story-demo not-typography'>
-        <h2>Interactive demo</h2>
-        <p>Send messages to see optimistic updates in action.</p>
-        <div>
-          <OptimisticChatDemo />
-        </div>
-      </div>
+      <h2>Interactive demo</h2>
+
+      <p>Send messages to see optimistic updates in action.</p>
+
+      <hr />
+
+      <OptimisticChatDemo />
+
+      <hr />
 
       <h2>Features</h2>
 
