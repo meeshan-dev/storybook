@@ -34,7 +34,7 @@ export const Default: StoryObj<typeof meta> = {
       </p>
 
       <div className='story-demo not-typography'>
-        <h2>Demo</h2>
+        <h2>Interactive demo</h2>
         <p>Send messages to see optimistic updates in action.</p>
         <div>
           <OptimisticChatDemo />

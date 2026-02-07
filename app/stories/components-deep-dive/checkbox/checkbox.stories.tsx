@@ -26,7 +26,7 @@ export const Default: StoryObj<typeof meta> = {
       </p>
 
       <div className='story-demo not-typography'>
-        <h2>Interactive Examples</h2>
+        <h2>Interactive demo</h2>
         <p>
           Task lists, permissions matrix, terms acceptance, and feature
           selection
