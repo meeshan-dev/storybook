@@ -122,7 +122,7 @@ function FAQSection() {
                   {item.question}
                 </span>
 
-                <span className='bg-muted group-aria-expanded/button:bg-foreground group-aria-expanded/button:text-background flex size-6 items-center justify-center rounded-full transition-colors'>
+                <span className='bg-muted group-aria-expanded/button:bg-foreground group-aria-expanded/button:text-background flex size-6 shrink-0 items-center justify-center rounded-full transition-colors'>
                   <IconPlus className='group-aria-expanded/button:hidden' />
                   <IconMinus className='hidden group-aria-expanded/button:block' />
                 </span>
@@ -296,7 +296,7 @@ function FilterPanel() {
                   <span className='grow truncate text-start'>
                     {group.title}
                   </span>
-                  <IconChevronDown className='text-muted-foreground size-4 transition-transform group-data-[expanded=true]:rotate-180' />
+                  <IconChevronDown className='text-muted-foreground size-4 transition-transform group-aria-expanded/button:rotate-180' />
                 </Button>
               )}
             </DisclosureTrigger>

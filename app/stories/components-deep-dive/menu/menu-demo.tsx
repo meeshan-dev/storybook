@@ -522,7 +522,7 @@ function MenuInDialogDemo() {
                 </MenuTrigger>
 
                 <MenuPortal>
-                  <MenuContent className='w-50'>
+                  <MenuContent className='w-[max(var(--reference-width),200px)]'>
                     <MenuItem>
                       <IconDownload size={16} />
                       Export as PDF

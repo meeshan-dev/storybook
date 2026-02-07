@@ -192,68 +192,65 @@ function TextAlignment() {
 
 function QuickActions() {
   return (
-    <ToggleButtonGroup defaultValue={['favorite']}>
-      <div className='flex gap-2'>
-        <ToggleButton value='favorite'>
-          {(props, { isSelected }) => (
-            <Button
-              {...props}
-              variant='ghost'
-              className={cn(
-                'flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition-all',
-                isSelected
-                  ? 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400'
-                  : 'bg-muted text-muted-foreground hover:text-foreground',
-              )}
-            >
-              <IconStar
-                className={cn('size-4', isSelected && 'fill-current')}
-              />
-              Favorite
-            </Button>
-          )}
-        </ToggleButton>
+    <ToggleButtonGroup
+      defaultValue={['favorite']}
+      className='flex flex-wrap gap-2'
+    >
+      <ToggleButton value='favorite'>
+        {(props, { isSelected }) => (
+          <Button
+            {...props}
+            variant='ghost'
+            className={cn(
+              'flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition-all',
+              isSelected
+                ? 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400'
+                : 'bg-muted text-muted-foreground hover:text-foreground',
+            )}
+          >
+            <IconStar className={cn('size-4', isSelected && 'fill-current')} />
+            Favorite
+          </Button>
+        )}
+      </ToggleButton>
 
-        <ToggleButton value='like'>
-          {(props, { isSelected }) => (
-            <Button
-              {...props}
-              variant='ghost'
-              className={cn(
-                'flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition-all',
-                isSelected
-                  ? 'bg-rose-100 text-rose-700 dark:bg-rose-900/30 dark:text-rose-400'
-                  : 'bg-muted text-muted-foreground hover:text-foreground',
-              )}
-            >
-              <IconHeart
-                className={cn('size-4', isSelected && 'fill-current')}
-              />
-              Like
-            </Button>
-          )}
-        </ToggleButton>
+      <ToggleButton value='like'>
+        {(props, { isSelected }) => (
+          <Button
+            {...props}
+            variant='ghost'
+            className={cn(
+              'flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition-all',
+              isSelected
+                ? 'bg-rose-100 text-rose-700 dark:bg-rose-900/30 dark:text-rose-400'
+                : 'bg-muted text-muted-foreground hover:text-foreground',
+            )}
+          >
+            <IconHeart className={cn('size-4', isSelected && 'fill-current')} />
+            Like
+          </Button>
+        )}
+      </ToggleButton>
 
-        <ToggleButton value='bookmark'>
-          {(props, { isSelected }) => (
-            <Button
-              {...props}
-              variant='ghost'
-              className={cn(
-                'flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition-all',
-                isSelected
-                  ? 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400'
-                  : 'bg-muted text-muted-foreground hover:text-foreground',
-              )}
-            >
-              <IconBookmark
-                className={cn('size-4', isSelected && 'fill-current')}
-              />
-              Save
-            </Button>
-          )}
-        </ToggleButton>
-      </div>
+      <ToggleButton value='bookmark'>
+        {(props, { isSelected }) => (
+          <Button
+            {...props}
+            variant='ghost'
+            className={cn(
+              'flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition-all',
+              isSelected
+                ? 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400'
+                : 'bg-muted text-muted-foreground hover:text-foreground',
+            )}
+          >
+            <IconBookmark
+              className={cn('size-4', isSelected && 'fill-current')}
+            />
+            Save
+          </Button>
+        )}
+      </ToggleButton>
     </ToggleButtonGroup>
   );
 }
@@ -264,41 +261,41 @@ function QuickActions() {
 
 function SortDirection() {
   return (
-    <div className='flex items-center gap-4'>
+    <ToggleButtonGroup
+      exclusive
+      defaultValue='asc'
+      className='flex flex-wrap gap-2'
+    >
       <div className='bg-card flex items-center gap-2 rounded-lg border px-3 py-2'>
         <IconFilter className='text-muted-foreground size-4' />
         <span className='text-sm font-medium'>Sort by: Date</span>
       </div>
 
-      <ToggleButtonGroup exclusive defaultValue='asc'>
-        <div className='inline-flex gap-1'>
-          <ToggleButton value='asc'>
-            {(props, { isSelected }) => (
-              <Button
-                {...props}
-                variant={isSelected ? 'default' : 'ghost'}
-                aria-label='Sort ascending'
-              >
-                <IconSortAscending className='size-4' />
-                Ascending
-              </Button>
-            )}
-          </ToggleButton>
+      <ToggleButton value='asc'>
+        {(props, { isSelected }) => (
+          <Button
+            {...props}
+            variant={isSelected ? 'default' : 'ghost'}
+            aria-label='Sort ascending'
+          >
+            <IconSortAscending className='size-4' />
+            Ascending
+          </Button>
+        )}
+      </ToggleButton>
 
-          <ToggleButton value='desc'>
-            {(props, { isSelected }) => (
-              <Button
-                {...props}
-                variant={isSelected ? 'default' : 'ghost'}
-                aria-label='Sort descending'
-              >
-                <IconSortDescending className='size-4' />
-                Descending
-              </Button>
-            )}
-          </ToggleButton>
-        </div>
-      </ToggleButtonGroup>
-    </div>
+      <ToggleButton value='desc'>
+        {(props, { isSelected }) => (
+          <Button
+            {...props}
+            variant={isSelected ? 'default' : 'ghost'}
+            aria-label='Sort descending'
+          >
+            <IconSortDescending className='size-4' />
+            Descending
+          </Button>
+        )}
+      </ToggleButton>
+    </ToggleButtonGroup>
   );
 }

@@ -18,6 +18,7 @@ const preview: Preview = {
     controls: { expanded: false },
     options: {
       storySort: {
+        method: 'alphabetical',
         order: ['welcome', 'advanced', 'components-deep-dive', 'experiments'],
       },
     },

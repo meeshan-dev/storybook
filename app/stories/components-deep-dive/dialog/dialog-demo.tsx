@@ -433,6 +433,14 @@ function MultiStepWizardDialog() {
             {steps[step - 1].content}
 
             <DialogFooter>
+              <DialogClose>
+                {(props) => (
+                  <Button {...props} variant='ghost'>
+                    Cancel
+                  </Button>
+                )}
+              </DialogClose>
+
               <Button
                 variant='ghost'
                 onClick={() => setStep((s) => Math.max(1, s - 1))}
