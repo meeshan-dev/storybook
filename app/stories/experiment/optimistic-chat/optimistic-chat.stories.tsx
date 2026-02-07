@@ -6,7 +6,7 @@ import { OptimisticChatDemo } from './optimistic-chat-demo';
 import sourceCode from './optimistic-chat-demo?raw';
 
 const meta: Meta = {
-  title: 'Experiment/Optimistic Chat',
+  title: 'experiment/Optimistic Chat',
 };
 
 export default meta;

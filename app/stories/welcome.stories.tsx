@@ -1,23 +1,55 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { Badge } from '~/components/ui/badge';
 
 function Welcome() {
   return (
-    <main className='flex min-h-dvh flex-col items-center justify-center p-5 text-center'>
-      <h1 className='text-3xl font-semibold text-balance'>
-        Meeshan.dev Storybook
-      </h1>
+    <main className='min-h-dvh content-center px-5 py-16'>
+      <div className='typography mx-auto w-full max-w-lg'>
+        <h1>Meeshan.dev Storybook</h1>
 
-      <p className='mt-3 text-center text-balance'>
-        Welcome to the hub of my experience.
-      </p>
+        <p>
+          Frontend developer focused on accessibility and complex UI systems.
+        </p>
 
-      <div className='max-w-md'>
-        <hr className='border-foreground my-5' />
+        <p>
+          This storybook showcases my expertise through accessible components,
+          complex features, creative experiments, and reusable hooks.
+        </p>
 
-        <p className='text-center text-sm text-balance'>
-          <Badge>Tip</Badge> Start with the <strong>Overview</strong> tab to
-          understand the context before exploring the preview.
+        <p>Click any section in the sidebar to explore.</p>
+
+        <h2 className='text-xl'>Advanced Stories</h2>
+
+        <p>
+          Complex features tackling real-world challenges. Built to demonstrate
+          handling of scale, performance, and edge cases.
+        </p>
+
+        <h2 className='text-xl'>Components Deep Dive</h2>
+
+        <p>
+          Hand-built accessible UI components following W3C ARIA patterns.
+          Focused on internal mechanics and accessibility — no external
+          libraries.
+        </p>
+
+        <h2 className='text-xl'>Experimental Stories</h2>
+
+        <p>
+          Creative explorations pushing boundaries. Ideas explored fast, focused
+          on learning and experimentation.
+        </p>
+
+        <h2 className='text-xl'>Hooks</h2>
+
+        <p>
+          Reusable custom React hooks focused on solving specific UI problems in
+          a clean, composable way.
+        </p>
+
+        <hr className='border-foreground' />
+
+        <p className='text-muted-foreground text-sm'>
+          Built with React, TypeScript, and Tailwind CSS.
         </p>
       </div>
     </main>

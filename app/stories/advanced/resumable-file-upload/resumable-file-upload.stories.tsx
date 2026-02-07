@@ -6,7 +6,7 @@ import { ResumableFileUploadDemo } from './resumable-file-upload-demo';
 import sourceCode from './resumable-file-upload-demo?raw';
 
 const meta: Meta = {
-  title: 'Advanced/Resumable File Upload',
+  title: 'advanced/Resumable File Upload',
 };
 
 export default meta;
