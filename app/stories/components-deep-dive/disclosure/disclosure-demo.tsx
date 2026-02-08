@@ -102,19 +102,18 @@ const faqItems = [
 
 function FAQSection() {
   return (
-    <DisclosureRoot type='multiple' defaultValue={['returns']} className='mt-6'>
+    <DisclosureRoot
+      type='multiple'
+      defaultValue={['returns']}
+      className='mt-6 divide-y overflow-hidden rounded-xl border'
+    >
       {faqItems.map((item) => (
-        <DisclosureItem
-          key={item.id}
-          value={item.id}
-          className='has-[[aria-expanded]:focus-visible]:border-ring has-[[aria-expanded]:focus-visible]:ring-ring/50 relative overflow-hidden border border-t-0 first:rounded-t-xl first:border-t last:rounded-b-xl has-[[aria-expanded]:focus-visible]:z-50 has-[[aria-expanded]:focus-visible]:ring-[3px]'
-        >
+        <DisclosureItem key={item.id} value={item.id}>
           <DisclosureTrigger>
             {(props) => (
-              <Button
+              <button
                 {...props}
-                variant='ghost'
-                className='dark:hover:bg-secondary h-auto w-full justify-start gap-3 rounded-none border-0 px-4 py-4 focus-visible:ring-0'
+                className='hover:bg-secondary/50 focus-visible:bg-secondary group flex w-full items-center justify-start gap-3 border-0 px-4 py-4 text-sm font-medium outline-none disabled:pointer-events-none disabled:opacity-50'
               >
                 <IconQuestionMark className='text-muted-foreground size-5' />
 
@@ -122,11 +121,9 @@ function FAQSection() {
                   {item.question}
                 </span>
 
-                <span className='bg-muted group-aria-expanded/button:bg-foreground group-aria-expanded/button:text-background flex size-6 shrink-0 items-center justify-center rounded-full transition-colors'>
-                  <IconPlus className='group-aria-expanded/button:hidden' />
-                  <IconMinus className='hidden group-aria-expanded/button:block' />
-                </span>
-              </Button>
+                <IconPlus className='text-muted-foreground size-4 group-aria-expanded:hidden' />
+                <IconMinus className='text-muted-foreground hidden size-4 group-aria-expanded:block' />
+              </button>
             )}
           </DisclosureTrigger>
 
@@ -192,29 +189,24 @@ function SettingsPanel() {
       type='single'
       defaultValue='general'
       isSingleCollapsible
-      className='mt-6'
+      className='mt-6 divide-y overflow-hidden rounded-xl border'
     >
       {settingsSections.map((section) => (
-        <DisclosureItem
-          key={section.id}
-          value={section.id}
-          className='has-[[aria-expanded]:focus-visible]:border-ring has-[[aria-expanded]:focus-visible]:ring-ring/50 relative overflow-hidden border border-t-0 first:rounded-t-xl first:border-t last:rounded-b-xl has-[[aria-expanded]:focus-visible]:z-50 has-[[aria-expanded]:focus-visible]:ring-[3px]'
-        >
+        <DisclosureItem key={section.id} value={section.id}>
           <DisclosureTrigger>
             {(props) => (
-              <Button
+              <button
                 {...props}
-                variant='ghost'
-                className='dark:hover:bg-secondary h-auto w-full justify-start gap-3 rounded-none border-0 px-4 py-4 focus-visible:ring-0'
+                className='hover:bg-secondary/50 focus-visible:bg-secondary group flex w-full items-center justify-start gap-3 border-0 px-4 py-4 text-sm font-medium outline-none disabled:pointer-events-none disabled:opacity-50'
               >
-                <section.icon className='text-muted-foreground' />
+                <section.icon className='text-muted-foreground size-5' />
 
                 <span className='grow truncate text-start'>
                   {section.title}
                 </span>
 
-                <IconChevronDown className='text-muted-foreground size-5 transition-transform group-aria-expanded/button:rotate-180' />
-              </Button>
+                <IconChevronDown className='text-muted-foreground size-4 transition-transform group-aria-expanded:rotate-180' />
+              </button>
             )}
           </DisclosureTrigger>
 
@@ -278,58 +270,55 @@ const filterGroups = [
 
 function FilterPanel() {
   return (
-    <div className='mx-auto mt-6 w-64'>
-      <div className='rounded-t-xl border px-4 py-3'>
-        <h4 className='font-semibold'>Filters</h4>
-      </div>
+    <DisclosureRoot
+      type='multiple'
+      defaultValue={['category', 'price']}
+      className='mx-auto mt-6 w-64 divide-y overflow-hidden rounded-xl border'
+    >
+      <h4 className='px-4 py-3 text-sm font-semibold'>Filters</h4>
 
-      <DisclosureRoot type='multiple' defaultValue={['category', 'price']}>
-        {filterGroups.map((group) => (
-          <DisclosureItem key={group.id} value={group.id}>
-            <DisclosureTrigger>
-              {(props) => (
-                <Button
-                  {...props}
-                  variant='ghost'
-                  className='dark:hover:bg-secondary border-border relative h-auto w-full gap-3 rounded-none border-t-0 px-4 py-4 focus-visible:z-50'
-                >
-                  <span className='grow truncate text-start'>
-                    {group.title}
-                  </span>
-                  <IconChevronDown className='text-muted-foreground size-4 transition-transform group-aria-expanded/button:rotate-180' />
-                </Button>
-              )}
-            </DisclosureTrigger>
+      {filterGroups.map((group) => (
+        <DisclosureItem key={group.id} value={group.id}>
+          <DisclosureTrigger>
+            {(props) => (
+              <button
+                {...props}
+                className='hover:bg-secondary/50 focus-visible:bg-secondary group flex w-full items-center justify-start gap-3 border-0 px-4 py-4 text-sm font-medium outline-none disabled:pointer-events-none disabled:opacity-50'
+              >
+                <span className='grow truncate text-start'>{group.title}</span>
+                <IconChevronDown className='text-muted-foreground size-4 transition-transform group-aria-expanded:rotate-180' />
+              </button>
+            )}
+          </DisclosureTrigger>
 
-            <DisclosureContent className='text-muted-foreground space-y-2 border border-t-0 p-5 text-sm leading-relaxed'>
-              {group.options.map((option) => (
-                <label
-                  key={option}
-                  className='flex cursor-pointer items-center gap-2'
-                >
-                  <CheckboxRoot>
-                    <CheckboxIcon type='check'>
-                      <IconCheck />
-                    </CheckboxIcon>
-                  </CheckboxRoot>
+          <DisclosureContent className='text-muted-foreground space-y-2 p-5 text-sm leading-relaxed'>
+            {group.options.map((option) => (
+              <label
+                key={option}
+                className='flex cursor-pointer items-center gap-2'
+              >
+                <CheckboxRoot>
+                  <CheckboxIcon type='check'>
+                    <IconCheck />
+                  </CheckboxIcon>
+                </CheckboxRoot>
 
-                  <span className='text-muted-foreground text-sm'>
-                    {option}
-                  </span>
-                </label>
-              ))}
-            </DisclosureContent>
-          </DisclosureItem>
-        ))}
-      </DisclosureRoot>
+                <span className='text-muted-foreground text-sm'>{option}</span>
+              </label>
+            ))}
+          </DisclosureContent>
+        </DisclosureItem>
+      ))}
 
-      <div className='flex gap-2 rounded-b-xl border border-t-0 p-4'>
+      <div className='flex gap-2 p-4'>
         <Button variant='outline' className='flex-1'>
           Clear
         </Button>
-        <Button className='flex-1'>Apply</Button>
+        <Button variant='secondary' className='flex-1'>
+          Apply
+        </Button>
       </div>
-    </div>
+    </DisclosureRoot>
   );
 }
 
@@ -374,29 +363,22 @@ function FeatureList() {
       type='single'
       defaultValue='api'
       isSingleCollapsible={false}
-      className='mt-6'
+      className='mt-6 divide-y overflow-hidden rounded-xl border'
     >
       {features.map((feature) => (
-        <DisclosureItem
-          key={feature.id}
-          value={feature.id}
-          className='has-[[aria-expanded]:focus-visible]:border-ring has-[[aria-expanded]:focus-visible]:ring-ring/50 relative overflow-hidden border border-t-0 first:rounded-t-xl first:border-t last:rounded-b-xl has-[[aria-expanded]:focus-visible]:z-50 has-[[aria-expanded]:focus-visible]:ring-[3px]'
-        >
+        <DisclosureItem key={feature.id} value={feature.id}>
           <DisclosureTrigger>
             {(props) => (
-              <Button
+              <button
                 {...props}
-                variant='ghost'
-                className='dark:hover:bg-secondary h-auto w-full justify-start gap-3 rounded-none border-0 px-4 py-4 focus-visible:ring-0'
+                className='hover:bg-secondary/50 focus-visible:bg-secondary group flex w-full items-center justify-start gap-3 border-0 px-4 py-4 text-sm font-medium outline-none disabled:pointer-events-none disabled:opacity-50'
               >
-                <feature.icon className='size-5' />
+                <feature.icon className='text-muted-foreground size-5' />
 
                 <div className='grow truncate text-start'>{feature.title}</div>
 
-                <div className='bg-foreground text-background flex size-6 items-center justify-center rounded-full opacity-0 transition-opacity group-aria-expanded/button:opacity-100'>
-                  <IconChevronDown className='size-4' />
-                </div>
-              </Button>
+                <IconChevronDown className='text-muted-foreground size-4 transition-transform group-aria-expanded:rotate-180' />
+              </button>
             )}
           </DisclosureTrigger>
 
