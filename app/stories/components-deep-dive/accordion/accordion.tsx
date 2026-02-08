@@ -233,6 +233,14 @@ export const AccordionTrigger = (props: {
 
     e.preventDefault();
 
+    document
+      .querySelectorAll<HTMLElement>(
+        `[data-accordtion-item=${accordionCtx.rootId}]`,
+      )
+      .forEach((ele) => {
+        delete ele.dataset.focused;
+      });
+
     const elements = Array.from(
       document.querySelectorAll<HTMLButtonElement>(
         `[data-accordtion-item=${accordionCtx.rootId}]`,
@@ -250,15 +258,40 @@ export const AccordionTrigger = (props: {
       (item) => item === e.currentTarget,
     );
 
-    const next =
-      activeElements[Math.min(currentIndex + 1, activeElements.length - 1)];
+    if (ArrowDown) {
+      const next = activeElements.at(
+        Math.min(currentIndex + 1, activeElements.length - 1),
+      );
 
-    const prev = activeElements[Math.max(currentIndex - 1, 0)];
+      if (next) {
+        next.focus();
+        next.dataset.focused = 'true';
+      }
+    }
+    if (ArrowUp) {
+      const prev = activeElements.at(Math.max(currentIndex - 1, 0));
 
-    if (ArrowDown) next?.focus();
-    if (ArrowUp) prev?.focus();
-    if (Home) activeElements[0]?.focus();
-    if (End) activeElements[activeElements.length - 1]?.focus();
+      if (prev) {
+        prev.focus();
+        prev.dataset.focused = 'true';
+      }
+    }
+    if (Home) {
+      const first = activeElements.at(0);
+
+      if (first) {
+        first.focus();
+        first.dataset.focused = 'true';
+      }
+    }
+    if (End) {
+      const last = activeElements.at(activeElements.length - 1);
+
+      if (last) {
+        last.focus();
+        last.dataset.focused = 'true';
+      }
+    }
   };
 
   const Heading = headingLevel as HeadingLevel;
@@ -279,8 +312,25 @@ export const AccordionTrigger = (props: {
         onKeyDown,
         disabled,
         onClick: handleToggle,
-        onMouseEnter: (e) => {
+        onBlur: (e) => {
+          delete e.currentTarget.dataset.focused;
+        },
+        onMouseMove: (e) => {
+          if (e.currentTarget.dataset.focused === 'true') return;
+
+          document
+            .querySelectorAll<HTMLElement>(
+              `[data-accordtion-item=${accordionCtx.rootId}]`,
+            )
+            .forEach((ele) => {
+              delete ele.dataset.focused;
+            });
+
           e.currentTarget.focus();
+          e.currentTarget.dataset.focused = 'true';
+        },
+        onMouseLeave: (e) => {
+          e.currentTarget.dataset.focused = 'false';
         },
         type: 'button',
         id: itemCtx.triggerId,

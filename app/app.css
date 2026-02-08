@@ -425,7 +425,7 @@
 @utility story {
   @apply typography mx-auto max-w-3xl pt-5 [&_h1:not(:is(.not-typography,[data-demo])_*)]:text-2xl [&_h2:not(:is(.not-typography,[data-demo])_*)]:text-xl [&_h2:not(:is(.not-typography,[data-demo])_*),&_h3:not(:is(.not-typography,[data-demo])_*)]:border-0 [&_h3:not(:is(.not-typography,[data-demo])_*)]:text-lg;
 
-  h1 + p:not(:is(.not-typography, [data-demo])*):not(:first-child) {
+  h1 + p:not(:is(.not-typography, [data-demo]) *):not(:first-child) {
     @apply mt-3;
   }
 

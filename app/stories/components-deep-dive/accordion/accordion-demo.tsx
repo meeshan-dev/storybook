@@ -83,26 +83,20 @@ function FAQAccordion() {
       <AccordionRoot
         type='multiple'
         defaultValue={['shipping']}
-        className='mt-6'
+        className='mt-6 divide-y overflow-hidden rounded-xl border'
       >
         {faqItems.map(({ id, icon: Icon, question, answer, disabled }) => (
-          <AccordionItem
-            key={id}
-            value={id}
-            disabled={disabled}
-            className='has-[[aria-expanded]:focus-visible]:border-ring has-[[aria-expanded]:focus-visible]:ring-ring/50 relative overflow-hidden border border-t-0 first:rounded-t-xl first:border-t last:rounded-b-xl has-[[aria-expanded]:focus-visible]:z-50 has-[[aria-expanded]:focus-visible]:ring-[3px]'
-          >
+          <AccordionItem key={id} value={id} disabled={disabled}>
             <AccordionTrigger headingLevel='h3'>
               {(props) => (
-                <Button
+                <button
                   {...props}
-                  variant='ghost'
-                  className='h-auto w-full justify-start gap-3 border-0 px-4 py-4 focus-visible:ring-0'
+                  className='data-focused:bg-secondary group flex w-full items-center justify-start gap-3 border-0 px-4 py-4 text-sm font-medium outline-none disabled:pointer-events-none disabled:opacity-50'
                 >
                   <Icon className='size-5' />
-                  <span className='flex-1 truncate'>{question}</span>
-                  <IconChevronDown className='transition-transform duration-200 group-aria-expanded/button:-rotate-180' />
-                </Button>
+                  <span className='flex-1 truncate text-start'>{question}</span>
+                  <IconChevronDown className='size-4 transition-transform duration-200 group-aria-expanded:-rotate-180' />
+                </button>
               )}
             </AccordionTrigger>
 
@@ -181,14 +175,13 @@ function SettingsPanelAccordion() {
               key={id}
               value={id}
               disabled={disabled}
-              className='has-[[aria-expanded]:focus-visible]:border-ring has-[[aria-expanded]:focus-visible]:ring-ring/50 relative overflow-hidden border first:rounded-t-xl last:rounded-b-xl has-[[aria-expanded]:focus-visible]:z-50 has-[[aria-expanded]:focus-visible]:ring-[3px]'
+              className='overflow-hidden rounded-xl border'
             >
               <AccordionTrigger headingLevel='h3'>
                 {(props) => (
-                  <Button
+                  <button
                     {...props}
-                    variant='ghost'
-                    className='h-auto w-full justify-start gap-4 border-0 p-4 text-left focus-visible:ring-0'
+                    className='data-focused:bg-secondary group/button flex w-full items-center justify-start gap-3 border-0 px-4 py-4 text-sm font-medium outline-none disabled:pointer-events-none disabled:opacity-50'
                   >
                     <div className='bg-primary/10 text-primary flex size-10 shrink-0 items-center justify-center rounded-lg'>
                       <Icon size={20} />
@@ -205,20 +198,20 @@ function SettingsPanelAccordion() {
                         )}
                       </div>
 
-                      <p className='text-muted-foreground truncate text-sm font-normal'>
+                      <p className='text-muted-foreground truncate text-start text-sm font-normal'>
                         {description}
                       </p>
                     </div>
 
                     <IconChevronDown
                       size={18}
-                      className='text-muted-foreground shrink-0 transition-transform duration-200 group-aria-expanded/button:-rotate-180'
+                      className='text-muted-foreground shrink-0 transition-transform duration-200 group-aria-expanded:-rotate-180'
                     />
-                  </Button>
+                  </button>
                 )}
               </AccordionTrigger>
 
-              <AccordionContent className='bg-background space-y-3 border-t px-4 py-3 text-sm'>
+              <AccordionContent className='space-y-3 border-t px-4 py-3 text-sm'>
                 {settings.map(({ label, value }) => (
                   <div
                     key={label}
@@ -300,16 +293,15 @@ function ProductFeaturesAccordion() {
           <AccordionItem
             key={id}
             value={id}
-            className='has-[[aria-expanded]:focus-visible]:border-ring has-[[aria-expanded]:focus-visible]:ring-ring/50 relative overflow-hidden rounded-xl border has-[[aria-expanded]:focus-visible]:z-50 has-[[aria-expanded]:focus-visible]:ring-[3px]'
+            className='overflow-hidden rounded-xl border'
           >
             <AccordionTrigger headingLevel='h3'>
               {(props) => (
-                <Button
+                <button
                   {...props}
-                  variant='ghost'
-                  className='h-auto w-full justify-between gap-4 border-0 p-4 text-left focus-visible:ring-0'
+                  className='data-focused:bg-secondary group flex w-full items-center justify-start gap-3 border-0 px-4 py-4 text-sm font-medium outline-none disabled:pointer-events-none disabled:opacity-50'
                 >
-                  <div className='flex items-center gap-3 truncate'>
+                  <div className='flex grow items-center gap-3 truncate'>
                     <span className='truncate font-semibold'>{title}</span>
 
                     <Badge variant='outline' className='bg-primary/5 text-xs'>
@@ -317,14 +309,14 @@ function ProductFeaturesAccordion() {
                     </Badge>
                   </div>
 
-                  <div className='bg-primary/10 flex size-6 shrink-0 items-center justify-center rounded-full transition-[opacity,rotate] group-aria-expanded/button:rotate-45 group-aria-expanded/button:opacity-0'>
+                  <div className='bg-primary/10 flex size-6 shrink-0 items-center justify-center rounded-full transition-[opacity,rotate] group-aria-expanded:rotate-45 group-aria-expanded:opacity-0'>
                     <IconPlus size={14} className='text-primary' />
                   </div>
-                </Button>
+                </button>
               )}
             </AccordionTrigger>
 
-            <AccordionContent className='text-muted-foreground border-t p-3 text-sm leading-relaxed'>
+            <AccordionContent className='text-muted-foreground p-3 text-sm leading-relaxed'>
               {description}
             </AccordionContent>
           </AccordionItem>
