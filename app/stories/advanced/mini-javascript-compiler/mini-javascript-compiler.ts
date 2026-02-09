@@ -5,12 +5,10 @@ type Token =
   | { type: 'operator'; value: '+' | '-' | '*' | '/' | '=' }
   | { type: 'punctuation'; value: ';' };
 
-/* ———————————————————— Tokenize ———————————————————— */
-
 const isLetter = (char: string) => /[a-zA-Z_]/.test(char);
 const isDigit = (char: string) => /[0-9]/.test(char);
 
-function tokenize(input: string): Token[] {
+export function tokenize(input: string): Token[] {
   const tokens: Token[] = [];
   let idx = 0;
   let value = '';
@@ -76,6 +74,8 @@ function tokenize(input: string): Token[] {
     throw new Error(`Unexpected character: ${char}`);
   }
 
+  resetValue();
+
   return tokens;
 }
 
@@ -90,7 +90,7 @@ type ASTNode =
       type: 'VariableDeclaration';
       kind: 'let' | 'const';
       id: { type: 'Identifier'; name: string };
-      init: ASTNode;
+      expression: ASTNode;
     }
   | {
       type: 'BinaryExpression';
@@ -107,113 +107,156 @@ type ASTNode =
       value: number;
     };
 
-function parse(tokens: Token[]): ASTNode {
+export function parse(tokens: Token[]): ASTNode {
   let idx = 0;
 
-  function peek(): Token | undefined {
-    return tokens[idx];
-  }
+  const parsed: ASTNode[] = [];
 
-  function consume(): Token {
-    const token = tokens[idx];
+  while (idx < tokens.length) {
+    const kind = tokens[idx];
     idx++;
-    return token;
-  }
-
-  function parseProgram(): ASTNode {
-    const body: ASTNode[] = [];
-    while (idx < tokens.length) {
-      body.push(parseStatement());
-    }
-    return { type: 'Program', body };
-  }
-
-  function parseStatement(): ASTNode {
-    const token = peek();
 
     if (
-      token?.type === 'keyword' &&
-      (token.value === 'let' || token.value === 'const')
+      kind.type === 'keyword' &&
+      (kind.value === 'const' || kind.value === 'let')
     ) {
-      return parseVariableDeclaration();
-    }
+      const identifier = tokens[idx];
+      idx++;
 
-    throw new SyntaxError(`Unexpected token: ${JSON.stringify(token)}`);
+      if (!identifier || identifier.type !== 'identifier') {
+        throw new SyntaxError(`Expected identifier after ${kind.value}`);
+      }
+
+      const equal = tokens[idx];
+      idx++;
+
+      if (!equal || equal.type !== 'operator' || equal.value !== '=') {
+        throw new SyntaxError(
+          `Expected '=' after identifier ${identifier.value}`,
+        );
+      }
+
+      // Only handle single binary expressions: a + b, x * y, number literals
+
+      let expression: ASTNode;
+
+      const left = tokens[idx];
+      idx++;
+
+      let leftNode: ASTNode;
+
+      if (left.type === 'identifier') {
+        leftNode = { type: 'Identifier', name: left.value };
+      } else if (left.type === 'number') {
+        leftNode = { type: 'Literal', value: left.value };
+      } else {
+        throw new SyntaxError(
+          'Expected identifier or number as left-hand side of expression',
+        );
+      }
+
+      const operator = tokens[idx];
+
+      if (
+        operator?.type === 'operator' &&
+        (operator.value === '+' ||
+          operator.value === '-' ||
+          operator.value === '*' ||
+          operator.value === '/')
+      ) {
+        // increment idx here because if it's an operator, we need to consume it before looking for the right side of the expression
+        idx++;
+
+        const right = tokens[idx];
+        idx++;
+
+        let rightNode: ASTNode;
+
+        if (!right) {
+          throw new SyntaxError(
+            `Unexpected end of input, expected right-hand side of expression`,
+          );
+        }
+
+        if (right.type === 'identifier') {
+          rightNode = { type: 'Identifier', name: right.value };
+        } else if (right.type === 'number') {
+          rightNode = { type: 'Literal', value: right.value };
+        } else {
+          throw new SyntaxError(
+            `Unexpected token in expression: ${JSON.stringify(right)}`,
+          );
+        }
+
+        expression = {
+          type: 'BinaryExpression',
+          operator: operator.value,
+          left: leftNode,
+          right: rightNode,
+        };
+      } else {
+        expression = leftNode;
+      }
+
+      const declarationEnd = tokens[idx];
+      idx++;
+
+      if (
+        declarationEnd?.type === 'identifier' ||
+        declarationEnd?.type === 'number'
+      ) {
+        throw new SyntaxError(
+          'Expected operator between expressions, e.g. x = y + 2;',
+        );
+      }
+
+      if (
+        !declarationEnd ||
+        declarationEnd.type !== 'punctuation' ||
+        declarationEnd.value !== ';'
+      ) {
+        throw new SyntaxError(
+          `Expected ';' after "${generate(expression)}" declaration`,
+        );
+      }
+
+      parsed.push({
+        type: 'VariableDeclaration',
+        kind: kind.value,
+        id: { type: 'Identifier', name: identifier.value },
+        expression,
+      });
+    } else {
+      throw new SyntaxError(`Unexpected token: ${JSON.stringify(kind)}`);
+    }
   }
 
-  function parseVariableDeclaration(): ASTNode {
-    const kindToken = consume(); // let or const
-    const kind = kindToken.value as 'let' | 'const';
-
-    const idToken = consume();
-    if (!idToken || idToken.type !== 'identifier') {
-      throw new SyntaxError(`Expected identifier after ${kind}`);
-    }
-    const id = { type: 'Identifier' as const, name: idToken.value };
-
-    const eqToken = consume();
-    if (!eqToken || eqToken.type !== 'operator' || eqToken.value !== '=') {
-      throw new SyntaxError(`Expected '=' after identifier ${id.name}`);
-    }
-
-    const init = parseExpression();
-
-    const semiToken = consume();
-    if (
-      !semiToken ||
-      semiToken.type !== 'punctuation' ||
-      semiToken.value !== ';'
-    ) {
-      throw new SyntaxError(`Expected ';' after variable declaration`);
-    }
-
-    return {
-      type: 'VariableDeclaration',
-      kind,
-      id,
-      init,
-    };
-  }
-
-  function parseExpression(): ASTNode {
-    // Only handle single binary expressions: a + b, x * y, number literals
-    const left = parsePrimary();
-
-    const opToken = peek();
-    if (opToken?.type === 'operator' && '+-*/'.includes(opToken.value)) {
-      const operator = consume().value as '+' | '-' | '*' | '/';
-      const right = parsePrimary();
-      return {
-        type: 'BinaryExpression',
-        operator,
-        left,
-        right,
-      };
-    }
-
-    return left;
-  }
-
-  function parsePrimary(): ASTNode {
-    const token = consume();
-    if (!token) throw new SyntaxError('Unexpected end of input');
-
-    if (token.type === 'identifier') {
-      return { type: 'Identifier', name: token.value };
-    }
-
-    if (token.type === 'number') {
-      return { type: 'Literal', value: Number(token.value) };
-    }
-
-    throw new SyntaxError(
-      `Unexpected token in expression: ${JSON.stringify(token)}`,
-    );
-  }
-
-  return parseProgram();
+  return {
+    type: 'Program',
+    body: parsed,
+  };
 }
 
-console.log(
-  JSON.stringify(parse(tokenize('let x = 5 + 3; const y = x * 2;')), null, 2),
-);
+/* ———————————————————— Generate ———————————————————— */
+
+export function generate(node: ASTNode): string {
+  switch (node.type) {
+    case 'Program':
+      return node.body.map(generate).join('\n');
+
+    case 'VariableDeclaration':
+      return `${node.kind} ${generate(node.id)} = ${generate(node.expression)};`;
+
+    case 'Identifier':
+      return node.name;
+
+    case 'Literal':
+      return String(node.value);
+
+    case 'BinaryExpression':
+      return `${generate(node.left)} ${node.operator} ${generate(node.right)}`;
+
+    default:
+      throw new Error('Unknown node type');
+  }
+}

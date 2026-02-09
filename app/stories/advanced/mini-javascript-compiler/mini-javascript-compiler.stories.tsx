@@ -15,7 +15,7 @@ export const Default: StoryObj = {
         <h1>Mini JavaScript Compiler</h1>
         <p>
           JavaScript compiler from scratch focused on tokenization, parsing, and
-          code generation for modern browsers.
+          code generation.
         </p>
 
         <h2>Interactive Demo</h2>
