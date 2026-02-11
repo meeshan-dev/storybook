@@ -1,7 +1,7 @@
 import { AnimatePresence, motion } from 'motion/react';
 import React, { useId } from 'react';
-import { createContextScope } from '~/lib/context-scope';
 import { useControlled } from '~/stories/hooks/use-controlled/use-controlled';
+import { createContextScope } from '~/stories/utils/context-scope/context-scope';
 
 /* ———————————————————— Root ———————————————————— */
 

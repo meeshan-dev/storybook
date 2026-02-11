@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
-import { createContextScope } from '~/lib/context-scope';
 import { cn } from '~/lib/utils';
 import { useControlled } from '~/stories/hooks/use-controlled/use-controlled';
+import { createContextScope } from '~/stories/utils/context-scope/context-scope';
 
 /* ———————————————————— Root ———————————————————— */
 

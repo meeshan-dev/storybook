@@ -13,6 +13,7 @@ import { Badge } from '~/components/ui/badge';
 import { Button } from '~/components/ui/button';
 import { InputGroup, InputGroupInput } from '~/components/ui/input-group';
 import { useControlled } from '~/stories/hooks/use-controlled/use-controlled';
+import { mergeRefs } from '~/stories/utils/merge-refs/merge-refs';
 
 const stripDiacritics = (string: string) => {
   return string.normalize('NFD').replace(/\p{Diacritic}/gu, '');
@@ -705,10 +706,7 @@ export function Combobox({
   return (
     <>
       <InputGroup
-        ref={(node) => {
-          floatingReturn.refs.setReference(node);
-          inputWrapperRef.current = node;
-        }}
+        ref={mergeRefs(floatingReturn.refs.setReference, inputWrapperRef)}
         aria-owns={open ? `${inputId}-listbox` : undefined}
         onKeyDown={onInputWrapperKeyDown}
         onMouseDown={onInputWrapperMouseDown}

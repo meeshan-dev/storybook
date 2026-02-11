@@ -5,7 +5,7 @@ export function createContextScope<ContextValue>(
 ) {
   const Context = React.createContext(defaultValue);
 
-  // <<--------------------Scope Provider-------------------->>
+  /* ———————————————————— Scope Provider ———————————————————— */
   function ScopeProvider({
     value,
     children,
@@ -16,7 +16,7 @@ export function createContextScope<ContextValue>(
     return <Context value={value}>{children}</Context>;
   }
 
-  // <<--------------------useScopeCtx-------------------->>
+  /* ———————————————————— Use Scope Context ———————————————————— */
 
   type UseScopeCtxOptions = {
     /** Whether to throw an error if the context is not found

@@ -1,12 +1,12 @@
 import React, { useEffectEvent, useRef } from 'react';
 import { createPortal } from 'react-dom';
-import { createContextScope } from '~/lib/context-scope';
 import { getLayers } from '~/lib/get-layers';
 import { cn } from '~/lib/utils';
 import { useControlled } from '~/stories/hooks/use-controlled/use-controlled';
 import { useFocusTrap } from '~/stories/hooks/use-focus-trap/use-focus-trap';
 import { useOnClickOutside } from '~/stories/hooks/use-on-click-outside/use-on-click-outside';
 import { useScrollLock } from '~/stories/hooks/use-scroll-lock/use-scroll-lock';
+import { createContextScope } from '~/stories/utils/context-scope/context-scope';
 
 /* ———————————————————— Root ———————————————————— */
 

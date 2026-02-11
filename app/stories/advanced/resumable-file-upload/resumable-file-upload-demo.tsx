@@ -29,7 +29,7 @@ import {
   EmptyMedia,
   EmptyTitle,
 } from '~/components/ui/empty';
-import { createContextScope } from '~/lib/context-scope';
+import { createContextScope } from '~/stories/utils/context-scope/context-scope';
 
 const [ScopeProvider, useScopeCtx] = createContextScope<{ progress: number }>();
 
