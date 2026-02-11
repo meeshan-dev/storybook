@@ -23,8 +23,7 @@ export const Default: StoryObj<typeof meta> = {
       <h2>Interactive demo</h2>
 
       <p>
-        Toggle the trap and try tabbing — focus stays inside the highlighted
-        zone
+        Toggle the trap and try tabbing; focus stays inside the highlighted zone
       </p>
 
       <hr />
@@ -59,7 +58,7 @@ export const Default: StoryObj<typeof meta> = {
           elements
         </li>
         <li>
-          Handles dynamic DOM changes via <code>MutationObserver</code> — if a
+          Handles dynamic DOM changes via <code>MutationObserver</code>; if a
           focused element is removed, focus moves back to the container
         </li>
         <li>

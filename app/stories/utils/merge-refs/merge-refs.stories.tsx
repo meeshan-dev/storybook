@@ -39,14 +39,14 @@ export const Default: StoryObj<typeof meta> = {
         <li>
           Accepts a variadic list of <code>React.Ref&lt;T&gt;</code>,{' '}
           <code>state setter</code>, <code>null</code>, or{' '}
-          <code>undefined</code> — where <code>T extends HTMLElement</code>
+          <code>undefined</code>, where <code>T extends HTMLElement</code>
         </li>
         <li>
           Returns a single <strong>callback ref</strong> that dispatches the
           element (or <code>null</code>) to every provided ref
         </li>
         <li>
-          Safely skips <code>null</code> and <code>undefined</code> refs — no
+          Safely skips <code>null</code> and <code>undefined</code> refs; no
           guards needed at the call site
         </li>
         <li>

@@ -39,11 +39,11 @@ export const Default: StoryObj<typeof meta> = {
 
       <ul>
         <li>
-          <strong>Smart page calculation</strong> — Computes visible pages with
+          <strong>Smart page calculation</strong>: Computes visible pages with
           proper ellipsis using boundary and sibling counts
         </li>
         <li>
-          <strong>Memoized computation</strong> — Prevents unnecessary
+          <strong>Memoized computation</strong>: Prevents unnecessary
           recalculation of page ranges
         </li>
         <li>
@@ -51,7 +51,7 @@ export const Default: StoryObj<typeof meta> = {
           accessibility
         </li>
         <li>
-          Boundary-aware controls — Disabled appropriately at first and last
+          Boundary-aware controls: Disabled appropriately at first and last
           pages
         </li>
         <li>

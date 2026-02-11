@@ -41,29 +41,29 @@ export const Default: StoryObj<typeof meta> = {
 
       <ul>
         <li>
-          <strong>DOM-driven roving tabindex</strong> — Updates{' '}
+          <strong>DOM-driven roving tabindex</strong>: Updates{' '}
           <code>tabindex</code> directly to avoid React re-renders during
           navigation
         </li>
         <li>
-          <strong>Typeahead support</strong> — Jump to menu items by typing
+          <strong>Typeahead support</strong>: Jump to menu items by typing
         </li>
         <li>
-          <strong>Checkbox & radio patterns</strong> — Stateful items with
-          proper ARIA attributes
+          <strong>Checkbox & radio patterns</strong>: Stateful items with proper
+          ARIA attributes
         </li>
         <li>
-          <strong>Layer-aware escape handling</strong> — Works correctly inside
+          <strong>Layer-aware escape handling</strong>: Works correctly inside
           nested dialogs
         </li>
         <li>
-          <strong>Accessible roles & attributes</strong> —{' '}
+          <strong>Accessible roles & attributes</strong>:{' '}
           <code>role="menu"</code>, <code>role="menuitem"</code>,{' '}
           <code>aria-checked</code>, <code>aria-disabled</code>,{' '}
           <code>aria-labelledby</code>
         </li>
         <li>
-          <strong>Focus management</strong> — Focus trap while open and returns
+          <strong>Focus management</strong>: Focus trap while open and returns
           to trigger on close
         </li>
       </ul>
@@ -131,15 +131,15 @@ export const Default: StoryObj<typeof meta> = {
 
       <ul>
         <li>
-          <strong>MenuItem</strong> — Standard action item, closes menu on
+          <strong>MenuItem</strong>: Standard action item, closes menu on
           activation
         </li>
         <li>
-          <strong>MenuCheckboxItem</strong> — Toggleable item with{' '}
+          <strong>MenuCheckboxItem</strong>: Toggleable item with{' '}
           <code>aria-checked</code>, optionally keeps menu open
         </li>
         <li>
-          <strong>MenuRadioItem</strong> — Exclusive selection within a{' '}
+          <strong>MenuRadioItem</strong>: Exclusive selection within a{' '}
           <code>MenuRadioGroup</code>
         </li>
       </ul>

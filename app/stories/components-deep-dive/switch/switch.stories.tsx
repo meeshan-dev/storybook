@@ -41,16 +41,16 @@ export const Default: StoryObj<typeof meta> = {
 
       <ul>
         <li>
-          <strong>Native checkbox foundation</strong> —{' '}
+          <strong>Native checkbox foundation</strong>:{' '}
           <code>&lt;input type="checkbox"&gt;</code> for built-in form support
           and accessibility
         </li>
         <li>
-          <strong>CSS-driven visuals</strong> — Uses <code>:checked</code> and{' '}
+          <strong>CSS-driven visuals</strong>: Uses <code>:checked</code> and{' '}
           <code>has-[input:checked]</code> for zero-JS re-renders
         </li>
         <li>
-          <strong>Icon slot system</strong> — <code>SwitchIcon</code> components
+          <strong>Icon slot system</strong>: <code>SwitchIcon</code> components
           indicate on/off state
         </li>
       </ul>

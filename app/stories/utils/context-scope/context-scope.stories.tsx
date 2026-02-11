@@ -17,7 +17,7 @@ export const Default: StoryObj<typeof meta> = {
 
       <p>
         A factory that creates a scoped <code>Provider</code> and a type-safe{' '}
-        <code>useScopeCtx</code> hook — eliminating repetitive boilerplate for
+        <code>useScopeCtx</code> hook, eliminating repetitive boilerplate for
         React context.
       </p>
 
@@ -38,11 +38,11 @@ export const Default: StoryObj<typeof meta> = {
 
       <ul>
         <li>
-          Returns a <code>[ScopeProvider, useScopeCtx]</code> tuple — mirrors
-          the familiar <code>createContext</code> / <code>useContext</code> API
+          Returns a <code>[ScopeProvider, useScopeCtx]</code> tuple, mirrors the
+          familiar <code>createContext</code> / <code>useContext</code> API
         </li>
         <li>
-          <strong>Type-safe by default</strong> — the generic parameter infers
+          <strong>Type-safe by default</strong>: the generic parameter infers
           the context shape across provider and consumer
         </li>
         <li>
@@ -50,7 +50,7 @@ export const Default: StoryObj<typeof meta> = {
           outside a provider (configurable via <code>shouldThrow: false</code>)
         </li>
         <li>
-          Supports <strong>nested scoping</strong> — inner providers
+          Supports <strong>nested scoping</strong>: inner providers
           automatically override outer values for their subtree
         </li>
         <li>

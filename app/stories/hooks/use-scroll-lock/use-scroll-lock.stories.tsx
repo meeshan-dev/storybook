@@ -25,7 +25,7 @@ export const Default: StoryObj<typeof meta> = {
       <h2>Interactive demo</h2>
 
       <p>
-        Toggle the lock and try scrolling — the scrollbar disappears without
+        Toggle the lock and try scrolling; the scrollbar disappears without
         layout shift
       </p>
 
@@ -52,7 +52,7 @@ export const Default: StoryObj<typeof meta> = {
           the same element, only the last unlock restores original styles
         </li>
         <li>
-          Configurable target element via <code>getElement</code> — works on{' '}
+          Configurable target element via <code>getElement</code>, works on{' '}
           <code>body</code>, modals, or any scrollable container
         </li>
       </ul>

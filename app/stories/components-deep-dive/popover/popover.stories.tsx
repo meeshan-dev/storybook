@@ -49,10 +49,10 @@ export const Default: StoryObj<typeof meta> = {
           <code>aria-describedby</code>
         </li>
         <li>
-          Focus management — Moves into popover on open, returns to trigger on
+          Focus management: Moves into popover on open, returns to trigger on
           close
         </li>
-        <li>Dismissal — Escape key and layer-aware outside click</li>
+        <li>Dismissal: Escape key and layer-aware outside click</li>
       </ul>
 
       <h2>Keyboard Interactions</h2>

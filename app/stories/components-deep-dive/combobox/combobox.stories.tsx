@@ -39,23 +39,23 @@ export const Default: StoryObj<typeof meta> = {
 
       <ul>
         <li>
-          <strong>Multi-select with tags</strong> — Removable tags with keyboard
+          <strong>Multi-select with tags</strong>: Removable tags with keyboard
           support (Backspace to remove last)
         </li>
         <li>
-          <strong>Virtual highlighting</strong> — Separate highlight state from
+          <strong>Virtual highlighting</strong>: Separate highlight state from
           selection for smooth keyboard navigation
         </li>
         <li>
-          <strong>Focus management</strong> — Proper focus flow between input,
+          <strong>Focus management</strong>: Proper focus flow between input,
           listbox, and tag removal buttons
         </li>
         <li>
-          <strong>Diacritics-insensitive filtering</strong> — Search matches
+          <strong>Diacritics-insensitive filtering</strong>: Search matches
           "café" when typing "cafe" using Unicode normalization
         </li>
         <li>
-          <strong>TypeScript generics</strong> — Full type inference for option
+          <strong>TypeScript generics</strong>: Full type inference for option
           values
         </li>
         <li>

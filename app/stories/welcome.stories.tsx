@@ -27,9 +27,23 @@ function Welcome() {
         <h2 className='text-xl'>Components Deep Dive</h2>
 
         <p>
-          Hand-built accessible UI components following W3C ARIA patterns.
-          Focused on internal mechanics and accessibility — no external
+          Hand built accessible UI components following W3C ARIA patterns.
+          Focused on internal mechanics and accessibility; no external
           libraries.
+        </p>
+
+        <h2 className='text-xl'>Hooks</h2>
+
+        <p>
+          React hooks focused on solving specific UI problems in a clean,
+          composable way.
+        </p>
+
+        <h2 className='text-xl'>Utils</h2>
+
+        <p>
+          Utility functions and helpers for various tasks, promoting code reuse
+          and consistency across projects.
         </p>
 
         <h2 className='text-xl'>Experimental Stories</h2>
@@ -37,13 +51,6 @@ function Welcome() {
         <p>
           Creative explorations pushing boundaries. Ideas explored fast, focused
           on learning and experimentation.
-        </p>
-
-        <h2 className='text-xl'>Hooks</h2>
-
-        <p>
-          Reusable custom React hooks focused on solving specific UI problems in
-          a clean, composable way.
         </p>
 
         <hr className='border-foreground' />

@@ -39,19 +39,19 @@ export const Default: StoryObj<typeof meta> = {
 
       <ul>
         <li>
-          <strong>Roving tabindex</strong> — Only active tab is tabbable; arrow
+          <strong>Roving tabindex</strong>: Only active tab is tabbable; arrow
           keys move focus
         </li>
         <li>
-          <strong>Activation modes</strong> — Automatic (focus selects) or
-          Manual (Enter/Space)
+          <strong>Activation modes</strong>: Automatic (focus selects) or Manual
+          (Enter/Space)
         </li>
         <li>
-          <strong>Bi-directional support</strong> — Horizontal and vertical
+          <strong>Bi-directional support</strong>: Horizontal and vertical
           orientations with proper arrow key handling
         </li>
         <li>
-          Accessible roles and attributes — <code>role="tablist"</code>,{' '}
+          Accessible roles and attributes: <code>role="tablist"</code>,{' '}
           <code>role="tab"</code> with <code>aria-selected</code>,{' '}
           <code>role="tabpanel"</code> with <code>aria-labelledby</code>,{' '}
           <code>aria-controls</code>, <code>aria-orientation</code>
@@ -116,11 +116,11 @@ export const Default: StoryObj<typeof meta> = {
 
       <ul>
         <li>
-          <strong>Automatic (default)</strong> — Tab is selected immediately
-          when focused. Best for tabs with instant content.
+          <strong>Automatic (default)</strong>: Tab is selected immediately when
+          focused. Best for tabs with instant content.
         </li>
         <li>
-          <strong>Manual</strong> — Tab requires Enter or Space to select. Best
+          <strong>Manual</strong>: Tab requires Enter or Space to select. Best
           when tab content requires loading or has side effects.
         </li>
       </ul>

@@ -41,28 +41,28 @@ export const Default: StoryObj<typeof meta> = {
 
       <ul>
         <li>
-          <strong>Single tooltip guarantee</strong> — Global registry ensures
+          <strong>Single tooltip guarantee</strong>: Global registry ensures
           only one tooltip is visible at a time
         </li>
         <li>
-          <strong>Configurable triggers</strong> — Supports hover, focus, or
-          both via <code>trigger</code> prop
+          <strong>Configurable triggers</strong>: Supports hover, focus, or both
+          via <code>trigger</code> prop
         </li>
         <li>
-          <strong>Show/hide delays</strong> — Prevents flickering and ensures
+          <strong>Show/hide delays</strong>: Prevents flickering and ensures
           smooth UX
         </li>
         <li>
-          <strong>Interactive mode</strong> — Allows hovering over tooltip
+          <strong>Interactive mode</strong>: Allows hovering over tooltip
           content with <code>disableInteractive={false}</code>
         </li>
         <li>
-          <strong>Accessible markup</strong> — <code>role="tooltip"</code> and
+          <strong>Accessible markup</strong>: <code>role="tooltip"</code> and
           trigger with <code>aria-describedby</code>
         </li>
         <li>
-          Keyboard support — Opens on focus; Escape dismisses without moving
-          focus
+          <strong>Keyboard support</strong>: Opens on focus; Escape dismisses
+          without moving focus
         </li>
         <li>Disabled triggers prevent tooltip from appearing</li>
       </ul>
