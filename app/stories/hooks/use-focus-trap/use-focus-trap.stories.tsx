@@ -4,16 +4,16 @@ import { UseFocusTrapDemo } from './use-focus-trap-demo';
 import sourceCode from './use-focus-trap?raw';
 
 const meta: Meta = {
-  title: 'hooks/useFocusTrap',
+  title: 'hooks/use Focus Trap',
 };
 
 export default meta;
 
 export const Default: StoryObj<typeof meta> = {
-  name: 'useFocusTrap',
+  name: 'use Focus Trap',
   render: () => (
     <div className='story'>
-      <h1>useFocusTrap</h1>
+      <h1>use Focus Trap</h1>
 
       <p>
         Traps keyboard focus within a container element, preventing users from

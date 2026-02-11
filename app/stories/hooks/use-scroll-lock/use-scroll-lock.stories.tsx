@@ -4,16 +4,16 @@ import { UseScrollLockDemo } from './use-scroll-lock-demo';
 import sourceCode from './use-scroll-lock?raw';
 
 const meta: Meta = {
-  title: 'hooks/useScrollLock',
+  title: 'hooks/use Scroll Lock',
 };
 
 export default meta;
 
 export const Default: StoryObj<typeof meta> = {
-  name: 'useScrollLock',
+  name: 'use Scroll Lock',
   render: () => (
     <div className='story'>
-      <h1>useScrollLock</h1>
+      <h1>use Scroll Lock</h1>
 
       <p>
         Prevents scrolling on a target element (defaults to{' '}

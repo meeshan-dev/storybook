@@ -4,16 +4,16 @@ import { UseOnClickOutsideDemo } from './use-on-click-outside-demo';
 import sourceCode from './use-on-click-outside?raw';
 
 const meta: Meta = {
-  title: 'hooks/useOnClickOutside',
+  title: 'hooks/use On Click Outside',
 };
 
 export default meta;
 
 export const Default: StoryObj<typeof meta> = {
-  name: 'useOnClickOutside',
+  name: 'use On Click Outside',
   render: () => (
     <div className='story'>
-      <h1>useOnClickOutside</h1>
+      <h1>use On Click Outside</h1>
 
       <p>
         Invokes a callback when a click, touch, or focus event occurs outside

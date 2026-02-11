@@ -4,16 +4,16 @@ import { UseControlledDemo } from './use-controlled-demo';
 import sourceCode from './use-controlled?raw';
 
 const meta: Meta = {
-  title: 'hooks/useControlled',
+  title: 'hooks/use Controlled',
 };
 
 export default meta;
 
 export const Default: StoryObj<typeof meta> = {
-  name: 'useControlled',
+  name: 'use Controlled',
   render: () => (
     <div className='story'>
-      <h1>useControlled</h1>
+      <h1>use Controlled</h1>
 
       <p>
         A hook that allows a component to be either controlled or uncontrolled.
