@@ -24,6 +24,7 @@ const preview: Preview = {
           'advanced',
           'components-deep-dive',
           'hooks',
+          'utils',
           'experiments',
         ],
       },
