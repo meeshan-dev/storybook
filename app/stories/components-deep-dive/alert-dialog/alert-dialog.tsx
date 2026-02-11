@@ -3,9 +3,9 @@ import { createPortal } from 'react-dom';
 import { createContextScope } from '~/lib/context-scope';
 import { getLayers } from '~/lib/get-layers';
 import { cn } from '~/lib/utils';
-import { useControlled } from '~/stories/hooks/use-controlled';
-import { useFocusTrap } from '~/stories/hooks/use-focus-trap';
-import { useScrollLock } from '~/stories/hooks/use-scroll-lock';
+import { useControlled } from '~/stories/hooks/use-controlled/use-controlled';
+import { useFocusTrap } from '~/stories/hooks/use-focus-trap/use-focus-trap';
+import { useScrollLock } from '~/stories/hooks/use-scroll-lock/use-scroll-lock';
 
 /* ———————————————————— Root ———————————————————— */
 
@@ -152,7 +152,7 @@ export function AlertDialogContent({
 }) {
   const { contentRef, handleClose } = useAlertDialogCtx();
 
-  const focusTrapProps = useFocusTrap();
+  const focusTrapProps = useFocusTrap({ enabled: true });
 
   const titleId = React.useId();
   const descriptionId = React.useId();
@@ -177,7 +177,7 @@ export function AlertDialogContent({
       <div
         ref={(node) => {
           contentRef.current = node;
-          const cleanup = focusTrapProps.ref(node);
+          focusTrapProps.ref(node);
 
           if (!node) return;
 
@@ -188,8 +188,6 @@ export function AlertDialogContent({
           node.dataset.layerDepth = String(
             parseInt(topLayer?.dataset.layerDepth || '0') + 1,
           );
-
-          return cleanup;
         }}
         id={contentId}
         data-layer

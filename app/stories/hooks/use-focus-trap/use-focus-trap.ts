@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { isLayerPaused } from '~/lib/get-layers';
 
 export interface FocusTrapProps {
@@ -13,7 +13,7 @@ export interface FocusTrapProps {
    * @default true
    */
   trapped?: boolean;
-  disabled?: boolean;
+  enabled: boolean;
   disableFocusReturn?: boolean;
   disableFocusFirstElement?: boolean;
 }
@@ -21,103 +21,18 @@ export interface FocusTrapProps {
 export function useFocusTrap({
   loop = true,
   trapped = true,
-  disabled,
+  enabled,
   disableFocusReturn,
   disableFocusFirstElement,
-}: FocusTrapProps = {}) {
+}: FocusTrapProps) {
   const lastFocusedElementRef = React.useRef<HTMLElement | null>(null);
 
-  const trapFocus = (container: HTMLElement) => {
-    if (!trapped) return;
-
-    const trapTrigger = document.activeElement as HTMLElement | null;
-
-    if (!container.contains(trapTrigger)) {
-      const tabbables = getTabbables(container);
-
-      if (!tabbables.length) {
-        focus(container);
-      } else if (!disableFocusFirstElement && !isLayerPaused(container)) {
-        focusFirst(tabbables);
-      }
-    }
-
-    const handleFocusOut = (event: FocusEvent) => {
-      if (disabled || isLayerPaused(container)) return;
-
-      const relatedTarget = event.relatedTarget as HTMLElement | null;
-
-      // No handling needed when focus moves outside the browser window; browser remembers which element was focused before moving focus outside and browser does default behavior on refocus.
-      if (relatedTarget === null) return;
-
-      if (container.contains(relatedTarget)) {
-        lastFocusedElementRef.current = relatedTarget;
-        return;
-      }
-
-      if (lastFocusedElementRef.current) {
-        lastFocusedElementRef.current.focus();
-      } else {
-        container.focus();
-      }
-    };
-
-    /* since focusout happens before focusin, so no need to check whether focus is moving inside or outside the container in focusin event
-     */
-
-    document.addEventListener('focusout', handleFocusOut);
-
-    const mutationObserver = new MutationObserver((mutations) => {
-      if (isLayerPaused(container)) return;
-
-      const focusedElement = document.activeElement as HTMLElement | null;
-
-      /* When focused element is removed from DOM, broswer moves focus to body. So only proceed if focused element is body.
-       */
-
-      if (focusedElement !== document.body) return;
-
-      for (const mutation of mutations) {
-        /* 
-        i only care about focused element being removed that is lastFocusedElementRef.current
-        if focused element is removed, move focus to container
-        */
-
-        if (mutation.removedNodes.length && lastFocusedElementRef.current) {
-          if (
-            Array.from(mutation.removedNodes).includes(
-              lastFocusedElementRef.current,
-            )
-          ) {
-            focus(container);
-            break;
-          }
-        }
-      }
-    });
-
-    mutationObserver.observe(container, {
-      childList: true,
-      subtree: true,
-    });
-
-    return () => {
-      document.removeEventListener('focusout', handleFocusOut);
-      mutationObserver.disconnect();
-
-      if (!disableFocusReturn) {
-        focus(trapTrigger ?? document.body);
-      }
-    };
-  };
+  const [element, setElement] = React.useState<HTMLElement | null>(null);
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLElement>) => {
-    if (disabled || isLayerPaused(event.currentTarget)) return;
+    // loop=true does not trap focus, trap is managed by useEffect below. This only manages keyboard  focus loop when focus trap is enabled. if trapped=false and loop=true, focus trap is disabled but keyboard focus loop is enabled.
 
-    /* Only proceed if focus trapping is enabled and loop is enabled
-      since without loop, no need to handle keydown for focus trapping
-      */
-    if (!(loop && trapped)) return;
+    if (!(enabled && loop) || isLayerPaused(event.currentTarget)) return;
 
     const container = event.currentTarget;
 
@@ -150,18 +65,111 @@ export function useFocusTrap({
     }
   };
 
+  useEffect(() => {
+    if (!(enabled && element)) return;
+
+    const trapTrigger = document.activeElement as HTMLElement | null;
+
+    if (!element.contains(trapTrigger)) {
+      const tabbables = getTabbables(element);
+
+      if (!tabbables.length) {
+        focus(element);
+      } else if (!disableFocusFirstElement && !isLayerPaused(element)) {
+        focusFirst(tabbables);
+      }
+    }
+
+    const handleFocusIn = (event: FocusEvent) => {
+      if (!trapped || isLayerPaused(element)) return;
+
+      const target = event.target as HTMLElement;
+
+      if (element.contains(target)) {
+        lastFocusedElementRef.current = target;
+      } else if (lastFocusedElementRef.current) {
+        lastFocusedElementRef.current.focus();
+      } else {
+        element.focus();
+      }
+    };
+
+    const handleFocusOut = (event: FocusEvent) => {
+      if (!trapped || isLayerPaused(element)) return;
+
+      const relatedTarget = event.relatedTarget as HTMLElement | null;
+
+      // No handling needed when focus moves outside the browser window; browser remembers which element was focused before moving focus outside and browser does default behavior on refocus.
+      if (relatedTarget === null) return;
+
+      if (element.contains(relatedTarget)) {
+        lastFocusedElementRef.current = relatedTarget;
+        return;
+      }
+
+      if (lastFocusedElementRef.current) {
+        lastFocusedElementRef.current.focus();
+      } else {
+        element.focus();
+      }
+    };
+
+    document.addEventListener('focusin', handleFocusIn);
+    document.addEventListener('focusout', handleFocusOut);
+
+    const mutationObserver = new MutationObserver((mutations) => {
+      if (isLayerPaused(element)) return;
+
+      const focusedElement = document.activeElement as HTMLElement | null;
+
+      /* When focused element is removed from DOM, broswer moves focus to body. So only proceed if focused element is body.
+       */
+
+      if (focusedElement !== document.body) return;
+
+      for (const mutation of mutations) {
+        /* 
+        i only care about focused element being removed that is lastFocusedElementRef.current
+        if focused element is removed, move focus to container
+        */
+
+        if (mutation.removedNodes.length && lastFocusedElementRef.current) {
+          if (
+            Array.from(mutation.removedNodes).includes(
+              lastFocusedElementRef.current,
+            )
+          ) {
+            focus(element);
+            break;
+          }
+        }
+      }
+    });
+
+    mutationObserver.observe(element, {
+      childList: true,
+      subtree: true,
+    });
+
+    return () => {
+      document.removeEventListener('focusin', handleFocusIn);
+      document.removeEventListener('focusout', handleFocusOut);
+      mutationObserver.disconnect();
+
+      if (!disableFocusReturn) {
+        focus(trapTrigger ?? document.body);
+      }
+    };
+  }, [disableFocusFirstElement, disableFocusReturn, element, enabled, trapped]);
+
   return {
     onKeyDown: handleKeyDown,
     tabIndex: -1,
-    ref: (node: HTMLElement | null) => {
-      if (node === null) return;
-
-      return trapFocus(node);
-    },
+    ref: setElement,
   };
 }
 
-// <<--------------------Utils-------------------->>
+// <<-------------------- Utils -------------------->>
 
 const getTabbables = (container: HTMLElement) => {
   const nodes: HTMLElement[] = [];

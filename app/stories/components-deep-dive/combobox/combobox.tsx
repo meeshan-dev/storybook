@@ -12,7 +12,7 @@ import { createPortal } from 'react-dom';
 import { Badge } from '~/components/ui/badge';
 import { Button } from '~/components/ui/button';
 import { InputGroup, InputGroupInput } from '~/components/ui/input-group';
-import { useControlled } from '~/stories/hooks/use-controlled';
+import { useControlled } from '~/stories/hooks/use-controlled/use-controlled';
 
 const stripDiacritics = (string: string) => {
   return string.normalize('NFD').replace(/\p{Diacritic}/gu, '');

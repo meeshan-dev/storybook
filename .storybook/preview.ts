@@ -19,7 +19,13 @@ const preview: Preview = {
     options: {
       storySort: {
         method: 'alphabetical',
-        order: ['Welcome', 'advanced', 'components-deep-dive', 'experiments'],
+        order: [
+          'Welcome',
+          'advanced',
+          'components-deep-dive',
+          'hooks',
+          'experiments',
+        ],
       },
     },
   },

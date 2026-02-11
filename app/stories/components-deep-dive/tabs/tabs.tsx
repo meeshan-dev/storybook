@@ -1,7 +1,7 @@
 import React from 'react';
 import { createContextScope } from '~/lib/context-scope';
 import { cn } from '~/lib/utils';
-import { useControlled } from '~/stories/hooks/use-controlled';
+import { useControlled } from '~/stories/hooks/use-controlled/use-controlled';
 
 /* ———————————————————— Root ———————————————————— */
 

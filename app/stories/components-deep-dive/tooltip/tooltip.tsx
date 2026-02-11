@@ -16,7 +16,7 @@ import { createPortal } from 'react-dom';
 import { createContextScope } from '~/lib/context-scope';
 import { getLayers } from '~/lib/get-layers';
 import { cn } from '~/lib/utils';
-import { useControlled } from '~/stories/hooks/use-controlled';
+import { useControlled } from '~/stories/hooks/use-controlled/use-controlled';
 
 /* ———————————————————— Root ———————————————————— */
 

@@ -3,10 +3,10 @@ import { createPortal } from 'react-dom';
 import { createContextScope } from '~/lib/context-scope';
 import { getLayers } from '~/lib/get-layers';
 import { cn } from '~/lib/utils';
-import { useControlled } from '~/stories/hooks/use-controlled';
-import { useFocusTrap } from '~/stories/hooks/use-focus-trap';
-import { useOnClickOutside } from '~/stories/hooks/use-on-click-outside';
-import { useScrollLock } from '~/stories/hooks/use-scroll-lock';
+import { useControlled } from '~/stories/hooks/use-controlled/use-controlled';
+import { useFocusTrap } from '~/stories/hooks/use-focus-trap/use-focus-trap';
+import { useOnClickOutside } from '~/stories/hooks/use-on-click-outside/use-on-click-outside';
+import { useScrollLock } from '~/stories/hooks/use-scroll-lock/use-scroll-lock';
 
 /* ———————————————————— Root ———————————————————— */
 
@@ -138,7 +138,7 @@ export function DialogContent({
   const { contentRef, contentId, open, titleId, descriptionId, handleClose } =
     useDialogCtx();
 
-  const focusTrapProps = useFocusTrap();
+  const focusTrapProps = useFocusTrap({ enabled: true });
 
   useScrollLock({ isLocked: open });
 
@@ -162,7 +162,7 @@ export function DialogContent({
     <div
       ref={(node) => {
         contentRef.current = node;
-        const cleanup = focusTrapProps.ref(node);
+        focusTrapProps.ref(node);
 
         if (!node) return;
 
@@ -173,8 +173,6 @@ export function DialogContent({
         node.dataset.layerDepth = String(
           parseInt(topLayer?.dataset.layerDepth || '0') + 1,
         );
-
-        return cleanup;
       }}
       onKeyDown={focusTrapProps.onKeyDown}
       tabIndex={focusTrapProps.tabIndex}
