@@ -3,7 +3,6 @@ import {
   IconBrandGithub,
   IconBrandLinkedin,
   IconExternalLink,
-  IconHandFingerRight,
 } from '@tabler/icons-react';
 import { Button } from '~/components/ui/button';
 
@@ -64,17 +63,9 @@ function Welcome() {
         patterns, custom hooks, utils and creative experiments.
       </p>
 
-      <hr className='my-10' />
-
-      <p className='text-muted-foreground border-foreground/50 border-l-2 pl-4'>
+      <p className='text-muted-foreground border-foreground/50 mt-6 border-l-2 pl-4'>
         Each story includes interactive demos, implementation insights, and
-        source code you can learn from. From practical solutions to creative
-        experiments, there's something here for every React developer.
-      </p>
-
-      <p className='text-muted-foreground mt-6'>
-        <IconHandFingerRight className='-mt-0.5 inline size-4 text-amber-600 dark:text-amber-400' />{' '}
-        Click any section in the sidebar to explore:
+        source code you can learn from.
       </p>
 
       <h2 className='mt-6 text-lg'>Advanced Patterns</h2>
