@@ -1,64 +1,116 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import {
+  IconBrandGithub,
+  IconBrandLinkedin,
+  IconExternalLink,
+  IconHandFingerRight,
+} from '@tabler/icons-react';
+import { Button } from '~/components/ui/button';
 
 function Welcome() {
   return (
-    <main className='min-h-dvh content-center px-5 py-16'>
-      <div className='typography mx-auto w-full max-w-lg'>
-        <h1>Meeshan.dev Storybook</h1>
+    <main className='mx-auto min-h-dvh w-full max-w-2xl px-5 py-16'>
+      <h1 className='text-3xl font-semibold'>Muhammad Zeeshan</h1>
 
-        <p>
-          Frontend developer focused on accessibility and complex UI systems.
-        </p>
+      <p className='text-muted-foreground text-lg'>Senior React Engineer</p>
 
-        <p>
-          This storybook showcases my expertise through accessible components,
-          complex features, creative experiments, and reusable hooks.
-        </p>
+      <div className='my-6 flex items-center gap-2'>
+        <Button
+          variant='outline'
+          size='icon'
+          render={
+            <a
+              href='https://github.com/meeshan-dev'
+              target='_blank'
+              rel='noopener noreferrer'
+            >
+              <IconBrandGithub />
+            </a>
+          }
+        />
 
-        <p>Click any section in the sidebar to explore.</p>
+        <Button
+          variant='outline'
+          size='icon'
+          render={
+            <a
+              href='https://linkedin.com/in/meeshan-dev'
+              target='_blank'
+              rel='noopener noreferrer'
+            >
+              <IconBrandLinkedin />
+            </a>
+          }
+        />
 
-        <h2 className='text-xl'>Advanced Stories</h2>
-
-        <p>
-          Complex features tackling real-world challenges. Built to demonstrate
-          handling of scale, performance, and edge cases.
-        </p>
-
-        <h2 className='text-xl'>Components Deep Dive</h2>
-
-        <p>
-          Hand built accessible UI components following W3C ARIA patterns.
-          Focused on internal mechanics and accessibility; no external
-          libraries.
-        </p>
-
-        <h2 className='text-xl'>Hooks</h2>
-
-        <p>
-          React hooks focused on solving specific UI problems in a clean,
-          composable way.
-        </p>
-
-        <h2 className='text-xl'>Utils</h2>
-
-        <p>
-          Utility functions and helpers for various tasks, promoting code reuse
-          and consistency across projects.
-        </p>
-
-        <h2 className='text-xl'>Experimental Stories</h2>
-
-        <p>
-          Creative explorations pushing boundaries. Ideas explored fast, focused
-          on learning and experimentation.
-        </p>
-
-        <hr className='border-foreground' />
-
-        <p className='text-muted-foreground text-sm'>
-          Built with React, TypeScript, and Tailwind CSS.
-        </p>
+        <Button
+          variant='link'
+          className=''
+          render={
+            <a
+              href='https://meeshan.dev'
+              target='_blank'
+              rel='noopener noreferrer'
+            >
+              View my portfolio
+              <IconExternalLink />
+            </a>
+          }
+        />
       </div>
+
+      <p className='mt-6'>
+        Explore engineering deep dives, W3C-compliant components, advanced UI
+        patterns, custom hooks, utils and creative experiments.
+      </p>
+
+      <hr className='my-10' />
+
+      <p className='text-muted-foreground border-foreground/50 border-l-2 pl-4'>
+        Each story includes interactive demos, implementation insights, and
+        source code you can learn from. From practical solutions to creative
+        experiments, there's something here for every React developer.
+      </p>
+
+      <p className='text-muted-foreground mt-6'>
+        <IconHandFingerRight className='-mt-0.5 inline size-4 text-amber-600 dark:text-amber-400' />{' '}
+        Click any section in the sidebar to explore:
+      </p>
+
+      <h2 className='mt-6 text-lg'>Advanced Patterns</h2>
+
+      <p className='text-muted-foreground mt-3'>
+        Complex features tackling real-world challenges. Built to demonstrate
+        handling of scale, performance, and edge cases.
+      </p>
+
+      <h2 className='mt-10 text-lg'>Components Deep Dive</h2>
+
+      <p className='text-muted-foreground mt-3'>
+        Hand built accessible UI components following W3C ARIA patterns. Focused
+        on internal mechanics and accessibility; no external libraries.
+      </p>
+
+      <h2 className='mt-10 text-lg'>Hooks</h2>
+
+      <p className='text-muted-foreground mt-3'>
+        React hooks focused on solving specific UI problems in a clean,
+        composable way.
+      </p>
+
+      <h2 className='mt-10 text-lg'>Utils</h2>
+
+      <p className='text-muted-foreground mt-3'>
+        Utility functions and helpers for various tasks, promoting code reuse
+        and consistency across projects.
+      </p>
+
+      <h2 className='mt-10 text-lg'>Experimental Stories</h2>
+
+      <p className='text-muted-foreground mt-3'>
+        Creative explorations pushing boundaries. Ideas explored fast, focused
+        on learning and experimentation.
+      </p>
     </main>
   );
 }
