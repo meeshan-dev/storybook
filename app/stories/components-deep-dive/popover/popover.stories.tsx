@@ -38,7 +38,7 @@ export const Default: StoryObj<typeof meta> = {
 
       <hr />
 
-      <h2>Implementation Highlights</h2>
+      <h2>Fearutes</h2>
 
       <ul>
         <li>
