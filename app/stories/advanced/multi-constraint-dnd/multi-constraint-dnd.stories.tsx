@@ -24,6 +24,10 @@ export const Default: StoryObj = {
           satisfied.
         </p>
 
+        <blockquote>
+          This demo focuses on pointer-events based drag and drop behavior.
+        </blockquote>
+
         <h2>Interactive Demo</h2>
 
         <p>
