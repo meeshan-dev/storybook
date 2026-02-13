@@ -11,8 +11,14 @@ function Welcome() {
     <main className='mx-auto min-h-dvh w-full max-w-2xl px-5 py-16'>
       <h1 className='text-3xl font-semibold'>Muhammad Zeeshan</h1>
 
-      <p className='text-muted-foreground text-lg'>
-        React & TypeScript Developer
+      <p className='text-muted-foreground mt-2 font-medium'>
+        <span className='rounded-md bg-[oklch(0.8343_0.1167_217.91)] px-2 py-0.5 text-black'>
+          React
+        </span>{' '}
+        <span className='rounded-md bg-[oklch(0.5671_0.1399_253.3)] px-2 py-0.5 text-white'>
+          TypeScript
+        </span>{' '}
+        Developer
       </p>
 
       <div className='my-6 flex items-center gap-2'>
