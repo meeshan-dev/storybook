@@ -11,7 +11,9 @@ function Welcome() {
     <main className='mx-auto min-h-dvh w-full max-w-2xl px-5 py-16'>
       <h1 className='text-3xl font-semibold'>Muhammad Zeeshan</h1>
 
-      <p className='text-muted-foreground text-lg'>Senior React Engineer</p>
+      <p className='text-muted-foreground text-lg'>
+        React & TypeScript Developer
+      </p>
 
       <div className='my-6 flex items-center gap-2'>
         <Button
