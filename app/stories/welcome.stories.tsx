@@ -9,16 +9,12 @@ import { Button } from '~/components/ui/button';
 function Welcome() {
   return (
     <main className='mx-auto min-h-dvh w-full max-w-2xl px-5 py-16'>
-      <h1 className='text-3xl font-semibold'>Muhammad Zeeshan</h1>
+      <h1 className='mt-4 text-2xl font-medium text-balance'>
+        React & TypeScript Developer
+      </h1>
 
-      <p className='text-muted-foreground mt-2 font-medium'>
-        <span className='rounded-md bg-[oklch(0.8343_0.1167_217.91)] px-2 py-0.5 text-black'>
-          React
-        </span>{' '}
-        <span className='rounded-md bg-[oklch(0.5671_0.1399_253.3)] px-2 py-0.5 text-white'>
-          TypeScript
-        </span>{' '}
-        Developer
+      <p className='text-muted-foreground mt-2 text-xl font-medium'>
+        Muhammad Zeeshan
       </p>
 
       <div className='my-6 flex items-center gap-2'>
