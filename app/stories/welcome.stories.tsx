@@ -10,11 +10,14 @@ function Welcome() {
   return (
     <main className='mx-auto min-h-dvh w-full max-w-2xl px-5 py-16'>
       <h1 className='mt-4 text-2xl font-medium text-balance'>
-        React & TypeScript Developer
+        Muhammad Zeeshan
       </h1>
 
-      <p className='text-muted-foreground mt-2 text-xl font-medium'>
-        Muhammad Zeeshan
+      <p className='*:bg-foreground/10 mt-2 space-x-1 text-lg font-medium *:rounded-md *:border *:border-transparent *:px-2 *:py-0.5 *:text-sm *:font-medium *:data-highlight:border-sky-600 dark:*:data-highlight:border-sky-400'>
+        <span className='sr-only'>Tech stack: </span>
+        <span>React</span> <span>Typescript</span> <span>Tailwind</span>{' '}
+        <span data-highlight>Next.js</span> <span data-highlight>Remix</span>{' '}
+        <span data-highlight>Playwright</span>
       </p>
 
       <div className='my-6 flex items-center gap-2'>
