@@ -15,7 +15,6 @@ function Welcome() {
 
       <p className='*:bg-foreground/10 mt-2 space-x-1 text-lg font-medium *:rounded-md *:border *:border-transparent *:px-2 *:py-0.5 *:text-sm *:font-medium *:data-highlight:border-sky-600 dark:*:data-highlight:border-sky-400'>
         <span className='sr-only'>Tech stack: </span>
-        <span>React</span> <span>Typescript</span> <span>Tailwind</span>{' '}
         <span data-highlight>Next.js</span> <span data-highlight>Remix</span>{' '}
         <span data-highlight>Playwright</span>
       </p>
