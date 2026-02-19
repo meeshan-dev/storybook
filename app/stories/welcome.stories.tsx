@@ -2,8 +2,11 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import {
   IconBrandGithub,
   IconBrandLinkedin,
+  IconCheck,
+  IconCopy,
   IconExternalLink,
 } from '@tabler/icons-react';
+import { Copy } from '~/components/copy';
 import { Button } from '~/components/ui/button';
 
 function Welcome() {
@@ -19,38 +22,69 @@ function Welcome() {
         <span data-highlight>Playwright</span>
       </p>
 
-      <div className='my-6 flex items-center gap-2'>
-        <Button
-          variant='outline'
-          size='icon'
-          render={
-            <a
-              href='https://github.com/meeshan-dev'
-              target='_blank'
-              rel='noopener noreferrer'
-            >
-              <IconBrandGithub />
-            </a>
-          }
-        />
+      <div className='my-6 flex flex-wrap items-center gap-2'>
+        {[
+          {
+            name: 'GitHub',
+            link: 'https://github.com/meeshan-dev',
+            icon: <IconBrandGithub className='size-5' />,
+          },
+          {
+            name: 'LinkedIn',
+            link: 'https://www.linkedin.com/in/meeshan-dev/',
+            icon: <IconBrandLinkedin className='size-5' />,
+          },
+        ].map((item) => (
+          <Button
+            key={item.name}
+            variant='secondary'
+            size='icon-sm'
+            nativeButton={false}
+            render={
+              <a
+                key={item.name}
+                href={item.link}
+                target='_blank'
+                rel='noopener noreferrer'
+                aria-label={`Visit my ${item.name} profile (opens in new tab)`}
+              >
+                {item.icon}
+              </a>
+            }
+          />
+        ))}
 
-        <Button
-          variant='outline'
-          size='icon'
-          render={
-            <a
-              href='https://linkedin.com/in/meeshan-dev'
-              target='_blank'
-              rel='noopener noreferrer'
+        <Copy textToCopy='hire@meeshan.dev'>
+          {({ onClick, isCopied }) => (
+            <Button
+              onClick={onClick}
+              variant='link'
+              className='gap-0'
+              aria-label={
+                isCopied
+                  ? 'Email address hire@meeshan.dev copied to clipboard'
+                  : 'Copy email address hire@meeshan.dev to clipboard'
+              }
+              aria-live='polite'
             >
-              <IconBrandLinkedin />
-            </a>
-          }
-        />
+              <span className='font-bold text-emerald-600 dark:text-emerald-400'>
+                hire
+              </span>
+              <span className='text-center text-sm'>@meeshan.dev</span>
+
+              {isCopied ? (
+                <IconCheck className='ml-2' />
+              ) : (
+                <IconCopy className='text-muted-foreground ml-2' />
+              )}
+            </Button>
+          )}
+        </Copy>
 
         <Button
           variant='link'
           className=''
+          nativeButton={false}
           render={
             <a
               href='https://meeshan.dev'

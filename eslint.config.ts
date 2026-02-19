@@ -34,6 +34,7 @@ export default defineConfig([
           ignoreRestSiblings: true,
         },
       ],
+      'react-hooks/refs': 'off',
     },
   },
 ]);
